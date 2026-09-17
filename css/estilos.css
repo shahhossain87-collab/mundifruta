@@ -182,6 +182,8 @@
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
       .hero-slide { animation:none; transition:none; }
+      .fi { opacity:1; transform:none; transition:none; }
+      html { scroll-behavior: auto; }
     }
 
     /* Carrosséis deslizantes (linhas de destaque) */
@@ -730,6 +732,8 @@
 
     .photo-wrap {
       width:100%; height:200px; overflow:hidden; position:relative; background:var(--cream-2);
+      display:block; border:none; padding:0; cursor:pointer;
+      appearance:none; -webkit-appearance:none; font:inherit; color:inherit;
     }
     .photo-wrap img {
       width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; display:block;
@@ -1284,7 +1288,13 @@
       overflow:hidden;
       background:var(--cream-2);
       cursor:pointer;
+      display:block;
+      appearance:none;
+      -webkit-appearance:none;
+      font:inherit;
+      color:inherit;
     }
+    .feature-body { cursor:pointer; }
     .feature-photo img { width:100%; height:100%; object-fit:cover; transition:transform .3s ease; }
     .feature-photo:hover img { transform:scale(1.045); }
     .feature-badge {
@@ -1360,6 +1370,7 @@
       gap:16px;
       margin-top:30px;
     }
+    .catalog-pagination[hidden] { display:none; }
     .catalog-pagination button {
       min-height:42px;
       padding:0 17px;

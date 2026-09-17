@@ -48,6 +48,10 @@ const carrinho = {};
           <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
         </div>
       </div>`;
+    card.addEventListener('click', e => {
+      if (e.target.closest('button, a')) return;
+      abrirProduto(item._id);
+    });
     return card;
   }
 
@@ -103,12 +107,16 @@ const carrinho = {};
           ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
           : `<div class="unavailable-label">Indisponível</div>`}
         <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <button type="button" class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
           <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+          <button type="button" class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
+    card.addEventListener('click', e => {
+      if (e.target.closest('button, a, .qty-controls')) return;
+      abrirProduto(id);
+    });
     return card;
   }
 
@@ -137,6 +145,7 @@ const carrinho = {};
     document.getElementById(`no-${cat}`).style.display = pagina.length ? 'none' : 'block';
     renderPaginacao(cat);
     atualizarSugestaoLegumes(cat);
+    atualizarContagensPesquisa();
 
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
@@ -154,6 +163,12 @@ const carrinho = {};
     const paginas = Math.max(1, Math.ceil(estado.filtrados.length / POR_PAGINA));
     if (estado.pagina > paginas) estado.pagina = paginas;
     const el = document.getElementById(`pagination-${cat}`);
+    if (paginas <= 1 || estado.filtrados.length === 0) {
+      el.innerHTML = '';
+      el.hidden = true;
+      return;
+    }
+    el.hidden = false;
     el.innerHTML = `
       <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''}>← Anterior</button>
       <span>Página ${estado.pagina} de ${paginas}</span>
@@ -187,7 +202,7 @@ const carrinho = {};
       produtos_map[id] = item;
       const temItens = item.itens && item.itens.length;
       const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
-      const verBtn = temItens ? `<button class="cabaz-ver" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
+      const verBtn = temItens ? `<button type="button" class="cabaz-ver" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
       const card = document.createElement('div');
       card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
       card.innerHTML = `
@@ -203,11 +218,15 @@ const carrinho = {};
           ${verBtn}
           <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
           <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+            <button type="button" class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button type="button" class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
           </div>
         </div>`;
+      card.addEventListener('click', e => {
+        if (e.target.closest('button, a, .qty-controls')) return;
+        if (temItens) abrirCabaz(id);
+      });
       grid.appendChild(card);
       requestAnimationFrame(() => card.classList.add('visible'));
     });
@@ -419,21 +438,42 @@ const carrinho = {};
   }
 
   /* ══ PERSISTENT CART (localStorage) ══ */
+  function encontrarProdutoGuardado(chave, cat) {
+    if (chave && produtos_map[chave]) return produtos_map[chave];
+    const nome = String(chave || '').trim();
+    if (!nome) return null;
+    const candidatos = Object.values(produtos_map).filter(p => p && p.nome === nome);
+    if (cat) {
+      const naCat = candidatos.find(p => p._cat === cat);
+      if (naCat) return naCat;
+    }
+    return candidatos[0] || null;
+  }
+
   function salvarCarrinho() {
     try {
       localStorage.setItem('mf_cart', JSON.stringify(
-        Object.fromEntries(Object.entries(carrinho).map(([k,v]) => [k, v.qtd]))
+        Object.values(carrinho).map(v => ({ nome: v.nome, qtd: v.qtd, cat: v._cat || '' }))
       ));
     } catch (e) {}
   }
   function carregarCarrinho() {
-    let saved; try { saved = JSON.parse(localStorage.getItem('mf_cart') || '{}'); } catch (e) { saved = {}; }
-    Object.entries(saved).forEach(([id, qtd]) => {
-      const item = produtos_map[id]; if (!item) return;
-      carrinho[id] = { ...item, qtd: Math.max(1, qtd|0) };
-      atualizarEstadoProduto(id);
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem('mf_cart') || '[]'); } catch (e) { saved = []; }
+    const linhas = Array.isArray(saved)
+      ? saved
+      : Object.entries(saved).map(([id, qtd]) => ({ id, qtd }));
+    linhas.forEach(linha => {
+      const item = linha.nome
+        ? encontrarProdutoGuardado(linha.nome, linha.cat)
+        : encontrarProdutoGuardado(linha.id);
+      if (!item || !item._id || !produtoDisponivel(item)) return;
+      const qtd = Math.max(1, Number.parseInt(linha.qtd, 10) || 1);
+      carrinho[item._id] = { ...item, qtd };
+      atualizarEstadoProduto(item._id);
     });
     atualizarResumo(); atualizarBadge();
+    salvarCarrinho();
   }
 
   function atualizarBadge() {
@@ -668,6 +708,16 @@ const carrinho = {};
       const chave = label.dataset.countLabel;
       const texto = label.textContent.replace(/\s*\(\d+\)\s*$/, '').trim();
       if (Number.isFinite(contadores[chave])) label.textContent = `${texto} (${contadores[chave]})`;
+    });
+  }
+
+  function atualizarContagensPesquisa() {
+    const termo = (document.getElementById('search-input') || {}).value.trim();
+    ['frutas','legumes'].forEach(cat => {
+      const el = document.getElementById(`count-${cat}`);
+      const estado = catalogoEstado[cat];
+      if (!el || !estado) return;
+      el.textContent = termo ? estado.filtrados.length : estado.todos.length;
     });
   }
 
