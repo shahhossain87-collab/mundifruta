@@ -1975,3 +1975,12 @@
       .photo-wrap { height:120px; }
       .add-btn { font-size:.72rem; }
     }
+
+    /* Foco visível para navegação por teclado (acessibilidade) */
+    .cat-tab:focus-visible, .subcat-chip:focus-visible, .filter-chip:focus-visible,
+    .filter-select:focus-visible, .price-sort:focus-visible, .add-btn:focus-visible,
+    .qty-btn:focus-visible, .catalog-pagination button:focus-visible, .link-btn:focus-visible,
+    .photo-wrap:focus-visible {
+      outline:3px solid var(--forest);
+      outline-offset:2px;
+    }
