@@ -433,6 +433,10 @@
     .float-cart.pop { animation:fc-pop 0.42s ease; }
     @keyframes fc-pop { 0%{transform:scale(1)} 40%{transform:scale(1.18)} 100%{transform:scale(1)} }
     @media (max-width:480px){ .float-cart { padding:10px 12px; gap:7px; font-size:.72rem; } }
+    /* Desktop already has 🛒 Encomendar in the header — the chip only belongs on tablet/phone. */
+    @media (min-width:769px) {
+      .float-cart { display:none !important; }
+    }
 
     .order-steps-mini {
       max-width:1000px; margin:14px auto 0; padding:12px 20px;
@@ -849,6 +853,8 @@
     @media (max-width:600px){
       .order-item { flex-direction:column; align-items:stretch; gap:8px; }
       .order-item-actions { width:100%; justify-content:space-between; }
+      .oi-stepper button { width:44px; height:44px; }
+      .order-remove { width:44px; height:44px; font-size:1rem; }
     }
     .order-total {
       display:grid; grid-template-columns:1fr auto; align-items:center; gap:4px 16px;
@@ -869,6 +875,10 @@
       border-radius:var(--r-md); color:#fff;
       font-family:'Poppins',sans-serif; font-size:0.88rem;
       outline:none; transition:all 0.3s; margin-bottom:12px;
+    }
+    @media (max-width:768px) {
+      .order-form input,
+      .order-form textarea { font-size:16px; }
     }
     .order-form input::placeholder,
     .order-form textarea::placeholder { color:rgba(255,255,255,0.38); }
@@ -1559,8 +1569,9 @@
       /* Denser Products section on mobile only — desktop keeps the original spacing above */
       #produtos { padding-top:18px !important; padding-bottom:18px !important; }
       #produtos .section-hdr { margin-bottom:12px !important; }
-      /* Shorten the announcement bar on mobile only; desktop keeps --announcement-height:44px */
-      :root { --announcement-height: 34px; }
+      /* Shorten the announcement bar on mobile only; desktop keeps --announcement-height:44px.
+         Match --nav-height to the slimmer mobile header so body padding does not leave a cream gap. */
+      :root { --announcement-height: 34px; --nav-height: 52px; }
       .hero { padding:36px 16px 10px; }
       .hero-heading { font-size:1.5rem; line-height:1.06; margin-bottom:4px; }
       .hero-trust { margin-top:4px; }
