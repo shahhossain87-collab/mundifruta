@@ -27,7 +27,7 @@
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
+    body { font-family:'Poppins',system-ui,'Segoe UI',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
     ::-webkit-scrollbar-thumb { background:var(--sage); border-radius:3px; }
@@ -182,6 +182,12 @@
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
       .hero-slide { animation:none; transition:none; }
+      /* Cards start at opacity:0 and use a bouncy cardIn — keep them readable with no motion. */
+      .product-card {
+        opacity:1;
+        transform:none;
+      }
+      .product-card.visible { animation:none; }
     }
 
     /* Carrosséis deslizantes (linhas de destaque) */
