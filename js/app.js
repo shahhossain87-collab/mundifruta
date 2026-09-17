@@ -478,6 +478,7 @@ const carrinho = {};
       lista.innerHTML = '<li class="empty-msg">Sem artigos ainda. Selecione produtos acima para começar.</li>';
       totalEl.hidden = true;
       totalEl.innerHTML = '';
+      if (window.aoAtualizarResumo) window.aoAtualizarResumo();
       return;
     }
     lista.innerHTML = itens.map(i => {
