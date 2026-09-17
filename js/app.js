@@ -635,7 +635,10 @@ const carrinho = {};
     e.preventDefault();
     const t = obterTextoEncomenda(); if (!t) return;
     if (window.trackEvent) window.trackEvent('whatsapp_order_click', { value: totaisCarrinho().centimos / 100, currency: 'EUR' });
-    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank');
+    const url = `https://wa.me/351932699850?text=${encodeURIComponent(t)}`;
+    const w = window.open(url, '_blank');
+    if (w) w.opener = null;
+    else window.location.href = url;
   }
 
   function enviarEmail() {
