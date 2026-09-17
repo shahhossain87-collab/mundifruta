@@ -311,7 +311,8 @@
       next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: 'smooth' });
       wrap.appendChild(prev); wrap.appendChild(next);
 
-      if (reduzir) return;
+      const toque = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (reduzir || toque) return;
       let timer = setInterval(auto, 4500);
       function auto() {
         const fim = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 8;

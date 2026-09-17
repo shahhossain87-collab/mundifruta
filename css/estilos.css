@@ -26,7 +26,10 @@
       --nav-height: 78px;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--announcement-height) + var(--nav-height) + 8px);
+    }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
@@ -197,15 +200,17 @@
     .carousel-wrap { position:relative; }
     .carousel-nav {
       position:absolute; top:38%; transform:translateY(-50%); z-index:3;
-      width:40px; height:40px; border-radius:50%; border:none; cursor:pointer;
+      width:44px; height:44px; min-width:44px; min-height:44px; border-radius:50%; border:none; cursor:pointer;
       background:var(--white); color:var(--forest); box-shadow:var(--sh-lg);
       font-size:1.2rem; font-weight:800; display:grid; place-items:center;
       opacity:.92; transition:opacity .2s ease, transform .2s ease;
     }
     .carousel-nav:hover { opacity:1; transform:translateY(-50%) scale(1.08); }
-    .carousel-nav.prev { left:-6px; }
-    .carousel-nav.next { right:-6px; }
-    @media (hover:none) { .carousel-nav { display:none; } }
+    .carousel-nav.prev { left:4px; }
+    .carousel-nav.next { right:4px; }
+    @media (hover:none) {
+      .carousel-nav { opacity:.95; }
+    }
 
     .hero-eyebrow {
       display:inline-flex; align-items:center; gap:10px;
@@ -388,7 +393,7 @@
     .mobile-bar { display:none; }
     @media (max-width:768px) {
       .mobile-bar {
-        display:grid; grid-template-columns:repeat(3,1fr); align-items:stretch;
+        display:grid; grid-template-columns:repeat(5,1fr); align-items:stretch;
         position:fixed; left:0; right:0; bottom:0; z-index:1200;
         background:var(--forest); box-shadow:0 -4px 24px rgba(0,0,0,0.22);
         padding-bottom:env(safe-area-inset-bottom,0);
@@ -695,13 +700,9 @@
     .product-card {
       background:var(--white); border-radius:var(--r-xl); overflow:hidden;
       box-shadow:var(--sh); cursor:pointer; position:relative;
-      opacity:0; transform:translateY(20px);
+      opacity:1; transform:none;
       transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s, outline 0.15s;
     }
-    .product-card.visible {
-      animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
-    }
-    @keyframes cardIn { to { opacity:1; transform:translateY(0); } }
 
     .product-card:hover { transform:translateY(-12px) scale(1.02); box-shadow:var(--sh-lg); }
     .product-card.selected {
@@ -772,8 +773,8 @@
     .feature-photo .top-badge { top:10px; left:10px; font-size:.7rem; }
 
     /* Preço: base de referência + promoção */
-    .product-base { font-size:.72rem; color:var(--sage-lt); margin:-2px 0 2px; font-weight:600; }
-    .preco-antigo { text-decoration:line-through; color:var(--sage-lt); font-weight:600; margin-right:5px; font-size:.9em; }
+    .product-base { font-size:.72rem; color:var(--text-md); margin:-2px 0 2px; font-weight:600; }
+    .preco-antigo { text-decoration:line-through; color:var(--text-md); font-weight:600; margin-right:5px; font-size:.9em; }
     .preco-promo  { color:var(--cherry); font-weight:800; }
     .badge-unavailable { background:#6b7280 !important; color:#fff !important; }
     .unavailable-label {
@@ -1389,7 +1390,7 @@
       cursor:pointer;
     }
 
-    .mobile-bar { grid-template-columns:repeat(4,1fr); }
+    .mobile-bar { grid-template-columns:repeat(5,1fr); }
     .steps-grid { max-width:1180px; grid-template-columns:repeat(5,1fr); gap:14px; }
     .step-card { padding:28px 18px; }
 
@@ -1525,8 +1526,9 @@
       .product-modal-photo { min-height:0; height:280px; }
       .product-modal-info { padding:25px 22px 24px; }
       .product-modal-info h3 { font-size:1.45rem; }
-      .mobile-bar .mb-label { font-size:.61rem; }
-      .mobile-bar .mb-icon { font-size:1.1rem; }
+      .mobile-bar .mb-item { padding:8px 2px 9px; font-size:.62rem; }
+      .mobile-bar .mb-label { font-size:.58rem; line-height:1.15; text-align:center; }
+      .mobile-bar .mb-icon { font-size:1.05rem; }
       .reviews-grid { grid-template-columns:1fr; }
       .section { padding-top:56px; padding-bottom:56px; }
       .steps-grid { grid-template-columns:1fr; }

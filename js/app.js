@@ -137,16 +137,6 @@ const carrinho = {};
     document.getElementById(`no-${cat}`).style.display = pagina.length ? 'none' : 'block';
     renderPaginacao(cat);
     atualizarSugestaoLegumes(cat);
-
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 55);
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold:0.08 });
-    grid.querySelectorAll('.product-card').forEach(c => obs.observe(c));
   }
 
   function renderPaginacao(cat) {
@@ -209,7 +199,6 @@ const carrinho = {};
           </div>
         </div>`;
       grid.appendChild(card);
-      requestAnimationFrame(() => card.classList.add('visible'));
     });
   }
 
