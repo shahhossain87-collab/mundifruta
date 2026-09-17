@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#1B4332"/>
   <meta name="description" content="Fresh fruit & vegetables in Carnaxide — frutas e legumes frescos todos os dias. Encomende no WhatsApp e levante na loja. Aberto 8h–20h · Mundifruta."/>
   <title>MUNDIFRUTA — Fresh Fruit &amp; Vegetables | Frutas &amp; Legumes · Carnaxide</title>
   <link rel="canonical" href="https://mundifruta.com/"/>
@@ -28,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -77,9 +78,10 @@
   </script>
 </head>
 <body>
+<a class="skip-link" href="#produtos">Saltar para os produtos</a>
 
 <!-- ═══════════ ANNOUNCEMENT BAR ═══════════ -->
-<div class="announcement-bar" aria-live="polite" aria-label="Notícias e promoções rápidas">
+<div class="announcement-bar" id="topo" aria-live="polite" aria-label="Notícias e promoções rápidas">
   <div class="announcement-track">
     <span>🎁 10€ de desconto na primeira compra acima de 40€</span>
     <span>🛒 Encomende por WhatsApp e levante na loja</span>
@@ -103,7 +105,7 @@
 <!-- ═══════════ NAV ═══════════ -->
 <nav id="main-nav">
   <div class="nav-inner">
-    <a href="#inicio" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
+    <a href="#topo" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
     <div class="nav-links">
       <a href="#produtos">Produtos</a>
       <a href="#cabazes">Cabazes</a>
@@ -113,10 +115,10 @@
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-right">
-      <button class="nav-order" onclick="irParaEncomenda()">
+      <button type="button" class="nav-order" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
-      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <button type="button" class="hamburger" onclick="toggleMenu()" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -124,8 +126,8 @@
 </nav>
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
-<div class="mobile-menu" id="mobile-menu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <button type="button" class="mobile-close" onclick="toggleMenu()" aria-label="Fechar menu">✕</button>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
   <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
@@ -137,13 +139,14 @@
 </div>
 <div class="homepage-search">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    <label class="sr-only" for="search-input">Pesquisar produto</label>
+    <input class="search-input" id="search-input" type="search" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()" autocomplete="off" enterkeyhint="search" aria-controls="produtos"/>
+    <button type="button" class="search-clear" id="search-clear" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
   </div>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
-      <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
-      <button class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
+      <button type="button" class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
+      <button type="button" class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
     </div>
     <select class="price-sort compact" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar por preço">
       <option value="">↕ Ordenar</option>
@@ -214,27 +217,27 @@
 
 <!-- ═══════════ CATEGORY QUICK ACCESS ═══════════ -->
 <div class="cat-quick">
-  <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
+  <button type="button" class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
     <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
+  <button type="button" class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
     <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})">
+  <button type="button" class="cat-quick-btn" onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})">
     <img src="fotos/cabaz_detox.jpeg" alt="Cabaz de frutas e legumes" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('promocoes').scrollIntoView({behavior:'smooth'})">
+  <button type="button" class="cat-quick-btn" onclick="document.getElementById('promocoes').scrollIntoView({behavior:'smooth'})">
     <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('verao').scrollIntoView({behavior:'smooth'})">
+  <button type="button" class="cat-quick-btn" onclick="document.getElementById('verao').scrollIntoView({behavior:'smooth'})">
     <img src="fotos/melancia.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
-  <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
+  <button type="button" class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
     <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
@@ -373,8 +376,10 @@
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
         <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
-          <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
-          <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
+          <label class="sr-only" for="cust-nome">O Seu Nome</label>
+          <input type="text" id="cust-nome" name="nome" placeholder="O Seu Nome *" autocomplete="name" required/>
+          <label class="sr-only" for="cust-telemovel">Número de telemóvel</label>
+          <input type="tel"  id="cust-telemovel" name="tel" placeholder="Nº de Telemóvel *" autocomplete="tel" inputmode="tel" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
                   onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
             + Hora de levantamento ou nota <span>(opcional)</span>
@@ -401,7 +406,7 @@
     <span class="eyebrow">O Que Dizem os Clientes</span>
     <h2 class="section-title">Avaliações</h2>
   </div>
-  <a class="google-badge fi" id="google-badge" href="#" target="_blank" rel="noopener">
+  <a class="google-badge fi" id="google-badge" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener">
     <span class="gb-logo">G</span>
     <span class="gb-nota" id="gb-nota">4,9</span>
     <span class="gb-stars" id="gb-stars">★★★★★</span>
@@ -409,7 +414,7 @@
   </a>
   <div class="temas-row fi" id="temas-row"></div>
   <div class="reviews-grid fi" id="reviews-grid"></div>
-  <a class="reviews-cta fi" id="reviews-cta" href="#" target="_blank" rel="noopener">Ver todas as avaliações no Google →</a>
+  <a class="reviews-cta fi" id="reviews-cta" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener">Ver todas as avaliações no Google →</a>
 </div>
 
 <!-- ═══════════ QUEM SOMOS ═══════════ -->
@@ -482,11 +487,11 @@
 
 <!-- ═══════════ SOCIAL PANEL ═══════════ -->
 <div class="social-panel">
-  <a href="https://wa.me/351932699850?text=Ol%C3%A1%20MUNDIFRUTA!%20Gostaria%20de%20fazer%20uma%20pergunta." target="_blank" class="social-link social-wa" title="Fale connosco no WhatsApp">
+  <a href="https://wa.me/351932699850?text=Ol%C3%A1%20MUNDIFRUTA!%20Gostaria%20de%20fazer%20uma%20pergunta." target="_blank" rel="noopener" class="social-link social-wa" title="Fale connosco no WhatsApp">
     <span class="social-label">Fale Connosco</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
-  <a href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" class="social-link social-goog" title="Google Reviews">
+  <a href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener" class="social-link social-goog" title="Google Reviews">
     <span class="social-label">Avalie-nos</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
   </a>
@@ -494,7 +499,7 @@
     <span class="social-label">Como Chegar</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
   </a>
-  <a href="https://wa.me/351932699850" target="_blank" class="social-link social-wa" title="Encomendar via WhatsApp">
+  <a href="https://wa.me/351932699850" target="_blank" rel="noopener" class="social-link social-wa" title="Encomendar via WhatsApp">
     <span class="social-label">Encomendar</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
@@ -518,7 +523,7 @@
 </nav>
 
 <!-- ═══════════ FLOATING CART ═══════════ -->
-<button class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda">
+<button class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda" aria-label="Ver a sua encomenda">
   <span class="fc-icon">🛒</span>
   <span class="fc-text" id="float-cart-text">0 · 0,00 €</span>
 </button>
@@ -527,7 +532,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo" aria-label="Voltar ao topo">▲</button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -624,7 +629,7 @@
         <strong id="product-modal-qty">1</strong>
         <button type="button" onclick="alterarQtdModal(1)" aria-label="Aumentar quantidade">+</button>
       </div>
-      <button class="product-modal-add" id="product-modal-add" type="button" onclick="adicionarDoModal()">＋</button>
+      <button class="product-modal-add" id="product-modal-add" type="button" onclick="adicionarDoModal()">Adicionar ao carrinho</button>
     </div>
   </div>
 </div>
@@ -641,12 +646,12 @@
     <p class="cabaz-modal-sub">Este cabaz é composto pelos seguintes itens:</p>
     <ul class="cabaz-modal-list" id="cabaz-modal-list"></ul>
     <p class="cabaz-modal-nota" id="cabaz-modal-nota" style="display:none"></p>
-    <button class="btn-wa cabaz-modal-add" id="cabaz-modal-add">＋</button>
+    <button type="button" class="btn-wa cabaz-modal-add" id="cabaz-modal-add">Adicionar ao carrinho</button>
   </div>
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>
