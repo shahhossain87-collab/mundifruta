@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -79,7 +79,7 @@
 <body>
 
 <!-- ═══════════ ANNOUNCEMENT BAR ═══════════ -->
-<div class="announcement-bar" aria-live="polite" aria-label="Notícias e promoções rápidas">
+<div class="announcement-bar" aria-label="Notícias e promoções rápidas">
   <div class="announcement-track">
     <span>🎁 10€ de desconto na primeira compra acima de 40€</span>
     <span>🛒 Encomende por WhatsApp e levante na loja</span>
@@ -89,14 +89,14 @@
     <span>🥒 Curgete biológica 2,49€/kg</span>
     <span>🚚 Entregas rápidas para Carnaxide e Oeiras</span>
     <span>🎉 Produtos frescos, selecionados todos os dias</span>
-    <span>🎁 10€ de desconto na primeira compra acima de 40€</span>
-    <span>🛒 Encomende por WhatsApp e levante na loja</span>
-    <span>🍉 Melancia 1/4 aprox. 3 kg</span>
-    <span>🍋 Limão biológico 2,49€/kg</span>
-    <span>🍅 Tomate salada biológico 1,99€/kg</span>
-    <span>🥒 Curgete biológica 2,49€/kg</span>
-    <span>🚚 Entregas rápidas para Carnaxide e Oeiras</span>
-    <span>🎉 Produtos frescos, selecionados todos os dias</span>
+    <span aria-hidden="true">🎁 10€ de desconto na primeira compra acima de 40€</span>
+    <span aria-hidden="true">🛒 Encomende por WhatsApp e levante na loja</span>
+    <span aria-hidden="true">🍉 Melancia 1/4 aprox. 3 kg</span>
+    <span aria-hidden="true">🍋 Limão biológico 2,49€/kg</span>
+    <span aria-hidden="true">🍅 Tomate salada biológico 1,99€/kg</span>
+    <span aria-hidden="true">🥒 Curgete biológica 2,49€/kg</span>
+    <span aria-hidden="true">🚚 Entregas rápidas para Carnaxide e Oeiras</span>
+    <span aria-hidden="true">🎉 Produtos frescos, selecionados todos os dias</span>
   </div>
 </div>
 
@@ -113,7 +113,7 @@
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-right">
-      <button class="nav-order" onclick="irParaEncomenda()">
+      <button type="button" class="nav-order" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
       <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
@@ -137,13 +137,14 @@
 </div>
 <div class="homepage-search">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    <label class="sr-only" for="search-input">Pesquisar produto</label>
+    <input class="search-input" id="search-input" type="search" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()" autocomplete="off" enterkeyhint="search"/>
+    <button type="button" class="search-clear" id="search-clear" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
   </div>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
-      <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
-      <button class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
+      <button type="button" class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)" aria-pressed="true" aria-controls="cat-frutas">Frutas <span class="cat-count" id="count-frutas">55</span></button>
+      <button type="button" class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)" aria-pressed="false" aria-controls="cat-legumes">Legumes <span class="cat-count" id="count-legumes">55</span></button>
     </div>
     <select class="price-sort compact" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar por preço">
       <option value="">↕ Ordenar</option>
@@ -373,15 +374,19 @@
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
         <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
-          <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
-          <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
+          <label class="order-label" for="cust-nome">Nome</label>
+          <input type="text" id="cust-nome" name="nome" placeholder="O Seu Nome *" autocomplete="name" required/>
+          <label class="order-label" for="cust-telemovel">Telemóvel</label>
+          <input type="tel" id="cust-telemovel" name="tel" placeholder="Nº de Telemóvel *" autocomplete="tel" inputmode="tel" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
                   onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
             + Hora de levantamento ou nota <span>(opcional)</span>
           </button>
           <div class="order-optional" id="order-optional" hidden>
-            <input type="text" id="cust-levantamento" placeholder="Hora de levantamento (ex: 17h30)"/>
-            <textarea          id="cust-notas"     placeholder="Pedidos especiais ou notas..."></textarea>
+            <label class="order-label" for="cust-levantamento">Hora de levantamento <span>(opcional)</span></label>
+            <input type="text" id="cust-levantamento" name="levantamento" placeholder="Hora de levantamento (ex: 17h30)" autocomplete="off"/>
+            <label class="order-label" for="cust-notas">Pedidos especiais <span>(opcional)</span></label>
+            <textarea id="cust-notas" name="notas" placeholder="Pedidos especiais ou notas..."></textarea>
           </div>
           <div class="order-btns">
             <button type="submit" class="btn-wa">📱 Encomendar por WhatsApp</button>
@@ -502,7 +507,7 @@
 
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
 <nav class="mobile-bar" id="mobile-bar">
-  <button class="mb-item" onclick="irParaEncomenda()">
+  <button type="button" class="mb-item" onclick="irParaEncomenda()" aria-label="Abrir o carrinho">
     <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
   </button>
@@ -528,7 +533,7 @@
 </button>
 
 <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
 <div class="cs-pop" id="cs-pop" hidden role="dialog" aria-label="Sugestões de produtos">
@@ -646,7 +651,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>
