@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -38,10 +38,19 @@
     "name": "MUNDIFRUTA",
     "description": "Loja de frutas e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja.",
     "image": "https://mundifruta.com/fotos/cabaz_mix.jpeg",
+    "logo": "https://mundifruta.com/fotos/cabaz_mix.jpeg",
     "url": "https://mundifruta.com/",
     "telephone": "+351932699850",
     "priceRange": "€€",
     "currenciesAccepted": "EUR",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+351932699850",
+      "email": "shahhossain87@gmail.com",
+      "contactType": "customer service",
+      "areaServed": "PT",
+      "availableLanguage": ["Portuguese"]
+    },
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Av de Portugal, Centro Cívico, Loja 24-C",
@@ -77,6 +86,7 @@
   </script>
 </head>
 <body>
+<a class="skip-link" href="#search-input">Saltar para a pesquisa</a>
 
 <!-- ═══════════ ANNOUNCEMENT BAR ═══════════ -->
 <div class="announcement-bar" aria-live="polite" aria-label="Notícias e promoções rápidas">
@@ -135,28 +145,29 @@
   <a href="#encomenda"      onclick="toggleMenu()">Encomendar</a>
   <a href="#contacto"       onclick="toggleMenu()">Contacto</a>
 </div>
-<div class="homepage-search">
-  <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
-  </div>
-  <div class="catalog-bar-row compact">
-    <div class="cat-tabs">
-      <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
-      <button class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
-    </div>
-    <select class="price-sort compact" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar por preço">
-      <option value="">↕ Ordenar</option>
-      <option value="asc">Preço: baixo → alto</option>
-      <option value="desc">Preço: alto → baixo</option>
-      <option value="az">Nome: A → Z</option>
-      <option value="za">Nome: Z → A</option>
-    </select>
-  </div>
-</div>
 
 <!-- ═══════════ PRODUCTS ═══════════ -->
 <div class="section" id="produtos" style="padding-top:18px; padding-bottom:18px;">
+  <div class="homepage-search">
+    <div class="search-row">
+      <label class="sr-only" for="search-input">Pesquisar produto</label>
+      <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
+      <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    </div>
+    <div class="catalog-bar-row compact">
+      <div class="cat-tabs">
+        <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
+        <button class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
+      </div>
+      <select class="price-sort compact" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar por preço">
+        <option value="">↕ Ordenar</option>
+        <option value="asc">Preço: baixo → alto</option>
+        <option value="desc">Preço: alto → baixo</option>
+        <option value="az">Nome: A → Z</option>
+        <option value="za">Nome: Z → A</option>
+      </select>
+    </div>
+  </div>
   <div class="section-hdr fi" style="margin-bottom:20px">
     <h2 class="section-title">Encontre o que Procura</h2>
     <p class="section-sub">Pesquise ou navegue por páginas. Clique na fotografia para ver os detalhes.</p>
@@ -373,15 +384,15 @@
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
         <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
-          <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
-          <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
+          <input type="text" id="cust-nome"      name="nome"      placeholder="O Seu Nome *" required/>
+          <input type="tel"  id="cust-telemovel" name="telemovel" placeholder="Nº de Telemóvel *" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
                   onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
             + Hora de levantamento ou nota <span>(opcional)</span>
           </button>
           <div class="order-optional" id="order-optional" hidden>
-            <input type="text" id="cust-levantamento" placeholder="Hora de levantamento (ex: 17h30)"/>
-            <textarea          id="cust-notas"     placeholder="Pedidos especiais ou notas..."></textarea>
+            <input type="text" id="cust-levantamento" name="levantamento" placeholder="Hora de levantamento (ex: 17h30)"/>
+            <textarea          id="cust-notas"     name="notas" placeholder="Pedidos especiais ou notas..."></textarea>
           </div>
           <div class="order-btns">
             <button type="submit" class="btn-wa">📱 Encomendar por WhatsApp</button>
