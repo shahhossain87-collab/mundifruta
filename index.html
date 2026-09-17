@@ -28,7 +28,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
+  <noscript><style>.fi{opacity:1!important;transform:none!important}</style></noscript>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -138,7 +139,7 @@
 <div class="homepage-search">
   <div class="search-row">
     <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    <button class="search-clear" id="search-clear" type="button" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
   </div>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
@@ -189,7 +190,7 @@
         <span class="hr-score">4,9</span>
         <span class="hr-count">107+ Google</span>
       </a>
-      <span class="hero-chip">🕗 Aberto Hoje · 8h–20h</span>
+      <span class="hero-chip hero-chip-hours">🕗 Aberto Hoje · 8h–20h</span>
       <span class="hero-chip">📱 Encomendas WhatsApp</span>
       <span class="hero-chip">🛍️ Levantamento na Loja</span>
     </div>
@@ -646,7 +647,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=33"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
