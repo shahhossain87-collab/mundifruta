@@ -330,7 +330,10 @@
   /* ═══════════ INIT ═══════════ */
   // extras.js é carregado depois de app.js (que já correu o seu INIT e o DOM
   // já está pronto), por isso arrancamos diretamente aqui.
+  let extrasProntos = false;
   window.iniciarExtras = function () {
+    if (extrasProntos) return;
+    extrasProntos = true;
     renderQuemSomos();
     initHeroSlides();
     initCarousels();
