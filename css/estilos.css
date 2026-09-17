@@ -28,6 +28,10 @@
 
     html { scroll-behavior: smooth; }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
+    /* overflow-x:hidden on body can break position:sticky descendants; clip does not */
+    @supports (overflow: clip) {
+      body { overflow-x: clip; }
+    }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
     ::-webkit-scrollbar-thumb { background:var(--sage); border-radius:3px; }
@@ -662,6 +666,12 @@
     .search-input:focus {
       border-color:var(--cherry);
       box-shadow:0 14px 32px rgba(196,30,58,0.12);
+      outline:2px solid var(--cherry);
+      outline-offset:2px;
+    }
+    .search-input:focus-visible {
+      outline:2px solid var(--cherry);
+      outline-offset:2px;
     }
     .search-clear {
       position:absolute; right:14px; top:50%; transform:translateY(-50%);
@@ -817,7 +827,7 @@
       padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.12);
     }
     .order-items { list-style:none; }
-    .empty-msg { color:rgba(255,255,255,0.4); font-size:0.9rem; font-style:italic; }
+    .empty-msg { color:rgba(255,255,255,0.78); font-size:0.9rem; font-style:italic; }
     .order-item {
       display:flex; justify-content:space-between; align-items:center;
       padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);
@@ -907,7 +917,7 @@
     /* Email demoted to a quiet secondary link */
     .btn-em {
       align-self:center; background:none; border:none; padding:8px 14px;
-      color:rgba(255,255,255,0.6); font-weight:600; font-size:0.82rem;
+      color:rgba(255,255,255,0.82); font-weight:600; font-size:0.82rem;
       text-decoration:underline; text-underline-offset:3px; cursor:pointer;
       font-family:'Poppins',sans-serif; transition:color 0.2s;
     }
@@ -948,12 +958,12 @@
     }
     .footer-logo { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:#fff; }
     .footer-logo span { color:var(--peach); }
-    .footer-text { color:rgba(255,255,255,0.4); font-size:0.8rem; }
+    .footer-text { color:rgba(255,255,255,0.78); font-size:0.8rem; }
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
-    .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
+    .footer-links a { color:rgba(255,255,255,0.82); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
     .footer-links a:hover { color:var(--peach); }
-    .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
-    .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
+    .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.68); font-size:0.72rem; }
+    .footer-credit a { color:rgba(255,255,255,0.82); text-decoration:none; transition:color 0.2s; }
     .footer-credit a:hover { color:var(--sage); }
 
     /* ??????????????????????????????????????
@@ -1519,6 +1529,8 @@
       .product-price { font-size:.8rem; margin-bottom:4px; }
       .product-origem, .product-fresh { display:none; }
       .add-btn { padding:6px 3px; font-size:.66rem; min-height:0; }
+      /* Dense 3-column cards: photo already opens the cabaz modal */
+      .cabaz-ver { display:none; }
       .product-badge { font-size:.5rem; padding:2px 5px; }
       .qty-controls { gap:8px; margin-top:6px; }
       .product-modal-box { grid-template-columns:1fr; }
