@@ -927,7 +927,7 @@
     }
     .contact-card:hover { transform:translateY(-6px); box-shadow:var(--sh-lg); }
     .contact-icon { font-size:2.4rem; margin-bottom:14px; }
-    .contact-card h4 {
+    .contact-card h3, .contact-card h4 {
       font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
       color:var(--forest); margin-bottom:8px;
     }
@@ -1329,6 +1329,8 @@
       cursor:pointer;
       box-shadow:0 6px 18px rgba(27,67,50,0.12);
     }
+    .feature-product.is-unavailable .feature-add { display:none; }
+    .feature-buy .unavailable-label { min-height:34px; font-size:.74rem; }
 
     .products-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
     .product-card {

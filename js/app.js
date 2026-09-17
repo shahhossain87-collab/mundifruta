@@ -31,21 +31,24 @@ const carrinho = {};
 
   function criarCardDestaque(item) {
     const card = document.createElement('article');
+    const disponivel = produtoDisponivel(item);
     card.className = 'feature-product';
-    if (!produtoDisponivel(item)) card.classList.add('is-unavailable');
+    if (!disponivel) card.classList.add('is-unavailable');
     card.dataset.productId = item._id;
     card.innerHTML = `
       <button class="feature-photo" type="button" onclick="abrirProduto('${item._id}')" aria-label="Ver ${item.nome}">
         <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
         ${item.badge ? `<span class="feature-badge">${item.badge}</span>` : ''}
-        ${item.topVendido ? `<span class="top-badge">⭐ Mais vendido</span>` : ''}
+        ${item.topVendido && disponivel ? `<span class="top-badge">⭐ Mais vendido</span>` : ''}
       </button>
       <div class="feature-body">
         <h3>${item.nome}</h3>
         <p>${item.peso || 'Unidade'} · ${item.origem || 'Fresco diário'}</p>
         <div class="feature-buy">
           <strong>${rotuloPreco(item)}</strong>
-          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
+          ${disponivel
+            ? `<button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>`
+            : `<span class="unavailable-label">Indisponível</span>`}
         </div>
       </div>`;
     return card;
@@ -64,34 +67,37 @@ const carrinho = {};
       [...produtos.frutas, ...produtos.legumes],
       ['Morangos','Melancia 1/4','Laranja Algarve','Tomate Salada','Cenoura','Hortelã']
     ).filter(i => !promocionais.includes(i));
-    preencherDestaques('promo-grid', [...promocionais, ...extraPromo].slice(0, 8));
+    preencherDestaques('promo-grid', [...promocionais, ...extraPromo].filter(produtoDisponivel).slice(0, 8));
     preencherDestaques('popular-grid', selecionarPorNomes(
       produtos.frutas,
       ['Morangos','Banana Madeira','Laranja Algarve','Pêra Rocha','Maçã Royal Gala','Melancia 1/4','Manga Avião','Abacate Hass']
-    ));
+    ).filter(produtoDisponivel));
     preencherDestaques('season-grid', produtos.frutas.filter(item =>
-      String(item.badge || '').includes('Verão')
+      String(item.badge || '').includes('Verão') && produtoDisponivel(item)
     ).slice(0, 8));
     preencherDestaques('veg-featured-grid', selecionarPorNomes(
       produtos.legumes,
       ['Cenoura','Brócolos sem Folha','Alface','Tomate Salada','Batata Branca','Curgete','Pepino','Couve-flor']
-    ));
+    ).filter(produtoDisponivel));
   }
 
   /* ══ PRODUCT CARDS ══ */
-  function criarCard(item, id) {
+  function criarCard(item, id, opts) {
+    opts = opts || {};
     const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
     const disponivel = produtoDisponivel(item);
     const card  = document.createElement('div');
     card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
     if (!disponivel) card.classList.add('is-unavailable');
-    const topRibbon = item.topVendido ? `<div class="top-badge">⭐ Mais vendido</div>` : '';
+    const topRibbon = (item.topVendido && disponivel) ? `<div class="top-badge">⭐ Mais vendido</div>` : '';
+    const loading = opts.eager ? 'eager' : 'lazy';
+    const fetchPri = opts.priority ? ' fetchpriority="high"' : '';
     card.innerHTML = `
       ${badge}
       ${topRibbon}
       <div class="sel-check">✓</div>
       <button class="photo-wrap" type="button" onclick="abrirProduto('${id}')" aria-label="Ver detalhes de ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="${loading}" decoding="async"${fetchPri}/>
       </button>
       <div class="card-body">
         <div class="product-name">${item.nome}</div>
@@ -103,9 +109,9 @@ const carrinho = {};
           ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
           : `<div class="unavailable-label">Indisponível</div>`}
         <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)">−</button>
           <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)">+</button>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
@@ -130,7 +136,8 @@ const carrinho = {};
     const pagina = estado.filtrados.slice(inicio, inicio + POR_PAGINA);
     grid.innerHTML = '';
     pagina.forEach((item, i) => {
-      const card = criarCard(item, item._id);
+      const eager = cat === catAtual && estado.pagina === 1 && i < 6;
+      const card = criarCard(item, item._id, { eager, priority: eager && i < 2 });
       card.dataset.ord = inicio + i;
       grid.appendChild(card);
     });
@@ -203,9 +210,9 @@ const carrinho = {};
           ${verBtn}
           <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
           <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)">+</button>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -746,11 +753,18 @@ const carrinho = {};
   carregarCarrinho();
   if (window.iniciarExtras) window.iniciarExtras();
 
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); pesquisar(); }
+    });
+  }
+
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
-    const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
+    const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden && window.fecharCrossSell) window.fecharCrossSell();
     const off = document.getElementById('offer-pop'); if (off && !off.hidden && window.fecharOferta) window.fecharOferta();
     const priv = document.getElementById('privacy-modal'); if (priv && !priv.hidden) priv.hidden = true;
   });
