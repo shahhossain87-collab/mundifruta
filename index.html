@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=39"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -116,7 +116,7 @@
       <button class="nav-order" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
-      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <button class="hamburger" type="button" onclick="toggleMenu()" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -124,22 +124,23 @@
 </nav>
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
-<div class="mobile-menu" id="mobile-menu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
-  <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
-  <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
-  <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
-  <a href="#produtos"       onclick="toggleMenu()">Produtos</a>
-  <a href="#quem-somos"     onclick="toggleMenu()">Quem Somos</a>
-  <a href="#avaliacoes"     onclick="toggleMenu()">Avaliações</a>
-  <a href="#encomenda"      onclick="toggleMenu()">Encomendar</a>
-  <a href="#contacto"       onclick="toggleMenu()">Contacto</a>
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <button class="mobile-close" type="button" onclick="toggleMenu(false)" aria-label="Fechar menu">✕</button>
+  <a href="#produtos"       onclick="toggleMenu(false, true)">Produtos</a>
+  <a href="#cabazes"        onclick="toggleMenu(false, true)">Cabazes</a>
+  <a href="#promocoes"      onclick="toggleMenu(false, true)">Promoções</a>
+  <a href="#quem-somos"     onclick="toggleMenu(false, true)">Quem Somos</a>
+  <a href="#avaliacoes"     onclick="toggleMenu(false, true)">Avaliações</a>
+  <a href="#como-funciona"  onclick="toggleMenu(false, true)">Como Funciona</a>
+  <a href="#encomenda"      onclick="toggleMenu(false, true)">Encomendar</a>
+  <a href="#contacto"       onclick="toggleMenu(false, true)">Contacto</a>
 </div>
 <div class="homepage-search">
   <div class="search-row">
     <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    <button class="search-clear" id="search-clear" type="button" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
   </div>
+  <p class="search-results-hint" id="search-results-hint" hidden></p>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
       <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
@@ -372,7 +373,8 @@
       </div>
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
-        <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
+        <form class="order-form" id="order-form" novalidate onsubmit="enviarWhatsApp(event)">
+          <p class="order-form-error" id="order-form-error" role="alert" hidden></p>
           <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
           <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
@@ -401,7 +403,7 @@
     <span class="eyebrow">O Que Dizem os Clientes</span>
     <h2 class="section-title">Avaliações</h2>
   </div>
-  <a class="google-badge fi" id="google-badge" href="#" target="_blank" rel="noopener">
+  <a class="google-badge fi" id="google-badge" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener">
     <span class="gb-logo">G</span>
     <span class="gb-nota" id="gb-nota">4,9</span>
     <span class="gb-stars" id="gb-stars">★★★★★</span>
@@ -409,7 +411,7 @@
   </a>
   <div class="temas-row fi" id="temas-row"></div>
   <div class="reviews-grid fi" id="reviews-grid"></div>
-  <a class="reviews-cta fi" id="reviews-cta" href="#" target="_blank" rel="noopener">Ver todas as avaliações no Google →</a>
+  <a class="reviews-cta fi" id="reviews-cta" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener">Ver todas as avaliações no Google →</a>
 </div>
 
 <!-- ═══════════ QUEM SOMOS ═══════════ -->
@@ -482,11 +484,11 @@
 
 <!-- ═══════════ SOCIAL PANEL ═══════════ -->
 <div class="social-panel">
-  <a href="https://wa.me/351932699850?text=Ol%C3%A1%20MUNDIFRUTA!%20Gostaria%20de%20fazer%20uma%20pergunta." target="_blank" class="social-link social-wa" title="Fale connosco no WhatsApp">
+  <a href="https://wa.me/351932699850?text=Ol%C3%A1%20MUNDIFRUTA!%20Gostaria%20de%20fazer%20uma%20pergunta." target="_blank" rel="noopener" class="social-link social-wa" title="Fale connosco no WhatsApp">
     <span class="social-label">Fale Connosco</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
-  <a href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" class="social-link social-goog" title="Google Reviews">
+  <a href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener" class="social-link social-goog" title="Google Reviews">
     <span class="social-label">Avalie-nos</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
   </a>
@@ -494,7 +496,7 @@
     <span class="social-label">Como Chegar</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
   </a>
-  <a href="https://wa.me/351932699850" target="_blank" class="social-link social-wa" title="Encomendar via WhatsApp">
+  <a href="https://wa.me/351932699850" target="_blank" rel="noopener" class="social-link social-wa" title="Encomendar via WhatsApp">
     <span class="social-label">Encomendar</span>
     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
@@ -631,8 +633,8 @@
 
 <!-- ═══════════ CABAZ MODAL ═══════════ -->
 <div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()">
-  <div class="cabaz-modal-box">
-    <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
+  <div class="cabaz-modal-box" role="dialog" aria-modal="true" aria-labelledby="cabaz-modal-title">
+    <button class="cabaz-modal-close" type="button" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
     <div class="cabaz-modal-head">
       <span class="eyebrow">Composição do Cabaz</span>
       <h3 id="cabaz-modal-title">Cabaz</h3>
@@ -646,7 +648,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=34"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>

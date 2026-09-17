@@ -45,7 +45,7 @@ const carrinho = {};
         <p>${item.peso || 'Unidade'} · ${item.origem || 'Fresco diário'}</p>
         <div class="feature-buy">
           <strong>${rotuloPreco(item)}</strong>
-          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
+          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋</button>
         </div>
       </div>`;
     return card;
@@ -100,12 +100,12 @@ const carrinho = {};
         ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
         ${item.origem ? `<div class="product-origem">🌍 ${item.origem}</div>` : '<div class="product-fresh">✓ Fresco Diário</div>'}
         ${disponivel
-          ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
+          ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋</button>`
           : `<div class="unavailable-label">Indisponível</div>`}
         <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <button type="button" class="qty-btn" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir quantidade de ${item.nome}">−</button>
           <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+          <button type="button" class="qty-btn" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
@@ -155,9 +155,9 @@ const carrinho = {};
     if (estado.pagina > paginas) estado.pagina = paginas;
     const el = document.getElementById(`pagination-${cat}`);
     el.innerHTML = `
-      <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''}>← Anterior</button>
+      <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''} aria-label="Página anterior">← Anterior</button>
       <span>Página ${estado.pagina} de ${paginas}</span>
-      <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''}>Seguinte →</button>`;
+      <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''} aria-label="Página seguinte">Seguinte →</button>`;
   }
 
   function atualizarSugestaoLegumes(cat) {
@@ -201,11 +201,11 @@ const carrinho = {};
           ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
           <div class="product-price">${rotuloPreco(item)}</div>
           ${verBtn}
-          <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
+          <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋</button>
           <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+            <button type="button" class="qty-btn" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir quantidade de ${item.nome}">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button type="button" class="qty-btn" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -232,6 +232,7 @@ const carrinho = {};
     };
     document.getElementById('cabaz-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    addBtn.focus();
   }
 
   function fecharCabaz() {
@@ -260,6 +261,8 @@ const carrinho = {};
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    const addBtn = document.getElementById('product-modal-add');
+    if (addBtn) addBtn.focus();
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
   }
 
@@ -558,26 +561,70 @@ const carrinho = {};
     if (q) {
       for (const cat of ['frutas','legumes']) {
         if (catalogoEstado[cat].filtrados.length > 0) {
-          mostrarCategoria(cat, document.getElementById(`tab-${cat}`)); break;
+          mostrarCategoria(cat, document.getElementById(`tab-${cat}`), true); break;
         }
       }
     }
+    atualizarDicaPesquisa();
   }
 
-  function limparPesquisa() { document.getElementById('search-input').value = ''; pesquisar(); }
+  function limparPesquisa() {
+    document.getElementById('search-input').value = '';
+    pesquisar();
+    document.getElementById('search-input').focus();
+  }
+
+  function catalogoForaDeVista() {
+    const el = document.getElementById('produtos');
+    if (!el) return false;
+    const header =
+      (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--announcement-height')) || 44) +
+      (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 78);
+    const rect = el.getBoundingClientRect();
+    return rect.top > window.innerHeight * 0.42 || rect.bottom < header + 64;
+  }
+
+  function scrollSuave(el, block) {
+    if (!el) return;
+    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ behavior: reduzir ? 'auto' : 'smooth', block: block || 'start' });
+  }
+
+  function revelarCatalogo() {
+    const el = document.getElementById('produtos');
+    if (!el) return;
+    scrollSuave(el, 'start');
+  }
+  window.revelarCatalogo = revelarCatalogo;
+
+  function atualizarDicaPesquisa() {
+    const hint = document.getElementById('search-results-hint');
+    if (!hint) return;
+    const q = document.getElementById('search-input').value.trim();
+    if (!q) { hint.hidden = true; hint.textContent = ''; return; }
+    const n = catalogoEstado.frutas.filtrados.length + catalogoEstado.legumes.filtrados.length;
+    hint.hidden = false;
+    if (!n) {
+      hint.innerHTML = '<span class="search-results-empty">Nenhum produto encontrado.</span>';
+      return;
+    }
+    const label = n === 1 ? '1 produto — ver no catálogo ↓' : `${n} produtos — ver no catálogo ↓`;
+    hint.innerHTML = `<button type="button" class="search-jump" onclick="revelarCatalogo()">${label}</button>`;
+  }
 
   /* ══ CATEGORY ══ */
-  function mostrarCategoria(cat, btn) {
+  function mostrarCategoria(cat, btn, semScroll) {
     document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('visible'));
     document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
     document.getElementById(`cat-${cat}`).classList.add('visible');
     if (btn) btn.classList.add('active');
     catAtual = cat;
+    if (!semScroll && catalogoForaDeVista()) revelarCatalogo();
   }
 
   function abrirCatalogo(cat) {
-    mostrarCategoria(cat, document.getElementById(`tab-${cat}`));
-    document.getElementById('produtos').scrollIntoView({ behavior:'smooth', block:'start' });
+    mostrarCategoria(cat, document.getElementById(`tab-${cat}`), true);
+    revelarCatalogo();
   }
 
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
@@ -599,14 +646,47 @@ const carrinho = {};
   }
 
   /* ══ ORDER ══ */
+  function mostrarErroEncomenda(msg, focusId, comLigacaoCatalogo) {
+    const el = document.getElementById('order-form-error');
+    if (el) {
+      el.hidden = false;
+      if (comLigacaoCatalogo) {
+        el.innerHTML = `${msg} <button type="button" class="order-error-link" onclick="revelarCatalogo()">Ver produtos</button>`;
+      } else {
+        el.textContent = msg;
+      }
+    }
+    const alvo = focusId && document.getElementById(focusId);
+    if (alvo) alvo.focus();
+    else if (el) el.scrollIntoView({ block:'center' });
+  }
+
+  function limparErroEncomenda() {
+    const el = document.getElementById('order-form-error');
+    if (!el) return;
+    el.hidden = true;
+    el.textContent = '';
+  }
+
   function obterTextoEncomenda() {
     const nome   = document.getElementById('cust-nome').value.trim();
     const tel    = document.getElementById('cust-telemovel').value.trim();
     const hora   = document.getElementById('cust-levantamento').value.trim();
     const notas  = document.getElementById('cust-notas').value.trim();
     const itens  = Object.values(carrinho);
-    if (!itens.length) { alert('Por favor selecione pelo menos um produto!'); return null; }
-    if (!nome || !tel) { alert('Por favor preencha o seu nome e número de telemóvel!'); return null; }
+    if (!itens.length) {
+      mostrarErroEncomenda('Selecione pelo menos um produto para enviar a encomenda.', null, true);
+      return null;
+    }
+    if (!nome) {
+      mostrarErroEncomenda('Indique o seu nome para identificarmos a encomenda.', 'cust-nome');
+      return null;
+    }
+    if (!tel) {
+      mostrarErroEncomenda('Indique o número de telemóvel para confirmarmos a encomenda.', 'cust-telemovel');
+      return null;
+    }
+    limparErroEncomenda();
     let t = `Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantamento na loja:\n\nNome: ${nome}\nTelemóvel: ${tel}\n`;
     if (hora) t += `Levantamento: ${hora}\n`;
     t += `\nEncomenda:\n`;
@@ -635,7 +715,7 @@ const carrinho = {};
     e.preventDefault();
     const t = obterTextoEncomenda(); if (!t) return;
     if (window.trackEvent) window.trackEvent('whatsapp_order_click', { value: totaisCarrinho().centimos / 100, currency: 'EUR' });
-    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank');
+    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank', 'noopener,noreferrer');
   }
 
   function enviarEmail() {
@@ -644,7 +724,40 @@ const carrinho = {};
   }
 
   /* ══ UI ══ */
-  function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  function menuAberto() {
+    return document.getElementById('mobile-menu').classList.contains('open');
+  }
+
+  function corpoBloqueadoPorModal() {
+    const produto = document.getElementById('product-modal');
+    const cabaz = document.getElementById('cabaz-modal');
+    const oferta = document.getElementById('offer-pop');
+    const priv = document.getElementById('privacy-modal');
+    return (produto && produto.classList.contains('open')) ||
+      (cabaz && cabaz.classList.contains('open')) ||
+      (oferta && !oferta.hidden) ||
+      (priv && !priv.hidden);
+  }
+
+  function toggleMenu(forcar, skipFocus) {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.querySelector('.hamburger');
+    const open = typeof forcar === 'boolean' ? forcar : !menu.classList.contains('open');
+    menu.classList.toggle('open', open);
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (btn) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    }
+    if (open) {
+      document.body.style.overflow = 'hidden';
+      const primeiro = menu.querySelector('a');
+      if (primeiro) primeiro.focus();
+    } else {
+      if (!corpoBloqueadoPorModal()) document.body.style.overflow = '';
+      if (btn && !skipFocus) btn.focus();
+    }
+  }
 
   function promoverCatalogo() {
     const atalhos = document.querySelector('.cat-quick');
@@ -694,7 +807,14 @@ const carrinho = {};
 
   /* ══ NAV ACTIVE HIGHLIGHT ══ */
   (function navSpy(){
-    const map = { produtos:'#produtos', cabazes:'#cabazes', verao:'#verao', avaliacoes:'#avaliacoes', contacto:'#contacto' };
+    const map = {
+      produtos:'#produtos',
+      cabazes:'#cabazes',
+      promocoes:'#promocoes',
+      'quem-somos':'#quem-somos',
+      avaliacoes:'#avaliacoes',
+      contacto:'#contacto'
+    };
     const links = {};
     document.querySelectorAll('.nav-links a').forEach(a => { links[a.getAttribute('href')] = a; });
     const secs = Object.keys(map).map(id => document.getElementById(id)).filter(Boolean);
@@ -748,6 +868,7 @@ const carrinho = {};
 
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
+    if (menuAberto()) { toggleMenu(false); return; }
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
     const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
