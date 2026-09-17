@@ -45,7 +45,7 @@ const carrinho = {};
         <p>${item.peso || 'Unidade'} · ${item.origem || 'Fresco diário'}</p>
         <div class="feature-buy">
           <strong>${rotuloPreco(item)}</strong>
-          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
+          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋ <span class="add-label">Adicionar</span></button>
         </div>
       </div>`;
     return card;
@@ -100,12 +100,12 @@ const carrinho = {};
         ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
         ${item.origem ? `<div class="product-origem">🌍 ${item.origem}</div>` : '<div class="product-fresh">✓ Fresco Diário</div>'}
         ${disponivel
-          ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
+          ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋ <span class="add-label">Adicionar</span></button>`
           : `<div class="unavailable-label">Indisponível</div>`}
         <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir quantidade de ${item.nome}">−</button>
           <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
@@ -201,11 +201,11 @@ const carrinho = {};
           ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
           <div class="product-price">${rotuloPreco(item)}</div>
           ${verBtn}
-          <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
+          <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋ <span class="add-label">Adicionar</span></button>
           <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir quantidade de ${item.nome}">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -385,8 +385,6 @@ const carrinho = {};
     const selecionado = Boolean(carrinho[id]);
     document.querySelectorAll(`[data-product-id="${id}"]`).forEach(card => {
       card.classList.toggle('selected', selecionado);
-      const add = card.querySelector('.add-btn, .feature-add');
-      if (add) add.textContent = '＋';
     });
     document.querySelectorAll(`[data-qty-id="${id}"]`).forEach(el => {
       el.textContent = selecionado ? carrinho[id].qtd : '1';
@@ -552,7 +550,7 @@ const carrinho = {};
 
   /* ══ SEARCH ══ */
   function pesquisar() {
-    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    const q = document.getElementById('search-input').value.toLocaleLowerCase('pt').trim();
     document.getElementById('search-clear').classList.toggle('visible', q.length > 0);
     aplicarCatalogo();
     if (q) {
@@ -644,12 +642,31 @@ const carrinho = {};
   }
 
   /* ══ UI ══ */
-  function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  function toggleMenu(forcarFechar) {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.querySelector('.hamburger');
+    const open = forcarFechar === false ? false : (forcarFechar === true ? true : !menu.classList.contains('open'));
+    menu.classList.toggle('open', open);
+    menu.setAttribute('aria-hidden', String(!open));
+    if (btn) {
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    }
+    document.body.classList.toggle('menu-open', open);
+    if (open) {
+      const first = menu.querySelector('a, button');
+      if (first) first.focus();
+    } else if (forcarFechar === false && btn) {
+      btn.focus();
+    }
+  }
 
   function promoverCatalogo() {
     const atalhos = document.querySelector('.cat-quick');
-    const catalogo = document.getElementById('produtos');
-    if (atalhos && catalogo) atalhos.insertAdjacentElement('afterend', catalogo);
+    const search = document.querySelector('.homepage-search');
+    // Keep search + category shortcuts + catalog together at the top.
+    // Previously the catalog was moved below the hero, leaving search results off-screen.
+    if (search && atalhos) search.insertAdjacentElement('afterend', atalhos);
   }
 
   function atualizarContadoresCategorias() {
@@ -694,7 +711,7 @@ const carrinho = {};
 
   /* ══ NAV ACTIVE HIGHLIGHT ══ */
   (function navSpy(){
-    const map = { produtos:'#produtos', cabazes:'#cabazes', verao:'#verao', avaliacoes:'#avaliacoes', contacto:'#contacto' };
+    const map = { produtos:'#produtos', cabazes:'#cabazes', promocoes:'#promocoes', 'quem-somos':'#quem-somos', avaliacoes:'#avaliacoes', contacto:'#contacto' };
     const links = {};
     document.querySelectorAll('.nav-links a').forEach(a => { links[a.getAttribute('href')] = a; });
     const secs = Object.keys(map).map(id => document.getElementById(id)).filter(Boolean);
@@ -748,6 +765,7 @@ const carrinho = {};
 
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
+    if (document.getElementById('mobile-menu').classList.contains('open')) { toggleMenu(false); return; }
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
     const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;

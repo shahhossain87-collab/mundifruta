@@ -266,9 +266,10 @@
   }
 
   /* ═══════════ HERO SLIDESHOW ═══════════ */
-  function initHeroSlides() {
+  function montarHeroSlides() {
     const wrap = document.getElementById('hero-slides');
-    if (!wrap) return;
+    if (!wrap || wrap.dataset.ready) return;
+    wrap.dataset.ready = '1';
     const fotos = [
       'fotos/mundifruta-photos-web/20260706_195625.jpg',
       'fotos/mundifruta-photos-web/20260706_195657.jpg',
@@ -287,6 +288,18 @@
       i = (i + 1) % slides.length;
       slides[i].classList.add('active');
     }, 5000);
+  }
+  function initHeroSlides() {
+    const hero = document.getElementById('inicio');
+    if (!hero) return;
+    if (!('IntersectionObserver' in window)) { montarHeroSlides(); return; }
+    const obs = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) {
+        obs.disconnect();
+        montarHeroSlides();
+      }
+    }, { rootMargin: '240px' });
+    obs.observe(hero);
   }
 
   /* ═══════════ CARROSSÉIS (linhas de destaque) ═══════════ */
