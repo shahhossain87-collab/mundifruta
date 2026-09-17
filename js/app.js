@@ -103,9 +103,9 @@ const carrinho = {};
           ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
           : `<div class="unavailable-label">Indisponível</div>`}
         <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)">−</button>
           <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)">+</button>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
@@ -187,7 +187,7 @@ const carrinho = {};
       produtos_map[id] = item;
       const temItens = item.itens && item.itens.length;
       const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
-      const verBtn = temItens ? `<button class="cabaz-ver" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
+      const verBtn = temItens ? `<button class="cabaz-ver" type="button" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
       const card = document.createElement('div');
       card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
       card.innerHTML = `
@@ -203,9 +203,9 @@ const carrinho = {};
           ${verBtn}
           <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
           <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)">+</button>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -715,6 +715,9 @@ const carrinho = {};
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); fiObs.unobserve(e.target); } });
   }, { threshold:0.1 });
   document.querySelectorAll('.fi').forEach(el => fiObs.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.fi:not(.on)').forEach(el => el.classList.add('on'));
+  }, 1200);
 
   /* ══ AVALIAÇÕES ══ */
   function renderAvaliacoes() {

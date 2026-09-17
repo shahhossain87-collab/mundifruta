@@ -374,7 +374,8 @@
       font-family:'Poppins',sans-serif; font-weight:600; font-size:0.82rem; cursor:pointer;
       padding:9px 14px; border-radius:var(--r-full); box-shadow:var(--sh);
     }
-    .price-sort:focus { outline:none; border-color:var(--sage); }
+    .price-sort:focus { border-color:var(--sage); }
+    .price-sort:focus-visible { outline:2px solid var(--sage); outline-offset:2px; }
     @media (max-width:768px){ .sort-row { margin:-8px auto 18px; padding:0 4px; } }
 
     /* ?? PAYMENT BADGES ?? */
@@ -540,9 +541,12 @@
     .section.dark .section-sub   { color:rgba(255,255,255,0.6); }
     .section.dark .eyebrow        { color:var(--sage-lt); }
 
-    /* fade-in util */
-    .fi { opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s ease; }
-    .fi.on { opacity:1; transform:translateY(0); }
+    /* fade-in util — stay visible if JS/IO never marks .on */
+    .fi { opacity:1; transform:none; }
+    @media (prefers-reduced-motion: no-preference) {
+      .fi { opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s ease; }
+      .fi.on { opacity:1; transform:translateY(0); }
+    }
 
     /* ??????????????????????????????????????
        SUMMER SPECIALS CAROUSEL
@@ -743,12 +747,12 @@
     .card-body { padding:18px 18px 22px; }
     .product-name { font-weight:700; font-size:0.96rem; color:var(--charcoal); margin-bottom:3px; line-height:1.3; }
     .product-peso { font-size:0.72rem; color:var(--text-md); font-weight:500; margin-bottom:5px; }
-    .product-origem { font-size:0.7rem; color:var(--peach); font-weight:600; margin-bottom:14px; letter-spacing:0.2px; }
+    .product-origem { font-size:0.7rem; color:var(--forest-2); font-weight:600; margin-bottom:14px; letter-spacing:0.2px; }
     .product-price {
       font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
       color:var(--forest); margin-bottom:6px;
     }
-    .product-fresh { font-size:0.7rem; color:var(--sage); font-weight:600; margin-bottom:14px; letter-spacing:0.3px; }
+    .product-fresh { font-size:0.7rem; color:var(--forest-2); font-weight:600; margin-bottom:14px; letter-spacing:0.3px; }
 
     .add-btn {
       width:100%; padding:8px 11px; min-height:34px; height:auto;
@@ -880,8 +884,8 @@
     .order-form textarea { height:90px; resize:none; }
     /* Optional fields tucked behind a quiet reveal link — keeps the form a fast 2-field ask */
     .order-optional-toggle {
-      display:inline-block; margin-bottom:12px; padding:4px 2px;
-      background:none; border:none; cursor:pointer;
+      display:inline-flex; align-items:center; margin-bottom:12px; padding:8px 2px;
+      min-height:44px; background:none; border:none; cursor:pointer;
       color:var(--sage-lt); font-weight:600; font-size:0.86rem;
       font-family:'Poppins',sans-serif; text-decoration:underline; text-underline-offset:3px;
       transition:color 0.2s;
@@ -1128,7 +1132,7 @@
     }
     .cabaz-modal.open .cabaz-modal-box { transform:translateY(0) scale(1); }
     .cabaz-modal-close {
-      position:absolute; top:14px; right:14px; width:34px; height:34px; border:none; cursor:pointer;
+      position:absolute; top:14px; right:14px; width:44px; height:44px; border:none; cursor:pointer;
       border-radius:var(--r-full); background:var(--cream-2); color:var(--text); font-size:1rem;
       display:flex; align-items:center; justify-content:center; transition:background 0.2s;
     }
@@ -1428,8 +1432,8 @@
       top:14px;
       right:14px;
       z-index:2;
-      width:38px;
-      height:38px;
+      width:44px;
+      height:44px;
       border:0;
       border-radius:50%;
       background:rgba(255,255,255,.92);
@@ -1498,6 +1502,7 @@
       .hero-ctas .btn-ghost { display:none; }
       .hero-trust { gap:7px; margin-top:8px; }
       .hero-chip { display:none; }
+      .hero-chip-hours { display:inline-flex; font-size:0.74rem; padding:6px 12px; }
       .hero-rating { padding:7px 12px; }
       .cat-quick { grid-template-columns:repeat(2,1fr); }
       .cat-quick-btn { min-height:128px; }
@@ -1518,9 +1523,10 @@
       .product-peso { font-size:.6rem; margin-bottom:1px; }
       .product-price { font-size:.8rem; margin-bottom:4px; }
       .product-origem, .product-fresh { display:none; }
-      .add-btn { padding:6px 3px; font-size:.66rem; min-height:0; }
+      .add-btn { padding:8px 4px; font-size:.72rem; min-height:40px; }
       .product-badge { font-size:.5rem; padding:2px 5px; }
-      .qty-controls { gap:8px; margin-top:6px; }
+      .qty-controls { gap:6px; margin-top:6px; }
+      .qty-btn { width:36px; height:36px; flex-shrink:0; }
       .product-modal-box { grid-template-columns:1fr; }
       .product-modal-photo { min-height:0; height:280px; }
       .product-modal-info { padding:25px 22px 24px; }
@@ -1540,7 +1546,7 @@
       .photo-wrap { height:72px; }
       .product-card { min-height:0; }
       .product-name { font-size:.68rem; }
-      .add-btn { font-size:.62rem; }
+      .add-btn { font-size:.68rem; min-height:40px; }
     }
 
     /* Final shopping-flow refinements */
@@ -1687,7 +1693,7 @@
       box-shadow:var(--sh-lg); padding:16px 16px 12px; z-index:1400; animation:cs-up .28s ease;
     }
     @keyframes cs-up { from{opacity:0; transform:translate(-50%,16px);} to{opacity:1; transform:translate(-50%,0);} }
-    .cs-pop-close { position:absolute; top:8px; right:10px; border:none; background:none; font-size:1.1rem; cursor:pointer; color:var(--text-md); }
+    .cs-pop-close { position:absolute; top:8px; right:8px; width:44px; height:44px; border:none; background:none; font-size:1.1rem; cursor:pointer; color:var(--text-md); display:flex; align-items:center; justify-content:center; }
     .cs-pop-skip { margin-top:10px; width:100%; padding:9px; border:none; background:var(--cream-2); color:var(--text); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
 
     /* Oferta 1ª compra — cartão discreto (não cobre o ecrã todo) */
@@ -1764,7 +1770,7 @@
     .privacy-box h4 { margin-top:14px; color:var(--forest-2); font-size:.95rem; }
     .privacy-box p { color:var(--text); font-size:.9rem; line-height:1.55; margin-top:4px; }
     .privacy-box a { color:var(--cherry); }
-    .privacy-close { position:absolute; top:10px; right:14px; border:none; background:none; font-size:1.2rem; cursor:pointer; color:var(--text-md); }
+    .privacy-close { position:absolute; top:10px; right:10px; width:44px; height:44px; border:none; background:none; font-size:1.2rem; cursor:pointer; color:var(--text-md); display:flex; align-items:center; justify-content:center; }
     .privacy-reset { margin-top:16px; padding:10px 16px; border:1px solid var(--cream-3); background:var(--cream-2); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
 
     /* Quem Somos */
