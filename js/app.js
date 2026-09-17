@@ -103,9 +103,9 @@ const carrinho = {};
           ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
           : `<div class="unavailable-label">Indisponível</div>`}
         <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)">−</button>
           <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+          <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)">+</button>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
@@ -203,9 +203,9 @@ const carrinho = {};
           ${verBtn}
           <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
           <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)">+</button>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -461,6 +461,7 @@ const carrinho = {};
       const subtotalText = totais.centimos > 0 ? formatarCentimos(totais.centimos) : (totais.porConfirmar ? 'A confirmar' : formatarCentimos(0));
       if (fcText) fcText.textContent = `${n} · ${subtotalText}`;
       fc.title = n > 0 ? `Ver a sua encomenda — ${n} itens · ${subtotalText}` : 'Ver a sua encomenda';
+      fc.setAttribute('aria-label', fc.title);
       if (n > 0) {
         fc.classList.add('visible');
         fc.classList.remove('pop'); void fc.offsetWidth; fc.classList.add('pop');
@@ -569,9 +570,15 @@ const carrinho = {};
   /* ══ CATEGORY ══ */
   function mostrarCategoria(cat, btn) {
     document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('visible'));
-    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.cat-tab').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     document.getElementById(`cat-${cat}`).classList.add('visible');
-    if (btn) btn.classList.add('active');
+    if (btn) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+    }
     catAtual = cat;
   }
 

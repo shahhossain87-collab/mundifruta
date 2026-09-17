@@ -24,10 +24,17 @@
       --sh-lg:     0 20px 60px rgba(27,67,50,0.16);
       --announcement-height: 44px;
       --nav-height: 78px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
     }
 
     html { scroll-behavior: smooth; }
-    body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior: auto; }
+    }
+    body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height) + var(--safe-top)); }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
     ::-webkit-scrollbar-thumb { background:var(--sage); border-radius:3px; }
@@ -36,7 +43,8 @@
        NAV
     ?????????????????????????????????????? */
     #main-nav {
-      position:fixed; top:var(--announcement-height); left:0; right:0; z-index:1000;
+      position:fixed; top:calc(var(--announcement-height) + var(--safe-top)); left:0; right:0; z-index:1000;
+      padding-left:var(--safe-left); padding-right:var(--safe-right);
       transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
     }
     #main-nav.scrolled {
@@ -90,7 +98,7 @@
       font-size:0.72rem; font-weight:800;
     }
 
-    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:10px; min-width:44px; min-height:44px; align-items:center; justify-content:center; background:none; border:none; }
     .hamburger span { display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:all 0.3s; }
     #main-nav.scrolled .hamburger span { background:var(--forest); }
 
@@ -249,7 +257,9 @@
 
     .announcement-bar {
       position:fixed; top:0; left:0; right:0; z-index:1100;
-      height:var(--announcement-height);
+      height:calc(var(--announcement-height) + var(--safe-top));
+      padding-top:var(--safe-top);
+      padding-left:var(--safe-left); padding-right:var(--safe-right);
       background:#fff;
       border-bottom:1px solid rgba(196,30,58,0.18);
       box-shadow:0 1px 0 rgba(196,30,58,0.08);
@@ -391,12 +401,14 @@
         display:grid; grid-template-columns:repeat(3,1fr); align-items:stretch;
         position:fixed; left:0; right:0; bottom:0; z-index:1200;
         background:var(--forest); box-shadow:0 -4px 24px rgba(0,0,0,0.22);
-        padding-bottom:env(safe-area-inset-bottom,0);
+        padding-bottom:var(--safe-bottom);
+        padding-left:var(--safe-left); padding-right:var(--safe-right);
       }
       .mb-item {
         position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
         padding:9px 4px 10px; background:none; border:none; cursor:pointer; text-decoration:none;
         color:rgba(255,255,255,0.9); font-family:'Poppins',sans-serif; font-weight:600; font-size:0.72rem;
+        min-height:44px;
       }
       .mb-item:active { background:rgba(255,255,255,0.08); }
       .mb-item .mb-icon { font-size:1.35rem; line-height:1; }
@@ -409,14 +421,14 @@
       }
       /* replace the sliding social panel with the bottom bar on mobile */
       .social-panel { display:none; }
-      .float-cart { top:calc(var(--announcement-height) + 8px); right:14px; padding:6px 10px; gap:6px; font-size:.72rem; }
-      .scroll-top { bottom:78px; }
-      body { padding-bottom:62px; }
+      .float-cart { top:calc(var(--announcement-height) + var(--safe-top) + 8px); right:14px; padding:6px 10px; gap:6px; font-size:.72rem; }
+      .scroll-top { bottom:calc(78px + var(--safe-bottom)); }
+      body { padding-bottom:calc(62px + var(--safe-bottom)); }
     }
 
     /* ?? FLOATING CART (pops top-right when items added) ?? */
     .float-cart {
-      position:fixed; top:calc(var(--announcement-height) + 16px); right:12px; z-index:1150;
+      position:fixed; top:calc(var(--announcement-height) + var(--safe-top) + 16px); right:12px; z-index:1150;
       display:flex; align-items:center; gap:8px; padding:10px 14px; border:2px solid #fff; cursor:pointer;
       background:var(--cherry); color:#fff; border-radius:var(--r-full);
       box-shadow:0 8px 20px rgba(196,30,58,0.35), 0 2px 6px rgba(0,0,0,0.22);
@@ -658,16 +670,24 @@
       background:var(--white); color:var(--text);
       outline:none; transition:all 0.22s ease;
       box-shadow:0 12px 28px rgba(0,0,0,0.07);
+      -webkit-appearance:none; appearance:none;
+    }
+    .search-input::-webkit-search-decoration,
+    .search-input::-webkit-search-cancel-button,
+    .search-input::-webkit-search-results-button,
+    .search-input::-webkit-search-results-decoration {
+      -webkit-appearance:none; appearance:none;
     }
     .search-input:focus {
       border-color:var(--cherry);
       box-shadow:0 14px 32px rgba(196,30,58,0.12);
     }
     .search-clear {
-      position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      position:absolute; right:6px; top:50%; transform:translateY(-50%);
       background:none; border:none; cursor:pointer; color:var(--text-md); font-size:0.96rem; display:none;
+      width:44px; height:44px; align-items:center; justify-content:center;
     }
-    .search-clear.visible { display:block; }
+    .search-clear.visible { display:flex; }
 
     .cat-tabs {
       display:flex; gap:8px; margin-bottom:44px;
@@ -1530,7 +1550,7 @@
       .reviews-grid { grid-template-columns:1fr; }
       .section { padding-top:56px; padding-bottom:56px; }
       .steps-grid { grid-template-columns:1fr; }
-      body { padding-bottom:70px; }
+      body { padding-bottom:calc(70px + var(--safe-bottom)); }
     }
     @media (max-width:380px) {
       .feature-grid { grid-template-columns:1fr; }
@@ -1582,7 +1602,7 @@
          sits inside the nav band and never overlaps the announcement text. */
       .float-cart .fc-label { display:none; }
       .float-cart {
-        top:calc(var(--announcement-height) + 11px); right:58px; padding:5px 8px; gap:4px;
+        top:calc(var(--announcement-height) + var(--safe-top) + 11px); right:58px; padding:5px 8px; gap:4px;
         border-width:1px; font-size:.72rem;
         box-shadow:0 4px 14px rgba(196,30,58,.4);
       }
@@ -1610,7 +1630,7 @@
       }
       .search-input {
         padding:10px 42px 10px 16px;
-        font-size:.84rem;
+        font-size:16px;
       }
       .catalog-bar-row {
         justify-content:center;

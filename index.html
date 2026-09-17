@@ -2,7 +2,8 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#1B4332"/>
   <meta name="description" content="Fresh fruit & vegetables in Carnaxide — frutas e legumes frescos todos os dias. Encomende no WhatsApp e levante na loja. Aberto 8h–20h · Mundifruta."/>
   <title>MUNDIFRUTA — Fresh Fruit &amp; Vegetables | Frutas &amp; Legumes · Carnaxide</title>
   <link rel="canonical" href="https://mundifruta.com/"/>
@@ -28,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -113,10 +114,10 @@
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-right">
-      <button class="nav-order" onclick="irParaEncomenda()">
+      <button class="nav-order" type="button" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
-      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <button class="hamburger" type="button" onclick="toggleMenu()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -125,7 +126,7 @@
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
 <div class="mobile-menu" id="mobile-menu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <button class="mobile-close" type="button" onclick="toggleMenu()" aria-label="Fechar menu">✕</button>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
   <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
@@ -137,13 +138,13 @@
 </div>
 <div class="homepage-search">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    <input class="search-input" id="search-input" type="search" name="q" placeholder="Pesquisar produto... (ex: morangos, tomates)" aria-label="Pesquisar produto" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" oninput="pesquisar()"/>
+    <button class="search-clear" id="search-clear" type="button" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
   </div>
   <div class="catalog-bar-row compact">
-    <div class="cat-tabs">
-      <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
-      <button class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
+    <div class="cat-tabs" role="group" aria-label="Categorias do catálogo">
+      <button class="cat-tab active" id="tab-frutas" type="button" aria-pressed="true" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
+      <button class="cat-tab" id="tab-legumes" type="button" aria-pressed="false" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
     </div>
     <select class="price-sort compact" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar por preço">
       <option value="">↕ Ordenar</option>
@@ -373,15 +374,15 @@
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
         <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
-          <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
-          <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
+          <input type="text" id="cust-nome" name="name" autocomplete="name" autocapitalize="words" spellcheck="false" placeholder="O Seu Nome *" required/>
+          <input type="tel"  id="cust-telemovel" name="tel" autocomplete="tel" inputmode="tel" placeholder="Nº de Telemóvel *" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
                   onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
             + Hora de levantamento ou nota <span>(opcional)</span>
           </button>
           <div class="order-optional" id="order-optional" hidden>
-            <input type="text" id="cust-levantamento" placeholder="Hora de levantamento (ex: 17h30)"/>
-            <textarea          id="cust-notas"     placeholder="Pedidos especiais ou notas..."></textarea>
+            <input type="text" id="cust-levantamento" name="pickup-time" autocomplete="off" placeholder="Hora de levantamento (ex: 17h30)"/>
+            <textarea          id="cust-notas" name="notes" autocomplete="off" placeholder="Pedidos especiais ou notas..."></textarea>
           </div>
           <div class="order-btns">
             <button type="submit" class="btn-wa">📱 Encomendar por WhatsApp</button>
@@ -443,7 +444,7 @@
     <div class="contact-card fi">
       <div class="contact-icon">📞</div>
       <h4>Telefone / WhatsApp</h4>
-      <a href="tel:932699850">932 699 850</a>
+      <a href="tel:+351932699850">932 699 850</a>
     </div>
     <div class="contact-card fi">
       <div class="contact-icon">📧</div>
@@ -502,7 +503,7 @@
 
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
 <nav class="mobile-bar" id="mobile-bar">
-  <button class="mb-item" onclick="irParaEncomenda()">
+  <button class="mb-item" type="button" onclick="irParaEncomenda()" aria-label="Ver carrinho">
     <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
   </button>
@@ -518,17 +519,17 @@
 </nav>
 
 <!-- ═══════════ FLOATING CART ═══════════ -->
-<button class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda">
+<button class="float-cart" id="float-cart" type="button" onclick="irParaEncomenda()" title="Ver a sua encomenda" aria-label="Ver a sua encomenda">
   <span class="fc-icon">🛒</span>
   <span class="fc-text" id="float-cart-text">0 · 0,00 €</span>
 </button>
 
-<button class="float-legumes" id="float-legumes" onclick="abrirCatalogo('legumes')" title="Ver legumes frescos" hidden>
+<button class="float-legumes" id="float-legumes" type="button" onclick="abrirCatalogo('legumes')" title="Ver legumes frescos" hidden>
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
-<div class="toast" id="toast"></div>
+<button class="scroll-top" id="scroll-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo" aria-label="Voltar ao topo">▲</button>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
 <div class="cs-pop" id="cs-pop" hidden role="dialog" aria-label="Sugestões de produtos">
@@ -632,7 +633,7 @@
 <!-- ═══════════ CABAZ MODAL ═══════════ -->
 <div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()">
   <div class="cabaz-modal-box">
-    <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
+    <button class="cabaz-modal-close" type="button" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
     <div class="cabaz-modal-head">
       <span class="eyebrow">Composição do Cabaz</span>
       <h3 id="cabaz-modal-title">Cabaz</h3>
@@ -646,7 +647,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=33"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
