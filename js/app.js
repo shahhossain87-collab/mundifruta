@@ -45,7 +45,9 @@ const carrinho = {};
         <p>${item.peso || 'Unidade'} · ${item.origem || 'Fresco diário'}</p>
         <div class="feature-buy">
           <strong>${rotuloPreco(item)}</strong>
-          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
+          ${produtoDisponivel(item)
+            ? `<button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>`
+            : `<span class="unavailable-label">Indisponível</span>`}
         </div>
       </div>`;
     return card;
@@ -79,19 +81,21 @@ const carrinho = {};
   }
 
   /* ══ PRODUCT CARDS ══ */
-  function criarCard(item, id) {
+  function criarCard(item, id, opts = {}) {
     const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
     const disponivel = produtoDisponivel(item);
     const card  = document.createElement('div');
     card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
     if (!disponivel) card.classList.add('is-unavailable');
     const topRibbon = item.topVendido ? `<div class="top-badge">⭐ Mais vendido</div>` : '';
+    const loading = opts.prioritario ? 'eager' : 'lazy';
+    const fetchPriority = opts.prioritario ? ' fetchpriority="high"' : '';
     card.innerHTML = `
       ${badge}
       ${topRibbon}
       <div class="sel-check">✓</div>
       <button class="photo-wrap" type="button" onclick="abrirProduto('${id}')" aria-label="Ver detalhes de ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="${loading}" decoding="async"${fetchPriority}/>
       </button>
       <div class="card-body">
         <div class="product-name">${item.nome}</div>
@@ -130,7 +134,7 @@ const carrinho = {};
     const pagina = estado.filtrados.slice(inicio, inicio + POR_PAGINA);
     grid.innerHTML = '';
     pagina.forEach((item, i) => {
-      const card = criarCard(item, item._id);
+      const card = criarCard(item, item._id, { prioritario: inicio + i < 6 });
       card.dataset.ord = inicio + i;
       grid.appendChild(card);
     });
@@ -251,13 +255,20 @@ const carrinho = {};
     document.getElementById('product-modal-name').textContent = item.nome;
     document.getElementById('product-modal-price').innerHTML = rotuloPreco(item);
     document.getElementById('product-modal-unit').textContent = `Unidade de venda: ${item.peso || 'unidade'}`;
-    document.getElementById('product-modal-status').textContent = item.badge
-      ? item.badge.replace(/^[^\p{L}\p{N}]+/u, '')
-      : 'Disponível hoje';
+    const disponivel = produtoDisponivel(item);
+    const statusEl = document.getElementById('product-modal-status');
+    statusEl.textContent = disponivel ? 'Disponível hoje' : 'Indisponível';
+    statusEl.classList.toggle('is-unavailable', !disponivel);
     document.getElementById('product-modal-note').textContent = item.origem
       ? `Produto fresco de origem ${item.origem}, selecionado diariamente pela Mundifruta.`
       : 'Produto fresco selecionado diariamente pela equipa Mundifruta.';
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
+    const qtyWrap = document.getElementById('product-modal-qty-wrap');
+    const addBtn = document.getElementById('product-modal-add');
+    const oos = document.getElementById('product-modal-unavailable');
+    if (qtyWrap) qtyWrap.hidden = !disponivel;
+    if (addBtn) addBtn.hidden = !disponivel;
+    if (oos) oos.hidden = disponivel;
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
@@ -276,7 +287,9 @@ const carrinho = {};
 
   function adicionarDoModal() {
     if (!modalProdutoId) return;
-    adicionarProduto(modalProdutoId, produtos_map[modalProdutoId], modalQuantidade);
+    const item = produtos_map[modalProdutoId];
+    if (!produtoDisponivel(item)) return;
+    adicionarProduto(modalProdutoId, item, modalQuantidade);
     fecharProduto();
   }
 
@@ -396,7 +409,9 @@ const carrinho = {};
   function alterarQtd(id, delta, e) {
     e.stopPropagation();
     if (!carrinho[id]) return;
-    carrinho[id].qtd = Math.max(1, carrinho[id].qtd + delta);
+    const nova = carrinho[id].qtd + delta;
+    if (nova < 1) { removerProduto(id); return; }
+    carrinho[id].qtd = nova;
     atualizarEstadoProduto(id);
     atualizarResumo(); atualizarBadge(); salvarCarrinho();
   }
@@ -413,7 +428,9 @@ const carrinho = {};
   // change quantity from within the cart summary
   function alterarQtdCarrinho(id, delta) {
     if (!carrinho[id]) return;
-    carrinho[id].qtd = Math.max(1, carrinho[id].qtd + delta);
+    const nova = carrinho[id].qtd + delta;
+    if (nova < 1) { removerProduto(id); return; }
+    carrinho[id].qtd = nova;
     atualizarEstadoProduto(id);
     atualizarResumo(); atualizarBadge(); salvarCarrinho();
   }
@@ -519,14 +536,36 @@ const carrinho = {};
     return valor === null ? Infinity : valor;
   }
 
+  function normalizarBusca(texto) {
+    return String(texto || '')
+      .toLocaleLowerCase('pt')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function produtoCorresponde(item, termo) {
+    if (!termo) return true;
+    return normalizarBusca(item.nome).includes(termo);
+  }
+
+  function atualizarDicaCabazes(termo) {
+    const el = document.getElementById('cabaz-search-hint');
+    if (!el) return;
+    if (!termo) { el.hidden = true; return; }
+    const hits = produtos.cabazes.filter(item => produtoCorresponde(item, termo));
+    if (!hits.length) { el.hidden = true; return; }
+    el.hidden = false;
+    el.textContent = hits.length === 1
+      ? `${hits[0].nome} — ver cabazes ↓`
+      : `${hits.length} cabazes — ver cabazes ↓`;
+  }
+
   function aplicarCatalogo() {
-    const termo = document.getElementById('search-input').value.toLocaleLowerCase('pt').trim();
+    const termo = normalizarBusca(document.getElementById('search-input').value).trim();
     const ordem = document.getElementById('price-sort').value;
     ['frutas','legumes'].forEach(cat => {
       const estado = catalogoEstado[cat];
-      estado.filtrados = estado.todos.filter(item =>
-        !termo || item.nome.toLocaleLowerCase('pt').includes(termo)
-      );
+      estado.filtrados = estado.todos.filter(item => produtoCorresponde(item, termo));
       if (ordem === 'az' || ordem === 'za') {
         estado.filtrados.sort((a,b) => {
           const cmp = a.nome.localeCompare(b.nome, 'pt', { sensitivity:'base' });
@@ -544,6 +583,7 @@ const carrinho = {};
       estado.pagina = 1;
       renderPagina(cat);
     });
+    atualizarDicaCabazes(termo);
   }
 
   function ordenarPreco() {
