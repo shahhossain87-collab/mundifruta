@@ -44,6 +44,15 @@
   function estadoConsentimento() {
     try { return localStorage.getItem('mf_consent'); } catch (e) { return null; }
   }
+  function consentVisivel() {
+    const el = document.getElementById('consent');
+    return Boolean(el && !el.hidden);
+  }
+  function tentarMostrarOferta() {
+    if (lerCupao()) return;
+    if (consentVisivel()) return;
+    mostrarOferta();
+  }
   function initConsent() {
     const estado = estadoConsentimento();
     if (estado === 'all') carregarGtag();
@@ -53,6 +62,7 @@
     try { localStorage.setItem('mf_consent', aceitarTudo ? 'all' : 'essential'); } catch (e) {}
     document.getElementById('consent').hidden = true;
     if (aceitarTudo) carregarGtag();
+    setTimeout(tentarMostrarOferta, 600);
   };
   window.reporConsentimento = function () {
     try { localStorage.removeItem('mf_consent'); } catch (e) {}
@@ -92,8 +102,9 @@
   function mostrarOferta() {
     // só a novos visitantes: sem cupão emitido nem dispensado
     if (lerCupao()) return;
+    if (consentVisivel()) return;
     const pop = document.getElementById('offer-pop');
-    if (!pop) return;
+    if (!pop || !pop.hidden) return;
     preencherOferta();
     pop.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -132,8 +143,8 @@
 
   function initOferta() {
     if (lerCupao()) return; // já emitido/dispensado
-    let mostrado = false;
-    const disparar = () => { if (!mostrado) { mostrado = true; mostrarOferta(); limpar(); } };
+    let disparado = false;
+    const disparar = () => { if (!disparado) { disparado = true; tentarMostrarOferta(); limpar(); } };
     const timer = setTimeout(disparar, 1200);
     const onInteract = () => disparar();
     function limpar() {
@@ -208,6 +219,19 @@
       </button>`;
   }
 
+  let csTimer;
+  let _csKey = null;
+  let _csPrevFocus = null;
+  function encerrarCrossSell() {
+    const pop = document.getElementById('cs-pop');
+    if (pop) pop.hidden = true;
+    clearTimeout(csTimer);
+    if (_csKey) { document.removeEventListener('keydown', _csKey); _csKey = null; }
+    if (_csPrevFocus && typeof _csPrevFocus.focus === 'function') {
+      try { _csPrevFocus.focus(); } catch (e) {}
+    }
+    _csPrevFocus = null;
+  }
   window.csAdd = function (id) {
     const item = produtos_map[id];
     if (!item) return;
@@ -215,9 +239,8 @@
     window.trackEvent('cross_sell_add', { item: item.nome });
     fecharCrossSell();
   };
-  window.fecharCrossSell = function () { document.getElementById('cs-pop').hidden = true; };
+  window.fecharCrossSell = function () { encerrarCrossSell(); };
 
-  let csTimer;
   window.aoAdicionar = function (item) {
     window.trackEvent('add_to_cart', { item: item && item.nome });
     if (!item) return;
@@ -227,9 +250,20 @@
       (item.rel && item.rel.length) ? 'Combina bem com…' : 'Também pode gostar';
     document.getElementById('cs-pop-row').innerHTML = recs.map(cartaoCS).join('');
     const pop = document.getElementById('cs-pop');
+    _csPrevFocus = document.activeElement;
     pop.hidden = false;
+    const foco = pop.querySelectorAll('button');
+    try { (pop.querySelector('.cs-pop-close') || foco[0]).focus(); } catch (e) {}
+    if (_csKey) document.removeEventListener('keydown', _csKey);
+    _csKey = function (e) {
+      if (e.key !== 'Tab' || !foco.length) return;
+      const first = foco[0], last = foco[foco.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', _csKey);
     clearTimeout(csTimer);
-    csTimer = setTimeout(() => { pop.hidden = true; }, 9000);
+    csTimer = setTimeout(() => { encerrarCrossSell(); }, 9000);
     renderCsCart();
   };
 

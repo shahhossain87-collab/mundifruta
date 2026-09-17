@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=42"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -101,7 +101,7 @@
 </div>
 
 <!-- ═══════════ NAV ═══════════ -->
-<nav id="main-nav">
+<nav id="main-nav" aria-label="Menu principal">
   <div class="nav-inner">
     <a href="#inicio" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
     <div class="nav-links">
@@ -135,10 +135,11 @@
   <a href="#encomenda"      onclick="toggleMenu()">Encomendar</a>
   <a href="#contacto"       onclick="toggleMenu()">Contacto</a>
 </div>
-<div class="homepage-search">
+<main id="conteudo">
+<div class="homepage-search" role="search">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
-    <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
+    <input class="search-input" id="search-input" type="text" name="q" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
+    <button class="search-clear" id="search-clear" type="button" onclick="limparPesquisa()">✕</button>
   </div>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
@@ -160,6 +161,7 @@
   <div class="section-hdr fi" style="margin-bottom:20px">
     <h2 class="section-title">Encontre o que Procura</h2>
     <p class="section-sub">Pesquise ou navegue por páginas. Clique na fotografia para ver os detalhes.</p>
+    <noscript><p class="no-results" style="display:block">Ative o JavaScript no browser para ver o catálogo e encomendar.</p></noscript>
   </div>
   <div class="product-container">
     <div class="cat-section visible" id="cat-frutas">
@@ -215,27 +217,27 @@
 <!-- ═══════════ CATEGORY QUICK ACCESS ═══════════ -->
 <div class="cat-quick">
   <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
-    <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
+    <img src="fotos/cabaz_frutas.jpeg?v=17" alt="Seleção de frutas frescas" width="400" height="220" loading="eager" fetchpriority="high" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
   </button>
   <button class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
-    <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
+    <img src="fotos/cabaz_legumes.jpeg?v=17" alt="Seleção apenas de legumes frescos" width="400" height="220" loading="eager" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
   <button class="cat-quick-btn" onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/cabaz_detox.jpeg" alt="Cabaz de frutas e legumes" loading="lazy" decoding="async"/>
+    <img src="fotos/cabaz_detox.jpeg?v=17" alt="Cabaz de frutas e legumes" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
   </button>
   <button class="cat-quick-btn" onclick="document.getElementById('promocoes').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
+    <img src="fotos/morangos.jpeg?v=17" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
   </button>
   <button class="cat-quick-btn" onclick="document.getElementById('verao').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/melancia.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
+    <img src="fotos/melancia.jpeg?v=17" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
   <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
+    <img src="fotos/cart-review.jpg?v=17" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
 </div>
@@ -437,22 +439,22 @@
   <div class="contact-grid">
     <div class="contact-card fi">
       <div class="contact-icon">📍</div>
-      <h4>Morada</h4>
+      <h3>Morada</h3>
       <p>Av de Portugal, Centro Cívico<br>Loja 24-C, 2790-129 Carnaxide</p>
     </div>
     <div class="contact-card fi">
       <div class="contact-icon">📞</div>
-      <h4>Telefone / WhatsApp</h4>
+      <h3>Telefone / WhatsApp</h3>
       <a href="tel:932699850">932 699 850</a>
     </div>
     <div class="contact-card fi">
       <div class="contact-icon">📧</div>
-      <h4>Email</h4>
+      <h3>Email</h3>
       <a href="mailto:shahhossain87@gmail.com">shahhossain87@gmail.com</a>
     </div>
     <div class="contact-card fi">
       <div class="contact-icon">🕗</div>
-      <h4>Horário</h4>
+      <h3>Horário</h3>
       <p>Segunda – Domingo<br>8:00 – 20:00</p>
     </div>
   </div>
@@ -463,6 +465,8 @@
     </iframe>
   </div>
 </div>
+
+</main>
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
@@ -501,7 +505,7 @@
 </div>
 
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
-<nav class="mobile-bar" id="mobile-bar">
+<nav class="mobile-bar" id="mobile-bar" aria-label="Atalhos">
   <button class="mb-item" onclick="irParaEncomenda()">
     <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
@@ -531,7 +535,7 @@
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
-<div class="cs-pop" id="cs-pop" hidden role="dialog" aria-label="Sugestões de produtos">
+<div class="cs-pop" id="cs-pop" hidden role="dialog" aria-modal="true" aria-label="Sugestões de produtos">
   <button class="cs-pop-close" type="button" onclick="fecharCrossSell()" aria-label="Fechar">✕</button>
   <div class="cs-pop-title" id="cs-pop-title">Também pode gostar</div>
   <div class="cs-row" id="cs-pop-row"></div>
@@ -579,7 +583,7 @@
 </div>
 
 <!-- ═══════════ CONSENTIMENTO (RGPD) ═══════════ -->
-<div class="consent" id="consent" hidden role="dialog" aria-label="Preferências de privacidade">
+<div class="consent" id="consent" hidden role="dialog" aria-modal="true" aria-label="Preferências de privacidade">
   <div class="consent-text">
     Usamos cookies essenciais para o funcionamento do site. Com a sua autorização, usamos também estatísticas e marketing (Google) para melhorar a sua experiência.
     <button class="consent-link" type="button" onclick="abrirPrivacidade()">Saber mais</button>
@@ -612,7 +616,7 @@
 <div class="product-modal" id="product-modal" onclick="if(event.target===this)fecharProduto()">
   <div class="product-modal-box" role="dialog" aria-modal="true" aria-labelledby="product-modal-name">
     <button class="product-modal-close" type="button" onclick="fecharProduto()" aria-label="Fechar">✕</button>
-    <div class="product-modal-photo"><img id="product-modal-image" src="" alt=""/></div>
+    <div class="product-modal-photo"><img id="product-modal-image" alt=""/></div>
     <div class="product-modal-info">
       <span class="product-modal-status" id="product-modal-status">Disponível hoje</span>
       <h3 id="product-modal-name"></h3>
@@ -646,7 +650,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=36"></script>
+<script src="js/extras.js?v=24"></script>
 </body>
 </html>
