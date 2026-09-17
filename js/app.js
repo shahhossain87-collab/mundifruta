@@ -134,7 +134,7 @@ const carrinho = {};
       card.dataset.ord = inicio + i;
       grid.appendChild(card);
     });
-    document.getElementById(`no-${cat}`).style.display = pagina.length ? 'none' : 'block';
+    atualizarMensagemVazia(cat, estado.filtrados.length === 0);
     renderPaginacao(cat);
     atualizarSugestaoLegumes(cat);
 
@@ -158,6 +158,29 @@ const carrinho = {};
       <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''}>← Anterior</button>
       <span>Página ${estado.pagina} de ${paginas}</span>
       <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''}>Seguinte →</button>`;
+  }
+
+  function atualizarMensagemVazia(cat, vazio) {
+    const el = document.getElementById(`no-${cat}`);
+    if (!el) return;
+    el.replaceChildren();
+    if (!vazio) {
+      el.style.display = 'none';
+      return;
+    }
+    el.style.display = 'block';
+    const termo = document.getElementById('search-input').value.trim();
+    if (!termo) {
+      el.textContent = 'Nenhum produto encontrado.';
+      return;
+    }
+    el.appendChild(document.createTextNode('Nenhum resultado para “' + termo + '”. '));
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'no-results-clear';
+    btn.textContent = 'Limpar pesquisa';
+    btn.addEventListener('click', limparPesquisa);
+    el.appendChild(btn);
   }
 
   function atualizarSugestaoLegumes(cat) {
@@ -564,7 +587,12 @@ const carrinho = {};
     }
   }
 
-  function limparPesquisa() { document.getElementById('search-input').value = ''; pesquisar(); }
+  function limparPesquisa() {
+    const input = document.getElementById('search-input');
+    input.value = '';
+    pesquisar();
+    input.focus();
+  }
 
   /* ══ CATEGORY ══ */
   function mostrarCategoria(cat, btn) {
@@ -576,6 +604,11 @@ const carrinho = {};
   }
 
   function abrirCatalogo(cat) {
+    const input = document.getElementById('search-input');
+    if (input && input.value) {
+      input.value = '';
+      pesquisar();
+    }
     mostrarCategoria(cat, document.getElementById(`tab-${cat}`));
     document.getElementById('produtos').scrollIntoView({ behavior:'smooth', block:'start' });
   }

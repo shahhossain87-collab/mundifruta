@@ -28,6 +28,17 @@
 
     html { scroll-behavior: smooth; }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
+    .noscript-banner {
+      margin:12px 16px 0;
+      padding:14px 18px;
+      background:#fff6e8;
+      color:var(--charcoal);
+      border:1px solid var(--cream-3);
+      border-radius:var(--r-md);
+      font-weight:600;
+      text-align:center;
+      line-height:1.45;
+    }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
     ::-webkit-scrollbar-thumb { background:var(--sage); border-radius:3px; }
@@ -88,6 +99,14 @@
       background:#fff; color:var(--peach);
       border-radius:var(--r-full); padding:1px 7px;
       font-size:0.72rem; font-weight:800;
+    }
+
+    @media (max-width:1100px) {
+      .nav-inner { padding:16px 20px; gap:10px; }
+      #main-nav.scrolled .nav-inner { padding:12px 20px; }
+      .logo { font-size:1.42rem; }
+      .nav-links a { padding:8px 10px; font-size:0.8rem; }
+      .nav-order { padding:9px 16px; font-size:0.8rem; }
     }
 
     .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:6px; background:none; border:none; }
@@ -801,6 +820,19 @@
     .qty-btn:hover { background:var(--forest); color:#fff; border-color:var(--forest); }
     .qty-num { font-weight:700; font-size:1rem; min-width:24px; text-align:center; }
     .no-results { text-align:center; padding:52px; color:var(--text-md); font-size:1rem; }
+    .no-results-clear {
+      display:block;
+      margin:14px auto 0;
+      padding:10px 18px;
+      min-height:44px;
+      border:1px solid var(--cream-3);
+      border-radius:var(--r-full);
+      background:var(--white);
+      color:var(--forest);
+      font:700 .86rem 'Poppins',sans-serif;
+      cursor:pointer;
+    }
+    .no-results-clear:hover { border-color:var(--sage); color:var(--forest-2); }
 
     /* ??????????????????????????????????????
        ORDER SECTION
@@ -817,7 +849,7 @@
       padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.12);
     }
     .order-items { list-style:none; }
-    .empty-msg { color:rgba(255,255,255,0.4); font-size:0.9rem; font-style:italic; }
+    .empty-msg { color:rgba(255,255,255,0.72); font-size:0.9rem; font-style:italic; }
     .order-item {
       display:flex; justify-content:space-between; align-items:center;
       padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.08);
@@ -871,7 +903,7 @@
       outline:none; transition:all 0.3s; margin-bottom:12px;
     }
     .order-form input::placeholder,
-    .order-form textarea::placeholder { color:rgba(255,255,255,0.38); }
+    .order-form textarea::placeholder { color:rgba(255,255,255,0.62); }
     .order-form input:focus,
     .order-form textarea:focus {
       border-color:var(--sage); background:rgba(255,255,255,0.13);
@@ -1591,9 +1623,12 @@
       .cat-quick-btn .cq-label {
         left:9px;
         right:9px;
-        bottom:9px;
-        font-size:.76rem;
-        line-height:1.15;
+        bottom:8px;
+        font-size:.7rem;
+        line-height:1.2;
+        white-space:normal;
+        align-items:flex-end;
+        gap:4px;
       }
       .cat-quick-btn .cq-label b {
         min-width:21px;
