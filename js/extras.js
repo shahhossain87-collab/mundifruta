@@ -249,6 +249,11 @@
   }
   window.aoAtualizarResumo = function () { atualizarProgresso(); renderCsCart(); };
 
+  function versaoFoto(f) {
+    if (!f || typeof IMG_VER !== 'string' || !IMG_VER) return f;
+    return f + (f.includes('?') ? '&' : '?') + IMG_VER;
+  }
+
   /* ═══════════ QUEM SOMOS ═══════════ */
   function renderQuemSomos() {
     const gallery = document.getElementById('qs-gallery');
@@ -261,7 +266,7 @@
         'fotos/mundifruta-photos-web/20260706_141845.jpg',
         'fotos/mundifruta-photos-web/20260706_120442.jpg',
       ];
-      gallery.innerHTML = fotos.map(f => `<div class="qs-photo"><img src="${f}" alt="Mundi Fruta — seleção diária" loading="lazy" decoding="async"/></div>`).join('');
+      gallery.innerHTML = fotos.map(f => `<div class="qs-photo"><img src="${versaoFoto(f)}" alt="Mundi Fruta — seleção diária" loading="lazy" decoding="async"/></div>`).join('');
     }
   }
 
@@ -277,7 +282,7 @@
       'fotos/mundifruta-photos-web/20260706_195742.jpg',
     ];
     wrap.innerHTML = fotos.map((f, i) =>
-      `<div class="hero-slide${i === 0 ? ' active' : ''}" style="background-image:url('${f}')"></div>`).join('');
+      `<div class="hero-slide${i === 0 ? ' active' : ''}" style="background-image:url('${versaoFoto(f)}')"></div>`).join('');
     const slides = [...wrap.children];
     if (slides.length < 2) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
