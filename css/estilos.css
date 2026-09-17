@@ -2025,3 +2025,74 @@
       .promo-save { font-size:.6rem; padding:1px 5px; }
       .catalog-resultbar { margin-bottom:10px; }
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       PHASE A — Loja com painel lateral (sidebar) de categorias/filtros,
+       inspirado na navegação de supermercado. Mobile: gaveta (drawer).
+       ═══════════════════════════════════════════════════════════ */
+    .shop-layout { display:grid; grid-template-columns:264px 1fr; gap:24px; align-items:start; }
+    .shop-main { min-width:0; }
+
+    .shop-sidebar {
+      position:sticky; top:calc(var(--announcement-height) + var(--nav-height) - 8px);
+      display:flex; flex-direction:column; gap:14px;
+      max-height:calc(100vh - 96px); overflow:auto; padding-right:2px;
+    }
+    .sb-panel { border:1px solid var(--line); border-radius:var(--r-lg); padding:14px 16px; background:#fff; box-shadow:var(--sh-soft); }
+    .sb-panel[hidden] { display:none; }
+    .sb-panel h3 { font:700 .72rem 'Poppins',sans-serif; text-transform:uppercase; letter-spacing:.6px; color:var(--text-md); margin-bottom:10px; }
+    .sb-field { display:flex; flex-direction:column; gap:6px; margin-top:12px; font:600 .78rem 'Poppins',sans-serif; color:var(--text-md); }
+    .sb-field .filter-select { width:100%; }
+
+    /* Categorias como lista vertical dentro do sidebar */
+    .shop-sidebar .cat-tabs { display:flex; flex-direction:column; gap:4px; width:100%; background:none; padding:0; margin:0; border-radius:0; overflow:visible; }
+    .shop-sidebar .cat-tab { width:100%; justify-content:space-between; border-radius:var(--r-md); padding:10px 12px; font-size:.9rem; white-space:normal; text-align:left; }
+    .shop-sidebar .cat-tab .cat-count { background:var(--cream-2); color:var(--text-md); }
+    .shop-sidebar .cat-tab.active .cat-count { background:rgba(255,255,255,.22); color:#fff; }
+
+    .shop-sidebar .subcat-row { display:flex; flex-wrap:wrap; gap:8px; }
+    .shop-sidebar .filter-chips { display:flex; flex-direction:column; align-items:stretch; gap:8px; }
+    .shop-sidebar .filter-chip { text-align:left; }
+
+    /* Pesquisa no topo da coluna principal */
+    .shop-main .search-row { position:relative; max-width:none; margin:0 0 14px; }
+    .shop-main .search-ico { position:absolute; left:16px; top:50%; transform:translateY(-50%); font-size:.92rem; opacity:.55; pointer-events:none; }
+    .shop-main .search-input {
+      width:100%; padding:13px 44px 13px 42px; border:1px solid var(--line-2); border-radius:var(--r-full);
+      font:500 .95rem 'Poppins',sans-serif; background:#fff; color:var(--text); box-shadow:none;
+      transition:border-color .18s ease, box-shadow .18s ease;
+    }
+    .shop-main .search-input:focus { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.18); }
+    .shop-main .search-clear { right:16px; }
+    .shop-main .price-sort {
+      border:1px solid var(--line-2); background:#fff; color:var(--text);
+      border-radius:var(--r-full); padding:9px 14px; font:600 .82rem 'Poppins',sans-serif; cursor:pointer;
+    }
+    .shop-main .price-sort:focus { outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
+    .shop-main .products-grid { grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:18px; }
+
+    /* Botão "Filtros", botão fechar e backdrop — só no mobile */
+    .filtbtn { display:none; align-items:center; gap:8px; border:1px solid var(--line-2); background:#fff; border-radius:var(--r-full); padding:10px 16px; font:700 .85rem 'Poppins',sans-serif; cursor:pointer; }
+    .sidebar-close { display:none; }
+    .shop-backdrop { display:none; }
+
+    @media (max-width:1024px) {
+      .shop-layout { grid-template-columns:216px 1fr; gap:18px; }
+      .shop-main .products-grid { grid-template-columns:repeat(auto-fill, minmax(166px,1fr)); gap:14px; }
+    }
+
+    /* Mobile/tablet: sidebar vira gaveta lateral (drawer) */
+    @media (max-width:900px) {
+      .shop-layout { grid-template-columns:1fr; gap:0; }
+      .shop-sidebar {
+        position:fixed; top:0; left:0; bottom:0; width:86%; max-width:340px; z-index:1200;
+        background:#fff; padding:18px 16px 28px; overflow:auto; max-height:none;
+        transform:translateX(-105%); transition:transform .28s ease; box-shadow:var(--sh-hover); border-radius:0; gap:14px;
+      }
+      .shop-sidebar.open { transform:translateX(0); }
+      .shop-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:1150; border:none; padding:0; }
+      .shop-backdrop[hidden] { display:none; }
+      .sidebar-close { display:block; margin:0 0 6px auto; background:none; border:none; font-size:1.35rem; line-height:1; cursor:pointer; color:var(--text); }
+      .filtbtn { display:inline-flex; }
+      body.filtros-open { overflow:hidden; }
+    }

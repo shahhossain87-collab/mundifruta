@@ -277,9 +277,11 @@ const carrinho = {};
   function renderSubcats() {
     const row = document.getElementById('subcat-row');
     if (!row) return;
+    const painel = document.getElementById('subcat-panel');
     const subs = SUBCATS[catalogo.categoria];
-    if (!subs) { row.innerHTML = ''; row.hidden = true; return; }
+    if (!subs) { row.innerHTML = ''; row.hidden = true; if (painel) painel.hidden = true; return; }
     row.hidden = false;
+    if (painel) painel.hidden = false;
     const base = itensDaCategoria();
     const chips = [`<button class="subcat-chip${catalogo.subcat ? '' : ' active'}" type="button" aria-pressed="${catalogo.subcat ? 'false' : 'true'}" onclick="selecionarSubcat('')">Todas</button>`];
     subs.forEach(s => {
@@ -784,6 +786,7 @@ const carrinho = {};
     if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
     renderSubcats();
     aplicarCatalogo();
+    fecharFiltros(); // no mobile, escolher categoria fecha o painel de filtros
   }
 
   function abrirCatalogo(cat) {
@@ -793,8 +796,27 @@ const carrinho = {};
 
   // Cabazes têm secção própria — o separador leva o cliente até lá.
   function abrirCabazes() {
+    fecharFiltros();
     const el = document.getElementById('cabazes');
     if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  /* ══ FILTROS: painel lateral / drawer no mobile ══ */
+  function toggleFiltros() {
+    const sb = document.getElementById('shop-sidebar');
+    const bd = document.getElementById('shop-backdrop');
+    if (!sb) return;
+    const abrir = !sb.classList.contains('open');
+    sb.classList.toggle('open', abrir);
+    if (bd) bd.hidden = !abrir;
+    document.body.classList.toggle('filtros-open', abrir);
+  }
+  function fecharFiltros() {
+    const sb = document.getElementById('shop-sidebar');
+    const bd = document.getElementById('shop-backdrop');
+    if (sb) sb.classList.remove('open');
+    if (bd) bd.hidden = true;
+    document.body.classList.remove('filtros-open');
   }
 
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
@@ -972,6 +994,7 @@ const carrinho = {};
     if (e.key !== 'Escape') return;
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
+    const sbEl = document.getElementById('shop-sidebar'); if (sbEl && sbEl.classList.contains('open')) fecharFiltros();
     const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
     const off = document.getElementById('offer-pop'); if (off && !off.hidden && window.fecharOferta) window.fecharOferta();
     const priv = document.getElementById('privacy-modal'); if (priv && !priv.hidden) priv.hidden = true;
