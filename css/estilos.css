@@ -182,6 +182,9 @@
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
       .hero-slide { animation:none; transition:none; }
+      .product-card.visible { animation:none; opacity:1; transform:none; }
+      .step-card:hover, .product-card:hover { transform:none; }
+      .feature-photo:hover img, .cat-quick-btn:hover img, .qs-photo:hover img { transform:none; }
     }
 
     /* Carrosséis deslizantes (linhas de destaque) */
@@ -614,7 +617,7 @@
       font-family:'Playfair Display',serif; font-size:5rem; font-weight:900;
       color:var(--cream-2); position:absolute; top:14px; right:18px; line-height:1;
     }
-    .step-icon { font-size:2.8rem; margin-bottom:16px; position:relative; z-index:1; }
+    .step-icon { font-size:2.8rem; margin-bottom:16px; position:relative; z-index:1; line-height:1; }
     .step-title { font-weight:700; font-size:1.05rem; color:var(--forest); margin-bottom:12px; }
     .step-text  { color:var(--text-md); font-size:0.88rem; line-height:1.75; }
 
@@ -1318,9 +1321,9 @@
     .feature-buy { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .feature-buy strong { color:var(--forest); font-family:'Playfair Display',serif; font-size:.98rem; }
     .feature-add {
-      min-height:34px;
-      padding:0 12px;
-      height:34px;
+      min-height:44px;
+      padding:0 14px;
+      height:auto;
       border:0;
       border-radius:18px;
       background:var(--forest);

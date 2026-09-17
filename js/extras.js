@@ -215,9 +215,15 @@
     window.trackEvent('cross_sell_add', { item: item.nome });
     fecharCrossSell();
   };
-  window.fecharCrossSell = function () { document.getElementById('cs-pop').hidden = true; };
 
   let csTimer;
+  window.fecharCrossSell = function () {
+    const pop = document.getElementById('cs-pop');
+    if (pop) pop.hidden = true;
+    clearTimeout(csTimer);
+    csTimer = null;
+  };
+
   window.aoAdicionar = function (item) {
     window.trackEvent('add_to_cart', { item: item && item.nome });
     if (!item) return;
@@ -229,7 +235,7 @@
     const pop = document.getElementById('cs-pop');
     pop.hidden = false;
     clearTimeout(csTimer);
-    csTimer = setTimeout(() => { pop.hidden = true; }, 9000);
+    csTimer = setTimeout(fecharCrossSell, 9000);
     renderCsCart();
   };
 

@@ -9,6 +9,7 @@
 
   <!-- Favicon (emoji) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍓</text></svg>"/>
+  <link rel="apple-touch-icon" href="fotos/cabaz_mix.jpeg"/>
 
   <!-- Open Graph (WhatsApp / Facebook partilha) -->
   <meta property="og:type" content="business.business"/>
@@ -28,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=43"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -125,7 +126,7 @@
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
 <div class="mobile-menu" id="mobile-menu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <button class="mobile-close" type="button" onclick="toggleMenu()" aria-label="Fechar menu">✕</button>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
   <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
@@ -166,7 +167,7 @@
       <div class="products-grid" id="grid-frutas"></div>
       <div class="no-results" id="no-frutas" style="display:none">Nenhum produto encontrado.</div>
       <div class="catalog-pagination" id="pagination-frutas"></div>
-      <button class="veg-suggestion" onclick="abrirCatalogo('legumes')">Continuar para Legumes Frescos →</button>
+      <button class="veg-suggestion" type="button" onclick="abrirCatalogo('legumes')">Continuar para Legumes Frescos →</button>
     </div>
     <div class="cat-section" id="cat-legumes">
       <div class="products-grid" id="grid-legumes"></div>
@@ -235,7 +236,7 @@
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
   <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
+    <img src="fotos/cart-review.jpg" alt="Ir para o carrinho" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
 </div>
@@ -310,32 +311,32 @@
   </div>
   <div class="steps-grid">
     <div class="step-card fi">
-      <div class="step-num">1</div>
-      <div class="step-icon">1</div>
+      <div class="step-num" aria-hidden="true">1</div>
+      <div class="step-icon" aria-hidden="true">🛒</div>
       <div class="step-title">Escolha os Produtos</div>
       <div class="step-text">Veja os destaques ou pesquise no catálogo.</div>
     </div>
     <div class="step-card fi">
-      <div class="step-num">2</div>
-      <div class="step-icon">2</div>
+      <div class="step-num" aria-hidden="true">2</div>
+      <div class="step-icon" aria-hidden="true">➕</div>
       <div class="step-title">Adicione ao Carrinho</div>
       <div class="step-text">Escolha a quantidade e adicione os produtos.</div>
     </div>
     <div class="step-card fi">
-      <div class="step-num">3</div>
-      <div class="step-icon">3</div>
+      <div class="step-num" aria-hidden="true">3</div>
+      <div class="step-icon" aria-hidden="true">💶</div>
       <div class="step-title">Confirme o Subtotal</div>
       <div class="step-text">Reveja quantidades, preços e o total estimado.</div>
     </div>
     <div class="step-card fi">
-      <div class="step-num">4</div>
-      <div class="step-icon">4</div>
+      <div class="step-num" aria-hidden="true">4</div>
+      <div class="step-icon" aria-hidden="true">📱</div>
       <div class="step-title">Envie por WhatsApp</div>
       <div class="step-text">Preencha os seus dados e envie a encomenda.</div>
     </div>
     <div class="step-card fi">
-      <div class="step-num">5</div>
-      <div class="step-icon">5</div>
+      <div class="step-num" aria-hidden="true">5</div>
+      <div class="step-icon" aria-hidden="true">🛍️</div>
       <div class="step-title">Levante na Loja</div>
       <div class="step-text">Aguarde confirmação e levante em Carnaxide.</div>
     </div>
@@ -459,7 +460,7 @@
   <div class="map-wrap fi">
     <iframe
       src="https://maps.google.com/maps?q=Mundifruta-Carnaxide,%20Av%20de%20Portugal,%20Centro%20C%C3%ADvico,%20loja%2024-C,%202790-129%20Carnaxide&hl=pt&z=17&output=embed"
-      allowfullscreen="" loading="lazy" title="Localização MUNDIFRUTA">
+      width="600" height="380" allowfullscreen="" loading="lazy" title="Localização MUNDIFRUTA">
     </iframe>
   </div>
 </div>
@@ -527,7 +528,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo" aria-label="Voltar ao topo">▲</button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -632,7 +633,7 @@
 <!-- ═══════════ CABAZ MODAL ═══════════ -->
 <div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()">
   <div class="cabaz-modal-box">
-    <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
+    <button class="cabaz-modal-close" type="button" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
     <div class="cabaz-modal-head">
       <span class="eyebrow">Composição do Cabaz</span>
       <h3 id="cabaz-modal-title">Cabaz</h3>
@@ -641,12 +642,12 @@
     <p class="cabaz-modal-sub">Este cabaz é composto pelos seguintes itens:</p>
     <ul class="cabaz-modal-list" id="cabaz-modal-list"></ul>
     <p class="cabaz-modal-nota" id="cabaz-modal-nota" style="display:none"></p>
-    <button class="btn-wa cabaz-modal-add" id="cabaz-modal-add">＋</button>
+    <button class="btn-wa cabaz-modal-add" id="cabaz-modal-add" type="button">＋</button>
   </div>
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=37"></script>
+<script src="js/extras.js?v=25"></script>
 </body>
 </html>
