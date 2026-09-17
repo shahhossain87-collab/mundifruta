@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# Prototype / source files that ship with the repo but are not the storefront.
+Disallow: /photos.pdf
+Disallow: /mundifruta-upgraded.html
+Disallow: /mundifruta-offer-
+Disallow: /melancia_final.png
+Disallow: /melancia_v1.png
+Disallow: /WhatsApp
+
 Sitemap: https://mundifruta.com/sitemap.xml
