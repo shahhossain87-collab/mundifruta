@@ -28,6 +28,7 @@
 
     html { scroll-behavior: smooth; }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
+    body.menu-open { overflow:hidden; }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
     ::-webkit-scrollbar-thumb { background:var(--sage); border-radius:3px; }
@@ -95,20 +96,26 @@
     #main-nav.scrolled .hamburger span { background:var(--forest); }
 
     .mobile-menu {
-      display:none; position:fixed; inset:0; z-index:999;
+      display:none; position:fixed; inset:0; z-index:2100;
       background:var(--forest);
       flex-direction:column; align-items:center; justify-content:center; gap:32px;
+      padding: max(72px, env(safe-area-inset-top, 0px)) 24px max(24px, env(safe-area-inset-bottom, 0px));
     }
     .mobile-menu.open { display:flex; }
     .mobile-menu a {
       color:#fff; text-decoration:none;
       font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700;
       transition:color 0.2s;
+      min-height:44px; display:flex; align-items:center;
     }
     .mobile-menu a:hover { color:var(--peach); }
     .mobile-close {
-      position:absolute; top:24px; right:28px;
+      position:absolute;
+      top: max(12px, env(safe-area-inset-top, 0px));
+      right: max(12px, env(safe-area-inset-right, 0px));
+      width:44px; height:44px;
       background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
     }
 
     /* ??????????????????????????????????????

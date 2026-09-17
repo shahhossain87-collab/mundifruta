@@ -430,6 +430,7 @@ const carrinho = {};
     let saved; try { saved = JSON.parse(localStorage.getItem('mf_cart') || '{}'); } catch (e) { saved = {}; }
     Object.entries(saved).forEach(([id, qtd]) => {
       const item = produtos_map[id]; if (!item) return;
+      if (!produtoDisponivel(item)) return;
       carrinho[id] = { ...item, qtd: Math.max(1, qtd|0) };
       atualizarEstadoProduto(id);
     });
@@ -635,7 +636,7 @@ const carrinho = {};
     e.preventDefault();
     const t = obterTextoEncomenda(); if (!t) return;
     if (window.trackEvent) window.trackEvent('whatsapp_order_click', { value: totaisCarrinho().centimos / 100, currency: 'EUR' });
-    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank');
+    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank', 'noopener,noreferrer');
   }
 
   function enviarEmail() {
@@ -644,7 +645,47 @@ const carrinho = {};
   }
 
   /* ══ UI ══ */
-  function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  let menuFocoAnterior = null;
+  let menuKeyHandler = null;
+  function menuFocaveis() {
+    const menu = document.getElementById('mobile-menu');
+    if (!menu) return [];
+    return [...menu.querySelectorAll('a, button')].filter(el => !el.disabled);
+  }
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('hamburger');
+    if (!menu) return;
+    const abrir = !menu.classList.contains('open');
+    menu.classList.toggle('open', abrir);
+    menu.setAttribute('aria-hidden', abrir ? 'false' : 'true');
+    if (btn) {
+      btn.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+      btn.setAttribute('aria-label', abrir ? 'Fechar menu' : 'Menu');
+    }
+    document.body.classList.toggle('menu-open', abrir);
+    if (menuKeyHandler) {
+      document.removeEventListener('keydown', menuKeyHandler);
+      menuKeyHandler = null;
+    }
+    if (abrir) {
+      menuFocoAnterior = document.activeElement;
+      const foco = menu.querySelector('.mobile-close') || menuFocaveis()[0];
+      setTimeout(() => { try { if (foco) foco.focus(); } catch (e) {} }, 30);
+      menuKeyHandler = function (e) {
+        if (e.key !== 'Tab') return;
+        const itens = menuFocaveis();
+        if (!itens.length) return;
+        const first = itens[0], last = itens[itens.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      };
+      document.addEventListener('keydown', menuKeyHandler);
+    } else if (menuFocoAnterior && typeof menuFocoAnterior.focus === 'function') {
+      try { menuFocoAnterior.focus(); } catch (e) {}
+      menuFocoAnterior = null;
+    }
+  }
 
   function promoverCatalogo() {
     const atalhos = document.querySelector('.cat-quick');
@@ -748,6 +789,8 @@ const carrinho = {};
 
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
+    const menu = document.getElementById('mobile-menu');
+    if (menu && menu.classList.contains('open')) { toggleMenu(); return; }
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
     const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
