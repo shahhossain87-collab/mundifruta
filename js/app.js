@@ -138,7 +138,8 @@ const carrinho = {};
           ${item.peso ? `<span class="product-peso">${item.peso}</span>` : ''}
           ${item.origem ? `<span class="product-origem">🌍 ${item.origem}</span>` : ''}
         </div>
-        <div class="product-price">${rotuloPreco(item)}</div>
+        <div class="product-price">${rotuloPreco(item)}${pctPromo(item) ? ` <span class="promo-save">−${pctPromo(item)}%</span>` : ''}</div>
+        ${precoSecundario(item) ? `<div class="product-unit">${precoSecundario(item)}</div>` : ''}
         ${item.baseLinha ? `<div class="product-base">${item.baseLinha}</div>` : ''}
         <div class="card-actions">
           ${disponivel
@@ -190,6 +191,7 @@ const carrinho = {};
 
     document.getElementById('no-catalog').style.display = lista.length ? 'none' : 'block';
     renderContagem(lista.length);
+    renderFiltrosAtivos();
     renderPaginacao(paginas);
 
     const obs = new IntersectionObserver((entries) => {
@@ -204,10 +206,54 @@ const carrinho = {};
   }
 
   function renderContagem(total) {
-    const el = document.getElementById('catalog-count');
-    if (!el) return;
     const nome = (CATEGORIAS[catalogo.categoria] || {}).label || '';
-    el.textContent = total === 1 ? `1 produto em ${nome}` : `${total} produtos em ${nome}`;
+    const el = document.getElementById('catalog-count');
+    if (el) el.textContent = total === 1 ? `1 produto em ${nome}` : `${total} produtos em ${nome}`;
+    const crumb = document.getElementById('crumb-cat');
+    if (crumb) crumb.textContent = nome;
+  }
+
+  // Tags de filtros ativos (removíveis) — estilo "filtros aplicados" de supermercado.
+  function renderFiltrosAtivos() {
+    const box = document.getElementById('active-filters');
+    if (!box) return;
+    const tags = [];
+    const termo = (document.getElementById('search-input').value || '').trim();
+    if (termo) tags.push({ t:'busca', txt:`“${termo}”` });
+    if (catalogo.subcat) {
+      const s = (SUBCATS[catalogo.categoria] || []).find(x => x.key === catalogo.subcat);
+      if (s) tags.push({ t:'subcat', txt:s.label });
+    }
+    if (catalogo.filtros.promo) tags.push({ t:'promo', txt:'Em promoção' });
+    if (catalogo.filtros.disp)  tags.push({ t:'disp',  txt:'Disponíveis' });
+    if (catalogo.filtros.preco) {
+      const rot = { '0-2':'Até 2 €', '2-5':'2 € – 5 €', '5-999':'Mais de 5 €' }[catalogo.filtros.preco] || 'Preço';
+      tags.push({ t:'preco', txt:rot });
+    }
+    if (!tags.length) { box.innerHTML = ''; box.hidden = true; return; }
+    box.hidden = false;
+    box.innerHTML = tags.map(tag =>
+      `<button class="filter-tag" type="button" onclick="removerFiltro('${tag.t}')" aria-label="Remover filtro ${tag.txt}">${tag.txt} <span aria-hidden="true">✕</span></button>`
+    ).join('') + `<button class="filter-tag clear-all" type="button" onclick="limparTudo()">Limpar tudo</button>`;
+  }
+
+  function removerFiltro(tipo) {
+    if (tipo === 'busca') {
+      document.getElementById('search-input').value = '';
+      document.getElementById('search-clear').classList.remove('visible');
+    } else if (tipo === 'subcat') {
+      catalogo.subcat = '';
+      renderSubcats();
+    } else if (tipo === 'promo' || tipo === 'disp') {
+      catalogo.filtros[tipo] = false;
+      const b = document.getElementById('filter-' + tipo);
+      if (b) { b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); }
+    } else if (tipo === 'preco') {
+      document.getElementById('filter-preco').value = '';
+      catalogo.filtros.preco = '';
+    }
+    catalogo.pagina = 1;
+    aplicarCatalogo();
   }
 
   function renderPaginacao(paginas) {
@@ -433,6 +479,38 @@ const carrinho = {};
       return `<span class="preco-antigo">${item.precoNormal}${suf}</span> <span class="preco-promo">${item.preco}${suf}</span>`;
     }
     return `${item.preco || 'A consultar'}${suf}`;
+  }
+
+  // Percentagem de desconto de uma promoção (inspiração Continente: indicador de poupança).
+  function pctPromo(item) {
+    if (!item || !item.promo || !item.precoNormal) return 0;
+    const antigo = precoCentimos(item.precoNormal);
+    const atual = precoCentimos(item.preco);
+    if (!antigo || !atual || antigo <= atual) return 0;
+    return Math.round((1 - atual / antigo) * 100);
+  }
+
+  // Linha de preço secundária (preço por unidade de medida) — estilo supermercado:
+  //   • peso médio  → estimativa por unidade (ex: "≈ 2,97 € / unidade")
+  //   • embalagem g → preço por kg (ex: "3,98 € / kg")
+  function precoSecundario(item) {
+    if (!item || !produtoDisponivel(item)) return '';
+    if (produtoComPesoMedio(item)) {
+      const c = Math.round(item.pricePerKg * item.averageWeightKg * 100);
+      return `≈ ${formatarCentimos(c)} / unidade`;
+    }
+    const base = precoCentimos(item.preco);
+    if (base === null) return '';
+    const p = String(item.peso || '');
+    if (/^\s*1\s*kg\s*$/i.test(p)) return '';          // o preço já é por kg
+    if (/molho|unidade|^\s*\d*\s*un\b/i.test(p)) return ''; // sem peso claro para calcular /kg
+    const mg = p.match(/(\d+(?:[.,]\d+)?)\s*g\b/i);
+    const mkg = p.match(/(\d+(?:[.,]\d+)?)\s*kg\b/i);
+    let gramas = null;
+    if (mg) gramas = parseFloat(mg[1].replace(',', '.'));
+    else if (mkg) gramas = parseFloat(mkg[1].replace(',', '.')) * 1000;
+    if (!gramas || gramas <= 0) return '';
+    return `${formatarCentimos(Math.round(base / (gramas / 1000)))} / kg`;
   }
 
   function totaisCarrinho() {

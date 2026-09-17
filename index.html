@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=39"/>
+  <link rel="stylesheet" href="css/estilos.css?v=40"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -143,6 +143,11 @@
     <p class="section-sub">Escolha uma categoria, filtre e adicione ao carrinho. Levantamento na loja.</p>
   </div>
   <div class="product-container">
+    <nav class="shop-crumbs" aria-label="Navegação da loja">
+      <span>Início</span><span class="crumb-sep" aria-hidden="true">›</span>
+      <span>Loja</span><span class="crumb-sep" aria-hidden="true">›</span>
+      <b id="crumb-cat">Frutas</b>
+    </nav>
     <div class="catalog-toolbar" id="catalog-toolbar">
       <div class="search-row">
         <span class="search-ico" aria-hidden="true">🔍</span>
@@ -184,7 +189,10 @@
       </div>
     </div>
 
-    <div class="catalog-count" id="catalog-count" aria-live="polite"></div>
+    <div class="catalog-resultbar">
+      <div class="catalog-count" id="catalog-count" aria-live="polite"></div>
+      <div class="active-filters" id="active-filters" role="group" aria-label="Filtros ativos"></div>
+    </div>
     <div class="products-grid" id="grid-catalog"></div>
     <div class="no-results" id="no-catalog" style="display:none">
       Nenhum produto encontrado.
@@ -664,7 +672,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=33"></script>
+<script src="js/app.js?v=34"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>

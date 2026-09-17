@@ -1980,7 +1980,48 @@
     .cat-tab:focus-visible, .subcat-chip:focus-visible, .filter-chip:focus-visible,
     .filter-select:focus-visible, .price-sort:focus-visible, .add-btn:focus-visible,
     .qty-btn:focus-visible, .catalog-pagination button:focus-visible, .link-btn:focus-visible,
-    .photo-wrap:focus-visible {
+    .filter-tag:focus-visible, .photo-wrap:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
+    }
+
+    /* ── Breadcrumb da loja ── */
+    .shop-crumbs {
+      display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+      color:var(--text-md); font-size:.8rem; font-weight:600; margin:0 2px 12px;
+    }
+    .shop-crumbs .crumb-sep { opacity:.5; }
+    .shop-crumbs b { color:var(--forest); }
+
+    /* ── Barra de resultados + filtros ativos (estilo "filtros aplicados") ── */
+    .catalog-resultbar {
+      display:flex; align-items:center; justify-content:space-between;
+      gap:8px 16px; flex-wrap:wrap; margin:0 2px 14px;
+    }
+    .catalog-resultbar .catalog-count { margin:0; }
+    .active-filters { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .active-filters[hidden] { display:none; }
+    .filter-tag {
+      display:inline-flex; align-items:center; gap:7px;
+      border:1px solid var(--line-2); background:var(--cream-2); color:var(--forest);
+      border-radius:var(--r-full); padding:6px 12px; font:600 .78rem 'Poppins',sans-serif;
+      cursor:pointer; transition:background .18s, border-color .18s;
+    }
+    .filter-tag:hover { border-color:var(--sage); }
+    .filter-tag span { font-size:.72rem; opacity:.7; }
+    .filter-tag.clear-all { background:none; color:var(--text-md); text-decoration:underline; border-color:transparent; }
+
+    /* ── Indicador de poupança na promoção ── */
+    .promo-save {
+      display:inline-block; margin-left:6px; vertical-align:middle;
+      background:var(--cherry); color:#fff; font:800 .68rem 'Poppins',sans-serif;
+      padding:2px 7px; border-radius:var(--r-full); letter-spacing:.2px;
+    }
+
+    /* ── Preço por unidade de medida (linha secundária) ── */
+    .product-unit { font-size:.72rem; color:var(--text-md); font-weight:600; margin:-4px 0 10px; }
+    @media (max-width:640px) {
+      .product-unit { font-size:.66rem; margin:-2px 0 8px; }
+      .promo-save { font-size:.6rem; padding:1px 5px; }
+      .catalog-resultbar { margin-bottom:10px; }
     }
