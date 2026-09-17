@@ -37,6 +37,8 @@
     ?????????????????????????????????????? */
     #main-nav {
       position:fixed; top:var(--announcement-height); left:0; right:0; z-index:1000;
+      /* Opaque forest at rest: logo/links are white, and first paint sits on cream (search), not the hero. */
+      background: var(--forest);
       transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
     }
     #main-nav.scrolled {
@@ -182,6 +184,10 @@
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
       .hero-slide { animation:none; transition:none; }
+    }
+    body.mf-motion-paused .announcement-track,
+    body.mf-motion-paused .hero-slide {
+      animation-play-state: paused;
     }
 
     /* Carrosséis deslizantes (linhas de destaque) */

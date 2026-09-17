@@ -215,9 +215,13 @@
     window.trackEvent('cross_sell_add', { item: item.nome });
     fecharCrossSell();
   };
-  window.fecharCrossSell = function () { document.getElementById('cs-pop').hidden = true; };
-
   let csTimer;
+  window.fecharCrossSell = function () {
+    clearTimeout(csTimer);
+    csTimer = null;
+    const pop = document.getElementById('cs-pop');
+    if (pop) pop.hidden = true;
+  };
   window.aoAdicionar = function (item) {
     window.trackEvent('add_to_cart', { item: item && item.nome });
     if (!item) return;
@@ -265,6 +269,16 @@
     }
   }
 
+  /* ═══════════ MOTION PAUSE (tab hidden) ═══════════ */
+  const aoPausarMotion = [];
+  function initMotionPause() {
+    document.addEventListener('visibilitychange', () => {
+      const paused = document.hidden;
+      document.body.classList.toggle('mf-motion-paused', paused);
+      aoPausarMotion.forEach(fn => fn(paused));
+    });
+  }
+
   /* ═══════════ HERO SLIDESHOW ═══════════ */
   function initHeroSlides() {
     const wrap = document.getElementById('hero-slides');
@@ -276,17 +290,31 @@
       'fotos/mundifruta-photos-web/20260706_120442.jpg',
       'fotos/mundifruta-photos-web/20260706_195742.jpg',
     ];
+    function aplicarFoto(el, src) {
+      if (!el || !src || el.dataset.loaded === '1') return;
+      el.style.backgroundImage = `url("${src}")`;
+      el.dataset.loaded = '1';
+    }
     wrap.innerHTML = fotos.map((f, i) =>
-      `<div class="hero-slide${i === 0 ? ' active' : ''}" style="background-image:url('${f}')"></div>`).join('');
+      `<div class="hero-slide${i === 0 ? ' active' : ''}" data-src="${f}"></div>`).join('');
     const slides = [...wrap.children];
+    aplicarFoto(slides[0], fotos[0]);
+    aplicarFoto(slides[1], fotos[1]);
     if (slides.length < 2) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let i = 0;
-    setInterval(() => {
+    let timer = setInterval(avancar, 5000);
+    function avancar() {
       slides[i].classList.remove('active');
       i = (i + 1) % slides.length;
+      aplicarFoto(slides[i], fotos[i]);
+      aplicarFoto(slides[(i + 1) % slides.length], fotos[(i + 1) % slides.length]);
       slides[i].classList.add('active');
-    }, 5000);
+    }
+    aoPausarMotion.push(paused => {
+      if (paused) { clearInterval(timer); timer = null; }
+      else if (!timer) timer = setInterval(avancar, 5000);
+    });
   }
 
   /* ═══════════ CARROSSÉIS (linhas de destaque) ═══════════ */
@@ -324,6 +352,7 @@
       wrap.addEventListener('pointerleave', retomar);
       grid.addEventListener('pointerdown', parar);
       grid.addEventListener('touchstart', parar, { passive: true });
+      aoPausarMotion.push(paused => paused ? parar() : retomar());
     });
   }
 
@@ -334,6 +363,7 @@
     renderQuemSomos();
     initHeroSlides();
     initCarousels();
+    initMotionPause();
     initConsent();
     initOferta();
     atualizarProgresso();
