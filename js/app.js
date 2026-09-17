@@ -26,12 +26,15 @@ const carrinho = {};
     ],
   };
 
+  const ehEpoca = item => /ver(ã|a)o/i.test(String(item.badge || ''));
+
   // Categorias do catálogo (Cabazes mantém a sua própria secção).
   const CATEGORIAS = {
-    frutas:    { label:'Frutas',        fonte:() => produtos.frutas },
-    legumes:   { label:'Legumes',       fonte:() => produtos.legumes.filter(i => !ehErva(i)) },
-    ervas:     { label:'Ervas frescas', fonte:() => produtos.legumes.filter(ehErva) },
-    promocoes: { label:'Promoções',     fonte:() => [...produtos.frutas, ...produtos.legumes].filter(ehPromo) },
+    frutas:    { label:'Frutas',          fonte:() => produtos.frutas },
+    legumes:   { label:'Legumes',         fonte:() => produtos.legumes.filter(i => !ehErva(i)) },
+    ervas:     { label:'Ervas frescas',   fonte:() => produtos.legumes.filter(ehErva) },
+    epoca:     { label:'Frutas da Época', fonte:() => produtos.frutas.filter(ehEpoca) },
+    promocoes: { label:'Promoções',       fonte:() => [...produtos.frutas, ...produtos.legumes].filter(ehPromo) },
   };
 
   const catalogo = {
@@ -744,7 +747,7 @@ const carrinho = {};
     // Se a categoria atual não tem resultados, salta para outra categoria que tenha.
     if (q && catalogo.filtrados.length === 0) {
       const termo = q.toLocaleLowerCase('pt');
-      for (const cat of ['frutas','legumes','ervas','promocoes']) {
+      for (const cat of ['frutas','legumes','ervas','epoca','promocoes']) {
         if (cat === catalogo.categoria) continue;
         const tem = CATEGORIAS[cat].fonte().some(i => i.nome.toLocaleLowerCase('pt').includes(termo));
         if (tem) { mostrarCategoria(cat, document.getElementById(`tab-${cat}`)); break; }
@@ -899,12 +902,13 @@ const carrinho = {};
       ervas: nCat('ervas'),
       promocoes: nCat('promocoes'),
       cabazes: produtos.cabazes.length,
-      epoca: produtos.frutas.filter(item => /verão|verao/i.test(String(item.badge || ''))).length
+      epoca: nCat('epoca')
     };
     const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     set('count-frutas', contadores.frutas);
     set('count-legumes', contadores.legumes);
     set('count-ervas', contadores.ervas);
+    set('count-epoca', contadores.epoca);
     set('count-promocoes', contadores.promocoes);
     set('count-cabazes', contadores.cabazes);
     document.querySelectorAll('[data-count-label]').forEach(label => {
