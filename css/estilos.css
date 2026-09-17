@@ -26,7 +26,10 @@
       --nav-height: 78px;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--announcement-height) + var(--nav-height) + 8px);
+    }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
@@ -181,6 +184,7 @@
     .hero::before { z-index:1; }
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior: auto; }
       .hero-slide { animation:none; transition:none; }
     }
 
@@ -409,7 +413,7 @@
       }
       /* replace the sliding social panel with the bottom bar on mobile */
       .social-panel { display:none; }
-      .float-cart { top:calc(var(--announcement-height) + 8px); right:14px; padding:6px 10px; gap:6px; font-size:.72rem; }
+      .float-cart { top:calc(var(--announcement-height) + 8px); right:58px; padding:6px 10px; gap:6px; font-size:.72rem; }
       .scroll-top { bottom:78px; }
       body { padding-bottom:62px; }
     }
@@ -432,6 +436,10 @@
     }
     .float-cart.pop { animation:fc-pop 0.42s ease; }
     @keyframes fc-pop { 0%{transform:scale(1)} 40%{transform:scale(1.18)} 100%{transform:scale(1)} }
+    /* Hamburger is visible at ≤768px; keep the cart chip to its left (nav padding is still 36px here). */
+    @media (max-width:768px) {
+      .float-cart { top:calc(var(--announcement-height) + 8px); right:90px; }
+    }
     @media (max-width:480px){ .float-cart { padding:10px 12px; gap:7px; font-size:.72rem; } }
 
     .order-steps-mini {
@@ -664,10 +672,23 @@
       box-shadow:0 14px 32px rgba(196,30,58,0.12);
     }
     .search-clear {
-      position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      position:absolute; right:8px; top:50%; transform:translateY(-50%);
+      min-width:44px; min-height:44px;
       background:none; border:none; cursor:pointer; color:var(--text-md); font-size:0.96rem; display:none;
     }
     .search-clear.visible { display:block; }
+    .search-results-hint {
+      max-width:600px; margin:-2px auto 10px; text-align:center;
+    }
+    .search-results-hint[hidden] { display:none; }
+    .search-jump {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height:40px; padding:6px 16px; border:0; border-radius:var(--r-full);
+      background:var(--forest); color:#fff; cursor:pointer;
+      font:700 0.82rem 'Poppins',sans-serif;
+    }
+    .search-jump:hover { background:var(--forest-2); }
+    .search-results-empty { color:var(--text-md); font-size:0.86rem; font-weight:600; }
 
     .cat-tabs {
       display:flex; gap:8px; margin-bottom:44px;
@@ -878,6 +899,17 @@
       box-shadow:0 0 0 3px rgba(82,183,136,0.2);
     }
     .order-form textarea { height:90px; resize:none; }
+    .order-form-error {
+      margin-bottom:12px; padding:10px 14px;
+      background:rgba(196,30,58,0.2); border:1px solid rgba(196,30,58,0.45);
+      border-radius:var(--r-md); color:#fff; font-size:0.86rem; font-weight:600; line-height:1.45;
+    }
+    .order-form-error[hidden] { display:none; }
+    .order-form-error .order-error-link {
+      display:inline; margin-left:4px; padding:0; border:0; background:none;
+      color:var(--sage-lt); font:700 0.86rem 'Poppins',sans-serif;
+      text-decoration:underline; cursor:pointer;
+    }
     /* Optional fields tucked behind a quiet reveal link — keeps the form a fast 2-field ask */
     .order-optional-toggle {
       display:inline-block; margin-bottom:12px; padding:4px 2px;
