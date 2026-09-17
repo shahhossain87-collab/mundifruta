@@ -658,9 +658,11 @@ const carrinho = {};
       legumes: produtos.legumes.length,
       cabazes: produtos.cabazes.length,
       promocoes: [...produtos.frutas, ...produtos.legumes].filter(item =>
-        /popular|premium|recomendado|oferta|promo/i.test(String(item.badge || ''))
+        item.promo && produtoDisponivel(item)
       ).length,
-      epoca: produtos.frutas.filter(item => /verão|verao/i.test(String(item.badge || ''))).length
+      epoca: produtos.frutas.filter(item =>
+        produtoDisponivel(item) && /verão|verao/i.test(String(item.badge || ''))
+      ).length
     };
     document.getElementById('count-frutas').textContent = contadores.frutas;
     document.getElementById('count-legumes').textContent = contadores.legumes;
@@ -750,7 +752,8 @@ const carrinho = {};
     if (e.key !== 'Escape') return;
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
-    const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
+    const csp = document.getElementById('cs-pop');
+    if (csp && !csp.hidden && window.fecharCrossSell) window.fecharCrossSell();
     const off = document.getElementById('offer-pop'); if (off && !off.hidden && window.fecharOferta) window.fecharOferta();
     const priv = document.getElementById('privacy-modal'); if (priv && !priv.hidden) priv.hidden = true;
   });
