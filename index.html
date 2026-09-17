@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=40"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -103,7 +103,7 @@
 <!-- ═══════════ NAV ═══════════ -->
 <nav id="main-nav">
   <div class="nav-inner">
-    <a href="#inicio" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
+    <a href="#topo" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
     <div class="nav-links">
       <a href="#produtos">Produtos</a>
       <a href="#cabazes">Cabazes</a>
@@ -125,7 +125,7 @@
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
 <div class="mobile-menu" id="mobile-menu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <button class="mobile-close" onclick="toggleMenu()" aria-label="Fechar menu">✕</button>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
   <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
@@ -135,9 +135,9 @@
   <a href="#encomenda"      onclick="toggleMenu()">Encomendar</a>
   <a href="#contacto"       onclick="toggleMenu()">Contacto</a>
 </div>
-<div class="homepage-search">
+<div class="homepage-search" id="topo">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
+    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()" enterkeyhint="search" autocomplete="off" spellcheck="false"/>
     <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
   </div>
   <div class="catalog-bar-row compact">
@@ -153,6 +153,7 @@
       <option value="za">Nome: Z → A</option>
     </select>
   </div>
+  <button type="button" class="cabaz-search-hint" id="cabaz-search-hint" hidden onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})"></button>
 </div>
 
 <!-- ═══════════ PRODUCTS ═══════════ -->
@@ -619,11 +620,12 @@
       <div class="product-modal-price" id="product-modal-price"></div>
       <div class="product-modal-unit" id="product-modal-unit"></div>
       <p id="product-modal-note"></p>
-      <div class="product-modal-qty" aria-label="Selecionar quantidade">
+      <div class="product-modal-qty" id="product-modal-qty-wrap" aria-label="Selecionar quantidade">
         <button type="button" onclick="alterarQtdModal(-1)" aria-label="Diminuir quantidade">−</button>
         <strong id="product-modal-qty">1</strong>
         <button type="button" onclick="alterarQtdModal(1)" aria-label="Aumentar quantidade">+</button>
       </div>
+      <p class="product-modal-unavailable" id="product-modal-unavailable" hidden>Este produto está indisponível neste momento.</p>
       <button class="product-modal-add" id="product-modal-add" type="button" onclick="adicionarDoModal()">＋</button>
     </div>
   </div>
@@ -646,7 +648,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=35"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
