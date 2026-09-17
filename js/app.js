@@ -155,9 +155,9 @@ const carrinho = {};
     if (estado.pagina > paginas) estado.pagina = paginas;
     const el = document.getElementById(`pagination-${cat}`);
     el.innerHTML = `
-      <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''}>← Anterior</button>
+      <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''} aria-label="Página anterior">← Anterior</button>
       <span>Página ${estado.pagina} de ${paginas}</span>
-      <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''}>Seguinte →</button>`;
+      <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''} aria-label="Página seguinte">Seguinte →</button>`;
   }
 
   function atualizarSugestaoLegumes(cat) {
@@ -232,12 +232,59 @@ const carrinho = {};
     };
     document.getElementById('cabaz-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    ativarArmadilhaFoco(document.querySelector('#cabaz-modal .cabaz-modal-box'));
   }
 
   function fecharCabaz() {
     document.getElementById('cabaz-modal').classList.remove('open');
     document.body.style.overflow = '';
+    libertarArmadilhaFoco();
   }
+
+  /* ══ KEYBOARD / DIALOG FOCUS ══ */
+  let ultimoFocoDialogo = null;
+  let raizArmadilha = null;
+  let teclaArmadilha = null;
+
+  function obterFocaveis(root) {
+    return [...root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+      .filter(el => el.getClientRects().length > 0);
+  }
+
+  function ativarArmadilhaFoco(root) {
+    if (!root) return;
+    if (!raizArmadilha) ultimoFocoDialogo = document.activeElement;
+    raizArmadilha = root;
+    if (teclaArmadilha) document.removeEventListener('keydown', teclaArmadilha);
+    teclaArmadilha = function (e) {
+      if (e.key !== 'Tab' || !raizArmadilha) return;
+      const items = obterFocaveis(raizArmadilha);
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', teclaArmadilha);
+    const preferido = root.querySelector('#product-modal-add, #cabaz-modal-add, .privacy-close');
+    const items = obterFocaveis(root);
+    const alvo = (preferido && items.includes(preferido)) ? preferido : items[0];
+    if (alvo) setTimeout(() => { try { alvo.focus(); } catch (e) {} }, 30);
+  }
+
+  function libertarArmadilhaFoco() {
+    if (teclaArmadilha) {
+      document.removeEventListener('keydown', teclaArmadilha);
+      teclaArmadilha = null;
+    }
+    raizArmadilha = null;
+    const prev = ultimoFocoDialogo;
+    ultimoFocoDialogo = null;
+    if (prev && typeof prev.focus === 'function') {
+      try { prev.focus(); } catch (e) {}
+    }
+  }
+  window.ativarArmadilhaFoco = ativarArmadilhaFoco;
+  window.libertarArmadilhaFoco = libertarArmadilhaFoco;
 
   /* ══ PRODUCT PREVIEW ══ */
   function abrirProduto(id) {
@@ -260,12 +307,14 @@ const carrinho = {};
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    ativarArmadilhaFoco(document.querySelector('#product-modal .product-modal-box'));
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
   }
 
   function fecharProduto() {
     document.getElementById('product-modal').classList.remove('open');
     document.body.style.overflow = '';
+    libertarArmadilhaFoco();
     modalProdutoId = null;
   }
 
@@ -752,5 +801,6 @@ const carrinho = {};
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
     const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
     const off = document.getElementById('offer-pop'); if (off && !off.hidden && window.fecharOferta) window.fecharOferta();
-    const priv = document.getElementById('privacy-modal'); if (priv && !priv.hidden) priv.hidden = true;
+    const priv = document.getElementById('privacy-modal');
+    if (priv && !priv.hidden && window.fecharPrivacidade) window.fecharPrivacidade();
   });

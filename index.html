@@ -16,6 +16,7 @@
   <meta property="og:title" content="MUNDIFRUTA — Frutas &amp; Legumes Frescos em Carnaxide"/>
   <meta property="og:description" content="Fresh fruit and veg daily in Carnaxide. Frutas e legumes frescos — encomende por WhatsApp e levante na loja. Aberto 8h–20h."/>
   <meta property="og:image" content="https://mundifruta.com/fotos/cabaz_mix.jpeg"/>
+  <meta property="og:image:alt" content="Cabaz de frutas e legumes frescos da Mundifruta em Carnaxide"/>
   <meta property="og:url" content="https://mundifruta.com/"/>
   <meta property="og:locale" content="pt_PT"/>
 
@@ -24,11 +25,12 @@
   <meta name="twitter:title" content="MUNDIFRUTA — Frutas &amp; Legumes Frescos em Carnaxide"/>
   <meta name="twitter:description" content="Fresh fruit & vegetables · Carnaxide. Frutas e legumes frescos — WhatsApp order, pick up in store. 8h–20h · Mundifruta."/>
   <meta name="twitter:image" content="https://mundifruta.com/fotos/cabaz_mix.jpeg"/>
+  <meta name="twitter:image:alt" content="Cabaz de frutas e legumes frescos da Mundifruta em Carnaxide"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css?v=39"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -40,6 +42,7 @@
     "image": "https://mundifruta.com/fotos/cabaz_mix.jpeg",
     "url": "https://mundifruta.com/",
     "telephone": "+351932699850",
+    "email": "shahhossain87@gmail.com",
     "priceRange": "€€",
     "currenciesAccepted": "EUR",
     "address": {
@@ -137,7 +140,7 @@
 </div>
 <div class="homepage-search">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
+    <input class="search-input" id="search-input" type="text" enterkeyhint="search" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
     <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
   </div>
   <div class="catalog-bar-row compact">
@@ -206,8 +209,8 @@
 <div class="info-strip">
   <div class="info-strip-inner">
     <div class="info-item"><span>🕗</span> Seg–Dom: 8:00 – 20:00</div>
-    <div class="info-item"><span>📞</span> 932 699 850</div>
-    <div class="info-item"><span>📍</span> Av de Portugal, Centro Cívico, Carnaxide</div>
+    <a class="info-item" href="tel:+351932699850"><span>📞</span> 932 699 850</a>
+    <a class="info-item" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8" target="_blank" rel="noopener"><span>📍</span> Av de Portugal, Centro Cívico, Carnaxide</a>
     <div class="info-item"><span>🛍️</span> Levantamento na Loja</div>
   </div>
 </div>
@@ -438,7 +441,7 @@
     <div class="contact-card fi">
       <div class="contact-icon">📍</div>
       <h4>Morada</h4>
-      <p>Av de Portugal, Centro Cívico<br>Loja 24-C, 2790-129 Carnaxide</p>
+      <p><a href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8" target="_blank" rel="noopener">Av de Portugal, Centro Cívico<br>Loja 24-C, 2790-129 Carnaxide</a></p>
     </div>
     <div class="contact-card fi">
       <div class="contact-icon">📞</div>
@@ -459,15 +462,16 @@
   <div class="map-wrap fi">
     <iframe
       src="https://maps.google.com/maps?q=Mundifruta-Carnaxide,%20Av%20de%20Portugal,%20Centro%20C%C3%ADvico,%20loja%2024-C,%202790-129%20Carnaxide&hl=pt&z=17&output=embed"
-      allowfullscreen="" loading="lazy" title="Localização MUNDIFRUTA">
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localização MUNDIFRUTA">
     </iframe>
   </div>
+  <p class="map-fallback"><a href="https://www.google.com/maps/dir/?api=1&destination=Mundifruta-Carnaxide%2C+Av.+de+Portugal%2C+Centro+C%C3%ADvico%2C+Loja+24-C%2C+2790-129+Carnaxide" target="_blank" rel="noopener">Abrir no Google Maps</a></p>
 </div>
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">MUNDI<span>FRUTA</span></div>
+    <a href="#inicio" class="footer-logo">MUNDI<span>FRUTA</span></a>
     <div class="footer-text">&copy; 2026 MUNDIFRUTA · Frutas e Legumes Frescos · Carnaxide</div>
     <div class="footer-links">
       <a href="#produtos">Produtos</a>
@@ -527,7 +531,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo" aria-label="Voltar ao topo">▲</button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -646,7 +650,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=34"></script>
+<script src="js/extras.js?v=23"></script>
 </body>
 </html>

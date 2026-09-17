@@ -59,8 +59,25 @@
     fecharPrivacidade();
     document.getElementById('consent').hidden = false;
   };
-  window.abrirPrivacidade = function () { document.getElementById('privacy-modal').hidden = false; };
-  window.fecharPrivacidade = function () { document.getElementById('privacy-modal').hidden = true; };
+  window.abrirPrivacidade = function () {
+    const modal = document.getElementById('privacy-modal');
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (typeof window.ativarArmadilhaFoco === 'function') {
+      window.ativarArmadilhaFoco(modal.querySelector('.privacy-box'));
+    }
+  };
+  window.fecharPrivacidade = function () {
+    document.getElementById('privacy-modal').hidden = true;
+    const oferta = document.getElementById('offer-pop');
+    const produto = document.getElementById('product-modal');
+    const cabaz = document.getElementById('cabaz-modal');
+    const aindaAberto = (oferta && !oferta.hidden)
+      || (produto && produto.classList.contains('open'))
+      || (cabaz && cabaz.classList.contains('open'));
+    if (!aindaAberto) document.body.style.overflow = '';
+    if (typeof window.libertarArmadilhaFoco === 'function') window.libertarArmadilhaFoco();
+  };
 
   /* ═══════════ CUPÃO / OFERTA 1ª COMPRA ═══════════ */
   function lerCupao() {
@@ -218,6 +235,21 @@
   window.fecharCrossSell = function () { document.getElementById('cs-pop').hidden = true; };
 
   let csTimer;
+  function initCrossSellPause() {
+    const pop = document.getElementById('cs-pop');
+    if (!pop || pop.dataset.pauseReady) return;
+    pop.dataset.pauseReady = '1';
+    const retomar = () => {
+      clearTimeout(csTimer);
+      if (!pop.hidden) csTimer = setTimeout(() => { pop.hidden = true; }, 9000);
+    };
+    pop.addEventListener('mouseenter', () => clearTimeout(csTimer));
+    pop.addEventListener('mouseleave', retomar);
+    pop.addEventListener('focusin', () => clearTimeout(csTimer));
+    pop.addEventListener('focusout', e => {
+      if (!pop.contains(e.relatedTarget)) retomar();
+    });
+  }
   window.aoAdicionar = function (item) {
     window.trackEvent('add_to_cart', { item: item && item.nome });
     if (!item) return;
@@ -282,11 +314,24 @@
     if (slides.length < 2) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let i = 0;
-    setInterval(() => {
+    let timer = null;
+    function tick() {
       slides[i].classList.remove('active');
       i = (i + 1) % slides.length;
       slides[i].classList.add('active');
-    }, 5000);
+    }
+    function arrancar() { if (!timer) timer = setInterval(tick, 5000); }
+    function parar() { if (timer) { clearInterval(timer); timer = null; } }
+    const hero = document.getElementById('inicio');
+    if (hero && 'IntersectionObserver' in window) {
+      const obs = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) arrancar();
+        else parar();
+      }, { threshold: 0.15 });
+      obs.observe(hero);
+    } else {
+      arrancar();
+    }
   }
 
   /* ═══════════ CARROSSÉIS (linhas de destaque) ═══════════ */
@@ -324,6 +369,12 @@
       wrap.addEventListener('pointerleave', retomar);
       grid.addEventListener('pointerdown', parar);
       grid.addEventListener('touchstart', parar, { passive: true });
+      if ('IntersectionObserver' in window) {
+        const vis = new IntersectionObserver(entries => {
+          entries.forEach(e => { if (e.isIntersecting) retomar(); else parar(); });
+        }, { threshold: 0.08 });
+        vis.observe(wrap);
+      }
     });
   }
 
@@ -336,6 +387,7 @@
     initCarousels();
     initConsent();
     initOferta();
+    initCrossSellPause();
     atualizarProgresso();
     renderCsCart();
   };
