@@ -2096,3 +2096,20 @@
       .filtbtn { display:inline-flex; }
       body.filtros-open { overflow:hidden; }
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       PHASE D — Imagens uniformes (quadradas) e cartões alinhados,
+       para uma grelha limpa e "arrumada" estilo supermercado.
+       ═══════════════════════════════════════════════════════════ */
+    .shop-main .photo-wrap { height:auto; aspect-ratio:1 / 1; }
+    .shop-main .product-card { display:flex; flex-direction:column; }
+    .shop-main .card-body { display:flex; flex-direction:column; flex:1; }
+    /* Nome com 2 linhas fixas → preços e botões alinham entre cartões */
+    .shop-main .product-name {
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      overflow:hidden; min-height:2.45em;
+    }
+    .shop-main .product-card .add-btn { margin-top:auto; }
+    @media (max-width:640px) {
+      .shop-main .product-name { min-height:2.3em; }
+    }
