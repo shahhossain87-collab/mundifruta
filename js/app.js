@@ -1,11 +1,48 @@
 const carrinho = {};
   const produtos_map = {};
-  let catAtual = 'frutas';
-  const POR_PAGINA = 27;
-  const catalogoEstado = {
-    frutas:  { pagina:1, todos:[], filtrados:[] },
-    legumes: { pagina:1, todos:[], filtrados:[] }
+  const POR_PAGINA = 24;
+
+  /* ══ CATÁLOGO — categorias e subcategorias derivadas dos dados existentes ══
+     Nada é inventado: as listas resultam sempre de filtrar `produtos`. */
+  const ERVAS = ['Salsa','Coentros','Hortelã','Agrião'];
+  const ehErva  = item => ERVAS.includes(item.nome);
+  const ehPromo = item => Boolean(item.promo);
+
+  // Subcategorias por palavra-chave (apenas filtram a lista visível).
+  const SUBCATS = {
+    frutas: [
+      { key:'banana-maca-pera', label:'Banana, maçã e pera',   re:/banana|maçã|maca|pêra|pera/i },
+      { key:'citrinos',         label:'Laranja, limão e citrinos', re:/laranja|lim(ã|a)o|lima|tangerina|marcott|clementina/i },
+      { key:'vermelhos',        label:'Frutos vermelhos',      re:/morango|framboesa|mirtilo|amora|cereja|rom(ã|a)/i },
+      { key:'tropicais',        label:'Uvas e frutas tropicais', re:/uva|manga|abacaxi|anan(á|a)s|papaia|mam(ã|a)o|kiwi|abacate|coco|lichia/i },
+      { key:'caroco',           label:'Pêssego e ameixa',      re:/p(ê|e)ssego|nectarina|ameixa|alperce|d(i|í)ospiro|n(ê|e)speras/i },
+      { key:'melao-melancia',   label:'Melão e melancia',      re:/mel(ã|a)o|melancia|meloa|figo/i },
+    ],
+    legumes: [
+      { key:'batatas-cebolas',  label:'Batatas e cebolas',     re:/batata|cebola|alho/i },
+      { key:'tomates',          label:'Tomates',               re:/tomate/i },
+      { key:'couves-folhas',    label:'Couves e folhas verdes', re:/couve|alface|espinafre|grelo|nabi(ç|c)a|agri(ã|a)o|br(ó|o)colos/i },
+      { key:'raizes',           label:'Raízes e outros',       re:/cenoura|nabo|beterraba|gengibre|rabanete|mandioca|inhame|ab(ó|o)bora|curgete|beringela|pepino|pimento|feij(ã|a)o|cogumelo|malagueta|quiabo|chuchu|ma(ç|c)aroca|milho/i },
+    ],
   };
+
+  // Categorias do catálogo (Cabazes mantém a sua própria secção).
+  const CATEGORIAS = {
+    frutas:    { label:'Frutas',        fonte:() => produtos.frutas },
+    legumes:   { label:'Legumes',       fonte:() => produtos.legumes.filter(i => !ehErva(i)) },
+    ervas:     { label:'Ervas frescas', fonte:() => produtos.legumes.filter(ehErva) },
+    promocoes: { label:'Promoções',     fonte:() => [...produtos.frutas, ...produtos.legumes].filter(ehPromo) },
+  };
+
+  const catalogo = {
+    categoria:'frutas',
+    subcat:'',
+    ordem:'',
+    pagina:1,
+    filtros:{ promo:false, disp:false, preco:'' },
+    filtrados:[],
+  };
+  let catAtual = 'frutas'; // compat com código existente
   let modalProdutoId = null;
   let modalQuantidade = 1;
   const NOTA_PRECO_ESTIMADO = 'Preço estimado com base no peso médio. O valor final pode variar conforme o peso real do produto no momento da preparação da encomenda.';
@@ -82,100 +119,144 @@ const carrinho = {};
   function criarCard(item, id) {
     const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
     const disponivel = produtoDisponivel(item);
-    const card  = document.createElement('div');
+    const card  = document.createElement('article');
     card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
     if (!disponivel) card.classList.add('is-unavailable');
     const topRibbon = item.topVendido ? `<div class="top-badge">⭐ Mais vendido</div>` : '';
+    const oosOverlay = disponivel ? '' : `<div class="oos-flag">Esgotado</div>`;
     card.innerHTML = `
       ${badge}
       ${topRibbon}
-      <div class="sel-check">✓</div>
+      <div class="sel-check" aria-hidden="true">✓</div>
       <button class="photo-wrap" type="button" onclick="abrirProduto('${id}')" aria-label="Ver detalhes de ${item.nome}">
         <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        ${oosOverlay}
       </button>
       <div class="card-body">
-        <div class="product-name">${item.nome}</div>
+        <h3 class="product-name">${item.nome}</h3>
+        <div class="product-meta">
+          ${item.peso ? `<span class="product-peso">${item.peso}</span>` : ''}
+          ${item.origem ? `<span class="product-origem">🌍 ${item.origem}</span>` : ''}
+        </div>
         <div class="product-price">${rotuloPreco(item)}</div>
         ${item.baseLinha ? `<div class="product-base">${item.baseLinha}</div>` : ''}
-        ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
-        ${item.origem ? `<div class="product-origem">🌍 ${item.origem}</div>` : '<div class="product-fresh">✓ Fresco Diário</div>'}
-        ${disponivel
-          ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>`
-          : `<div class="unavailable-label">Indisponível</div>`}
-        <div class="qty-controls" ${disponivel ? '' : 'hidden'}>
-          <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
-          <span class="qty-num" data-qty-id="${id}">1</span>
-          <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+        <div class="card-actions">
+          ${disponivel
+            ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋ Adicionar</button>`
+            : `<div class="unavailable-label">Indisponível</div>`}
+          <div class="qty-controls" ${disponivel ? '' : 'hidden'} aria-label="Quantidade de ${item.nome}">
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir">−</button>
+            <span class="qty-num" data-qty-id="${id}">1</span>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar">+</button>
+          </div>
         </div>
       </div>`;
     if (carrinho[id]) card.classList.add('selected');
     return card;
   }
 
-  function renderGrid(itens, gridId, prefix, cat) {
-    itens.forEach((item, i) => {
+  // Atribui um _id estável a cada produto (mantém compatibilidade com o carrinho guardado).
+  function indexarProdutos() {
+    const marcar = (lista, prefix, cat) => lista.forEach((item, i) => {
       const id = `${prefix}-${i}`;
       item._cat = cat; item._id = id;
       produtos_map[id] = item;
     });
-    catalogoEstado[cat].todos = [...itens];
-    catalogoEstado[cat].filtrados = [...itens];
-    renderPagina(cat);
+    marcar(produtos.frutas,  'fruta',  'frutas');
+    marcar(produtos.legumes, 'legume', 'legumes');
   }
 
-  function renderPagina(cat) {
-    const estado = catalogoEstado[cat];
-    const grid = document.getElementById(`grid-${cat}`);
-    const inicio = (estado.pagina - 1) * POR_PAGINA;
-    const pagina = estado.filtrados.slice(inicio, inicio + POR_PAGINA);
+  // Lista base da categoria atual (antes de filtros/pesquisa/ordenação).
+  function itensDaCategoria() {
+    const def = CATEGORIAS[catalogo.categoria] || CATEGORIAS.frutas;
+    return def.fonte();
+  }
+
+  function renderCatalogo() {
+    const grid = document.getElementById('grid-catalog');
+    if (!grid) return;
+    const lista = catalogo.filtrados;
+    const paginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
+    if (catalogo.pagina > paginas) catalogo.pagina = paginas;
+    const inicio = (catalogo.pagina - 1) * POR_PAGINA;
+    const pagina = lista.slice(inicio, inicio + POR_PAGINA);
+
     grid.innerHTML = '';
     pagina.forEach((item, i) => {
       const card = criarCard(item, item._id);
       card.dataset.ord = inicio + i;
       grid.appendChild(card);
     });
-    document.getElementById(`no-${cat}`).style.display = pagina.length ? 'none' : 'block';
-    renderPaginacao(cat);
-    atualizarSugestaoLegumes(cat);
+
+    document.getElementById('no-catalog').style.display = lista.length ? 'none' : 'block';
+    renderContagem(lista.length);
+    renderPaginacao(paginas);
 
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((e, i) => {
         if (e.isIntersecting) {
-          setTimeout(() => e.target.classList.add('visible'), i * 55);
+          setTimeout(() => e.target.classList.add('visible'), i * 45);
           obs.unobserve(e.target);
         }
       });
-    }, { threshold:0.08 });
+    }, { threshold:0.06 });
     grid.querySelectorAll('.product-card').forEach(c => obs.observe(c));
   }
 
-  function renderPaginacao(cat) {
-    const estado = catalogoEstado[cat];
-    const paginas = Math.max(1, Math.ceil(estado.filtrados.length / POR_PAGINA));
-    if (estado.pagina > paginas) estado.pagina = paginas;
-    const el = document.getElementById(`pagination-${cat}`);
+  function renderContagem(total) {
+    const el = document.getElementById('catalog-count');
+    if (!el) return;
+    const nome = (CATEGORIAS[catalogo.categoria] || {}).label || '';
+    el.textContent = total === 1 ? `1 produto em ${nome}` : `${total} produtos em ${nome}`;
+  }
+
+  function renderPaginacao(paginas) {
+    const el = document.getElementById('pagination-catalog');
+    if (!el) return;
+    if (paginas <= 1) { el.innerHTML = ''; return; }
     el.innerHTML = `
-      <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''}>← Anterior</button>
-      <span>Página ${estado.pagina} de ${paginas}</span>
-      <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''}>Seguinte →</button>`;
+      <button type="button" onclick="mudarPagina(-1)" ${catalogo.pagina === 1 ? 'disabled' : ''} aria-label="Página anterior">← Anterior</button>
+      <span>Página ${catalogo.pagina} de ${paginas}</span>
+      <button type="button" onclick="mudarPagina(1)" ${catalogo.pagina === paginas ? 'disabled' : ''} aria-label="Página seguinte">Seguinte →</button>`;
   }
 
-  function atualizarSugestaoLegumes(cat) {
-    if (cat !== 'frutas') return;
-    const sugestao = document.querySelector('#cat-frutas .veg-suggestion');
-    if (!sugestao) return;
-    const estado = catalogoEstado.frutas;
-    const termo = document.getElementById('search-input').value.trim();
-    const paginas = Math.max(1, Math.ceil(estado.filtrados.length / POR_PAGINA));
-    sugestao.hidden = Boolean(termo) || estado.filtrados.length === 0 || estado.pagina < paginas;
+  function mudarPagina(delta) {
+    const paginas = Math.max(1, Math.ceil(catalogo.filtrados.length / POR_PAGINA));
+    catalogo.pagina = Math.min(paginas, Math.max(1, catalogo.pagina + delta));
+    renderCatalogo();
+    document.getElementById('catalog-toolbar').scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
-  function mudarPagina(cat, delta) {
-    const estado = catalogoEstado[cat];
-    const paginas = Math.max(1, Math.ceil(estado.filtrados.length / POR_PAGINA));
-    estado.pagina = Math.min(paginas, Math.max(1, estado.pagina + delta));
-    renderPagina(cat);
-    document.getElementById(`cat-${cat}`).scrollIntoView({ behavior:'smooth', block:'start' });
+  // Chips de subcategoria para a categoria atual (Frutas/Legumes).
+  function renderSubcats() {
+    const row = document.getElementById('subcat-row');
+    if (!row) return;
+    const subs = SUBCATS[catalogo.categoria];
+    if (!subs) { row.innerHTML = ''; row.hidden = true; return; }
+    row.hidden = false;
+    const base = itensDaCategoria();
+    const chips = [`<button class="subcat-chip${catalogo.subcat ? '' : ' active'}" type="button" aria-pressed="${catalogo.subcat ? 'false' : 'true'}" onclick="selecionarSubcat('')">Todas</button>`];
+    subs.forEach(s => {
+      const n = base.filter(i => s.re.test(i.nome)).length;
+      if (!n) return;
+      const ativo = catalogo.subcat === s.key;
+      chips.push(`<button class="subcat-chip${ativo ? ' active' : ''}" type="button" aria-pressed="${ativo}" onclick="selecionarSubcat('${s.key}')">${s.label} <span class="subcat-count">${n}</span></button>`);
+    });
+    row.innerHTML = chips.join('');
+  }
+
+  function selecionarSubcat(key) {
+    catalogo.subcat = key;
+    catalogo.pagina = 1;
+    renderSubcats();
+    aplicarCatalogo();
+  }
+
+  function alternarFiltro(tipo, btn) {
+    catalogo.filtros[tipo] = !catalogo.filtros[tipo];
+    if (btn) { btn.classList.toggle('active', catalogo.filtros[tipo]); btn.setAttribute('aria-pressed', String(catalogo.filtros[tipo])); }
+    catalogo.pagina = 1;
+    aplicarCatalogo();
   }
 
   /* ══ CABAZES ══ */
@@ -519,65 +600,123 @@ const carrinho = {};
     return valor === null ? Infinity : valor;
   }
 
+  function ordenarLista(lista) {
+    const ordem = catalogo.ordem;
+    if (ordem === 'az' || ordem === 'za') {
+      lista.sort((a,b) => {
+        const cmp = a.nome.localeCompare(b.nome, 'pt', { sensitivity:'base' });
+        return ordem === 'az' ? cmp : -cmp;
+      });
+    } else if (ordem === 'popular') {
+      lista.sort((a,b) => (b.topVendido ? 1 : 0) - (a.topVendido ? 1 : 0));
+    } else if (ordem === 'asc' || ordem === 'desc') {
+      lista.sort((a,b) => {
+        const precoA = precoItem(a), precoB = precoItem(b);
+        if (!Number.isFinite(precoA)) return 1;
+        if (!Number.isFinite(precoB)) return -1;
+        return ordem === 'asc' ? precoA - precoB : precoB - precoA;
+      });
+    }
+    // '' (relevância) → mantém a ordem curada dos dados.
+  }
+
   function aplicarCatalogo() {
-    const termo = document.getElementById('search-input').value.toLocaleLowerCase('pt').trim();
-    const ordem = document.getElementById('price-sort').value;
-    ['frutas','legumes'].forEach(cat => {
-      const estado = catalogoEstado[cat];
-      estado.filtrados = estado.todos.filter(item =>
-        !termo || item.nome.toLocaleLowerCase('pt').includes(termo)
-      );
-      if (ordem === 'az' || ordem === 'za') {
-        estado.filtrados.sort((a,b) => {
-          const cmp = a.nome.localeCompare(b.nome, 'pt', { sensitivity:'base' });
-          return ordem === 'az' ? cmp : -cmp;
-        });
-      } else if (ordem) {
-        estado.filtrados.sort((a,b) => {
-          const precoA = precoItem(a);
-          const precoB = precoItem(b);
-          if (!Number.isFinite(precoA)) return 1;
-          if (!Number.isFinite(precoB)) return -1;
-          return ordem === 'asc' ? precoA - precoB : precoB - precoA;
-        });
-      }
-      estado.pagina = 1;
-      renderPagina(cat);
-    });
+    const termo = (document.getElementById('search-input').value || '').toLocaleLowerCase('pt').trim();
+    catalogo.ordem = document.getElementById('price-sort').value;
+    catalogo.filtros.preco = document.getElementById('filter-preco').value;
+
+    let lista = itensDaCategoria().slice();
+
+    const subs = SUBCATS[catalogo.categoria];
+    if (subs && catalogo.subcat) {
+      const s = subs.find(x => x.key === catalogo.subcat);
+      if (s) lista = lista.filter(i => s.re.test(i.nome));
+    }
+    if (termo) lista = lista.filter(i => i.nome.toLocaleLowerCase('pt').includes(termo));
+    if (catalogo.filtros.promo) lista = lista.filter(ehPromo);
+    if (catalogo.filtros.disp)  lista = lista.filter(produtoDisponivel);
+    if (catalogo.filtros.preco) {
+      const [min, max] = catalogo.filtros.preco.split('-').map(Number);
+      lista = lista.filter(i => {
+        const c = precoItem(i);
+        if (!Number.isFinite(c)) return false;
+        const eur = c / 100;
+        return eur >= min && eur < max;
+      });
+    }
+    ordenarLista(lista);
+
+    catalogo.filtrados = lista;
+    renderCatalogo();
   }
 
   function ordenarPreco() {
+    catalogo.pagina = 1;
     aplicarCatalogo();
   }
 
   /* ══ SEARCH ══ */
   function pesquisar() {
-    const q = document.getElementById('search-input').value.toLowerCase().trim();
+    const q = (document.getElementById('search-input').value || '').trim();
     document.getElementById('search-clear').classList.toggle('visible', q.length > 0);
+    catalogo.pagina = 1;
     aplicarCatalogo();
-    if (q) {
-      for (const cat of ['frutas','legumes']) {
-        if (catalogoEstado[cat].filtrados.length > 0) {
-          mostrarCategoria(cat, document.getElementById(`tab-${cat}`)); break;
-        }
+    // Se a categoria atual não tem resultados, salta para outra categoria que tenha.
+    if (q && catalogo.filtrados.length === 0) {
+      const termo = q.toLocaleLowerCase('pt');
+      for (const cat of ['frutas','legumes','ervas','promocoes']) {
+        if (cat === catalogo.categoria) continue;
+        const tem = CATEGORIAS[cat].fonte().some(i => i.nome.toLocaleLowerCase('pt').includes(termo));
+        if (tem) { mostrarCategoria(cat, document.getElementById(`tab-${cat}`)); break; }
       }
     }
   }
 
-  function limparPesquisa() { document.getElementById('search-input').value = ''; pesquisar(); }
+  function limparPesquisa() {
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-clear').classList.remove('visible');
+    catalogo.pagina = 1;
+    aplicarCatalogo();
+  }
+
+  function limparTudo() {
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-clear').classList.remove('visible');
+    document.getElementById('filter-preco').value = '';
+    document.getElementById('price-sort').value = '';
+    catalogo.filtros = { promo:false, disp:false, preco:'' };
+    catalogo.subcat = ''; catalogo.ordem = ''; catalogo.pagina = 1;
+    ['filter-promo','filter-disp'].forEach(id => {
+      const b = document.getElementById(id);
+      if (b) { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); }
+    });
+    renderSubcats();
+    aplicarCatalogo();
+  }
 
   /* ══ CATEGORY ══ */
   function mostrarCategoria(cat, btn) {
-    document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('visible'));
-    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-    document.getElementById(`cat-${cat}`).classList.add('visible');
-    if (btn) btn.classList.add('active');
+    if (!CATEGORIAS[cat]) return;
+    catalogo.categoria = cat;
     catAtual = cat;
+    catalogo.subcat = '';
+    catalogo.pagina = 1;
+    document.querySelectorAll('.cat-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    const tab = btn || document.getElementById(`tab-${cat}`);
+    if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
+    renderSubcats();
+    aplicarCatalogo();
   }
 
   function abrirCatalogo(cat) {
     mostrarCategoria(cat, document.getElementById(`tab-${cat}`));
     document.getElementById('produtos').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  // Cabazes têm secção própria — o separador leva o cliente até lá.
+  function abrirCabazes() {
+    const el = document.getElementById('cabazes');
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
@@ -653,17 +792,21 @@ const carrinho = {};
   }
 
   function atualizarContadoresCategorias() {
+    const nCat = key => (CATEGORIAS[key] ? CATEGORIAS[key].fonte().length : 0);
     const contadores = {
-      frutas: produtos.frutas.length,
-      legumes: produtos.legumes.length,
+      frutas: nCat('frutas'),
+      legumes: nCat('legumes'),
+      ervas: nCat('ervas'),
+      promocoes: nCat('promocoes'),
       cabazes: produtos.cabazes.length,
-      promocoes: [...produtos.frutas, ...produtos.legumes].filter(item =>
-        /popular|premium|recomendado|oferta|promo/i.test(String(item.badge || ''))
-      ).length,
       epoca: produtos.frutas.filter(item => /verão|verao/i.test(String(item.badge || ''))).length
     };
-    document.getElementById('count-frutas').textContent = contadores.frutas;
-    document.getElementById('count-legumes').textContent = contadores.legumes;
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set('count-frutas', contadores.frutas);
+    set('count-legumes', contadores.legumes);
+    set('count-ervas', contadores.ervas);
+    set('count-promocoes', contadores.promocoes);
+    set('count-cabazes', contadores.cabazes);
     document.querySelectorAll('[data-count-label]').forEach(label => {
       const chave = label.dataset.countLabel;
       const texto = label.textContent.replace(/\s*\(\d+\)\s*$/, '').trim();
@@ -737,8 +880,9 @@ const carrinho = {};
   /* ══ INIT ══ */
   promoverCatalogo();
   normalizarProdutos();
-  renderGrid(produtos.frutas,  'grid-frutas',  'fruta',  'frutas');
-  renderGrid(produtos.legumes, 'grid-legumes', 'legume', 'legumes');
+  indexarProdutos();
+  renderSubcats();
+  aplicarCatalogo();
   renderDestaques();
   renderCabazes();
   renderAvaliacoes();

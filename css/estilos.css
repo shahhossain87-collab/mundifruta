@@ -1839,3 +1839,139 @@
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       REDESIGN — Loja online (IA/UX inspirada em supermercado PT).
+       Branding, cores e conteúdo MUNDIFRUTA mantidos. Cartões limpos,
+       sombras subtis, grelha arejada e mobile a duas colunas.
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --line:    #eef1ee;
+      --line-2:  #e3e9e3;
+      --ink:     #22312b;
+      --sh-soft: 0 1px 2px rgba(27,67,50,.05), 0 6px 20px rgba(27,67,50,.06);
+      --sh-hover:0 12px 30px rgba(27,67,50,.13);
+    }
+
+    .section.shop { background:#fff; }
+    .section.shop .section-hdr { margin-bottom:14px; }
+
+    /* ── Barra de ferramentas do catálogo (sticky em desktop) ── */
+    .catalog-toolbar {
+      position:sticky; top:calc(var(--announcement-height) + var(--nav-height) - 16px); z-index:860;
+      background:rgba(255,255,255,.93);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border:1px solid var(--line); border-radius:var(--r-lg);
+      padding:14px; margin-bottom:18px; box-shadow:var(--sh-soft);
+      display:flex; flex-direction:column; gap:12px;
+    }
+    .catalog-toolbar .search-row { position:relative; max-width:none; margin:0; }
+    .catalog-toolbar .search-ico {
+      position:absolute; left:16px; top:50%; transform:translateY(-50%);
+      font-size:.92rem; opacity:.55; pointer-events:none;
+    }
+    .catalog-toolbar .search-input {
+      width:100%; padding:13px 44px 13px 42px;
+      border:1px solid var(--line-2); border-radius:var(--r-full);
+      font-family:'Poppins',sans-serif; font-size:.95rem; background:#fff; color:var(--text);
+      box-shadow:none; transition:border-color .18s ease, box-shadow .18s ease;
+    }
+    .catalog-toolbar .search-input:focus { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.18); }
+    .catalog-toolbar .search-clear { right:16px; }
+
+    .catalog-toolbar .cat-tabs {
+      display:flex; gap:6px; margin:0; width:100%;
+      background:var(--cream-2); border-radius:var(--r-full); padding:5px;
+      overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    }
+    .catalog-toolbar .cat-tabs::-webkit-scrollbar { display:none; }
+    .catalog-toolbar .cat-tab { white-space:nowrap; flex:0 0 auto; padding:9px 16px; font-size:.85rem; }
+
+    .subcat-row { display:flex; gap:8px; flex-wrap:wrap; }
+    .subcat-row[hidden] { display:none; }
+    .subcat-chip {
+      border:1px solid var(--line-2); background:#fff; color:var(--text-md);
+      border-radius:var(--r-full); padding:7px 14px; font:600 .8rem 'Poppins',sans-serif;
+      cursor:pointer; transition:background .18s, border-color .18s, color .18s;
+      display:inline-flex; align-items:center; gap:6px;
+    }
+    .subcat-chip:hover { border-color:var(--sage); color:var(--forest); }
+    .subcat-chip.active { background:var(--forest); border-color:var(--forest); color:#fff; }
+    .subcat-count { font-size:.7rem; opacity:.7; }
+
+    .catalog-filters {
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      border-top:1px solid var(--line); padding-top:12px;
+    }
+    .filter-chips { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .filter-chip {
+      border:1px solid var(--line-2); background:#fff; color:var(--text-md);
+      border-radius:var(--r-full); padding:8px 14px; font:600 .8rem 'Poppins',sans-serif;
+      cursor:pointer; transition:background .18s, border-color .18s, color .18s;
+    }
+    .filter-chip:hover { border-color:var(--sage); color:var(--forest); }
+    .filter-chip.active { background:var(--sage-lt); border-color:var(--sage); color:var(--forest); }
+    .filter-select, .catalog-toolbar .price-sort {
+      border:1px solid var(--line-2); background:#fff; color:var(--text);
+      border-radius:var(--r-full); padding:9px 14px; font:600 .8rem 'Poppins',sans-serif; cursor:pointer;
+    }
+    .filter-select:focus, .catalog-toolbar .price-sort:focus { outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
+
+    .catalog-count { color:var(--text-md); font-size:.82rem; margin:0 2px 14px; font-weight:600; }
+    .link-btn { background:none; border:none; color:var(--sage); font-weight:700; cursor:pointer; text-decoration:underline; font-family:'Poppins',sans-serif; }
+
+    /* ── Grelha e cartões (refinados) ── */
+    .products-grid { grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:18px; }
+    .product-card {
+      border:1px solid var(--line); box-shadow:var(--sh-soft);
+      border-radius:var(--r-lg); background:#fff; min-height:0;
+    }
+    .product-card:hover { transform:translateY(-4px); box-shadow:var(--sh-hover); }
+    .product-card.selected {
+      transform:none; outline:2px solid var(--sage);
+      box-shadow:0 0 0 3px rgba(82,183,136,.16), var(--sh-soft);
+    }
+    .photo-wrap { height:186px; background:var(--cream-2); }
+    .card-body { padding:14px 14px 16px; gap:2px; }
+    .product-name { min-height:0; font-size:.95rem; font-weight:700; line-height:1.28; margin-bottom:4px; color:var(--ink); }
+    .product-meta { display:flex; flex-wrap:wrap; gap:2px 10px; margin-bottom:8px; }
+    .product-meta .product-peso { font-size:.74rem; color:var(--text-md); margin:0; font-weight:500; }
+    .product-meta .product-origem { font-size:.72rem; color:var(--peach); font-weight:600; margin:0; }
+    .product-price { font-family:'Playfair Display',serif; font-size:1.06rem; font-weight:800; color:var(--forest); margin-bottom:10px; }
+    .product-base { margin:-6px 0 8px; }
+    .card-actions { margin-top:auto; }
+    .add-btn { width:100%; padding:10px; min-height:42px; border-radius:var(--r-full); font-size:.84rem; box-shadow:none; margin-top:0; }
+    .add-btn:hover { background:var(--forest-2); }
+    .qty-controls { margin-top:0; }
+
+    .oos-flag {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,.62); color:var(--cherry);
+      font-weight:800; font-size:.82rem; letter-spacing:.6px; text-transform:uppercase;
+    }
+
+    @media (max-width:1024px) {
+      .products-grid { grid-template-columns:repeat(auto-fill, minmax(172px,1fr)); gap:14px; }
+    }
+    /* Mobile: grelha prática a 2 colunas (substitui a antiga densa de 3) */
+    @media (max-width:640px) {
+      .catalog-toolbar { position:static; padding:12px; gap:10px; }
+      .products-grid { grid-template-columns:repeat(2,1fr) !important; gap:12px; }
+      .product-card { border-radius:var(--r-md); }
+      .product-card:has(.top-badge) .product-badge { display:none; }
+      .photo-wrap { height:140px; }
+      .card-body { padding:11px 11px 13px; }
+      .product-name { font-size:.85rem; min-height:0; }
+      .product-meta { margin-bottom:6px; }
+      .product-meta .product-peso { font-size:.68rem; display:inline; }
+      .product-meta .product-origem { display:inline; font-size:.66rem; }
+      .product-price { font-size:.96rem; margin-bottom:8px; }
+      .add-btn { font-size:.78rem; padding:9px 6px; min-height:38px; }
+      .filter-select, .catalog-toolbar .price-sort { font-size:.76rem; padding:8px 10px; }
+      .catalog-filters { gap:8px; padding-top:10px; }
+    }
+    @media (max-width:380px) {
+      .products-grid { grid-template-columns:repeat(2,1fr) !important; gap:10px; }
+      .photo-wrap { height:120px; }
+      .add-btn { font-size:.72rem; }
+    }
