@@ -58,13 +58,9 @@ const carrinho = {};
   }
 
   function renderDestaques() {
-    // Promoções: produtos em promoção primeiro, depois destaques da semana para preencher.
+    // Só artigos com promo:true — não preencher com preço normal (o título é "Promoções da Semana").
     const promocionais = [...produtos.frutas, ...produtos.legumes].filter(i => i.promo && produtoDisponivel(i));
-    const extraPromo = selecionarPorNomes(
-      [...produtos.frutas, ...produtos.legumes],
-      ['Morangos','Melancia 1/4','Laranja Algarve','Tomate Salada','Cenoura','Hortelã']
-    ).filter(i => !promocionais.includes(i));
-    preencherDestaques('promo-grid', [...promocionais, ...extraPromo].slice(0, 8));
+    preencherDestaques('promo-grid', promocionais);
     preencherDestaques('popular-grid', selecionarPorNomes(
       produtos.frutas,
       ['Morangos','Banana Madeira','Laranja Algarve','Pêra Rocha','Maçã Royal Gala','Melancia 1/4','Manga Avião','Abacate Hass']
