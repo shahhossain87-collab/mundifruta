@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -502,7 +502,10 @@
 
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
 <nav class="mobile-bar" id="mobile-bar">
-  <button class="mb-item" onclick="irParaEncomenda()">
+  <a class="mb-item" href="#produtos">
+    <span class="mb-icon">🍎</span><span class="mb-label">Produtos</span>
+  </a>
+  <button class="mb-item" type="button" onclick="irParaEncomenda()">
     <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
   </button>
@@ -646,7 +649,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>
