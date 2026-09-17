@@ -569,9 +569,15 @@ const carrinho = {};
   /* ══ CATEGORY ══ */
   function mostrarCategoria(cat, btn) {
     document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('visible'));
-    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.cat-tab').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     document.getElementById(`cat-${cat}`).classList.add('visible');
-    if (btn) btn.classList.add('active');
+    if (btn) {
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+    }
     catAtual = cat;
   }
 
@@ -635,7 +641,7 @@ const carrinho = {};
     e.preventDefault();
     const t = obterTextoEncomenda(); if (!t) return;
     if (window.trackEvent) window.trackEvent('whatsapp_order_click', { value: totaisCarrinho().centimos / 100, currency: 'EUR' });
-    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank');
+    window.open(`https://wa.me/351932699850?text=${encodeURIComponent(t)}`, '_blank', 'noopener,noreferrer');
   }
 
   function enviarEmail() {

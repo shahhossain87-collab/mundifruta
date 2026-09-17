@@ -26,8 +26,9 @@
       --nav-height: 78px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--announcement-height) + var(--nav-height) + 8px); }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
+    :focus-visible { outline: 3px solid var(--peach); outline-offset: 3px; }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
     ::-webkit-scrollbar-thumb { background:var(--sage); border-radius:3px; }
@@ -182,6 +183,8 @@
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
       .hero-slide { animation:none; transition:none; }
+      .announcement-track { animation:none; }
+      html { scroll-behavior: auto; }
     }
 
     /* Carrosséis deslizantes (linhas de destaque) */
@@ -374,7 +377,7 @@
       font-family:'Poppins',sans-serif; font-weight:600; font-size:0.82rem; cursor:pointer;
       padding:9px 14px; border-radius:var(--r-full); box-shadow:var(--sh);
     }
-    .price-sort:focus { outline:none; border-color:var(--sage); }
+    .price-sort:focus-visible { outline:3px solid var(--peach); outline-offset:2px; border-color:var(--sage); }
     @media (max-width:768px){ .sort-row { margin:-8px auto 18px; padding:0 4px; } }
 
     /* ?? PAYMENT BADGES ?? */
@@ -455,7 +458,7 @@
   }
 
   .homepage-search {
-    padding:0 18px 18px;
+    padding:10px 18px 12px;
   }
 
   .homepage-search .catalog-bar-row.compact {
@@ -659,13 +662,20 @@
       outline:none; transition:all 0.22s ease;
       box-shadow:0 12px 28px rgba(0,0,0,0.07);
     }
+    .search-input::-webkit-search-decoration,
+    .search-input::-webkit-search-cancel-button { -webkit-appearance:none; appearance:none; }
     .search-input:focus {
       border-color:var(--cherry);
       box-shadow:0 14px 32px rgba(196,30,58,0.12);
     }
+    .search-input:focus-visible {
+      outline: 3px solid var(--peach);
+      outline-offset: 2px;
+    }
     .search-clear {
-      position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      position:absolute; right:8px; top:50%; transform:translateY(-50%);
       background:none; border:none; cursor:pointer; color:var(--text-md); font-size:0.96rem; display:none;
+      width:44px; height:44px;
     }
     .search-clear.visible { display:block; }
 
@@ -870,6 +880,12 @@
       font-family:'Poppins',sans-serif; font-size:0.88rem;
       outline:none; transition:all 0.3s; margin-bottom:12px;
     }
+    .order-label {
+      display:block; color:rgba(255,255,255,0.82);
+      font-size:0.76rem; font-weight:600; letter-spacing:0.02em;
+      margin:0 0 6px 2px;
+    }
+    .order-label span { font-weight:500; opacity:0.7; }
     .order-form input::placeholder,
     .order-form textarea::placeholder { color:rgba(255,255,255,0.38); }
     .order-form input:focus,
@@ -1838,4 +1854,24 @@
       .oo-ctas { flex-direction:column; }
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
+    }
+
+    /* Keep mobile overlays above the bottom app bar.
+       Placed last so these win over earlier unscoped bottom/size rules. */
+    @media (max-width:768px) {
+      .consent {
+        bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+      }
+      .toast {
+        top: calc(var(--announcement-height) + var(--nav-height) + 8px);
+        bottom: auto;
+        white-space: normal;
+        max-width: min(92vw, 420px);
+        text-align: center;
+        line-height: 1.35;
+      }
+      /* Expand tap area without widening the dense 3-column qty controls */
+      .qty-btn { position:relative; }
+      .qty-btn::before { content:''; position:absolute; inset:-8px; }
+      .product-modal-qty button { width:44px; height:44px; }
     }
