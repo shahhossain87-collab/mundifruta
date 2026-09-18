@@ -6,6 +6,9 @@
   <meta name="description" content="Fresh fruit & vegetables in Carnaxide — frutas e legumes frescos todos os dias. Encomende no WhatsApp e levante na loja. Aberto 8h–20h · Mundifruta."/>
   <title>MUNDIFRUTA — Fresh Fruit &amp; Vegetables | Frutas &amp; Legumes · Carnaxide</title>
   <link rel="canonical" href="https://mundifruta.com/"/>
+  <link rel="alternate" hreflang="pt-PT" href="https://mundifruta.com/"/>
+  <link rel="alternate" hreflang="x-default" href="https://mundifruta.com/"/>
+  <link rel="sitemap" type="application/xml" href="https://mundifruta.com/sitemap.xml"/>
 
   <!-- Favicon (emoji) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍓</text></svg>"/>
@@ -16,6 +19,7 @@
   <meta property="og:title" content="MUNDIFRUTA — Frutas &amp; Legumes Frescos em Carnaxide"/>
   <meta property="og:description" content="Fresh fruit and veg daily in Carnaxide. Frutas e legumes frescos — encomende por WhatsApp e levante na loja. Aberto 8h–20h."/>
   <meta property="og:image" content="https://mundifruta.com/fotos/cabaz_mix.jpeg"/>
+  <meta property="og:image:type" content="image/jpeg"/>
   <meta property="og:url" content="https://mundifruta.com/"/>
   <meta property="og:locale" content="pt_PT"/>
 
@@ -28,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -39,6 +43,7 @@
     "description": "Loja de frutas e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja.",
     "image": "https://mundifruta.com/fotos/cabaz_mix.jpeg",
     "url": "https://mundifruta.com/",
+    "inLanguage": "pt-PT",
     "telephone": "+351932699850",
     "priceRange": "€€",
     "currenciesAccepted": "EUR",
@@ -113,7 +118,7 @@
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-right">
-      <button class="nav-order" onclick="irParaEncomenda()">
+      <button type="button" class="nav-order" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
       <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
@@ -140,6 +145,7 @@
     <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
     <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
   </div>
+  <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
       <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
@@ -518,7 +524,7 @@
 </nav>
 
 <!-- ═══════════ FLOATING CART ═══════════ -->
-<button class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda">
+<button type="button" class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda" aria-label="Ver a sua encomenda">
   <span class="fc-icon">🛒</span>
   <span class="fc-text" id="float-cart-text">0 · 0,00 €</span>
 </button>
@@ -646,7 +652,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=33"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
