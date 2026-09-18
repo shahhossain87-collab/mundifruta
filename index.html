@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -185,7 +185,7 @@
     </h1>
     <div class="hero-trust">
       <a class="hero-rating" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener" title="Ver avaliações no Google">
-        <span class="hr-stars">★★★★★</span>
+        <span class="hr-stars" aria-hidden="true">★★★★★</span>
         <span class="hr-score">4,9</span>
         <span class="hr-count">107+ Google</span>
       </a>
@@ -404,7 +404,7 @@
   <a class="google-badge fi" id="google-badge" href="#" target="_blank" rel="noopener">
     <span class="gb-logo">G</span>
     <span class="gb-nota" id="gb-nota">4,9</span>
-    <span class="gb-stars" id="gb-stars">★★★★★</span>
+    <span class="gb-stars" id="gb-stars" aria-hidden="true">★★★★★</span>
     <span class="gb-total" id="gb-total">107 avaliações no Google</span>
   </a>
   <div class="temas-row fi" id="temas-row"></div>
@@ -518,12 +518,12 @@
 </nav>
 
 <!-- ═══════════ FLOATING CART ═══════════ -->
-<button class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda">
+<button type="button" class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda">
   <span class="fc-icon">🛒</span>
   <span class="fc-text" id="float-cart-text">0 · 0,00 €</span>
 </button>
 
-<button class="float-legumes" id="float-legumes" onclick="abrirCatalogo('legumes')" title="Ver legumes frescos" hidden>
+<button type="button" class="float-legumes" id="float-legumes" onclick="abrirCatalogo('legumes')" title="Ver legumes frescos" hidden>
   Legumes
 </button>
 
@@ -579,7 +579,7 @@
 </div>
 
 <!-- ═══════════ CONSENTIMENTO (RGPD) ═══════════ -->
-<div class="consent" id="consent" hidden role="dialog" aria-label="Preferências de privacidade">
+<div class="consent" id="consent" hidden role="dialog" aria-modal="true" aria-label="Preferências de privacidade">
   <div class="consent-text">
     Usamos cookies essenciais para o funcionamento do site. Com a sua autorização, usamos também estatísticas e marketing (Google) para melhorar a sua experiência.
     <button class="consent-link" type="button" onclick="abrirPrivacidade()">Saber mais</button>
@@ -620,9 +620,9 @@
       <div class="product-modal-unit" id="product-modal-unit"></div>
       <p id="product-modal-note"></p>
       <div class="product-modal-qty" aria-label="Selecionar quantidade">
-        <button type="button" onclick="alterarQtdModal(-1)" aria-label="Diminuir quantidade">−</button>
+        <button type="button" id="product-modal-qty-minus" onclick="alterarQtdModal(-1)" aria-label="Diminuir quantidade">−</button>
         <strong id="product-modal-qty">1</strong>
-        <button type="button" onclick="alterarQtdModal(1)" aria-label="Aumentar quantidade">+</button>
+        <button type="button" id="product-modal-qty-plus" onclick="alterarQtdModal(1)" aria-label="Aumentar quantidade">+</button>
       </div>
       <button class="product-modal-add" id="product-modal-add" type="button" onclick="adicionarDoModal()">＋</button>
     </div>
@@ -646,7 +646,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>

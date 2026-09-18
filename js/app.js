@@ -82,7 +82,7 @@ const carrinho = {};
   function criarCard(item, id) {
     const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
     const disponivel = produtoDisponivel(item);
-    const card  = document.createElement('div');
+    const card  = document.createElement('article');
     card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
     if (!disponivel) card.classList.add('is-unavailable');
     const topRibbon = item.topVendido ? `<div class="top-badge">⭐ Mais vendido</div>` : '';
@@ -188,7 +188,7 @@ const carrinho = {};
       const temItens = item.itens && item.itens.length;
       const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
       const verBtn = temItens ? `<button class="cabaz-ver" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
-      const card = document.createElement('div');
+      const card = document.createElement('article');
       card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
       card.innerHTML = `
         ${badge}
@@ -258,6 +258,10 @@ const carrinho = {};
       ? `Produto fresco de origem ${item.origem}, selecionado diariamente pela Mundifruta.`
       : 'Produto fresco selecionado diariamente pela equipa Mundifruta.';
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
+    const qtyMinus = document.getElementById('product-modal-qty-minus');
+    const qtyPlus = document.getElementById('product-modal-qty-plus');
+    if (qtyMinus) qtyMinus.setAttribute('aria-label', `Diminuir quantidade de ${item.nome}`);
+    if (qtyPlus) qtyPlus.setAttribute('aria-label', `Aumentar quantidade de ${item.nome}`);
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });

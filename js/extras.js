@@ -261,7 +261,7 @@
         'fotos/mundifruta-photos-web/20260706_141845.jpg',
         'fotos/mundifruta-photos-web/20260706_120442.jpg',
       ];
-      gallery.innerHTML = fotos.map(f => `<div class="qs-photo"><img src="${f}" alt="Mundi Fruta — seleção diária" loading="lazy" decoding="async"/></div>`).join('');
+      gallery.innerHTML = fotos.map(f => `<div class="qs-photo"><img src="${f}" alt="" loading="lazy" decoding="async"/></div>`).join('');
     }
   }
 
@@ -303,11 +303,14 @@
       const passo = () => (grid.firstElementChild ? grid.firstElementChild.offsetWidth + 14 : 220);
       const prev = document.createElement('button');
       prev.className = 'carousel-nav prev'; prev.type = 'button';
-      prev.setAttribute('aria-label', 'Anterior'); prev.textContent = '‹';
+      const seccao = wrap.closest('.shop-feature, .section');
+      const titulo = seccao && seccao.querySelector('.section-title');
+      const nomeSeccao = titulo ? titulo.textContent.trim() : '';
+      prev.setAttribute('aria-label', nomeSeccao ? `Anterior — ${nomeSeccao}` : 'Anterior'); prev.textContent = '‹';
       prev.onclick = () => grid.scrollBy({ left: -passo() * 2, behavior: 'smooth' });
       const next = document.createElement('button');
       next.className = 'carousel-nav next'; next.type = 'button';
-      next.setAttribute('aria-label', 'Seguinte'); next.textContent = '›';
+      next.setAttribute('aria-label', nomeSeccao ? `Seguinte — ${nomeSeccao}` : 'Seguinte'); next.textContent = '›';
       next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: 'smooth' });
       wrap.appendChild(prev); wrap.appendChild(next);
 

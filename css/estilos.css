@@ -203,6 +203,10 @@
       opacity:.92; transition:opacity .2s ease, transform .2s ease;
     }
     .carousel-nav:hover { opacity:1; transform:translateY(-50%) scale(1.08); }
+    .carousel-nav:focus-visible {
+      outline:3px solid var(--forest);
+      outline-offset:3px;
+    }
     .carousel-nav.prev { left:-6px; }
     .carousel-nav.next { right:-6px; }
     @media (hover:none) { .carousel-nav { display:none; } }
@@ -245,6 +249,14 @@
       font-weight:700; font-size:1rem; text-decoration:none;
       display:inline-flex; align-items:center; gap:10px;
       transition:all 0.3s; box-shadow:0 8px 28px rgba(224,123,57,0.45);
+    }
+    .btn-prim:focus-visible {
+      outline:3px solid #fff;
+      outline-offset:3px;
+    }
+    .veg-suggestion:focus-visible {
+      outline:3px solid var(--peach);
+      outline-offset:3px;
     }
 
     .announcement-bar {
@@ -952,6 +964,11 @@
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
     .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
     .footer-links a:hover { color:var(--peach); }
+    .footer-links a:focus-visible,
+    .footer-credit a:focus-visible {
+      outline:2px solid #fff;
+      outline-offset:3px;
+    }
     .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
     .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
     .footer-credit a:hover { color:var(--sage); }
@@ -1103,6 +1120,11 @@
     }
     .reviews-cta { display:block; text-align:center; color:var(--forest-2); font-weight:600; text-decoration:none; font-size:0.92rem; }
     .reviews-cta:hover { color:var(--peach); }
+    .reviews-cta:focus-visible,
+    .google-badge:focus-visible {
+      outline:3px solid var(--forest);
+      outline-offset:3px;
+    }
 
     /* ??????????????????????????????????????
        CABAZ ? "ver o que leva" + modal
@@ -1254,6 +1276,10 @@
       white-space:nowrap;
     }
     .shop-link:hover { color:var(--peach); }
+    .shop-link:focus-visible {
+      outline:3px solid var(--forest);
+      outline-offset:3px;
+    }
     .promo-shop {
       background:linear-gradient(135deg,#fff7e9,#fff);
       border-top:1px solid #f3e3ca;
