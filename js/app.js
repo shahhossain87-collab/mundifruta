@@ -36,7 +36,7 @@ const carrinho = {};
     card.dataset.productId = item._id;
     card.innerHTML = `
       <button class="feature-photo" type="button" onclick="abrirProduto('${item._id}')" aria-label="Ver ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.nome}" width="400" height="185" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
         ${item.badge ? `<span class="feature-badge">${item.badge}</span>` : ''}
         ${item.topVendido ? `<span class="top-badge">⭐ Mais vendido</span>` : ''}
       </button>
@@ -91,10 +91,10 @@ const carrinho = {};
       ${topRibbon}
       <div class="sel-check">✓</div>
       <button class="photo-wrap" type="button" onclick="abrirProduto('${id}')" aria-label="Ver detalhes de ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.nome}" width="400" height="200" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
       </button>
       <div class="card-body">
-        <div class="product-name">${item.nome}</div>
+        <h3 class="product-name">${item.nome}</h3>
         <div class="product-price">${rotuloPreco(item)}</div>
         ${item.baseLinha ? `<div class="product-base">${item.baseLinha}</div>` : ''}
         ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
@@ -194,10 +194,10 @@ const carrinho = {};
         ${badge}
         <div class="sel-check">✓</div>
         <button class="photo-wrap" type="button" onclick="abrirCabaz('${id}')" aria-label="Ver detalhes de ${item.nome}">
-          <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+          <img src="${urlFoto(item.foto)}" alt="${item.nome}" width="400" height="200" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
         </button>
         <div class="card-body">
-          <div class="product-name">${item.nome}</div>
+          <h3 class="product-name">${item.nome}</h3>
           ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
           <div class="product-price">${rotuloPreco(item)}</div>
           ${verBtn}
@@ -436,10 +436,28 @@ const carrinho = {};
     atualizarResumo(); atualizarBadge();
   }
 
+  let anuncioCarrinhoInicial = true;
+  let ultimoAnuncioCarrinho = null;
+  function anunciarCarrinho(n) {
+    if (anuncioCarrinhoInicial) {
+      anuncioCarrinhoInicial = false;
+      ultimoAnuncioCarrinho = n;
+      return;
+    }
+    if (n === ultimoAnuncioCarrinho) return;
+    ultimoAnuncioCarrinho = n;
+    const live = document.getElementById('cart-live');
+    if (!live) return;
+    live.textContent = n > 0
+      ? `${n} ${n === 1 ? 'artigo' : 'artigos'} no carrinho`
+      : 'Carrinho vazio';
+  }
+
   function atualizarBadge() {
     const totais = totaisCarrinho();
     const n = totais.quantidade;
     document.getElementById('cart-count').textContent = n;
+    anunciarCarrinho(n);
     const quick = document.getElementById('quick-cart-count');
     if (quick) quick.textContent = n;
     const mb = document.getElementById('mb-cart-count');
@@ -571,8 +589,34 @@ const carrinho = {};
     document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('visible'));
     document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
     document.getElementById(`cat-${cat}`).classList.add('visible');
-    if (btn) btn.classList.add('active');
+    const tab = btn || document.getElementById(`tab-${cat}`);
+    if (tab) tab.classList.add('active');
     catAtual = cat;
+  }
+
+  function ligarSetasCategorias() {
+    const tabs = [...document.querySelectorAll('.cat-tab')];
+    if (tabs.length < 2) return;
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const proximo = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        proximo.focus();
+        proximo.click();
+      });
+    });
+  }
+
+  function mostrarCamposOpcionais() {
+    const extra = document.getElementById('order-optional');
+    const toggle = document.getElementById('order-optional-toggle');
+    if (!extra || !toggle) return;
+    extra.hidden = false;
+    toggle.hidden = true;
+    toggle.setAttribute('aria-expanded', 'true');
+    const primeiro = document.getElementById('cust-levantamento');
+    if (primeiro) primeiro.focus();
   }
 
   function abrirCatalogo(cat) {
@@ -743,6 +787,7 @@ const carrinho = {};
   renderCabazes();
   renderAvaliacoes();
   atualizarContadoresCategorias();
+  ligarSetasCategorias();
   carregarCarrinho();
   if (window.iniciarExtras) window.iniciarExtras();
 
