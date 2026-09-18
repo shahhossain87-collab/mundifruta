@@ -652,6 +652,41 @@ const carrinho = {};
     if (atalhos && catalogo) atalhos.insertAdjacentElement('afterend', catalogo);
   }
 
+  /* Deep links (#produtos, #inicio, #encomenda, …) are resolved by the
+     browser before this script moves #produtos below the shortcuts.
+     Re-align after that move so shared / sitelink URLs still land on
+     the section the customer asked for. Instant scroll — html already
+     uses scroll-behavior:smooth, which would animate a long jump. */
+  function restaurarAncoraAposLayout() {
+    const raw = window.location.hash;
+    if (!raw || raw.length < 2) return;
+    let id = raw.slice(1);
+    try { id = decodeURIComponent(id); } catch (e) { /* keep raw id */ }
+    if (!id || !/^[A-Za-z][\w:-]*$/.test(id)) return;
+    const alvo = document.getElementById(id);
+    if (!alvo) return;
+    const top = alvo.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo(0, Math.max(0, Math.round(top)));
+  }
+
+  function acompanharAncoraInicial() {
+    if (!window.location.hash || window.location.hash.length < 2) return;
+    let cancelado = false;
+    const cancelar = () => { cancelado = true; };
+    window.addEventListener('wheel', cancelar, { passive: true, once: true });
+    window.addEventListener('touchstart', cancelar, { passive: true, once: true });
+    window.addEventListener('keydown', cancelar, { once: true });
+    let n = 0;
+    const tick = () => {
+      if (cancelado) return;
+      restaurarAncoraAposLayout();
+      n += 1;
+      if (n < 10) setTimeout(tick, n < 4 ? 120 : 280);
+    };
+    tick();
+    window.addEventListener('load', () => { if (!cancelado) restaurarAncoraAposLayout(); });
+  }
+
   function atualizarContadoresCategorias() {
     const contadores = {
       frutas: produtos.frutas.length,
@@ -745,6 +780,7 @@ const carrinho = {};
   atualizarContadoresCategorias();
   carregarCarrinho();
   if (window.iniciarExtras) window.iniciarExtras();
+  acompanharAncoraInicial();
 
   document.addEventListener('keydown', e => {
     if (e.key !== 'Escape') return;
