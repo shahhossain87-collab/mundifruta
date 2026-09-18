@@ -225,6 +225,7 @@ const carrinho = {};
     const notaEl = document.getElementById('cabaz-modal-nota');
     if (notaEl) { notaEl.textContent = item.nota || ''; notaEl.style.display = item.nota ? 'block' : 'none'; }
     const addBtn = document.getElementById('cabaz-modal-add');
+    addBtn.setAttribute('aria-label', `Adicionar ${item.nome} ao carrinho`);
     addBtn.onclick = () => {
       adicionarProduto(id, item, 1);
       fecharCabaz();
@@ -258,6 +259,8 @@ const carrinho = {};
       ? `Produto fresco de origem ${item.origem}, selecionado diariamente pela Mundifruta.`
       : 'Produto fresco selecionado diariamente pela equipa Mundifruta.';
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
+    const addBtn = document.getElementById('product-modal-add');
+    if (addBtn) addBtn.setAttribute('aria-label', `Adicionar ${item.nome} ao carrinho`);
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });

@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -68,6 +68,8 @@
       "reviewCount": "107",
       "bestRating": "5"
     },
+    "alternateName": "Mundi Fruta",
+    "slogan": "Fruta & Legumes Frescos Todos os Dias",
     "areaServed": ["Carnaxide","Oeiras","Linda-a-Velha","Queijas","Miraflores","Algés"],
     "sameAs": [
       "https://www.facebook.com/share/1BTf2VkRDJ/",
@@ -260,7 +262,7 @@
 <div class="section shop-feature promo-shop" id="promocoes">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Poupe esta semana</span><h2 class="section-title">Promoções da Semana</h2></div>
-    <button class="shop-link" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Ver catálogo completo →</button>
+    <a class="shop-link" href="#produtos">Ver catálogo completo →</a>
   </div>
   <div class="feature-grid" id="promo-grid"></div>
 </div>
@@ -268,7 +270,7 @@
 <div class="section shop-feature alt" id="populares">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Os favoritos dos clientes</span><h2 class="section-title">Frutas Populares</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Ver todas as frutas →</button>
+    <a class="shop-link" href="#produtos" onclick="mostrarCategoria('frutas', document.getElementById('tab-frutas'))">Ver todas as frutas →</a>
   </div>
   <div class="feature-grid" id="popular-grid"></div>
 </div>
@@ -276,7 +278,7 @@
 <div class="section shop-feature" id="verao">
   <div class="shop-feature-head">
     <div><span class="eyebrow">No melhor momento</span><h2 class="section-title">Fruta da Época</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Explorar fruta →</button>
+    <a class="shop-link" href="#produtos" onclick="mostrarCategoria('frutas', document.getElementById('tab-frutas'))">Explorar fruta →</a>
   </div>
   <div class="feature-grid" id="season-grid"></div>
 </div>
@@ -284,7 +286,7 @@
 <div class="section shop-feature alt" id="legumes-frescos">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Escolhidos diariamente</span><h2 class="section-title">Legumes Frescos</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('legumes')">Ver todos os legumes →</button>
+    <a class="shop-link" href="#produtos" onclick="mostrarCategoria('legumes', document.getElementById('tab-legumes'))">Ver todos os legumes →</a>
   </div>
   <div class="feature-grid" id="veg-featured-grid"></div>
 </div>
@@ -438,7 +440,7 @@
     <div class="contact-card fi">
       <div class="contact-icon">📍</div>
       <h4>Morada</h4>
-      <p>Av de Portugal, Centro Cívico<br>Loja 24-C, 2790-129 Carnaxide</p>
+      <address>Av de Portugal, Centro Cívico<br>Loja 24-C, 2790-129 Carnaxide</address>
     </div>
     <div class="contact-card fi">
       <div class="contact-icon">📞</div>
@@ -471,6 +473,9 @@
     <div class="footer-text">&copy; 2026 MUNDIFRUTA · Frutas e Legumes Frescos · Carnaxide</div>
     <div class="footer-links">
       <a href="#produtos">Produtos</a>
+      <a href="#cabazes">Cabazes</a>
+      <a href="#promocoes">Promoções</a>
+      <a href="#avaliacoes">Avaliações</a>
       <a href="#quem-somos">Quem Somos</a>
       <a href="#encomenda">Encomendar</a>
       <a href="#contacto">Contacto</a>
@@ -624,7 +629,7 @@
         <strong id="product-modal-qty">1</strong>
         <button type="button" onclick="alterarQtdModal(1)" aria-label="Aumentar quantidade">+</button>
       </div>
-      <button class="product-modal-add" id="product-modal-add" type="button" onclick="adicionarDoModal()">＋</button>
+      <button class="product-modal-add" id="product-modal-add" type="button" onclick="adicionarDoModal()" aria-label="Adicionar ao carrinho">＋</button>
     </div>
   </div>
 </div>
@@ -641,12 +646,12 @@
     <p class="cabaz-modal-sub">Este cabaz é composto pelos seguintes itens:</p>
     <ul class="cabaz-modal-list" id="cabaz-modal-list"></ul>
     <p class="cabaz-modal-nota" id="cabaz-modal-nota" style="display:none"></p>
-    <button class="btn-wa cabaz-modal-add" id="cabaz-modal-add">＋</button>
+    <button class="btn-wa cabaz-modal-add" id="cabaz-modal-add" type="button" aria-label="Adicionar cabaz ao carrinho">＋</button>
   </div>
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=33"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
