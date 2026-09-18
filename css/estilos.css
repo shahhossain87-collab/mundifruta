@@ -2115,3 +2115,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* iOS zooms focused fields under 16px. After the Phase A font shorthand so it wins on small screens. */
+    @media (max-width:768px) {
+      .shop-main .search-input,
+      .shop-main .price-sort,
+      .shop-sidebar .filter-select {
+        font-size:16px;
+      }
+    }

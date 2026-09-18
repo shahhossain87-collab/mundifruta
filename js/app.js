@@ -822,6 +822,39 @@ const carrinho = {};
     document.body.classList.remove('filtros-open');
   }
 
+  // Mobile/tablet drawer only (≤900px). Desktop sticky sidebar must stay in the page tab order.
+  // Complementary to the open-drawer inert/dialog work: this still cycles Tab if inert is absent.
+  function gavetaFiltrosAberta() {
+    const sb = document.getElementById('shop-sidebar');
+    return Boolean(sb && sb.classList.contains('open') && window.matchMedia('(max-width: 900px)').matches);
+  }
+  function focaveisNaGaveta(sb) {
+    return Array.from(sb.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+      .filter(el => {
+        if (el.hasAttribute('hidden') || el.closest('[hidden]')) return false;
+        const s = window.getComputedStyle(el);
+        if (s.display === 'none' || s.visibility === 'hidden') return false;
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0;
+      });
+  }
+  function prenderTabFiltros(e) {
+    if (!gavetaFiltrosAberta()) return;
+    const sb = document.getElementById('shop-sidebar');
+    const list = focaveisNaGaveta(sb);
+    if (!list.length) return;
+    const first = list[0];
+    const last = list[list.length - 1];
+    const idx = list.indexOf(document.activeElement);
+    if (e.shiftKey && idx <= 0) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && (idx === -1 || idx === list.length - 1)) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
   // Guarda a posição de navegação do cliente para poder voltar exatamente ali.
   let posCatalogo = 0;
@@ -995,6 +1028,7 @@ const carrinho = {};
   if (window.iniciarExtras) window.iniciarExtras();
 
   document.addEventListener('keydown', e => {
+    if (e.key === 'Tab') { prenderTabFiltros(e); return; }
     if (e.key !== 'Escape') return;
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
