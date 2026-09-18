@@ -1839,3 +1839,15 @@
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
     }
+
+    /* Desktop social dock clearance for leftover first-paint hero chrome.
+       Complementary to PRs #34–#37 (footer / shop-map / catalog-order / info-strip). */
+    @media (min-width:769px) {
+      .hero-content {
+        max-width: min(860px, calc(100% - 200px));
+        min-width: 0;
+        width: 100%;
+        margin-left: auto;
+        margin-right: 200px;
+      }
+    }
