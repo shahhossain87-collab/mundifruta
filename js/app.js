@@ -519,13 +519,21 @@ const carrinho = {};
     return valor === null ? Infinity : valor;
   }
 
+  // Haystack = text already on the card (never invented labels).
+  function textoPesquisa(item) {
+    return [item.nome, item.origem, item.peso, item.badge, item.baseLinha]
+      .filter(Boolean)
+      .join(' ')
+      .toLocaleLowerCase('pt');
+  }
+
   function aplicarCatalogo() {
     const termo = document.getElementById('search-input').value.toLocaleLowerCase('pt').trim();
     const ordem = document.getElementById('price-sort').value;
     ['frutas','legumes'].forEach(cat => {
       const estado = catalogoEstado[cat];
       estado.filtrados = estado.todos.filter(item =>
-        !termo || item.nome.toLocaleLowerCase('pt').includes(termo)
+        !termo || textoPesquisa(item).includes(termo)
       );
       if (ordem === 'az' || ordem === 'za') {
         estado.filtrados.sort((a,b) => {

@@ -1,6 +1,7 @@
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
     :root {
+      color-scheme: light;
       --forest:    #1B4332;
       --forest-2:  #2D6A4F;
       --sage:      #52B788;
@@ -969,7 +970,8 @@
       transform:translateX(calc(100% - 50px));
       transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);
     }
-    .social-link:hover { transform:translateX(0); }
+    .social-link:hover,
+    .social-link:focus-visible { transform:translateX(0); }
     .social-label { order:1; }
     .social-icon  { width:22px; height:22px; flex-shrink:0; order:2; }
     .social-fb   { background:#1877F2; }
@@ -980,7 +982,9 @@
       font-size:.88rem; padding:14px 16px 14px 20px;
       box-shadow:-4px 4px 22px rgba(37,211,102,.45);
     }
-    .social-wa:hover { transform:translateX(0) scale(1.03); }
+    .social-wa:hover,
+    .social-wa:focus-visible { transform:translateX(0) scale(1.03); }
+    .social-link:focus-visible { outline:3px solid #fff; outline-offset:2px; }
 
     /* ??????????????????????????????????????
        SCROLL TOP
