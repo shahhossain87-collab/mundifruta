@@ -194,7 +194,7 @@
     .feature-grid.carousel > .feature-product {
       flex:0 0 clamp(190px, 24%, 250px); scroll-snap-align:start;
     }
-    .carousel-wrap { position:relative; }
+    .carousel-wrap { position:relative; max-width:1180px; margin-left:auto; margin-right:auto; }
     .carousel-nav {
       position:absolute; top:38%; transform:translateY(-50%); z-index:3;
       width:40px; height:40px; border-radius:50%; border:none; cursor:pointer;
@@ -1254,6 +1254,24 @@
       white-space:nowrap;
     }
     .shop-link:hover { color:var(--peach); }
+
+    /* Desktop social dock (always-open WhatsApp chips) sits in the lower-right.
+       Keep shop CTAs, carousel “Seguinte”, and map zoom/fullscreen clear of it.
+       Placed after .shop-feature-head so this wins over margin:0 auto.
+       Footer link clearance stays in PR #34; dock is display:none ≤768px. */
+    @media (min-width:769px) {
+      .shop-feature-head,
+      .carousel-wrap {
+        max-width: min(1180px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      #contacto .contact-grid,
+      #contacto .map-wrap {
+        max-width: min(1100px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+    }
+
     .promo-shop {
       background:linear-gradient(135deg,#fff7e9,#fff);
       border-top:1px solid #f3e3ca;

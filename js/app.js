@@ -446,6 +446,8 @@ const carrinho = {};
     if (mb) { mb.textContent = n; mb.style.display = n > 0 ? 'flex' : 'none'; }
     // Running subtotal on the persistent cart tab, so shoppers always see "how much am I at".
     const mbLabel = document.getElementById('mb-cart-label');
+    const mbCart = document.getElementById('mb-cart');
+    const subtotalText = totais.centimos > 0 ? formatarCentimos(totais.centimos) : (totais.porConfirmar ? 'A confirmar' : formatarCentimos(0));
     if (mbLabel) {
       if (totais.centimos > 0) {
         mbLabel.textContent = formatarCentimos(totais.centimos);
@@ -455,12 +457,20 @@ const carrinho = {};
         mbLabel.classList.remove('is-total');
       }
     }
+    if (mbCart) {
+      if (n > 0) {
+        const artigos = n === 1 ? 'artigo' : 'artigos';
+        mbCart.setAttribute('aria-label', `Carrinho: ${n} ${artigos}, ${subtotalText}`);
+      } else {
+        mbCart.setAttribute('aria-label', 'Carrinho');
+      }
+    }
     const fc = document.getElementById('float-cart');
     if (fc) {
       const fcText = document.getElementById('float-cart-text');
-      const subtotalText = totais.centimos > 0 ? formatarCentimos(totais.centimos) : (totais.porConfirmar ? 'A confirmar' : formatarCentimos(0));
       if (fcText) fcText.textContent = `${n} · ${subtotalText}`;
       fc.title = n > 0 ? `Ver a sua encomenda — ${n} itens · ${subtotalText}` : 'Ver a sua encomenda';
+      fc.setAttribute('aria-label', fc.title);
       if (n > 0) {
         fc.classList.add('visible');
         fc.classList.remove('pop'); void fc.offsetWidth; fc.classList.add('pop');
