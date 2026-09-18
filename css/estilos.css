@@ -1839,3 +1839,38 @@
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
     }
+
+    /* Desktop social dock clearance for leftover shop surfaces.
+       Complementary to footer links (PR #34) and shop-head / carousel / map (PR #35).
+       The always-open WhatsApp chips are ~178px at 1280px, fixed at right:0 bottom:90px. */
+    @media (min-width:769px) {
+      .cat-quick,
+      .order-steps-mini {
+        max-width: min(1000px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      .product-container {
+        max-width: min(1280px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      .steps-grid {
+        max-width: min(1180px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      .order-inner {
+        max-width: min(920px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      .reviews-grid {
+        max-width: min(1000px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      #quem-somos {
+        max-width: min(1080px, calc(100% - 180px));
+        margin-right: 180px;
+      }
+      .consent {
+        right: 192px;
+        max-width: min(760px, calc(100% - 204px));
+      }
+    }
