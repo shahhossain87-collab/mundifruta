@@ -300,6 +300,12 @@
       wrap.className = 'carousel-wrap';
       grid.parentNode.insertBefore(wrap, grid);
       wrap.appendChild(grid);
+      const titulo = wrap.closest('.shop-feature') && wrap.closest('.shop-feature').querySelector('.section-title');
+      const nome = titulo && titulo.textContent.trim();
+      if (nome) {
+        wrap.setAttribute('role', 'region');
+        wrap.setAttribute('aria-label', nome);
+      }
       const passo = () => (grid.firstElementChild ? grid.firstElementChild.offsetWidth + 14 : 220);
       const prev = document.createElement('button');
       prev.className = 'carousel-nav prev'; prev.type = 'button';
@@ -321,7 +327,15 @@
       const parar = () => { clearInterval(timer); timer = null; };
       const retomar = () => { if (!timer) timer = setInterval(auto, 4500); };
       wrap.addEventListener('pointerenter', parar);
-      wrap.addEventListener('pointerleave', retomar);
+      wrap.addEventListener('pointerleave', () => {
+        if (!wrap.matches(':focus-within')) retomar();
+      });
+      wrap.addEventListener('focusin', parar);
+      wrap.addEventListener('focusout', (e) => {
+        if (wrap.contains(e.relatedTarget)) return;
+        if (wrap.matches(':hover')) return;
+        retomar();
+      });
       grid.addEventListener('pointerdown', parar);
       grid.addEventListener('touchstart', parar, { passive: true });
     });

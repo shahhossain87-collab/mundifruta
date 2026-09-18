@@ -182,6 +182,8 @@
     .hero-content { position:relative; z-index:2; max-width:780px; }
     @media (prefers-reduced-motion:reduce) {
       .hero-slide { animation:none; transition:none; }
+      .feature-grid.carousel { scroll-behavior:auto; }
+      .float-cart.pop { animation:none; }
     }
 
     /* Carrosséis deslizantes (linhas de destaque) */
@@ -1838,4 +1840,34 @@
       .oo-ctas { flex-direction:column; }
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
+    }
+
+    /* Print: drop fixed chrome that covers the page, and keep catalog cards readable
+       even if fade-in observers never ran. Copy, prices, and URLs stay unchanged. */
+    @media print {
+      .announcement-bar,
+      #main-nav,
+      .mobile-menu,
+      .social-panel,
+      .mobile-bar,
+      .float-cart,
+      .scroll-top,
+      .toast,
+      .consent,
+      .offer-reveal,
+      .cs-pop,
+      .product-modal,
+      .cabaz-modal,
+      .privacy-modal,
+      .hero-slides,
+      .hero-wave,
+      .carousel-nav { display:none !important; }
+      body { padding:0 !important; }
+      .fi,
+      .product-card,
+      .product-card.visible {
+        opacity:1 !important;
+        transform:none !important;
+        animation:none !important;
+      }
     }
