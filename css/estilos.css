@@ -72,7 +72,17 @@
     .nav-links a:hover { background:rgba(255,255,255,0.15); color:#fff; }
     #main-nav.scrolled .nav-links a:hover { background:var(--cream-2); color:var(--forest); }
     .nav-links a.active { background:rgba(255,255,255,0.18); color:#fff; font-weight:700; }
+    .nav-links a:focus-visible,
+    .nav-order:focus-visible,
+    .hamburger:focus-visible {
+      outline:2px solid #fff; outline-offset:3px;
+    }
     #main-nav.scrolled .nav-links a.active { background:var(--sage-lt); color:var(--forest); }
+    #main-nav.scrolled .nav-links a:focus-visible,
+    #main-nav.scrolled .nav-order:focus-visible,
+    #main-nav.scrolled .hamburger:focus-visible {
+      outline-color:var(--forest);
+    }
 
     .nav-right { display:flex; align-items:center; gap:12px; }
     .nav-order {
@@ -399,6 +409,9 @@
         color:rgba(255,255,255,0.9); font-family:'Poppins',sans-serif; font-weight:600; font-size:0.72rem;
       }
       .mb-item:active { background:rgba(255,255,255,0.08); }
+      .mb-item:focus-visible {
+        outline:2px solid #fff; outline-offset:-4px;
+      }
       .mb-item .mb-icon { font-size:1.35rem; line-height:1; }
       /* Running subtotal shown on the cart tab — brand-accent so the value reads at a glance */
       .mb-item .mb-label.is-total { color:var(--sage-lt); font-weight:800; }
@@ -680,6 +693,9 @@
       color:var(--text-md); transition:all 0.24s ease; display:flex; align-items:center; gap:6px;
     }
     .cat-tab.active { background:var(--forest); color:#fff; box-shadow:0 4px 16px rgba(27,67,50,0.3); }
+    .cat-tab:focus-visible {
+      outline:3px solid var(--cherry); outline-offset:2px;
+    }
     .cat-count { padding:1px 8px; border-radius:var(--r-full); font-size:0.72rem; }
     .cat-tab.active .cat-count { background:rgba(255,255,255,0.22); color:#fff; }
     .cat-tab:not(.active) .cat-count { background:var(--cream-3); color:var(--text-md); }
@@ -772,7 +788,7 @@
     .feature-photo .top-badge { top:10px; left:10px; font-size:.7rem; }
 
     /* Preço: base de referência + promoção */
-    .product-base { font-size:.72rem; color:var(--sage-lt); margin:-2px 0 2px; font-weight:600; }
+    .product-base { font-size:.72rem; color:var(--text-md); margin:-2px 0 2px; font-weight:600; }
     .preco-antigo { text-decoration:line-through; color:var(--sage-lt); font-weight:600; margin-right:5px; font-size:.9em; }
     .preco-promo  { color:var(--cherry); font-weight:800; }
     .badge-unavailable { background:#6b7280 !important; color:#fff !important; }
@@ -1328,6 +1344,9 @@
       font:700 .8rem 'Poppins',sans-serif;
       cursor:pointer;
       box-shadow:0 6px 18px rgba(27,67,50,0.12);
+    }
+    .feature-add:focus-visible {
+      outline:3px solid var(--cherry); outline-offset:2px;
     }
 
     .products-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
