@@ -2115,3 +2115,17 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Phase A leftover: after “＋ Adicionar” the qty stepper was still 32px.
+       Complementary to the 44px main-column add button (PR #43). */
+    .shop-main .qty-btn {
+      width:44px; height:44px; min-width:44px; min-height:44px; flex:0 0 44px;
+    }
+
+    /* Desktop dialogs vs the always-open WhatsApp dock (complementary to #34–#39).
+       Dock is hidden at ≤768px; extra right padding only when the chips are visible. */
+    @media (min-width:769px) {
+      .product-modal,
+      .cabaz-modal,
+      .privacy-modal { padding-right:200px; }
+    }
