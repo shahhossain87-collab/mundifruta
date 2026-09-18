@@ -1318,9 +1318,10 @@
     .feature-buy { display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .feature-buy strong { color:var(--forest); font-family:'Playfair Display',serif; font-size:.98rem; }
     .feature-add {
-      min-height:34px;
-      padding:0 12px;
-      height:34px;
+      min-width:44px;
+      min-height:44px;
+      padding:0 14px;
+      height:44px;
       border:0;
       border-radius:18px;
       background:var(--forest);
@@ -2114,4 +2115,17 @@
     .shop-main .product-card .add-btn { margin-top:auto; }
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
+    }
+
+    /* Leftover taps outside Phase A .shop-main (PRs #43/#44): cabaz cards still
+       used the generic 32–38px add/qty/ver controls, and featured ＋ was 34px. */
+    #cabazes .cabaz-ver {
+      min-height:44px;
+      padding:10px 12px;
+    }
+    #cabazes .add-btn {
+      min-height:44px;
+    }
+    #cabazes .qty-btn {
+      width:44px; height:44px; min-width:44px; min-height:44px; flex:0 0 44px;
     }
