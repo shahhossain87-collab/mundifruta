@@ -1839,3 +1839,25 @@
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
     }
+
+    /* Desktop social dock clearance for leftover add-to-cart suggestions.
+       Complementary to PRs #34–#38 (page surfaces) and #4/#10/#11/#19/#33
+       (cross-sell names, focus, timer, alts, reduced-motion). The popup is
+       centered at 520px; on 769–900px laptops that box covers the always-open
+       WhatsApp chips (z-index 1400 > dock 900). */
+    @media (min-width:769px) {
+      .cs-pop {
+        left: auto;
+        right: 200px;
+        width: min(94vw, 520px, calc(100vw - 224px));
+        transform: none;
+        animation-name: cs-up-dock;
+      }
+    }
+    @keyframes cs-up-dock {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (min-width:769px) and (prefers-reduced-motion: reduce) {
+      .cs-pop { animation: none; }
+    }
