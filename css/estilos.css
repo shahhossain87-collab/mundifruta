@@ -942,6 +942,11 @@
        FOOTER
     ?????????????????????????????????????? */
     footer { background:var(--charcoal); padding:48px 24px; }
+    /* Desktop social dock is ~200px on the right (hidden ≤768px). Inset the link row, not the whole footer. */
+    @media (min-width:769px) {
+      footer { position:relative; z-index:901; }
+      .footer-links { margin-right:180px; }
+    }
     .footer-inner {
       max-width:1280px; margin:0 auto;
       display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
