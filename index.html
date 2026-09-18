@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -137,7 +137,7 @@
 </div>
 <div class="homepage-search">
   <div class="search-row">
-    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()"/>
+    <input class="search-input" id="search-input" type="text" placeholder="Pesquisar produto... (ex: morangos, tomates)" oninput="pesquisar()" spellcheck="false" autocapitalize="none" autocorrect="off"/>
     <button class="search-clear" id="search-clear" onclick="limparPesquisa()">✕</button>
   </div>
   <div class="catalog-bar-row compact">
@@ -166,7 +166,7 @@
       <div class="products-grid" id="grid-frutas"></div>
       <div class="no-results" id="no-frutas" style="display:none">Nenhum produto encontrado.</div>
       <div class="catalog-pagination" id="pagination-frutas"></div>
-      <button class="veg-suggestion" onclick="abrirCatalogo('legumes')">Continuar para Legumes Frescos →</button>
+      <button class="veg-suggestion" type="button" onclick="abrirCatalogo('legumes')">Continuar para Legumes Frescos →</button>
     </div>
     <div class="cat-section" id="cat-legumes">
       <div class="products-grid" id="grid-legumes"></div>
@@ -527,7 +527,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo" aria-label="Voltar ao topo">▲</button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->

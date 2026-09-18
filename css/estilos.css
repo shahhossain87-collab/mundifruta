@@ -259,7 +259,7 @@
       display:flex; align-items:center; gap:28px;
       height:100%; padding:0 16px;
       overflow:hidden;
-      animation: ticker 20s linear infinite;
+      animation: ticker 48s linear infinite;
       white-space:nowrap;
       font-size:0.88rem;
       color: var(--cherry);
@@ -421,10 +421,10 @@
       background:var(--cherry); color:#fff; border-radius:var(--r-full);
       box-shadow:0 8px 20px rgba(196,30,58,0.35), 0 2px 6px rgba(0,0,0,0.22);
       font-family:'Poppins',sans-serif; font-weight:800; font-size:0.88rem; letter-spacing:0.25px;
-      opacity:0; transform:translateY(-14px) scale(0.9); pointer-events:none;
-      transition:opacity 0.25s ease, transform 0.25s ease, filter 0.2s;
+      opacity:0; visibility:hidden; transform:translateY(-14px) scale(0.9); pointer-events:none;
+      transition:opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease, filter 0.2s;
     }
-    .float-cart.visible { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+    .float-cart.visible { opacity:1; visibility:visible; transform:translateY(0) scale(1); pointer-events:auto; }
     .float-cart:hover { filter:brightness(1.08); }
     .float-cart .fc-icon { font-size:1.25rem; line-height:1; }
     .float-cart .fc-text {
@@ -877,7 +877,7 @@
       border-color:var(--sage); background:rgba(255,255,255,0.13);
       box-shadow:0 0 0 3px rgba(82,183,136,0.2);
     }
-    .order-form textarea { height:90px; resize:none; }
+    .order-form textarea { height:90px; max-height:220px; resize:vertical; }
     /* Optional fields tucked behind a quiet reveal link — keeps the form a fast 2-field ask */
     .order-optional-toggle {
       display:inline-block; margin-bottom:12px; padding:4px 2px;
@@ -990,10 +990,10 @@
       width:44px; height:44px; border-radius:50%;
       background:var(--forest); color:#fff; border:none; cursor:pointer;
       font-size:1rem; box-shadow:0 4px 16px rgba(27,67,50,0.4);
-      opacity:0; transform:translateY(16px); pointer-events:none;
+      opacity:0; visibility:hidden; transform:translateY(16px); pointer-events:none;
       transition:all 0.3s; display:flex; align-items:center; justify-content:center;
     }
-    .scroll-top.visible { opacity:1; transform:translateY(0); pointer-events:all; }
+    .scroll-top.visible { opacity:1; visibility:visible; transform:translateY(0); pointer-events:all; }
     .scroll-top:hover   { background:var(--forest-2); transform:translateY(-3px); }
 
     /* ??????????????????????????????????????
@@ -1373,12 +1373,10 @@
     .catalog-pagination button:disabled { opacity:.4; cursor:not-allowed; }
     .catalog-pagination span { color:var(--text-md); font-size:.82rem; }
     .veg-suggestion {
-      position:sticky;
-      bottom:84px;
-      z-index:20;
+      position:relative;
       display:block;
       min-height:48px;
-      margin:24px auto 0;
+      margin:24px auto 8px;
       padding:0 22px;
       border:0;
       border-radius:var(--r-full);
@@ -1640,7 +1638,6 @@
         font-size:.72rem;
       }
       .veg-suggestion {
-        bottom:74px;
         min-height:42px;
         margin-top:16px;
         font-size:.76rem;
