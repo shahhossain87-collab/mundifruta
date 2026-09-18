@@ -233,11 +233,29 @@ const carrinho = {};
       const rot = { '0-2':'Até 2 €', '2-5':'2 € – 5 €', '5-999':'Mais de 5 €' }[catalogo.filtros.preco] || 'Preço';
       tags.push({ t:'preco', txt:rot });
     }
-    if (!tags.length) { box.innerHTML = ''; box.hidden = true; return; }
+    box.replaceChildren();
+    if (!tags.length) { box.hidden = true; return; }
     box.hidden = false;
-    box.innerHTML = tags.map(tag =>
-      `<button class="filter-tag" type="button" onclick="removerFiltro('${tag.t}')" aria-label="Remover filtro ${tag.txt}">${tag.txt} <span aria-hidden="true">✕</span></button>`
-    ).join('') + `<button class="filter-tag clear-all" type="button" onclick="limparTudo()">Limpar tudo</button>`;
+    tags.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tag';
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Remover filtro ' + tag.txt);
+      btn.addEventListener('click', () => removerFiltro(tag.t));
+      btn.append(tag.txt, ' ');
+      const x = document.createElement('span');
+      x.setAttribute('aria-hidden', 'true');
+      x.textContent = '✕';
+      btn.appendChild(x);
+      box.appendChild(btn);
+    });
+    const clear = document.createElement('button');
+    clear.className = 'filter-tag clear-all';
+    clear.type = 'button';
+    clear.setAttribute('aria-label', 'Limpar todos os filtros');
+    clear.textContent = 'Limpar tudo';
+    clear.addEventListener('click', limparTudo);
+    box.appendChild(clear);
   }
 
   function removerFiltro(tipo) {
