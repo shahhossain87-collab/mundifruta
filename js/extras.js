@@ -201,7 +201,7 @@
 
   function cartaoCS(item) {
     return `<button class="cs-card" type="button" onclick="csAdd('${item._id}')">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cs-emoji',textContent:'${item.emoji}'}))"/>
+        <img src="${urlFoto(item.foto)}" alt="" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cs-emoji',textContent:'${item.emoji}'}))"/>
         <span class="cs-nome">${item.nome}</span>
         <span class="cs-preco">${rotuloPreco(item)}</span>
         <span class="cs-add">＋</span>
@@ -215,9 +215,12 @@
     window.trackEvent('cross_sell_add', { item: item.nome });
     fecharCrossSell();
   };
-  window.fecharCrossSell = function () { document.getElementById('cs-pop').hidden = true; };
-
   let csTimer;
+  window.fecharCrossSell = function () {
+    clearTimeout(csTimer);
+    const pop = document.getElementById('cs-pop');
+    if (pop) pop.hidden = true;
+  };
   window.aoAdicionar = function (item) {
     window.trackEvent('add_to_cart', { item: item && item.nome });
     if (!item) return;
@@ -229,7 +232,7 @@
     const pop = document.getElementById('cs-pop');
     pop.hidden = false;
     clearTimeout(csTimer);
-    csTimer = setTimeout(() => { pop.hidden = true; }, 9000);
+    csTimer = setTimeout(fecharCrossSell, 9000);
     renderCsCart();
   };
 
