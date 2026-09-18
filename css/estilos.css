@@ -1101,7 +1101,12 @@
       width:36px; height:36px; border-radius:var(--r-full); background:var(--sage); color:var(--white);
       display:flex; align-items:center; justify-content:center; font-weight:700; flex:0 0 auto;
     }
-    .reviews-cta { display:block; text-align:center; color:var(--forest-2); font-weight:600; text-decoration:none; font-size:0.92rem; }
+    .reviews-cta {
+      display:flex; align-items:center; justify-content:center;
+      width:max-content; max-width:calc(100% - 32px);
+      min-height:44px; margin:0 auto; padding:0 12px;
+      text-align:center; color:var(--forest-2); font-weight:600; text-decoration:none; font-size:0.92rem;
+    }
     .reviews-cta:hover { color:var(--peach); }
 
     /* ??????????????????????????????????????
@@ -1838,4 +1843,15 @@
       .oo-ctas { flex-direction:column; }
       .oo-ctas .btn-prim, .oo-ctas .btn-sec { width:100%; justify-content:center; }
       .qs-intro { font-size:1.05rem; }
+    }
+
+    /* Desktop social dock clearance for leftover homepage chrome.
+       Complementary to footer (PR #34), shop-head/carousel/map (PR #35),
+       and catalog/order/reviews-grid (PR #36). The always-open WhatsApp
+       chips are ~178px at 1280px, fixed at right:0 bottom:90px. */
+    @media (min-width:769px) {
+      .info-strip-inner {
+        max-width: min(1280px, calc(100% - 200px));
+        margin-right: 200px;
+      }
     }
