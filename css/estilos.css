@@ -1198,6 +1198,12 @@
       z-index:-2;
     }
     .cat-quick-btn:hover img { transform:scale(1.055); }
+    .cat-quick-btn:focus { outline:none; }
+    .cat-quick-btn:focus-visible {
+      outline:3px solid #fff;
+      outline-offset:-3px;
+      box-shadow:inset 0 0 0 6px var(--forest);
+    }
     .cq-overlay {
       position:absolute;
       inset:0;

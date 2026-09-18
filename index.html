@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -56,12 +56,25 @@
       "longitude": -9.2447
     },
     "hasMap": "https://maps.app.goo.gl/1gHGqMac4ahTtfxf8",
+    "openingHours": "Mo-Su 08:00-20:00",
     "openingHoursSpecification": [{
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
       "opens": "08:00",
       "closes": "20:00"
     }],
+    "potentialAction": {
+      "@type": "OrderAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://wa.me/351932699850",
+        "actionPlatform": [
+          "https://schema.org/DesktopWebPlatform",
+          "https://schema.org/MobileWebPlatform"
+        ]
+      },
+      "deliveryMethod": "https://purl.org/goodrelations/v1#DeliveryModePickUp"
+    },
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.9",
@@ -113,7 +126,7 @@
       <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-right">
-      <button class="nav-order" onclick="irParaEncomenda()">
+      <button type="button" class="nav-order" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
       <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
@@ -214,29 +227,29 @@
 
 <!-- ═══════════ CATEGORY QUICK ACCESS ═══════════ -->
 <div class="cat-quick">
-  <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
-    <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
+  <button type="button" class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
+    <img src="fotos/cabaz_frutas.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
-    <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
+  <button type="button" class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
+    <img src="fotos/cabaz_legumes.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/cabaz_detox.jpeg" alt="Cabaz de frutas e legumes" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
+  <button type="button" class="cat-quick-btn" onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})">
+    <img src="fotos/cabaz_detox.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('promocoes').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
+  <button type="button" class="cat-quick-btn" onclick="document.getElementById('promocoes').scrollIntoView({behavior:'smooth'})">
+    <img src="fotos/morangos.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('verao').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/melancia.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
+  <button type="button" class="cat-quick-btn" onclick="document.getElementById('verao').scrollIntoView({behavior:'smooth'})">
+    <img src="fotos/melancia.jpeg" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
-  <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
-    <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
+  <button type="button" class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
+    <img src="fotos/cart-review.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async"/>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
 </div>
 
@@ -373,8 +386,8 @@
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
         <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
-          <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
-          <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
+          <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required enterkeyhint="next"/>
+          <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required enterkeyhint="send"/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
                   onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
             + Hora de levantamento ou nota <span>(opcional)</span>
@@ -509,7 +522,7 @@
   <a class="mb-item" href="#promocoes">
     <span class="mb-icon">%</span><span class="mb-label">Promoções</span>
   </a>
-  <a class="mb-item" href="https://wa.me/351932699850" target="_blank" rel="noopener">
+  <a class="mb-item" href="https://wa.me/351932699850?text=Ol%C3%A1%20MUNDIFRUTA!%20Gostaria%20de%20fazer%20uma%20pergunta." target="_blank" rel="noopener">
     <span class="mb-icon">💬</span><span class="mb-label">WhatsApp</span>
   </a>
   <a class="mb-item" href="https://www.google.com/maps/dir/?api=1&destination=Mundifruta-Carnaxide%2C+Av.+de+Portugal%2C+Centro+C%C3%ADvico%2C+Loja+24-C%2C+2790-129+Carnaxide" target="_blank" rel="noopener">
