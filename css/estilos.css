@@ -375,7 +375,15 @@
       padding:9px 14px; border-radius:var(--r-full); box-shadow:var(--sh);
     }
     .price-sort:focus { outline:none; border-color:var(--sage); }
-    @media (max-width:768px){ .sort-row { margin:-8px auto 18px; padding:0 4px; } }
+    @media (max-width:768px){
+      .sort-row { margin:-8px auto 18px; padding:0 4px; }
+      /* 16px keeps iOS from zooming the page when the sort control is focused */
+      .price-sort,
+      .homepage-search .price-sort.compact {
+        font-size:16px;
+        padding:9px 12px;
+      }
+    }
 
     /* ?? PAYMENT BADGES ?? */
     .pay-badges { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:16px; }
@@ -931,8 +939,9 @@
       font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
       color:var(--forest); margin-bottom:8px;
     }
-    .contact-card p, .contact-card a {
+    .contact-card p, .contact-card a, .contact-card address {
       color:var(--text-md); font-size:0.86rem; line-height:1.65; text-decoration:none;
+      font-style:normal;
     }
     .contact-card a:hover { color:var(--forest); }
     .map-wrap { border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--sh); max-width:1100px; margin:0 auto; }
@@ -1252,8 +1261,14 @@
       font:700 .86rem 'Poppins',sans-serif;
       cursor:pointer;
       white-space:nowrap;
+      text-decoration:none;
     }
     .shop-link:hover { color:var(--peach); }
+    .shop-link:focus-visible {
+      outline:3px solid var(--peach);
+      outline-offset:3px;
+      border-radius:4px;
+    }
     .promo-shop {
       background:linear-gradient(135deg,#fff7e9,#fff);
       border-top:1px solid #f3e3ca;
@@ -1620,9 +1635,9 @@
         font-size:.76rem;
       }
       .catalog-bar .price-sort {
-        max-width:124px;
-        padding:7px 8px;
-        font-size:.7rem;
+        max-width:160px;
+        padding:9px 12px;
+        font-size:16px;
       }
       .catalog-pagination {
         gap:8px;
