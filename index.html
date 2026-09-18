@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -376,7 +376,8 @@
           <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
           <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
-                  onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
+                  aria-expanded="false" aria-controls="order-optional"
+                  onclick="mostrarCamposOpcionais()">
             + Hora de levantamento ou nota <span>(opcional)</span>
           </button>
           <div class="order-optional" id="order-optional" hidden>
@@ -528,6 +529,7 @@
 </button>
 
 <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<div class="sr-only" id="cart-live" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -646,7 +648,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>

@@ -201,7 +201,7 @@
 
   function cartaoCS(item) {
     return `<button class="cs-card" type="button" onclick="csAdd('${item._id}')">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cs-emoji',textContent:'${item.emoji}'}))"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.nome}" width="84" height="84" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cs-emoji',textContent:'${item.emoji}'}))"/>
         <span class="cs-nome">${item.nome}</span>
         <span class="cs-preco">${rotuloPreco(item)}</span>
         <span class="cs-add">＋</span>
@@ -261,7 +261,7 @@
         'fotos/mundifruta-photos-web/20260706_141845.jpg',
         'fotos/mundifruta-photos-web/20260706_120442.jpg',
       ];
-      gallery.innerHTML = fotos.map(f => `<div class="qs-photo"><img src="${f}" alt="Mundi Fruta — seleção diária" loading="lazy" decoding="async"/></div>`).join('');
+      gallery.innerHTML = fotos.map(f => `<div class="qs-photo"><img src="${f}" alt="Mundi Fruta — seleção diária" width="400" height="400" loading="lazy" decoding="async"/></div>`).join('');
     }
   }
 
