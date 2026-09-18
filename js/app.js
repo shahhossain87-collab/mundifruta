@@ -354,6 +354,11 @@ const carrinho = {};
     return `${item.preco || 'A consultar'}${suf}`;
   }
 
+  // WhatsApp/email must stay plain text if the card label includes promo markup.
+  function rotuloPrecoTexto(item) {
+    return String(rotuloPreco(item)).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
   function totaisCarrinho() {
     return Object.values(carrinho).reduce((totais, item) => {
       const preco = precoCalculadoCentimos(item);
@@ -544,6 +549,25 @@ const carrinho = {};
       estado.pagina = 1;
       renderPagina(cat);
     });
+    atualizarEstadoPesquisa();
+  }
+
+  function atualizarEstadoPesquisa() {
+    const el = document.getElementById('search-status');
+    if (!el) return;
+    const termo = document.getElementById('search-input').value.trim();
+    if (!termo) {
+      el.textContent = '';
+      return;
+    }
+    const frutas = catalogoEstado.frutas.filtrados.length;
+    const legumes = catalogoEstado.legumes.filtrados.length;
+    const total = frutas + legumes;
+    if (!total) {
+      el.textContent = `Nenhum produto encontrado para “${termo}”.`;
+      return;
+    }
+    el.textContent = `${total} ${total === 1 ? 'produto encontrado' : 'produtos encontrados'} (${frutas} frutas · ${legumes} legumes).`;
   }
 
   function ordenarPreco() {
@@ -615,7 +639,7 @@ const carrinho = {};
       const preco = precoCalculadoCentimos(i);
       const subtotal = preco === null ? 'A confirmar' : formatarCentimos(preco * i.qtd);
       if (produtoComPesoMedio(i)) {
-        t += `• *${i.qtd}x* ${i.nome} (${i.peso}) — ${rotuloPreco(i)} — *Subtotal estimado: ${subtotal}*\n`;
+        t += `• *${i.qtd}x* ${i.nome} (${i.peso}) — ${rotuloPrecoTexto(i)} — *Subtotal estimado: ${subtotal}*\n`;
       } else {
         t += `• *${i.qtd}x* ${i.nome}${i.peso ? ` (${i.peso})` : ''} — ${i.preco} = *${subtotal}*\n`;
       }
