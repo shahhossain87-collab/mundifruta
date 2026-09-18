@@ -1866,8 +1866,8 @@
         margin-right: 180px;
       }
       #quem-somos {
-        max-width: min(1080px, calc(100% - 180px));
-        margin-right: 180px;
+        max-width: min(1080px, calc(100% - 200px));
+        margin-right: 200px;
       }
       .consent {
         right: 192px;

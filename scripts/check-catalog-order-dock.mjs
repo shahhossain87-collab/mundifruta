@@ -40,7 +40,7 @@ ok(
 );
 ok(
   'desktop Quem Somos clears the social dock',
-  /#quem-somos \{\s*max-width: min\(1080px, calc\(100% - 180px\)\);\s*margin-right: 180px;/.test(css)
+  /#quem-somos \{\s*max-width: min\(1080px, calc\(100% - 200px\)\);\s*margin-right: 200px;/.test(css)
 );
 ok(
   'desktop cookie banner clears the social dock',
