@@ -805,6 +805,40 @@ const carrinho = {};
   }
 
   /* ══ FILTROS: painel lateral / drawer no mobile ══ */
+  const mqFiltros = window.matchMedia('(max-width: 900px)');
+  let filtroFocoAnterior = null;
+
+  function filtrosEmGaveta() {
+    return mqFiltros.matches;
+  }
+
+  function sincronizarFiltros(abrir) {
+    const sb = document.getElementById('shop-sidebar');
+    const btn = document.getElementById('filtbtn');
+    const mobile = filtrosEmGaveta();
+    if (btn) {
+      btn.setAttribute('aria-expanded', String(Boolean(mobile && abrir)));
+      btn.setAttribute('aria-label', mobile && abrir ? 'Fechar filtros e categorias' : 'Abrir filtros e categorias');
+    }
+    if (!sb) return;
+    if (mobile) {
+      sb.setAttribute('aria-hidden', abrir ? 'false' : 'true');
+      sb.inert = !abrir;
+      if (abrir) {
+        sb.setAttribute('role', 'dialog');
+        sb.setAttribute('aria-modal', 'true');
+      } else {
+        sb.removeAttribute('role');
+        sb.removeAttribute('aria-modal');
+      }
+    } else {
+      sb.removeAttribute('aria-hidden');
+      sb.inert = false;
+      sb.removeAttribute('role');
+      sb.removeAttribute('aria-modal');
+    }
+  }
+
   function toggleFiltros() {
     const sb = document.getElementById('shop-sidebar');
     const bd = document.getElementById('shop-backdrop');
@@ -813,14 +847,38 @@ const carrinho = {};
     sb.classList.toggle('open', abrir);
     if (bd) bd.hidden = !abrir;
     document.body.classList.toggle('filtros-open', abrir);
+    if (abrir) {
+      filtroFocoAnterior = document.activeElement;
+      sincronizarFiltros(true);
+      const close = sb.querySelector('.sidebar-close');
+      if (close) close.focus();
+    } else {
+      sincronizarFiltros(false);
+      const alvo = filtroFocoAnterior;
+      filtroFocoAnterior = null;
+      if (alvo && typeof alvo.focus === 'function') alvo.focus();
+    }
   }
   function fecharFiltros() {
     const sb = document.getElementById('shop-sidebar');
     const bd = document.getElementById('shop-backdrop');
+    const estavaAberto = sb && sb.classList.contains('open');
     if (sb) sb.classList.remove('open');
     if (bd) bd.hidden = true;
     document.body.classList.remove('filtros-open');
+    sincronizarFiltros(false);
+    if (estavaAberto && filtroFocoAnterior && typeof filtroFocoAnterior.focus === 'function') {
+      filtroFocoAnterior.focus();
+    }
+    filtroFocoAnterior = null;
   }
+
+  function aoMudarViewportFiltros() {
+    if (!filtrosEmGaveta()) fecharFiltros();
+    else sincronizarFiltros(Boolean(document.getElementById('shop-sidebar')?.classList.contains('open')));
+  }
+  if (typeof mqFiltros.addEventListener === 'function') mqFiltros.addEventListener('change', aoMudarViewportFiltros);
+  else if (typeof mqFiltros.addListener === 'function') mqFiltros.addListener(aoMudarViewportFiltros);
 
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
   // Guarda a posição de navegação do cliente para poder voltar exatamente ali.
@@ -992,6 +1050,7 @@ const carrinho = {};
   renderAvaliacoes();
   atualizarContadoresCategorias();
   carregarCarrinho();
+  sincronizarFiltros(false);
   if (window.iniciarExtras) window.iniciarExtras();
 
   document.addEventListener('keydown', e => {

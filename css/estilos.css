@@ -1980,7 +1980,8 @@
     .cat-tab:focus-visible, .subcat-chip:focus-visible, .filter-chip:focus-visible,
     .filter-select:focus-visible, .price-sort:focus-visible, .add-btn:focus-visible,
     .qty-btn:focus-visible, .catalog-pagination button:focus-visible, .link-btn:focus-visible,
-    .filter-tag:focus-visible, .photo-wrap:focus-visible {
+    .filter-tag:focus-visible, .photo-wrap:focus-visible, .filtbtn:focus-visible,
+    .sidebar-close:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
     }
@@ -2072,7 +2073,7 @@
     .shop-main .products-grid { grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:18px; }
 
     /* Botão "Filtros", botão fechar e backdrop — só no mobile */
-    .filtbtn { display:none; align-items:center; gap:8px; border:1px solid var(--line-2); background:#fff; border-radius:var(--r-full); padding:10px 16px; font:700 .85rem 'Poppins',sans-serif; cursor:pointer; }
+    .filtbtn { display:none; align-items:center; gap:8px; border:1px solid var(--line-2); background:#fff; border-radius:var(--r-full); padding:10px 16px; font:700 .85rem 'Poppins',sans-serif; cursor:pointer; min-height:44px; }
     .sidebar-close { display:none; }
     .shop-backdrop { display:none; }
 
@@ -2085,16 +2086,24 @@
     @media (max-width:900px) {
       .shop-layout { grid-template-columns:1fr; gap:0; }
       .shop-sidebar {
-        position:fixed; top:0; left:0; bottom:0; width:86%; max-width:340px; z-index:1200;
-        background:#fff; padding:18px 16px 28px; overflow:auto; max-height:none;
+        position:fixed; top:0; left:0; bottom:0; width:86%; max-width:340px; z-index:1300;
+        background:#fff; padding:18px 16px calc(28px + env(safe-area-inset-bottom, 0)); overflow:auto; max-height:none;
         transform:translateX(-105%); transition:transform .28s ease; box-shadow:var(--sh-hover); border-radius:0; gap:14px;
       }
       .shop-sidebar.open { transform:translateX(0); }
-      .shop-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:1150; border:none; padding:0; }
+      .shop-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:1250; border:none; padding:0; }
       .shop-backdrop[hidden] { display:none; }
-      .sidebar-close { display:block; margin:0 0 6px auto; background:none; border:none; font-size:1.35rem; line-height:1; cursor:pointer; color:var(--text); }
+      .sidebar-close {
+        display:flex; align-items:center; justify-content:center; flex:0 0 44px;
+        width:44px; height:44px; margin:0 0 6px auto;
+        background:none; border:none; font-size:1.35rem; line-height:1; cursor:pointer; color:var(--text);
+      }
       .filtbtn { display:inline-flex; }
       body.filtros-open { overflow:hidden; }
+      body.filtros-open .mobile-bar { pointer-events:none; }
+    }
+    @media (max-width:900px) and (prefers-reduced-motion: reduce) {
+      .shop-sidebar { transition:none; }
     }
 
     /* ═══════════════════════════════════════════════════════════

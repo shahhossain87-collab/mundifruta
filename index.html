@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=43"/>
+  <link rel="stylesheet" href="css/estilos.css?v=44"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -198,7 +198,7 @@
         </div>
 
         <div class="catalog-resultbar">
-          <button class="filtbtn" type="button" onclick="toggleFiltros()" aria-label="Abrir filtros e categorias">⚙️ Filtros</button>
+          <button class="filtbtn" id="filtbtn" type="button" onclick="toggleFiltros()" aria-expanded="false" aria-controls="shop-sidebar" aria-label="Abrir filtros e categorias">⚙️ Filtros</button>
           <div class="catalog-count" id="catalog-count" aria-live="polite"></div>
           <select class="price-sort" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar produtos">
             <option value="">Ordenar: relevância</option>
@@ -326,7 +326,7 @@
 <div class="section shop-feature" id="verao">
   <div class="shop-feature-head">
     <div><span class="eyebrow">No melhor momento</span><h2 class="section-title">Fruta da Época</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Explorar fruta →</button>
+    <button class="shop-link" onclick="abrirCatalogo('epoca')">Explorar fruta →</button>
   </div>
   <div class="feature-grid" id="season-grid"></div>
 </div>
@@ -696,7 +696,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=36"></script>
+<script src="js/app.js?v=37"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
