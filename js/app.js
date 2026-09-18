@@ -45,7 +45,7 @@ const carrinho = {};
         <p>${item.peso || 'Unidade'} · ${item.origem || 'Fresco diário'}</p>
         <div class="feature-buy">
           <strong>${rotuloPreco(item)}</strong>
-          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
+          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋</button>
         </div>
       </div>`;
     return card;
@@ -488,9 +488,9 @@ const carrinho = {};
         <span class="order-item-main">${i.emoji} ${i.nome}${i.peso ? ` <small>(${i.peso})</small>` : ''}</span>
         <span class="order-item-actions">
           <span class="oi-stepper">
-            <button type="button" onclick="alterarQtdCarrinho('${i._id}',-1)" aria-label="Menos">−</button>
+            <button type="button" onclick="alterarQtdCarrinho('${i._id}',-1)" aria-label="Diminuir quantidade de ${i.nome}">−</button>
             <b>${i.qtd}</b>
-            <button type="button" onclick="alterarQtdCarrinho('${i._id}',1)" aria-label="Mais">+</button>
+            <button type="button" onclick="alterarQtdCarrinho('${i._id}',1)" aria-label="Aumentar quantidade de ${i.nome}">+</button>
           </span>
           <span class="order-item-price">${estimado
             ? `${rotuloPreco(i)} <strong>Subtotal estimado: ${subtotal}</strong>`

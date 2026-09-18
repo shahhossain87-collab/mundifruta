@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -142,8 +142,8 @@
   </div>
   <div class="catalog-bar-row compact">
     <div class="cat-tabs">
-      <button class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
-      <button class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
+      <button type="button" class="cat-tab active" id="tab-frutas" onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas">28</span></button>
+      <button type="button" class="cat-tab" id="tab-legumes" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes">16</span></button>
     </div>
     <select class="price-sort compact" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar por preço">
       <option value="">↕ Ordenar</option>
@@ -197,7 +197,7 @@
       <a href="#produtos" class="btn-prim">Comprar Agora</a>
     </div>
   </div>
-  <svg class="hero-wave" viewBox="0 0 1440 72" fill="none" preserveAspectRatio="none">
+  <svg class="hero-wave" viewBox="0 0 1440 72" fill="none" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <path d="M0,36 C240,72 480,0 720,36 C960,72 1200,0 1440,36 L1440,72 L0,72 Z" fill="#FEFCF7"/>
   </svg>
 </div>
@@ -502,7 +502,7 @@
 
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
 <nav class="mobile-bar" id="mobile-bar">
-  <button class="mb-item" onclick="irParaEncomenda()">
+  <button type="button" class="mb-item" onclick="irParaEncomenda()">
     <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
   </button>
@@ -646,7 +646,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
+<script src="js/app.js?v=33"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
