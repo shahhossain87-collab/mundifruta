@@ -950,8 +950,18 @@
     .footer-logo span { color:var(--peach); }
     .footer-text { color:rgba(255,255,255,0.4); font-size:0.8rem; }
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
-    .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
-    .footer-links a:hover { color:var(--peach); }
+    .footer-links a,
+    .footer-links .footer-privacy {
+      color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s;
+    }
+    .footer-links .footer-privacy {
+      background:none; border:none; padding:0; font:inherit; cursor:pointer;
+    }
+    .footer-links a:hover,
+    .footer-links .footer-privacy:hover { color:var(--peach); }
+    .footer-links .footer-privacy:focus-visible {
+      outline:2px solid var(--peach); outline-offset:3px; border-radius:2px;
+    }
     .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
     .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
     .footer-credit a:hover { color:var(--sage); }
@@ -1687,6 +1697,9 @@
       box-shadow:var(--sh-lg); padding:16px 16px 12px; z-index:1400; animation:cs-up .28s ease;
     }
     @keyframes cs-up { from{opacity:0; transform:translate(-50%,16px);} to{opacity:1; transform:translate(-50%,0);} }
+    @media (prefers-reduced-motion: reduce) {
+      .cs-pop { animation:none; }
+    }
     .cs-pop-close { position:absolute; top:8px; right:10px; border:none; background:none; font-size:1.1rem; cursor:pointer; color:var(--text-md); }
     .cs-pop-skip { margin-top:10px; width:100%; padding:9px; border:none; background:var(--cream-2); color:var(--text); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
 

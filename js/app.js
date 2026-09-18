@@ -230,12 +230,16 @@ const carrinho = {};
       fecharCabaz();
       document.getElementById('encomenda').scrollIntoView({ behavior:'smooth' });
     };
-    document.getElementById('cabaz-modal').classList.add('open');
+    const modal = document.getElementById('cabaz-modal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
 
   function fecharCabaz() {
-    document.getElementById('cabaz-modal').classList.remove('open');
+    const modal = document.getElementById('cabaz-modal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
@@ -258,13 +262,17 @@ const carrinho = {};
       ? `Produto fresco de origem ${item.origem}, selecionado diariamente pela Mundifruta.`
       : 'Produto fresco selecionado diariamente pela equipa Mundifruta.';
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
-    document.getElementById('product-modal').classList.add('open');
+    const modal = document.getElementById('product-modal');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
   }
 
   function fecharProduto() {
-    document.getElementById('product-modal').classList.remove('open');
+    const modal = document.getElementById('product-modal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     modalProdutoId = null;
   }
@@ -727,7 +735,8 @@ const carrinho = {};
     document.getElementById('reviews-grid').innerHTML = avaliacoes.map(a => {
       const stars = '★★★★★'.slice(0, a.estrelas) + '☆☆☆☆☆'.slice(0, 5 - a.estrelas);
       return `<div class="review-card">
-        <div class="review-stars">${stars}</div>
+        <div class="review-stars" aria-hidden="true">${stars}</div>
+        <span class="sr-only">${a.estrelas} de 5 estrelas</span>
         <p class="review-text">${a.texto}</p>
         <div class="review-author"><span class="review-avatar">${(a.nome[0]||'?').replace('[','C')}</span>${a.nome}</div>
       </div>`;
@@ -750,7 +759,11 @@ const carrinho = {};
     if (e.key !== 'Escape') return;
     if (document.getElementById('product-modal').classList.contains('open')) fecharProduto();
     if (document.getElementById('cabaz-modal').classList.contains('open')) fecharCabaz();
-    const csp = document.getElementById('cs-pop'); if (csp && !csp.hidden) csp.hidden = true;
+    const csp = document.getElementById('cs-pop');
+    if (csp && !csp.hidden) {
+      if (typeof window.fecharCrossSell === 'function') window.fecharCrossSell();
+      else csp.hidden = true;
+    }
     const off = document.getElementById('offer-pop'); if (off && !off.hidden && window.fecharOferta) window.fecharOferta();
     const priv = document.getElementById('privacy-modal'); if (priv && !priv.hidden) priv.hidden = true;
   });

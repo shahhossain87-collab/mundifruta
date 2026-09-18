@@ -22,13 +22,13 @@
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="MUNDIFRUTA — Frutas &amp; Legumes Frescos em Carnaxide"/>
-  <meta name="twitter:description" content="Fresh fruit & vegetables · Carnaxide. Frutas e legumes frescos — WhatsApp order, pick up in store. 8h–20h · Mundifruta."/>
+  <meta name="twitter:description" content="Fresh fruit &amp; vegetables · Carnaxide. Frutas e legumes frescos — WhatsApp order, pick up in store. 8h–20h · Mundifruta."/>
   <meta name="twitter:image" content="https://mundifruta.com/fotos/cabaz_mix.jpeg"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -474,7 +474,7 @@
       <a href="#quem-somos">Quem Somos</a>
       <a href="#encomenda">Encomendar</a>
       <a href="#contacto">Contacto</a>
-      <a href="#" onclick="abrirPrivacidade();return false;">Privacidade</a>
+      <button type="button" class="footer-privacy" onclick="abrirPrivacidade()">Privacidade</button>
     </div>
     <div class="footer-credit">Desenvolvido por <a href="mailto:shahhossain050187@gmail.com">Shah Hossain</a></div>
   </div>
@@ -609,7 +609,7 @@
 </div>
 
 <!-- ═══════════ PRODUCT PREVIEW MODAL ═══════════ -->
-<div class="product-modal" id="product-modal" onclick="if(event.target===this)fecharProduto()">
+<div class="product-modal" id="product-modal" onclick="if(event.target===this)fecharProduto()" aria-hidden="true">
   <div class="product-modal-box" role="dialog" aria-modal="true" aria-labelledby="product-modal-name">
     <button class="product-modal-close" type="button" onclick="fecharProduto()" aria-label="Fechar">✕</button>
     <div class="product-modal-photo"><img id="product-modal-image" src="" alt=""/></div>
@@ -630,9 +630,9 @@
 </div>
 
 <!-- ═══════════ CABAZ MODAL ═══════════ -->
-<div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()">
+<div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()" aria-hidden="true">
   <div class="cabaz-modal-box">
-    <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
+    <button class="cabaz-modal-close" type="button" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
     <div class="cabaz-modal-head">
       <span class="eyebrow">Composição do Cabaz</span>
       <h3 id="cabaz-modal-title">Cabaz</h3>
@@ -646,7 +646,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>
