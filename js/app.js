@@ -11,6 +11,21 @@ const carrinho = {};
   const NOTA_PRECO_ESTIMADO = 'Preço estimado com base no peso médio. O valor final pode variar conforme o peso real do produto no momento da preparação da encomenda.';
   const DISCLAIMER_PRODUTOS_NATURAIS = 'Produtos naturais podem variar de peso. O preço final será calculado de acordo com o peso exato preparado para a sua encomenda.';
 
+  function reduzirMovimento() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  function comportamentoScroll() {
+    return reduzirMovimento() ? 'auto' : 'smooth';
+  }
+  function irParaSeccao(id, bloco) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: comportamentoScroll(), block: bloco || 'start' });
+  }
+  function irParaTopo() {
+    window.scrollTo({ top: 0, behavior: comportamentoScroll() });
+  }
+
   /* ══ IMAGE FALLBACKS ══ */
   function erroImagem(img) {
     const wrap = img.closest('.photo-wrap');
@@ -156,7 +171,7 @@ const carrinho = {};
     const el = document.getElementById(`pagination-${cat}`);
     el.innerHTML = `
       <button type="button" onclick="mudarPagina('${cat}',-1)" ${estado.pagina === 1 ? 'disabled' : ''}>← Anterior</button>
-      <span>Página ${estado.pagina} de ${paginas}</span>
+      <span role="status">Página ${estado.pagina} de ${paginas}</span>
       <button type="button" onclick="mudarPagina('${cat}',1)" ${estado.pagina === paginas ? 'disabled' : ''}>Seguinte →</button>`;
   }
 
@@ -175,7 +190,12 @@ const carrinho = {};
     const paginas = Math.max(1, Math.ceil(estado.filtrados.length / POR_PAGINA));
     estado.pagina = Math.min(paginas, Math.max(1, estado.pagina + delta));
     renderPagina(cat);
-    document.getElementById(`cat-${cat}`).scrollIntoView({ behavior:'smooth', block:'start' });
+    irParaSeccao(`cat-${cat}`, 'start');
+    const grid = document.getElementById(`grid-${cat}`);
+    if (grid) {
+      grid.setAttribute('tabindex', '-1');
+      try { grid.focus({ preventScroll: true }); } catch (e) { grid.focus(); }
+    }
   }
 
   /* ══ CABAZES ══ */
@@ -228,7 +248,7 @@ const carrinho = {};
     addBtn.onclick = () => {
       adicionarProduto(id, item, 1);
       fecharCabaz();
-      document.getElementById('encomenda').scrollIntoView({ behavior:'smooth' });
+      irParaSeccao('encomenda');
     };
     document.getElementById('cabaz-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -577,7 +597,7 @@ const carrinho = {};
 
   function abrirCatalogo(cat) {
     mostrarCategoria(cat, document.getElementById(`tab-${cat}`));
-    document.getElementById('produtos').scrollIntoView({ behavior:'smooth', block:'start' });
+    irParaSeccao('produtos', 'start');
   }
 
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
@@ -588,14 +608,13 @@ const carrinho = {};
     const y = window.scrollY;
     // Só memoriza se o cliente está a ver o catálogo (não a partir do topo/hero).
     if (prod && y >= prod.offsetTop - 240) posCatalogo = y;
-    const enc = document.getElementById('encomenda');
-    if (enc) enc.scrollIntoView({ behavior:'smooth', block:'start' });
+    irParaSeccao('encomenda', 'start');
   }
   // "Continuar a comprar" — fecha a vista de encomenda e volta ao catálogo, na posição anterior.
   function continuarAComprar() {
     const prod = document.getElementById('produtos');
     const alvo = posCatalogo || (prod ? prod.getBoundingClientRect().top + window.scrollY - 8 : 0);
-    window.scrollTo({ top: alvo, behavior:'smooth' });
+    window.scrollTo({ top: alvo, behavior: comportamentoScroll() });
   }
 
   /* ══ ORDER ══ */

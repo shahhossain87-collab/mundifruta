@@ -301,22 +301,23 @@
       grid.parentNode.insertBefore(wrap, grid);
       wrap.appendChild(grid);
       const passo = () => (grid.firstElementChild ? grid.firstElementChild.offsetWidth + 14 : 220);
+      const scrollAnim = reduzir ? 'auto' : 'smooth';
       const prev = document.createElement('button');
       prev.className = 'carousel-nav prev'; prev.type = 'button';
       prev.setAttribute('aria-label', 'Anterior'); prev.textContent = '‹';
-      prev.onclick = () => grid.scrollBy({ left: -passo() * 2, behavior: 'smooth' });
+      prev.onclick = () => grid.scrollBy({ left: -passo() * 2, behavior: scrollAnim });
       const next = document.createElement('button');
       next.className = 'carousel-nav next'; next.type = 'button';
       next.setAttribute('aria-label', 'Seguinte'); next.textContent = '›';
-      next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: 'smooth' });
+      next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: scrollAnim });
       wrap.appendChild(prev); wrap.appendChild(next);
 
       if (reduzir) return;
       let timer = setInterval(auto, 4500);
       function auto() {
         const fim = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 8;
-        if (fim) grid.scrollTo({ left: 0, behavior: 'smooth' });
-        else grid.scrollBy({ left: passo(), behavior: 'smooth' });
+        if (fim) grid.scrollTo({ left: 0, behavior: scrollAnim });
+        else grid.scrollBy({ left: passo(), behavior: scrollAnim });
       }
       const parar = () => { clearInterval(timer); timer = null; };
       const retomar = () => { if (!timer) timer = setInterval(auto, 4500); };

@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=37"/>
+  <link rel="stylesheet" href="css/estilos.css?v=38"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -163,13 +163,13 @@
   </div>
   <div class="product-container">
     <div class="cat-section visible" id="cat-frutas">
-      <div class="products-grid" id="grid-frutas"></div>
+      <div class="products-grid" id="grid-frutas" aria-label="Frutas"></div>
       <div class="no-results" id="no-frutas" style="display:none">Nenhum produto encontrado.</div>
       <div class="catalog-pagination" id="pagination-frutas"></div>
       <button class="veg-suggestion" onclick="abrirCatalogo('legumes')">Continuar para Legumes Frescos →</button>
     </div>
     <div class="cat-section" id="cat-legumes">
-      <div class="products-grid" id="grid-legumes"></div>
+      <div class="products-grid" id="grid-legumes" aria-label="Legumes"></div>
       <div class="no-results" id="no-legumes" style="display:none">Nenhum produto encontrado.</div>
       <div class="catalog-pagination" id="pagination-legumes"></div>
     </div>
@@ -222,19 +222,19 @@
     <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('cabazes').scrollIntoView({behavior:'smooth'})">
+  <button class="cat-quick-btn" onclick="irParaSeccao('cabazes')">
     <img src="fotos/cabaz_detox.jpeg" alt="Cabaz de frutas e legumes" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('promocoes').scrollIntoView({behavior:'smooth'})">
+  <button class="cat-quick-btn" onclick="irParaSeccao('promocoes')">
     <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
   </button>
-  <button class="cat-quick-btn" onclick="document.getElementById('verao').scrollIntoView({behavior:'smooth'})">
+  <button class="cat-quick-btn" onclick="irParaSeccao('verao')">
     <img src="fotos/melancia.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
-  <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
+  <button class="cat-quick-btn cq-order" onclick="irParaSeccao('encomenda')">
     <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
@@ -260,7 +260,7 @@
 <div class="section shop-feature promo-shop" id="promocoes">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Poupe esta semana</span><h2 class="section-title">Promoções da Semana</h2></div>
-    <button class="shop-link" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Ver catálogo completo →</button>
+    <button type="button" class="shop-link" onclick="irParaSeccao('produtos')">Ver catálogo completo →</button>
   </div>
   <div class="feature-grid" id="promo-grid"></div>
 </div>
@@ -268,7 +268,7 @@
 <div class="section shop-feature alt" id="populares">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Os favoritos dos clientes</span><h2 class="section-title">Frutas Populares</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Ver todas as frutas →</button>
+    <button type="button" class="shop-link" onclick="abrirCatalogo('frutas')">Ver todas as frutas →</button>
   </div>
   <div class="feature-grid" id="popular-grid"></div>
 </div>
@@ -276,7 +276,7 @@
 <div class="section shop-feature" id="verao">
   <div class="shop-feature-head">
     <div><span class="eyebrow">No melhor momento</span><h2 class="section-title">Fruta da Época</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Explorar fruta →</button>
+    <button type="button" class="shop-link" onclick="abrirCatalogo('frutas')">Explorar fruta →</button>
   </div>
   <div class="feature-grid" id="season-grid"></div>
 </div>
@@ -284,7 +284,7 @@
 <div class="section shop-feature alt" id="legumes-frescos">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Escolhidos diariamente</span><h2 class="section-title">Legumes Frescos</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('legumes')">Ver todos os legumes →</button>
+    <button type="button" class="shop-link" onclick="abrirCatalogo('legumes')">Ver todos os legumes →</button>
   </div>
   <div class="feature-grid" id="veg-featured-grid"></div>
 </div>
@@ -297,7 +297,7 @@
     <p class="section-sub">Cestos de frutas e legumes frescos, escolhidos por nós — clique para encomendar</p>
   </div>
   <div class="product-container">
-    <div class="products-grid" id="grid-cabazes"></div>
+    <div class="products-grid" id="grid-cabazes" aria-label="Cabazes"></div>
   </div>
 </div>
 
@@ -527,7 +527,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" onclick="irParaTopo()" title="Voltar ao topo">▲</button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -646,7 +646,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=32"></script>
-<script src="js/extras.js?v=21"></script>
+<script src="js/app.js?v=33"></script>
+<script src="js/extras.js?v=22"></script>
 </body>
 </html>
