@@ -2102,7 +2102,9 @@
        para uma grelha limpa e "arrumada" estilo supermercado.
        ═══════════════════════════════════════════════════════════ */
     .shop-main .photo-wrap { height:auto; aspect-ratio:1 / 1; }
-    .shop-main .product-card { display:flex; flex-direction:column; }
+    /* Linhas de altura igual → grelha totalmente uniforme (estilo supermercado) */
+    .shop-main .products-grid { grid-auto-rows:1fr; }
+    .shop-main .product-card { display:flex; flex-direction:column; height:100%; }
     .shop-main .card-body { display:flex; flex-direction:column; flex:1; }
     /* Nome com 2 linhas fixas → preços e botões alinham entre cartões */
     .shop-main .product-name {
