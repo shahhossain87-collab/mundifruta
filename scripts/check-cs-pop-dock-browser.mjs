@@ -7,8 +7,23 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import puppeteer from 'puppeteer-core';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+async function loadPuppeteer() {
+  const candidates = [
+    'puppeteer-core',
+    'puppeteer',
+    '/tmp/node_modules/puppeteer-core/lib/esm/puppeteer/puppeteer-core.js',
+  ];
+  for (const spec of candidates) {
+    try {
+      const href = spec.startsWith('/') ? pathToFileURL(spec).href : spec;
+      const mod = await import(href);
+      return mod.default || mod;
+    } catch {}
+  }
+  throw new Error('Install puppeteer-core to run this check');
+}
 
 const root = join(fileURLToPath(new URL('..', import.meta.url)));
 const CHROME = process.env.CHROME_PATH || '/usr/bin/google-chrome';
@@ -40,6 +55,7 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const port = server.address().port;
 const origin = `http://127.0.0.1:${port}/`;
 
+const puppeteer = await loadPuppeteer();
 const browser = await puppeteer.launch({
   executablePath: CHROME,
   headless: 'new',
@@ -57,6 +73,9 @@ function overlap(a, b) {
 
 async function runView(name, viewport) {
   const page = await browser.newPage();
+  await page.evaluateOnNewDocument(() => {
+    try { localStorage.removeItem('mf_cart'); } catch {}
+  });
   await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
   await page.goto(origin, { waitUntil: 'networkidle0', timeout: 30000 });
   await page.evaluate(() => {
