@@ -296,6 +296,21 @@ const carrinho = {};
     row.innerHTML = chips.join('');
   }
 
+  // Vertical sidebar tablist leftover: Home/End. ArrowUp/Down stays in PR #49; Left/Right stays in PR #27.
+  function ligarInicioFimCatalogo() {
+    const lista = document.getElementById('cat-tabs');
+    if (!lista) return;
+    lista.addEventListener('keydown', e => {
+      if (e.key !== 'Home' && e.key !== 'End') return;
+      const tabs = [...lista.querySelectorAll('[role="tab"]')];
+      if (!tabs.length || tabs.indexOf(document.activeElement) < 0) return;
+      e.preventDefault();
+      const alvo = e.key === 'Home' ? tabs[0] : tabs[tabs.length - 1];
+      alvo.focus();
+      alvo.click();
+    });
+  }
+
   function selecionarSubcat(key) {
     catalogo.subcat = key;
     catalogo.pagina = 1;
@@ -987,6 +1002,7 @@ const carrinho = {};
   indexarProdutos();
   renderSubcats();
   aplicarCatalogo();
+  ligarInicioFimCatalogo();
   renderDestaques();
   renderCabazes();
   renderAvaliacoes();
