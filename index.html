@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=43"/>
+  <link rel="stylesheet" href="css/estilos.css?v=64"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -116,7 +116,7 @@
       <button class="nav-order" onclick="irParaEncomenda()">
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
-      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <button type="button" class="hamburger" onclick="toggleMenu()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -125,7 +125,7 @@
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
 <div class="mobile-menu" id="mobile-menu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <button type="button" class="mobile-close" onclick="toggleMenu()" aria-label="Fechar menu">✕</button>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
   <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
@@ -194,7 +194,7 @@
           <input class="search-input" id="search-input" type="search" autocomplete="off"
                  placeholder="Pesquisar produto… (ex: morangos, tomate, banana)"
                  oninput="pesquisar()" aria-label="Pesquisar produtos"/>
-          <button class="search-clear" id="search-clear" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
+          <button class="search-clear" id="search-clear" type="button" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
         </div>
 
         <div class="catalog-resultbar">

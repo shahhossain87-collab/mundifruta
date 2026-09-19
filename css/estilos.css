@@ -374,7 +374,7 @@
       font-family:'Poppins',sans-serif; font-weight:600; font-size:0.82rem; cursor:pointer;
       padding:9px 14px; border-radius:var(--r-full); box-shadow:var(--sh);
     }
-    .price-sort:focus { outline:none; border-color:var(--sage); }
+    .price-sort:focus-visible { border-color:var(--sage); }
     @media (max-width:768px){ .sort-row { margin:-8px auto 18px; padding:0 4px; } }
 
     /* ?? PAYMENT BADGES ?? */
@@ -1915,7 +1915,7 @@
       border:1px solid var(--line-2); background:#fff; color:var(--text);
       border-radius:var(--r-full); padding:9px 14px; font:600 .8rem 'Poppins',sans-serif; cursor:pointer;
     }
-    .filter-select:focus, .catalog-toolbar .price-sort:focus { outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
+    .filter-select:focus-visible, .catalog-toolbar .price-sort:focus-visible { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
 
     .catalog-count { color:var(--text-md); font-size:.82rem; margin:0 2px 14px; font-weight:600; }
     .link-btn { background:none; border:none; color:var(--sage); font-weight:700; cursor:pointer; text-decoration:underline; font-family:'Poppins',sans-serif; }
@@ -1980,7 +1980,8 @@
     .cat-tab:focus-visible, .subcat-chip:focus-visible, .filter-chip:focus-visible,
     .filter-select:focus-visible, .price-sort:focus-visible, .add-btn:focus-visible,
     .qty-btn:focus-visible, .catalog-pagination button:focus-visible, .link-btn:focus-visible,
-    .filter-tag:focus-visible, .photo-wrap:focus-visible {
+    .filter-tag:focus-visible, .photo-wrap:focus-visible,
+    .shop-main .search-input:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
     }
@@ -2062,7 +2063,7 @@
       font:500 .95rem 'Poppins',sans-serif; background:#fff; color:var(--text); box-shadow:none;
       transition:border-color .18s ease, box-shadow .18s ease;
     }
-    .shop-main .search-input:focus { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.18); }
+    .shop-main .search-input:focus-visible { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.18); }
     .shop-main .search-clear { right:16px; }
     .shop-main .price-sort {
       border:1px solid var(--line-2); background:#fff; color:var(--text);
