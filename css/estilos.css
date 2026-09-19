@@ -397,6 +397,7 @@
         position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
         padding:9px 4px 10px; background:none; border:none; cursor:pointer; text-decoration:none;
         color:rgba(255,255,255,0.9); font-family:'Poppins',sans-serif; font-weight:600; font-size:0.72rem;
+        min-height:44px;
       }
       .mb-item:active { background:rgba(255,255,255,0.08); }
       .mb-item .mb-icon { font-size:1.35rem; line-height:1; }
@@ -1983,6 +1984,19 @@
     .filter-tag:focus-visible, .photo-wrap:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
+    }
+    .product-modal-qty button:focus-visible,
+    .product-modal-add:focus-visible,
+    .cabaz-modal-add:focus-visible,
+    .cs-pop-skip:focus-visible,
+    .consent-no:focus-visible,
+    .consent-yes:focus-visible,
+    .btn-continuar:focus-visible,
+    .btn-em:focus-visible,
+    .privacy-reset:focus-visible,
+    .order-optional-toggle:focus-visible {
+      outline:3px solid var(--peach);
+      outline-offset:3px;
     }
 
     /* ── Breadcrumb da loja ── */
