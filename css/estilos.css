@@ -2070,6 +2070,8 @@
     }
     .shop-main .price-sort:focus { outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
     .shop-main .products-grid { grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:18px; }
+    /* Leftover pagination taps: more specific than the ≤700px 36px rule */
+    .shop-main .catalog-pagination button { min-height:44px; min-width:44px; }
 
     /* Botão "Filtros", botão fechar e backdrop — só no mobile */
     .filtbtn { display:none; align-items:center; gap:8px; border:1px solid var(--line-2); background:#fff; border-radius:var(--r-full); padding:10px 16px; font:700 .85rem 'Poppins',sans-serif; cursor:pointer; }
