@@ -417,7 +417,7 @@
     /* ?? FLOATING CART (pops top-right when items added) ?? */
     .float-cart {
       position:fixed; top:calc(var(--announcement-height) + 16px); right:12px; z-index:1150;
-      display:flex; align-items:center; gap:8px; padding:10px 14px; border:2px solid #fff; cursor:pointer;
+      display:flex; align-items:center; gap:8px; padding:10px 14px; min-height:44px; border:2px solid #fff; cursor:pointer;
       background:var(--cherry); color:#fff; border-radius:var(--r-full);
       box-shadow:0 8px 20px rgba(196,30,58,0.35), 0 2px 6px rgba(0,0,0,0.22);
       font-family:'Poppins',sans-serif; font-weight:800; font-size:0.88rem; letter-spacing:0.25px;
@@ -898,6 +898,11 @@
       box-shadow:0 6px 18px rgba(37,211,102,0.28);
     }
     .btn-wa:hover { background:#1ebe5d; transform:translateY(-1px); box-shadow:0 8px 22px rgba(37,211,102,0.42); }
+    .float-cart:focus-visible, .scroll-top:focus-visible,
+    .contact-card a:focus-visible,
+    .reveal-close:focus-visible, .reveal-cta:focus-visible, .reveal-later:focus-visible {
+      outline:3px solid var(--peach); outline-offset:3px;
+    }
     /* Trust line — reassures at the point of action (no online payment) */
     .order-reassure {
       display:flex; align-items:center; justify-content:center; gap:7px;
@@ -933,6 +938,9 @@
     }
     .contact-card p, .contact-card a {
       color:var(--text-md); font-size:0.86rem; line-height:1.65; text-decoration:none;
+    }
+    .contact-card a {
+      display:inline-flex; align-items:center; justify-content:center; min-height:44px;
     }
     .contact-card a:hover { color:var(--forest); }
     .map-wrap { border-radius:var(--r-xl); overflow:hidden; box-shadow:var(--sh); max-width:1100px; margin:0 auto; }
