@@ -58,6 +58,7 @@
       color:#fff; text-decoration:none;
       display:flex; align-items:center; gap:10px;
       flex-shrink:0; transition: color 0.4s;
+      min-height:44px;
     }
     #main-nav.scrolled .logo { color:var(--forest); }
     .logo-accent { color:var(--peach); }
@@ -82,6 +83,7 @@
       font-family:'Poppins',sans-serif; flex-shrink:0;
       display:flex; align-items:center; gap:8px;
       transition:all 0.25s;
+      min-height:44px;
     }
     .nav-order:hover { background:var(--peach-lt); transform:translateY(-1px); box-shadow:0 6px 20px rgba(224,123,57,0.4); }
     .cart-badge {
@@ -356,6 +358,7 @@
       display:inline-flex; align-items:center; gap:8px; text-decoration:none;
       background:#fff; padding:8px 16px; border-radius:var(--r-full); box-shadow:var(--sh);
       transition:transform 0.2s;
+      min-height:44px;
     }
     .hero-rating:hover { transform:translateY(-2px); }
     .hero-rating .hr-stars { color:#FBBC04; letter-spacing:1px; font-size:0.95rem; }
@@ -898,6 +901,9 @@
       box-shadow:0 6px 18px rgba(37,211,102,0.28);
     }
     .btn-wa:hover { background:#1ebe5d; transform:translateY(-1px); box-shadow:0 8px 22px rgba(37,211,102,0.42); }
+    .logo:focus-visible, .hero-rating:focus-visible, .btn-wa:focus-visible {
+      outline:3px solid var(--peach); outline-offset:3px;
+    }
     /* Trust line — reassures at the point of action (no online payment) */
     .order-reassure {
       display:flex; align-items:center; justify-content:center; gap:7px;
