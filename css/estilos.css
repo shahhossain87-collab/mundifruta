@@ -2115,3 +2115,24 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover dialog / checkout taps + drawer clearance vs the 4-item bar.
+       Complementary to PR #16 (close controls), #40 (drawer z-index / inert),
+       #43–#45 (shop-main / cabaz / featured taps). */
+    .product-modal-qty button {
+      width:44px;
+      height:44px;
+      min-width:44px;
+      min-height:44px;
+      flex:0 0 44px;
+    }
+    .cs-pop-skip { min-height:44px; padding-top:12px; padding-bottom:12px; }
+    .consent-no, .consent-yes { min-height:44px; }
+    .btn-continuar { min-height:44px; }
+    .privacy-reset { min-height:44px; }
+    .btn-em { min-height:44px; }
+    @media (max-width:900px) {
+      .shop-sidebar {
+        padding-bottom:calc(28px + 72px + env(safe-area-inset-bottom, 0px));
+      }
+    }
