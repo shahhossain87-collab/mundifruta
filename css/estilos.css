@@ -245,6 +245,11 @@
       font-weight:700; font-size:1rem; text-decoration:none;
       display:inline-flex; align-items:center; gap:10px;
       transition:all 0.3s; box-shadow:0 8px 28px rgba(224,123,57,0.45);
+      /* Leftover homepage Comprar Agora — 44px at every breakpoint, including
+         the ≤700px shrink (padding 12px 23px). Complementary to PR #32
+         (white :focus-visible, not tap height) and PR #2 (shopping-first
+         layout / visible CTA text). */
+      min-height:44px;
     }
 
     .announcement-bar {
@@ -1070,6 +1075,10 @@
       margin:0 auto 22px; padding:12px 22px; background:var(--white);
       border:1px solid var(--cream-3); border-radius:var(--r-full); box-shadow:var(--sh);
       text-decoration:none; transition:transform 0.2s, box-shadow 0.2s;
+      /* Leftover Google reviews badge — 44px. Complementary to PR #32
+         (forest :focus-visible / star aria-hidden, not tap height) and
+         PR #37 (reviews-cta 44px / dock gutter, not this badge). */
+      min-height:44px;
     }
     .google-badge:hover { transform:translateY(-2px); box-shadow:var(--sh-lg); }
     .gb-logo {
@@ -1641,7 +1650,11 @@
       }
       .veg-suggestion {
         bottom:74px;
-        min-height:42px;
+        /* Leftover legumes continue CTA — 44px on small screens (was 42).
+           Complementary to PR #32 (peach :focus-visible, not size), PR #28
+           (position:relative / type, not 44px), PR #15 (adds the button /
+           5-item bar). Does not add the CTA to the HTML. */
+        min-height:44px;
         margin-top:16px;
         font-size:.76rem;
       }
