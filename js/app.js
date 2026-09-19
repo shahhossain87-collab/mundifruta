@@ -778,15 +778,25 @@ const carrinho = {};
   }
 
   /* ══ CATEGORY ══ */
+  function ativarSeparador(id) {
+    document.querySelectorAll('.cat-tab').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    const tab = document.getElementById(id);
+    if (tab) {
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+    }
+  }
+
   function mostrarCategoria(cat, btn) {
     if (!CATEGORIAS[cat]) return;
     catalogo.categoria = cat;
     catAtual = cat;
     catalogo.subcat = '';
     catalogo.pagina = 1;
-    document.querySelectorAll('.cat-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-    const tab = btn || document.getElementById(`tab-${cat}`);
-    if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
+    ativarSeparador((btn && btn.id) || `tab-${cat}`);
     renderSubcats();
     aplicarCatalogo();
     fecharFiltros(); // no mobile, escolher categoria fecha o painel de filtros
@@ -800,8 +810,19 @@ const carrinho = {};
   // Cabazes têm secção própria — o separador leva o cliente até lá.
   function abrirCabazes() {
     fecharFiltros();
+    ativarSeparador('tab-cabazes');
     const el = document.getElementById('cabazes');
     if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function filtrosEmGaveta() {
+    return window.matchMedia('(max-width:900px)').matches;
+  }
+
+  function devolverFocoFiltros() {
+    if (!filtrosEmGaveta()) return;
+    const filt = document.querySelector('.filtbtn');
+    if (filt) filt.focus();
   }
 
   /* ══ FILTROS: painel lateral / drawer no mobile ══ */
@@ -809,17 +830,22 @@ const carrinho = {};
     const sb = document.getElementById('shop-sidebar');
     const bd = document.getElementById('shop-backdrop');
     if (!sb) return;
-    const abrir = !sb.classList.contains('open');
-    sb.classList.toggle('open', abrir);
-    if (bd) bd.hidden = !abrir;
-    document.body.classList.toggle('filtros-open', abrir);
+    if (sb.classList.contains('open')) {
+      fecharFiltros();
+      return;
+    }
+    sb.classList.add('open');
+    if (bd) bd.hidden = false;
+    document.body.classList.add('filtros-open');
   }
   function fecharFiltros() {
     const sb = document.getElementById('shop-sidebar');
     const bd = document.getElementById('shop-backdrop');
+    const estavaAberto = sb && sb.classList.contains('open');
     if (sb) sb.classList.remove('open');
     if (bd) bd.hidden = true;
     document.body.classList.remove('filtros-open');
+    if (estavaAberto) devolverFocoFiltros();
   }
 
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
