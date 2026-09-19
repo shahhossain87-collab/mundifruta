@@ -149,9 +149,9 @@ const carrinho = {};
             ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋ Adicionar</button>`
             : `<div class="unavailable-label">Indisponível</div>`}
           <div class="qty-controls" ${disponivel ? '' : 'hidden'} aria-label="Quantidade de ${item.nome}">
-            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir">−</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir quantidade de ${item.nome}">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar">+</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
           </div>
         </div>
       </div>`;

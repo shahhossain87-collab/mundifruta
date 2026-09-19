@@ -21,8 +21,8 @@ const failures = [];
 const assert = (cond, msg) => { if (!cond) failures.push(msg); };
 
 assert(
-  html.includes('css/estilos.css?v=63') && html.includes('js/app.js?v=38'),
-  'index.html should cache-bust estilos.css?v=63 and app.js?v=38'
+  html.includes('css/estilos.css?v=64') && html.includes('js/app.js?v=39'),
+  'index.html should cache-bust estilos.css?v=64 and app.js?v=39'
 );
 assert(
   html.includes('js/extras.js?v=21'),
@@ -73,11 +73,9 @@ assert(
   'featured add keeps a visible plus (PR #31)'
 );
 assert(
-  app.includes('aria-label="Diminuir"') &&
-  app.includes('aria-label="Aumentar"') &&
   app.includes('aria-label="Menos"') &&
   app.includes('aria-label="Mais"'),
-  'must not redo leftover catalog qty labels (PR #5) or cart stepper names (PR #31)'
+  'must not redo leftover cart stepper names (PR #31)'
 );
 assert(
   !html.includes('for="cust-nome"') &&
