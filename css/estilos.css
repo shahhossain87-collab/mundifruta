@@ -877,6 +877,15 @@
       border-color:var(--sage); background:rgba(255,255,255,0.13);
       box-shadow:0 0 0 3px rgba(82,183,136,0.2);
     }
+    /* Leftover peach keyboard ring on leftover checkout fields (name / phone /
+       pickup that PR #56 enlarges, plus leftover notes). Complementary to
+       PR #56 (44px inputs, not rings), PR #12 (16px iOS font), PR #4 (visible
+       labels), PR #52 (btn-wa ring). Textarea height stays 90px. */
+    .order-form input:focus-visible,
+    .order-form textarea:focus-visible {
+      outline:3px solid var(--peach);
+      outline-offset:3px;
+    }
     .order-form textarea { height:90px; resize:none; }
     /* Optional fields tucked behind a quiet reveal link — keeps the form a fast 2-field ask */
     .order-optional-toggle {
@@ -968,6 +977,10 @@
       box-shadow:-3px 3px 14px rgba(0,0,0,.22);
       transform:translateX(calc(100% - 50px));
       transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);
+      /* Leftover desktop dock chips — 44px tall. Complementary to PR #24
+         (focus-only expand / white outline, not tap height) and PR #34
+         (footer gutter / Contactos rápidos landmark). Hidden ≤768px. */
+      min-height:44px;
     }
     .social-link:hover { transform:translateX(0); }
     .social-label { order:1; }
@@ -2061,6 +2074,11 @@
       width:100%; padding:13px 44px 13px 42px; border:1px solid var(--line-2); border-radius:var(--r-full);
       font:500 .95rem 'Poppins',sans-serif; background:#fff; color:var(--text); box-shadow:none;
       transition:border-color .18s ease, box-shadow .18s ease;
+      /* Leftover catalog search field — 44px at every breakpoint.
+         Complementary to PR #56 (order-field 44px, not search), PR #18
+         (cherry focus ring), PR #41 (16px iOS font), PR #16 / #43
+         (search-clear *size*). */
+      min-height:44px;
     }
     .shop-main .search-input:focus { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.18); }
     .shop-main .search-clear { right:16px; }
