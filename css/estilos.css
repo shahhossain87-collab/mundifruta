@@ -953,7 +953,10 @@
     .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
     .footer-links a:hover { color:var(--peach); }
     .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
-    .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
+    .footer-credit a {
+      color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s;
+      display:inline-flex; align-items:center; min-height:44px;
+    }
     .footer-credit a:hover { color:var(--sage); }
 
     /* ??????????????????????????????????????
@@ -1763,7 +1766,10 @@
     .privacy-box h3 { font-family:'Playfair Display',serif; color:var(--forest); margin-bottom:10px; }
     .privacy-box h4 { margin-top:14px; color:var(--forest-2); font-size:.95rem; }
     .privacy-box p { color:var(--text); font-size:.9rem; line-height:1.55; margin-top:4px; }
-    .privacy-box a { color:var(--cherry); }
+    .privacy-box a {
+      color:var(--cherry);
+      display:inline-flex; align-items:center; min-height:44px;
+    }
     .privacy-close { position:absolute; top:10px; right:14px; border:none; background:none; font-size:1.2rem; cursor:pointer; color:var(--text-md); }
     .privacy-reset { margin-top:16px; padding:10px 16px; border:1px solid var(--cream-3); background:var(--cream-2); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
 
@@ -1983,6 +1989,18 @@
     .filter-tag:focus-visible, .photo-wrap:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
+    }
+    .footer-credit a:focus-visible,
+    .privacy-box a:focus-visible,
+    .privacy-close:focus-visible,
+    .cs-pop-close:focus-visible,
+    .product-modal-close:focus-visible,
+    .cabaz-modal-close:focus-visible,
+    .filtbtn:focus-visible,
+    .sidebar-close:focus-visible,
+    .cabaz-ver:focus-visible {
+      outline:3px solid var(--peach);
+      outline-offset:3px;
     }
 
     /* ── Breadcrumb da loja ── */
