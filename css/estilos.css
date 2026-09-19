@@ -2068,7 +2068,9 @@
       border:1px solid var(--line-2); background:#fff; color:var(--text);
       border-radius:var(--r-full); padding:9px 14px; font:600 .82rem 'Poppins',sans-serif; cursor:pointer;
     }
-    .shop-main .price-sort:focus { outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
+    /* Phase A :focus { outline:none } sat after the leftover catalog :focus-visible
+       forest ring and hid it. Keyboard-only so mouse clicks stay quiet. */
+    .shop-main .price-sort:focus-visible { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
     .shop-main .products-grid { grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:18px; }
 
     /* Botão "Filtros", botão fechar e backdrop — só no mobile */
