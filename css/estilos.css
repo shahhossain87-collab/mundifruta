@@ -872,8 +872,8 @@
     }
     .order-form input::placeholder,
     .order-form textarea::placeholder { color:rgba(255,255,255,0.38); }
-    .order-form input:focus,
-    .order-form textarea:focus {
+    .order-form input:focus-visible,
+    .order-form textarea:focus-visible {
       border-color:var(--sage); background:rgba(255,255,255,0.13);
       box-shadow:0 0 0 3px rgba(82,183,136,0.2);
     }

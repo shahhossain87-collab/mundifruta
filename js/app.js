@@ -394,6 +394,8 @@ const carrinho = {};
     if (item.nota) notas.push(item.nota);
     document.getElementById('product-modal-note').textContent = notas.join(' ');
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
+    const qtyGroup = document.querySelector('#product-modal .product-modal-qty');
+    if (qtyGroup) qtyGroup.setAttribute('aria-label', `Selecionar quantidade de ${item.nome}`);
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
@@ -655,7 +657,7 @@ const carrinho = {};
       return `<li class="order-item">
         <span class="order-item-main">${i.emoji} ${i.nome}${i.peso ? ` <small>(${i.peso})</small>` : ''}</span>
         <span class="order-item-actions">
-          <span class="oi-stepper">
+          <span class="oi-stepper" aria-label="Quantidade de ${i.nome}">
             <button type="button" onclick="alterarQtdCarrinho('${i._id}',-1)" aria-label="Menos">−</button>
             <b>${i.qtd}</b>
             <button type="button" onclick="alterarQtdCarrinho('${i._id}',1)" aria-label="Mais">+</button>
