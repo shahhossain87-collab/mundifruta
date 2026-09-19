@@ -333,7 +333,7 @@ const carrinho = {};
           ${item.peso ? `<div class="product-peso">${item.peso}</div>` : ''}
           <div class="product-price">${rotuloPreco(item)}</div>
           ${verBtn}
-          <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
+          <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋ Adicionar</button>
           <div class="qty-controls">
             <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
@@ -550,7 +550,9 @@ const carrinho = {};
     document.querySelectorAll(`[data-product-id="${id}"]`).forEach(card => {
       card.classList.toggle('selected', selecionado);
       const add = card.querySelector('.add-btn, .feature-add');
-      if (add) add.textContent = '＋';
+      // Featured tiles keep a compact "＋". Catalog/cabaz cards keep "＋ Adicionar"
+      // so removing a line (or restoring the cart) does not leave a bare plus.
+      if (add) add.textContent = add.classList.contains('feature-add') ? '＋' : '＋ Adicionar';
     });
     document.querySelectorAll(`[data-qty-id="${id}"]`).forEach(el => {
       el.textContent = selecionado ? carrinho[id].qtd : '1';
