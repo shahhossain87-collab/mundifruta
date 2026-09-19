@@ -659,7 +659,7 @@
       outline:none; transition:all 0.22s ease;
       box-shadow:0 12px 28px rgba(0,0,0,0.07);
     }
-    .search-input:focus {
+    .search-input:focus-visible {
       border-color:var(--cherry);
       box-shadow:0 14px 32px rgba(196,30,58,0.12);
     }
@@ -1980,7 +1980,7 @@
     .cat-tab:focus-visible, .subcat-chip:focus-visible, .filter-chip:focus-visible,
     .filter-select:focus-visible, .price-sort:focus-visible, .add-btn:focus-visible,
     .qty-btn:focus-visible, .catalog-pagination button:focus-visible, .link-btn:focus-visible,
-    .filter-tag:focus-visible, .photo-wrap:focus-visible {
+    .filter-tag:focus-visible, .photo-wrap:focus-visible, .search-input:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
     }
