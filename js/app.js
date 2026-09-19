@@ -214,6 +214,15 @@ const carrinho = {};
     if (el) el.textContent = total === 1 ? `1 produto em ${nome}` : `${total} produtos em ${nome}`;
     const crumb = document.getElementById('crumb-cat');
     if (crumb) crumb.textContent = nome;
+    atualizarPainelCatalogo();
+  }
+
+  // Pair the catalog grid with the selected category tab (Cabazes is a section jump).
+  function atualizarPainelCatalogo() {
+    const grid = document.getElementById('grid-catalog');
+    if (!grid) return;
+    const tabId = `tab-${catalogo.categoria}`;
+    if (document.getElementById(tabId)) grid.setAttribute('aria-labelledby', tabId);
   }
 
   // Tags de filtros ativos (removíveis) — estilo "filtros aplicados" de supermercado.

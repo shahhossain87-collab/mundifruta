@@ -67,6 +67,7 @@
       color:rgba(255,255,255,0.82); text-decoration:none;
       padding:8px 16px; border-radius:var(--r-full);
       font-weight:500; font-size:0.88rem; transition:all 0.25s;
+      display:inline-flex; align-items:center; min-height:44px;
     }
     #main-nav.scrolled .nav-links a { color:var(--text); }
     .nav-links a:hover { background:rgba(255,255,255,0.15); color:#fff; }
@@ -197,7 +198,7 @@
     .carousel-wrap { position:relative; }
     .carousel-nav {
       position:absolute; top:38%; transform:translateY(-50%); z-index:3;
-      width:40px; height:40px; border-radius:50%; border:none; cursor:pointer;
+      width:44px; height:44px; border-radius:50%; border:none; cursor:pointer;
       background:var(--white); color:var(--forest); box-shadow:var(--sh-lg);
       font-size:1.2rem; font-weight:800; display:grid; place-items:center;
       opacity:.92; transition:opacity .2s ease, transform .2s ease;
@@ -950,7 +951,10 @@
     .footer-logo span { color:var(--peach); }
     .footer-text { color:rgba(255,255,255,0.4); font-size:0.8rem; }
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
-    .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
+    .footer-links a {
+      display:inline-flex; align-items:center; min-height:44px;
+      color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s;
+    }
     .footer-links a:hover { color:var(--peach); }
     .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
     .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
@@ -1982,6 +1986,13 @@
     .qty-btn:focus-visible, .catalog-pagination button:focus-visible, .link-btn:focus-visible,
     .filter-tag:focus-visible, .photo-wrap:focus-visible {
       outline:3px solid var(--forest);
+      outline-offset:2px;
+    }
+    /* Leftover checkout / cookie-banner rings (#50 enlarged the taps, not the focus). */
+    .oi-stepper button:focus-visible,
+    .order-remove:focus-visible,
+    .consent-link:focus-visible {
+      outline:3px solid var(--peach);
       outline-offset:2px;
     }
 
