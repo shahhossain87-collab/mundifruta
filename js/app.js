@@ -301,6 +301,7 @@ const carrinho = {};
     catalogo.pagina = 1;
     renderSubcats();
     aplicarCatalogo();
+    fecharFiltros(); // no mobile, escolher subcategoria fecha o painel para ver os resultados
   }
 
   function alternarFiltro(tipo, btn) {
@@ -308,6 +309,14 @@ const carrinho = {};
     if (btn) { btn.classList.toggle('active', catalogo.filtros[tipo]); btn.setAttribute('aria-pressed', String(catalogo.filtros[tipo])); }
     catalogo.pagina = 1;
     aplicarCatalogo();
+    fecharFiltros(); // no mobile, um chip de filtro fecha o painel para ver os resultados
+  }
+
+  // Preço é um commit (select): volta à página 1 e, no mobile, fecha a gaveta.
+  function aplicarFiltroPreco() {
+    catalogo.pagina = 1;
+    aplicarCatalogo();
+    fecharFiltros();
   }
 
   /* ══ CABAZES ══ */
