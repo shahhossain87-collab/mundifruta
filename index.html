@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=43"/>
+  <link rel="stylesheet" href="css/estilos.css?v=52"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -156,7 +156,7 @@
 
         <div class="sb-panel">
           <h3>Categorias</h3>
-          <div class="cat-tabs" id="cat-tabs" role="tablist" aria-label="Categorias de produtos">
+          <div class="cat-tabs" id="cat-tabs" role="tablist" aria-label="Categorias de produtos" aria-orientation="vertical">
             <button class="cat-tab active" id="tab-frutas"    role="tab" aria-selected="true"  onclick="mostrarCategoria('frutas',this)">Frutas <span class="cat-count" id="count-frutas"></span></button>
             <button class="cat-tab"        id="tab-legumes"   role="tab" aria-selected="false" onclick="mostrarCategoria('legumes',this)">Legumes <span class="cat-count" id="count-legumes"></span></button>
             <button class="cat-tab"        id="tab-ervas"     role="tab" aria-selected="false" onclick="mostrarCategoria('ervas',this)">Ervas frescas <span class="cat-count" id="count-ervas"></span></button>
@@ -211,7 +211,7 @@
         </div>
 
         <div class="active-filters" id="active-filters" role="group" aria-label="Filtros ativos"></div>
-        <div class="products-grid" id="grid-catalog"></div>
+        <div class="products-grid" id="grid-catalog" aria-label="Frutas"></div>
         <div class="no-results" id="no-catalog" style="display:none">
           Nenhum produto encontrado.
           <button type="button" class="link-btn" onclick="limparTudo()">Limpar filtros</button>
@@ -696,7 +696,7 @@
 </div>
 
 <script src="js/dados.js?v=23"></script>
-<script src="js/app.js?v=36"></script>
+<script src="js/app.js?v=42"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>

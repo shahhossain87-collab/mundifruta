@@ -214,6 +214,8 @@ const carrinho = {};
     if (el) el.textContent = total === 1 ? `1 produto em ${nome}` : `${total} produtos em ${nome}`;
     const crumb = document.getElementById('crumb-cat');
     if (crumb) crumb.textContent = nome;
+    const grid = document.getElementById('grid-catalog');
+    if (grid && nome) grid.setAttribute('aria-label', nome);
   }
 
   // Tags de filtros ativos (removíveis) — estilo "filtros aplicados" de supermercado.
@@ -265,15 +267,43 @@ const carrinho = {};
     if (paginas <= 1) { el.innerHTML = ''; return; }
     el.innerHTML = `
       <button type="button" onclick="mudarPagina(-1)" ${catalogo.pagina === 1 ? 'disabled' : ''} aria-label="Página anterior">← Anterior</button>
-      <span>Página ${catalogo.pagina} de ${paginas}</span>
+      <span role="status">Página ${catalogo.pagina} de ${paginas}</span>
       <button type="button" onclick="mudarPagina(1)" ${catalogo.pagina === paginas ? 'disabled' : ''} aria-label="Página seguinte">Seguinte →</button>`;
+  }
+
+  function rolarCatalogo() {
+    const el = document.getElementById('catalog-toolbar');
+    if (!el) return;
+    const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ behavior: reduzir ? 'auto' : 'smooth', block: 'start' });
   }
 
   function mudarPagina(delta) {
     const paginas = Math.max(1, Math.ceil(catalogo.filtrados.length / POR_PAGINA));
     catalogo.pagina = Math.min(paginas, Math.max(1, catalogo.pagina + delta));
     renderCatalogo();
-    document.getElementById('catalog-toolbar').scrollIntoView({ behavior:'smooth', block:'start' });
+    rolarCatalogo();
+    const grid = document.getElementById('grid-catalog');
+    if (grid) {
+      grid.setAttribute('tabindex', '-1');
+      try { grid.focus({ preventScroll: true }); } catch (e) { grid.focus(); }
+    }
+  }
+
+  // Vertical sidebar tablist (Phase A): ArrowUp/Down. Left/Right stays in PR #27.
+  function ligarSetasVerticaisCatalogo() {
+    const lista = document.getElementById('cat-tabs');
+    if (!lista) return;
+    lista.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      const tabs = [...lista.querySelectorAll('[role="tab"]')];
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      e.preventDefault();
+      const proximo = tabs[(i + (e.key === 'ArrowDown' ? 1 : tabs.length - 1)) % tabs.length];
+      proximo.focus();
+      proximo.click();
+    });
   }
 
   // Chips de subcategoria para a categoria atual (Frutas/Legumes).
@@ -991,6 +1021,7 @@ const carrinho = {};
   renderCabazes();
   renderAvaliacoes();
   atualizarContadoresCategorias();
+  ligarSetasVerticaisCatalogo();
   carregarCarrinho();
   if (window.iniciarExtras) window.iniciarExtras();
 
