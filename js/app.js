@@ -63,6 +63,39 @@ const carrinho = {};
     }
   }
 
+  // Leftover empty `foto` (e.g. Bravo Esmolfe after PR #62) must not emit src="".
+  // That request can load the current page as an image. Use the existing emoji fallback.
+  function htmlFoto(item) {
+    const src = urlFoto(item && item.foto);
+    if (!src) {
+      return `<div class="photo-fallback" aria-hidden="true">${(item && item.emoji) || ''}</div>`;
+    }
+    return `<img src="${src}" alt="${(item && (item.alt || item.nome)) || ''}" data-emoji="${(item && item.emoji) || ''}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>`;
+  }
+
+  function mostrarFotoModal(item) {
+    const imagem = document.getElementById('product-modal-image');
+    const wrap = imagem && imagem.closest('.product-modal-photo');
+    if (!imagem || !wrap) return;
+    const src = urlFoto(item && item.foto);
+    const extra = wrap.querySelector('.photo-fallback');
+    if (extra) extra.remove();
+    if (!src) {
+      imagem.removeAttribute('src');
+      imagem.alt = '';
+      imagem.hidden = true;
+      const fb = document.createElement('div');
+      fb.className = 'photo-fallback';
+      fb.setAttribute('aria-hidden', 'true');
+      fb.textContent = (item && item.emoji) || '';
+      wrap.appendChild(fb);
+      return;
+    }
+    imagem.hidden = false;
+    imagem.alt = (item && (item.alt || item.nome)) || '';
+    imagem.src = src;
+  }
+
   /* ══ SHOPPING-FIRST FEATURED SECTIONS ══ */
   function selecionarPorNomes(lista, nomes) {
     const mapa = new Map(lista.map(item => [item.nome, item]));
@@ -76,7 +109,7 @@ const carrinho = {};
     card.dataset.productId = item._id;
     card.innerHTML = `
       <button class="feature-photo" type="button" onclick="abrirProduto('${item._id}')" aria-label="Ver ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        ${htmlFoto(item)}
         ${item.badge ? `<span class="feature-badge">${item.badge}</span>` : ''}
         ${item.topVendido ? `<span class="top-badge">⭐ Mais vendido</span>` : ''}
       </button>
@@ -132,7 +165,7 @@ const carrinho = {};
       ${topRibbon}
       <div class="sel-check" aria-hidden="true">✓</div>
       <button class="photo-wrap" type="button" onclick="abrirProduto('${id}')" aria-label="Ver detalhes de ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        ${htmlFoto(item)}
         ${oosOverlay}
       </button>
       <div class="card-body">
@@ -326,7 +359,7 @@ const carrinho = {};
         ${badge}
         <div class="sel-check">✓</div>
         <button class="photo-wrap" type="button" onclick="abrirCabaz('${id}')" aria-label="Ver detalhes de ${item.nome}">
-          <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+          ${htmlFoto(item)}
         </button>
         <div class="card-body">
           <div class="product-name">${item.nome}</div>
@@ -378,9 +411,7 @@ const carrinho = {};
     if (!item) return;
     modalProdutoId = id;
     modalQuantidade = 1;
-    const imagem = document.getElementById('product-modal-image');
-    imagem.src = urlFoto(item.foto);
-    imagem.alt = item.alt || item.nome;
+    mostrarFotoModal(item);
     document.getElementById('product-modal-name').textContent = item.nome;
     document.getElementById('product-modal-price').innerHTML = rotuloPreco(item);
     document.getElementById('product-modal-unit').textContent = `Unidade de venda: ${item.peso || 'unidade'}`;
