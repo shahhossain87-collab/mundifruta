@@ -334,10 +334,10 @@ const carrinho = {};
           <div class="product-price">${rotuloPreco(item)}</div>
           ${verBtn}
           <button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋</button>
-          <div class="qty-controls">
-            <button class="qty-btn" onclick="alterarQtd('${id}',-1,event)">−</button>
+          <div class="qty-controls" aria-label="Quantidade de ${item.nome}">
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir quantidade de ${item.nome}">−</button>
             <span class="qty-num" data-qty-id="${id}">1</span>
-            <button class="qty-btn" onclick="alterarQtd('${id}',1,event)">+</button>
+            <button class="qty-btn" type="button" onclick="alterarQtd('${id}',1,event)" aria-label="Aumentar quantidade de ${item.nome}">+</button>
           </div>
         </div>`;
       grid.appendChild(card);
@@ -357,6 +357,7 @@ const carrinho = {};
     const notaEl = document.getElementById('cabaz-modal-nota');
     if (notaEl) { notaEl.textContent = item.nota || ''; notaEl.style.display = item.nota ? 'block' : 'none'; }
     const addBtn = document.getElementById('cabaz-modal-add');
+    addBtn.setAttribute('aria-label', `Adicionar ${item.nome} ao carrinho`);
     addBtn.onclick = () => {
       adicionarProduto(id, item, 1);
       fecharCabaz();
