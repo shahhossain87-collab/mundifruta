@@ -85,7 +85,7 @@ const carrinho = {};
         <p>${item.peso || 'Unidade'} · ${item.origem || 'Fresco diário'}</p>
         <div class="feature-buy">
           <strong>${rotuloPreco(item)}</strong>
-          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])">＋</button>
+          <button type="button" class="feature-add" onclick="adicionarProduto('${item._id}', produtos_map['${item._id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋</button>
         </div>
       </div>`;
     return card;
@@ -394,6 +394,8 @@ const carrinho = {};
     if (item.nota) notas.push(item.nota);
     document.getElementById('product-modal-note').textContent = notas.join(' ');
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
+    const addBtn = document.getElementById('product-modal-add');
+    if (addBtn) addBtn.setAttribute('aria-label', `Adicionar ${item.nome} ao carrinho`);
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
