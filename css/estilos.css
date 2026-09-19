@@ -1992,6 +1992,15 @@
     }
     .shop-crumbs .crumb-sep { opacity:.5; }
     .shop-crumbs b { color:var(--forest); }
+    .shop-crumbs a {
+      color:inherit; text-decoration:none;
+      display:inline-flex; align-items:center;
+      min-height:44px;
+    }
+    .shop-crumbs a:hover { color:var(--forest); text-decoration:underline; }
+    .shop-crumbs a:focus-visible {
+      outline:3px solid var(--forest); outline-offset:2px; border-radius:4px;
+    }
 
     /* ── Barra de resultados + filtros ativos (estilo "filtros aplicados") ── */
     .catalog-resultbar {
