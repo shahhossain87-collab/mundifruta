@@ -870,6 +870,10 @@
       font-family:'Poppins',sans-serif; font-size:0.88rem;
       outline:none; transition:all 0.3s; margin-bottom:12px;
     }
+    /* Leftover checkout name / phone / pickup fields — 44px at every breakpoint.
+       Complementary to PR #12 (16px iOS font / ≤600px cart steppers), PR #50
+       (oi-stepper / order-remove 44px), PR #7 (autocomplete). Textarea stays 90px. */
+    .order-form input { min-height:44px; }
     .order-form input::placeholder,
     .order-form textarea::placeholder { color:rgba(255,255,255,0.38); }
     .order-form input:focus,
@@ -1983,6 +1987,18 @@
     .filter-tag:focus-visible, .photo-wrap:focus-visible {
       outline:3px solid var(--forest);
       outline-offset:2px;
+    }
+    /* Leftover peach keyboard rings: featured photo (catalog .photo-wrap already
+       has a forest ring), leftover catalog search-clear (size stays in PR #16/#43),
+       leftover cross-sell cards (PR #10 moves focus into the dialog, not the ring),
+       leftover mobile-menu links / close (size / trap stay in PR #9). */
+    .feature-photo:focus-visible,
+    .cs-card:focus-visible,
+    .shop-main .search-clear:focus-visible,
+    .mobile-menu a:focus-visible,
+    .mobile-close:focus-visible {
+      outline:3px solid var(--peach);
+      outline-offset:3px;
     }
 
     /* ── Breadcrumb da loja ── */
