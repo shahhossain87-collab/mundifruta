@@ -146,7 +146,7 @@ const carrinho = {};
         ${item.baseLinha ? `<div class="product-base">${item.baseLinha}</div>` : ''}
         <div class="card-actions">
           ${disponivel
-            ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋ Adicionar</button>`
+            ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])" aria-label="Adicionar ${item.nome} ao carrinho">＋ Adicionar</button>`
             : `<div class="unavailable-label">Indisponível</div>`}
           <div class="qty-controls" ${disponivel ? '' : 'hidden'} aria-label="Quantidade de ${item.nome}">
             <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir">−</button>
@@ -890,7 +890,14 @@ const carrinho = {};
   }
 
   /* ══ UI ══ */
-  function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.querySelector('.hamburger');
+    if (!menu) return;
+    const open = !menu.classList.contains('open');
+    menu.classList.toggle('open', open);
+    if (btn) btn.setAttribute('aria-expanded', String(open));
+  }
 
   function promoverCatalogo() {
     const atalhos = document.querySelector('.cat-quick');
