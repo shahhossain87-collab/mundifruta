@@ -11,11 +11,11 @@ const carrinho = {};
   // Subcategorias por palavra-chave (apenas filtram a lista visível).
   const SUBCATS = {
     frutas: [
-      { key:'banana-maca-pera', label:'Banana, maçã e pera',   re:/banana|maçã|maca|pêra|pera/i },
+      { key:'banana-maca-pera', label:'Banana, maçã e pera',   re:/banana|maçã|maca|pêra|pera|esmolfe|marmelo/i },
       { key:'citrinos',         label:'Laranja, limão e citrinos', re:/laranja|lim(ã|a)o|lima|tangerina|marcott|clementina/i },
       { key:'vermelhos',        label:'Frutos vermelhos',      re:/morango|framboesa|mirtilo|amora|cereja|rom(ã|a)/i },
-      { key:'tropicais',        label:'Uvas e frutas tropicais', re:/uva|manga|abacaxi|anan(á|a)s|papaia|mam(ã|a)o|kiwi|abacate|coco|lichia/i },
-      { key:'caroco',           label:'Pêssego e ameixa',      re:/p(ê|e)ssego|nectarina|ameixa|alperce|d(i|í)ospiro|n(ê|e)speras/i },
+      { key:'tropicais',        label:'Uvas e frutas tropicais', re:/uva|manga|manguita|abacaxi|anan(á|a)s|papaia|mam(ã|a)o|kiwi|abacate|coco|lichia|anona|castanha/i },
+      { key:'caroco',           label:'Pêssego e ameixa',      re:/p(ê|e)ssego|paraguaio|nectarina|ameixa|alperce|d(i|í)ospiro|kaki/i },
       { key:'melao-melancia',   label:'Melão e melancia',      re:/mel(ã|a)o|melancia|meloa|figo/i },
     ],
     legumes: [
@@ -76,7 +76,7 @@ const carrinho = {};
     card.dataset.productId = item._id;
     card.innerHTML = `
       <button class="feature-photo" type="button" onclick="abrirProduto('${item._id}')" aria-label="Ver ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
         ${item.badge ? `<span class="feature-badge">${item.badge}</span>` : ''}
         ${item.topVendido ? `<span class="top-badge">⭐ Mais vendido</span>` : ''}
       </button>
@@ -102,12 +102,12 @@ const carrinho = {};
     const promocionais = [...produtos.frutas, ...produtos.legumes].filter(i => i.promo && produtoDisponivel(i));
     const extraPromo = selecionarPorNomes(
       [...produtos.frutas, ...produtos.legumes],
-      ['Morangos','Melancia 1/4','Laranja Algarve','Tomate Salada','Cenoura','Hortelã']
+      ['Morango 500g','Melancia 1/4','Laranja África do Sul premium quality','Tomate Salada','Cenoura','Hortelã']
     ).filter(i => !promocionais.includes(i));
     preencherDestaques('promo-grid', [...promocionais, ...extraPromo].slice(0, 8));
     preencherDestaques('popular-grid', selecionarPorNomes(
       produtos.frutas,
-      ['Morangos','Banana Madeira','Laranja Algarve','Pêra Rocha','Maçã Royal Gala','Melancia 1/4','Manga Avião','Abacate Hass']
+      ['Morango 500g','Banana Madeira','Laranja África do Sul premium quality','Pêra Rocha','Maçã Royal Gala média','Melancia 1/4','Manga Avião','Abacate Hass']
     ));
     preencherDestaques('season-grid', produtos.frutas.filter(item =>
       String(item.badge || '').includes('Verão')
@@ -132,7 +132,7 @@ const carrinho = {};
       ${topRibbon}
       <div class="sel-check" aria-hidden="true">✓</div>
       <button class="photo-wrap" type="button" onclick="abrirProduto('${id}')" aria-label="Ver detalhes de ${item.nome}">
-        <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+        <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
         ${oosOverlay}
       </button>
       <div class="card-body">
@@ -326,7 +326,7 @@ const carrinho = {};
         ${badge}
         <div class="sel-check">✓</div>
         <button class="photo-wrap" type="button" onclick="abrirCabaz('${id}')" aria-label="Ver detalhes de ${item.nome}">
-          <img src="${urlFoto(item.foto)}" alt="${item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
+          <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
         </button>
         <div class="card-body">
           <div class="product-name">${item.nome}</div>
@@ -380,16 +380,19 @@ const carrinho = {};
     modalQuantidade = 1;
     const imagem = document.getElementById('product-modal-image');
     imagem.src = urlFoto(item.foto);
-    imagem.alt = item.nome;
+    imagem.alt = item.alt || item.nome;
     document.getElementById('product-modal-name').textContent = item.nome;
     document.getElementById('product-modal-price').innerHTML = rotuloPreco(item);
     document.getElementById('product-modal-unit').textContent = `Unidade de venda: ${item.peso || 'unidade'}`;
     document.getElementById('product-modal-status').textContent = item.badge
       ? item.badge.replace(/^[^\p{L}\p{N}]+/u, '')
       : 'Disponível hoje';
-    document.getElementById('product-modal-note').textContent = item.origem
-      ? `Produto fresco de origem ${item.origem}, selecionado diariamente pela Mundifruta.`
-      : 'Produto fresco selecionado diariamente pela equipa Mundifruta.';
+    const notas = [];
+    if (item.origem) notas.push(`Produto fresco de origem ${item.origem}, selecionado diariamente pela Mundifruta.`);
+    else notas.push('Produto fresco selecionado diariamente pela equipa Mundifruta.');
+    if (item.baseLinha) notas.push(item.baseLinha);
+    if (item.nota) notas.push(item.nota);
+    document.getElementById('product-modal-note').textContent = notas.join(' ');
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
