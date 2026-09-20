@@ -782,6 +782,13 @@ const carrinho = {};
   }
 
   /* ══ CATEGORY ══ */
+  function marcarAtalhoAtual(cat) {
+    document.querySelectorAll('.cat-quick-btn[data-cat]').forEach(btn => {
+      if (btn.getAttribute('data-cat') === cat) btn.setAttribute('aria-current', 'true');
+      else btn.removeAttribute('aria-current');
+    });
+  }
+
   function mostrarCategoria(cat, btn) {
     if (!CATEGORIAS[cat]) return;
     catalogo.categoria = cat;
@@ -791,6 +798,7 @@ const carrinho = {};
     document.querySelectorAll('.cat-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
     const tab = btn || document.getElementById(`tab-${cat}`);
     if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected','true'); }
+    marcarAtalhoAtual(cat);
     renderSubcats();
     aplicarCatalogo();
     fecharFiltros(); // no mobile, escolher categoria fecha o painel de filtros
@@ -804,6 +812,7 @@ const carrinho = {};
   // Cabazes têm secção própria — o separador leva o cliente até lá.
   function abrirCabazes() {
     fecharFiltros();
+    marcarAtalhoAtual('cabazes');
     const el = document.getElementById('cabazes');
     if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
   }
@@ -987,6 +996,7 @@ const carrinho = {};
 
   /* ══ INIT ══ */
   promoverCatalogo();
+  marcarAtalhoAtual(catalogo.categoria);
   normalizarProdutos();
   indexarProdutos();
   renderSubcats();
