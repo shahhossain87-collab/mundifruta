@@ -55,10 +55,11 @@ const carrinho = {};
   function erroImagem(img) {
     const wrap = img.closest('.photo-wrap');
     if (wrap) {
-      wrap.innerHTML = `<div class="photo-fallback">${img.dataset.emoji}</div>`;
+      wrap.innerHTML = `<div class="photo-fallback" aria-hidden="true">${img.dataset.emoji}</div>`;
     } else {
       const fb = document.createElement('div');
       fb.className = 'sc-fallback'; fb.textContent = img.dataset.emoji;
+      fb.setAttribute('aria-hidden', 'true');
       img.replaceWith(fb);
     }
   }
@@ -146,7 +147,7 @@ const carrinho = {};
         ${item.baseLinha ? `<div class="product-base">${item.baseLinha}</div>` : ''}
         <div class="card-actions">
           ${disponivel
-            ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])">＋ Adicionar</button>`
+            ? `<button class="add-btn" type="button" onclick="adicionarProduto('${id}', produtos_map['${id}'])"><span aria-hidden="true">＋</span> Adicionar</button>`
             : `<div class="unavailable-label">Indisponível</div>`}
           <div class="qty-controls" ${disponivel ? '' : 'hidden'} aria-label="Quantidade de ${item.nome}">
             <button class="qty-btn" type="button" onclick="alterarQtd('${id}',-1,event)" aria-label="Diminuir">−</button>
