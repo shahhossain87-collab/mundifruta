@@ -152,7 +152,7 @@
       <button class="shop-backdrop" id="shop-backdrop" type="button" onclick="toggleFiltros()" aria-label="Fechar filtros" hidden></button>
 
       <aside class="shop-sidebar" id="shop-sidebar" aria-label="Categorias e filtros">
-        <button class="sidebar-close" type="button" onclick="toggleFiltros()" aria-label="Fechar filtros">✕</button>
+        <button class="sidebar-close" type="button" onclick="toggleFiltros()" aria-label="Fechar filtros"><span aria-hidden="true">✕</span></button>
 
         <div class="sb-panel">
           <h3>Categorias</h3>
@@ -194,7 +194,7 @@
           <input class="search-input" id="search-input" type="search" autocomplete="off"
                  placeholder="Pesquisar produto… (ex: morangos, tomate, banana)"
                  oninput="pesquisar()" aria-label="Pesquisar produtos"/>
-          <button class="search-clear" id="search-clear" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
+          <button class="search-clear" id="search-clear" onclick="limparPesquisa()" aria-label="Limpar pesquisa"><span aria-hidden="true">✕</span></button>
         </div>
 
         <div class="catalog-resultbar">
@@ -583,7 +583,7 @@
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
 <div class="cs-pop" id="cs-pop" hidden role="dialog" aria-label="Sugestões de produtos">
-  <button class="cs-pop-close" type="button" onclick="fecharCrossSell()" aria-label="Fechar">✕</button>
+  <button class="cs-pop-close" type="button" onclick="fecharCrossSell()" aria-label="Fechar"><span aria-hidden="true">✕</span></button>
   <div class="cs-pop-title" id="cs-pop-title">Também pode gostar</div>
   <div class="cs-row" id="cs-pop-row"></div>
   <button class="cs-pop-skip" type="button" onclick="fecharCrossSell()">Continuar sem adicionar</button>
@@ -592,7 +592,7 @@
 <!-- ═══════════ OFERTA 1ª COMPRA — REVELAÇÃO MELANCIA ═══════════ -->
 <div class="offer-reveal" id="offer-pop" hidden role="dialog" aria-modal="true" aria-labelledby="offer-aria" aria-describedby="offer-text">
   <span id="offer-aria" class="sr-only">Oferta de boas-vindas: 10 euros de desconto na sua primeira compra.</span>
-  <button class="reveal-close" type="button" onclick="fecharOferta()" aria-label="Fechar oferta">✕</button>
+  <button class="reveal-close" type="button" onclick="fecharOferta()" aria-label="Fechar oferta"><span aria-hidden="true">✕</span></button>
   <div class="reveal-inner">
     <div class="reveal-stage" aria-hidden="true">
       <svg class="watermelon" viewBox="0 0 240 220" role="presentation" focusable="false">
@@ -644,7 +644,7 @@
 <!-- ═══════════ POLÍTICA DE PRIVACIDADE ═══════════ -->
 <div class="privacy-modal" id="privacy-modal" hidden onclick="if(event.target===this)fecharPrivacidade()">
   <div class="privacy-box" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-    <button class="privacy-close" type="button" onclick="fecharPrivacidade()" aria-label="Fechar">✕</button>
+    <button class="privacy-close" type="button" onclick="fecharPrivacidade()" aria-label="Fechar"><span aria-hidden="true">✕</span></button>
     <h3 id="privacy-title">Política de Privacidade</h3>
     <p>A Mundi Fruta respeita a sua privacidade e cumpre o RGPD.</p>
     <h4>Que dados usamos</h4>
@@ -662,7 +662,7 @@
 <!-- ═══════════ PRODUCT PREVIEW MODAL ═══════════ -->
 <div class="product-modal" id="product-modal" onclick="if(event.target===this)fecharProduto()">
   <div class="product-modal-box" role="dialog" aria-modal="true" aria-labelledby="product-modal-name">
-    <button class="product-modal-close" type="button" onclick="fecharProduto()" aria-label="Fechar">✕</button>
+    <button class="product-modal-close" type="button" onclick="fecharProduto()" aria-label="Fechar"><span aria-hidden="true">✕</span></button>
     <div class="product-modal-photo"><img id="product-modal-image" src="" alt=""/></div>
     <div class="product-modal-info">
       <span class="product-modal-status" id="product-modal-status">Disponível hoje</span>
@@ -683,7 +683,7 @@
 <!-- ═══════════ CABAZ MODAL ═══════════ -->
 <div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()">
   <div class="cabaz-modal-box">
-    <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
+    <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar"><span aria-hidden="true">✕</span></button>
     <div class="cabaz-modal-head">
       <span class="eyebrow">Composição do Cabaz</span>
       <h3 id="cabaz-modal-title">Cabaz</h3>
