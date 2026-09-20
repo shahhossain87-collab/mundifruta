@@ -948,13 +948,19 @@ const carrinho = {};
     const map = { produtos:'#produtos', cabazes:'#cabazes', verao:'#verao', avaliacoes:'#avaliacoes', contacto:'#contacto' };
     const links = {};
     document.querySelectorAll('.nav-links a').forEach(a => { links[a.getAttribute('href')] = a; });
+    const eco = [...document.querySelectorAll('#mobile-menu a, .footer-links a')];
     const secs = Object.keys(map).map(id => document.getElementById(id)).filter(Boolean);
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           Object.values(links).forEach(l => l.classList.remove('active'));
-          const link = links['#'+e.target.id];
+          const href = '#'+e.target.id;
+          const link = links[href];
           if (link) link.classList.add('active');
+          eco.forEach(a => {
+            if (a.getAttribute('href') === href) a.setAttribute('aria-current', 'page');
+            else a.removeAttribute('aria-current');
+          });
         }
       });
     }, { rootMargin:'-45% 0px -50% 0px' });
