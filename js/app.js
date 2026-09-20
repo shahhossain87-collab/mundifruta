@@ -829,11 +829,19 @@ const carrinho = {};
   /* ══ NAVEGAÇÃO ENCOMENDA ↔ CATÁLOGO ══ */
   // Guarda a posição de navegação do cliente para poder voltar exatamente ali.
   let posCatalogo = 0;
+  function marcarBarraAtual(id) {
+    document.querySelectorAll('[data-bar]').forEach(el => {
+      const key = el.getAttribute('data-bar');
+      if (key === id) el.setAttribute('aria-current', el.tagName === 'A' ? 'page' : 'true');
+      else el.removeAttribute('aria-current');
+    });
+  }
   function irParaEncomenda() {
     const prod = document.getElementById('produtos');
     const y = window.scrollY;
     // Só memoriza se o cliente está a ver o catálogo (não a partir do topo/hero).
     if (prod && y >= prod.offsetTop - 240) posCatalogo = y;
+    marcarBarraAtual('encomenda');
     const enc = document.getElementById('encomenda');
     if (enc) enc.scrollIntoView({ behavior:'smooth', block:'start' });
   }
@@ -841,6 +849,7 @@ const carrinho = {};
   function continuarAComprar() {
     const prod = document.getElementById('produtos');
     const alvo = posCatalogo || (prod ? prod.getBoundingClientRect().top + window.scrollY - 8 : 0);
+    marcarBarraAtual('produtos');
     window.scrollTo({ top: alvo, behavior:'smooth' });
   }
 
@@ -957,6 +966,18 @@ const carrinho = {};
           if (link) link.classList.add('active');
         }
       });
+    }, { rootMargin:'-45% 0px -50% 0px' });
+    secs.forEach(s => obs.observe(s));
+  })();
+
+  /* Leftover 4-item bar + header Encomendar current. Does not touch leftover header spy. */
+  (function barraSpy(){
+    const promo = document.querySelector('#mobile-bar [data-bar="promocoes"]');
+    if (promo) promo.addEventListener('click', () => marcarBarraAtual('promocoes'));
+    const watched = ['produtos','promocoes','cabazes','verao','encomenda','avaliacoes','contacto'];
+    const secs = watched.map(id => document.getElementById(id)).filter(Boolean);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) marcarBarraAtual(e.target.id); });
     }, { rootMargin:'-45% 0px -50% 0px' });
     secs.forEach(s => obs.observe(s));
   })();
