@@ -961,6 +961,27 @@ const carrinho = {};
     secs.forEach(s => obs.observe(s));
   })();
 
+  /* Leftover header wordmark current when leftover #inicio is the destination.
+     Does not touch leftover header spy / crumb (PR #92). */
+  function marcarLogoAtual(ativo) {
+    const logo = document.querySelector('#main-nav .logo');
+    if (!logo) return;
+    if (ativo) logo.setAttribute('aria-current', 'page');
+    else logo.removeAttribute('aria-current');
+  }
+  (function inicioSpy(){
+    const logo = document.querySelector('#main-nav .logo');
+    const inicio = document.getElementById('inicio');
+    if (!logo || !inicio) return;
+    const dest = (location.hash || '').replace(/^#/, '');
+    marcarLogoAtual(!dest || dest === 'inicio');
+    logo.addEventListener('click', () => marcarLogoAtual(true));
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => marcarLogoAtual(e.isIntersecting));
+    }, { rootMargin:'0px 0px -40% 0px' });
+    obs.observe(inicio);
+  })();
+
   /* ══ FADE-IN ══ */
   const fiObs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); fiObs.unobserve(e.target); } });
