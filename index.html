@@ -198,7 +198,7 @@
         </div>
 
         <div class="catalog-resultbar">
-          <button class="filtbtn" type="button" onclick="toggleFiltros()" aria-label="Abrir filtros e categorias">⚙️ Filtros</button>
+          <button class="filtbtn" type="button" onclick="toggleFiltros()" aria-label="Abrir filtros e categorias"><span aria-hidden="true">⚙️</span> Filtros</button>
           <div class="catalog-count" id="catalog-count" aria-live="polite"></div>
           <select class="price-sort" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar produtos">
             <option value="">Ordenar: relevância</option>
@@ -310,7 +310,7 @@
 <div class="section shop-feature promo-shop" id="promocoes">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Poupe esta semana</span><h2 class="section-title">Promoções da Semana</h2></div>
-    <button class="shop-link" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Ver catálogo completo →</button>
+    <button class="shop-link" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Ver catálogo completo <span aria-hidden="true">→</span></button>
   </div>
   <div class="feature-grid" id="promo-grid"></div>
 </div>
@@ -318,7 +318,7 @@
 <div class="section shop-feature alt" id="populares">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Os favoritos dos clientes</span><h2 class="section-title">Frutas Populares</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Ver todas as frutas →</button>
+    <button class="shop-link" onclick="abrirCatalogo('frutas')">Ver todas as frutas <span aria-hidden="true">→</span></button>
   </div>
   <div class="feature-grid" id="popular-grid"></div>
 </div>
@@ -326,7 +326,7 @@
 <div class="section shop-feature" id="verao">
   <div class="shop-feature-head">
     <div><span class="eyebrow">No melhor momento</span><h2 class="section-title">Fruta da Época</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('frutas')">Explorar fruta →</button>
+    <button class="shop-link" onclick="abrirCatalogo('frutas')">Explorar fruta <span aria-hidden="true">→</span></button>
   </div>
   <div class="feature-grid" id="season-grid"></div>
 </div>
@@ -334,7 +334,7 @@
 <div class="section shop-feature alt" id="legumes-frescos">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Escolhidos diariamente</span><h2 class="section-title">Legumes Frescos</h2></div>
-    <button class="shop-link" onclick="abrirCatalogo('legumes')">Ver todos os legumes →</button>
+    <button class="shop-link" onclick="abrirCatalogo('legumes')">Ver todos os legumes <span aria-hidden="true">→</span></button>
   </div>
   <div class="feature-grid" id="veg-featured-grid"></div>
 </div>
@@ -459,7 +459,7 @@
   </a>
   <div class="temas-row fi" id="temas-row"></div>
   <div class="reviews-grid fi" id="reviews-grid"></div>
-  <a class="reviews-cta fi" id="reviews-cta" href="#" target="_blank" rel="noopener">Ver todas as avaliações no Google →</a>
+  <a class="reviews-cta fi" id="reviews-cta" href="#" target="_blank" rel="noopener">Ver todas as avaliações no Google <span aria-hidden="true">→</span></a>
 </div>
 
 <!-- ═══════════ QUEM SOMOS ═══════════ -->
