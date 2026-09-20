@@ -356,6 +356,8 @@ const carrinho = {};
     }).join('');
     const notaEl = document.getElementById('cabaz-modal-nota');
     if (notaEl) { notaEl.textContent = item.nota || ''; notaEl.style.display = item.nota ? 'block' : 'none'; }
+    const closeBtn = document.getElementById('cabaz-modal').querySelector('.cabaz-modal-close');
+    if (closeBtn) closeBtn.setAttribute('aria-label', `Fechar ${item.nome}`);
     const addBtn = document.getElementById('cabaz-modal-add');
     addBtn.setAttribute('aria-label', `Adicionar ${item.nome} ao carrinho`);
     addBtn.onclick = () => {
@@ -394,6 +396,8 @@ const carrinho = {};
     if (item.nota) notas.push(item.nota);
     document.getElementById('product-modal-note').textContent = notas.join(' ');
     document.getElementById('product-modal-qty').textContent = modalQuantidade;
+    const closeBtn = document.getElementById('product-modal').querySelector('.product-modal-close');
+    if (closeBtn) closeBtn.setAttribute('aria-label', `Fechar ${item.nome}`);
     document.getElementById('product-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
     if (window.trackEvent) window.trackEvent('view_item', { item: item.nome });
