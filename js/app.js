@@ -952,9 +952,15 @@ const carrinho = {};
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          Object.values(links).forEach(l => l.classList.remove('active'));
+          Object.values(links).forEach(l => {
+            l.classList.remove('active');
+            l.removeAttribute('aria-current');
+          });
           const link = links['#'+e.target.id];
-          if (link) link.classList.add('active');
+          if (link) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+          }
         }
       });
     }, { rootMargin:'-45% 0px -50% 0px' });
