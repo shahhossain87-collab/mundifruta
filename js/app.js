@@ -264,9 +264,9 @@ const carrinho = {};
     if (!el) return;
     if (paginas <= 1) { el.innerHTML = ''; return; }
     el.innerHTML = `
-      <button type="button" onclick="mudarPagina(-1)" ${catalogo.pagina === 1 ? 'disabled' : ''} aria-label="Página anterior">← Anterior</button>
+      <button type="button" onclick="mudarPagina(-1)" ${catalogo.pagina === 1 ? 'disabled' : ''} aria-label="Página anterior"><span aria-hidden="true">←</span> Anterior</button>
       <span>Página ${catalogo.pagina} de ${paginas}</span>
-      <button type="button" onclick="mudarPagina(1)" ${catalogo.pagina === paginas ? 'disabled' : ''} aria-label="Página seguinte">Seguinte →</button>`;
+      <button type="button" onclick="mudarPagina(1)" ${catalogo.pagina === paginas ? 'disabled' : ''} aria-label="Página seguinte">Seguinte <span aria-hidden="true">→</span></button>`;
   }
 
   function mudarPagina(delta) {
@@ -974,7 +974,7 @@ const carrinho = {};
     document.getElementById('google-badge').href = avaliacoesInfo.link;
     document.getElementById('reviews-cta').href = avaliacoesInfo.link;
     document.getElementById('temas-row').innerHTML = avaliacoesInfo.temas
-      .map(t => `<span class="tema-chip">✓ ${t}</span>`).join('');
+      .map(t => `<span class="tema-chip"><span aria-hidden="true">✓</span> ${t}</span>`).join('');
     document.getElementById('reviews-grid').innerHTML = avaliacoes.map(a => {
       const stars = '★★★★★'.slice(0, a.estrelas) + '☆☆☆☆☆'.slice(0, 5 - a.estrelas);
       return `<div class="review-card">
