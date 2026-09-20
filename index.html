@@ -400,15 +400,15 @@
       <h2 class="section-title">Encomendar Online</h2>
       <p class="section-sub">Selecione os produtos acima e preencha os seus dados abaixo</p>
       <div class="pay-badges">
-        <span class="pay-badge">✓ MB WAY</span>
-        <span class="pay-badge">✓ Multibanco</span>
-        <span class="pay-badge">✓ Dinheiro</span>
-        <span class="pay-badge">🛍️ Levantamento na Loja</span>
+        <span class="pay-badge"><span aria-hidden="true">✓</span> MB WAY</span>
+        <span class="pay-badge"><span aria-hidden="true">✓</span> Multibanco</span>
+        <span class="pay-badge"><span aria-hidden="true">✓</span> Dinheiro</span>
+        <span class="pay-badge"><span aria-hidden="true">🛍️</span> Levantamento na Loja</span>
       </div>
     </div>
     <div class="order-grid">
       <div class="order-card">
-        <div class="order-card-title">🛒 A Sua Encomenda</div>
+        <div class="order-card-title"><span aria-hidden="true">🛒</span> A Sua Encomenda</div>
         <button type="button" class="btn-continuar" onclick="continuarAComprar()">← Continuar a comprar</button>
         <ul class="order-items" id="order-list">
           <li class="empty-msg">Sem artigos ainda. Selecione produtos acima para começar.</li>
@@ -421,7 +421,7 @@
         </div>
       </div>
       <div class="order-card">
-        <div class="order-card-title">📋 Os Seus Dados</div>
+        <div class="order-card-title"><span aria-hidden="true">📋</span> Os Seus Dados</div>
         <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
           <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
           <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
@@ -486,22 +486,22 @@
   </div>
   <div class="contact-grid">
     <div class="contact-card fi">
-      <div class="contact-icon">📍</div>
+      <div class="contact-icon" aria-hidden="true">📍</div>
       <h4>Morada</h4>
       <p>Av de Portugal, Centro Cívico<br>Loja 24-C, 2790-129 Carnaxide</p>
     </div>
     <div class="contact-card fi">
-      <div class="contact-icon">📞</div>
+      <div class="contact-icon" aria-hidden="true">📞</div>
       <h4>Telefone / WhatsApp</h4>
       <a href="tel:932699850">932 699 850</a>
     </div>
     <div class="contact-card fi">
-      <div class="contact-icon">📧</div>
+      <div class="contact-icon" aria-hidden="true">📧</div>
       <h4>Email</h4>
       <a href="mailto:shahhossain87@gmail.com">shahhossain87@gmail.com</a>
     </div>
     <div class="contact-card fi">
-      <div class="contact-icon">🕗</div>
+      <div class="contact-icon" aria-hidden="true">🕗</div>
       <h4>Horário</h4>
       <p>Segunda – Domingo<br>8:00 – 20:00</p>
     </div>
@@ -554,23 +554,23 @@
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
 <nav class="mobile-bar" id="mobile-bar">
   <button class="mb-item" onclick="irParaEncomenda()">
-    <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
+    <span class="mb-icon" aria-hidden="true">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
   </button>
   <a class="mb-item" href="#promocoes">
-    <span class="mb-icon">%</span><span class="mb-label">Promoções</span>
+    <span class="mb-icon" aria-hidden="true">%</span><span class="mb-label">Promoções</span>
   </a>
   <a class="mb-item" href="https://wa.me/351932699850" target="_blank" rel="noopener">
-    <span class="mb-icon">💬</span><span class="mb-label">WhatsApp</span>
+    <span class="mb-icon" aria-hidden="true">💬</span><span class="mb-label">WhatsApp</span>
   </a>
   <a class="mb-item" href="https://www.google.com/maps/dir/?api=1&destination=Mundifruta-Carnaxide%2C+Av.+de+Portugal%2C+Centro+C%C3%ADvico%2C+Loja+24-C%2C+2790-129+Carnaxide" target="_blank" rel="noopener">
-    <span class="mb-icon">📍</span><span class="mb-label">Como Chegar</span>
+    <span class="mb-icon" aria-hidden="true">📍</span><span class="mb-label">Como Chegar</span>
   </a>
 </nav>
 
 <!-- ═══════════ FLOATING CART ═══════════ -->
 <button class="float-cart" id="float-cart" onclick="irParaEncomenda()" title="Ver a sua encomenda">
-  <span class="fc-icon">🛒</span>
+  <span class="fc-icon" aria-hidden="true">🛒</span>
   <span class="fc-text" id="float-cart-text">0 · 0,00 €</span>
 </button>
 
