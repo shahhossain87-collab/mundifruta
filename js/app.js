@@ -980,7 +980,7 @@ const carrinho = {};
       return `<div class="review-card">
         <div class="review-stars">${stars}</div>
         <p class="review-text">${a.texto}</p>
-        <div class="review-author"><span class="review-avatar">${(a.nome[0]||'?').replace('[','C')}</span>${a.nome}</div>
+        <div class="review-author"><span class="review-avatar" aria-hidden="true">${(a.nome[0]||'?').replace('[','C')}</span>${a.nome}</div>
       </div>`;
     }).join('');
   }
