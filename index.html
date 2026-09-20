@@ -117,7 +117,7 @@
         🛒 Encomendar <span class="cart-badge" id="cart-count">0</span>
       </button>
       <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-        <span></span><span></span><span></span>
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -262,45 +262,45 @@
 <div class="cat-quick">
   <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
     <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
   </button>
   <button class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
     <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
   <button class="cat-quick-btn" onclick="abrirCatalogo('ervas')">
     <img src="fotos/hortela.jpeg" alt="Ervas frescas e aromáticas" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="ervas">Ervas frescas</span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="ervas">Ervas frescas</span>
   </button>
   <button class="cat-quick-btn" onclick="abrirCatalogo('epoca')">
     <img src="fotos/melancia.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
   <button class="cat-quick-btn" onclick="abrirCatalogo('promocoes')">
     <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
   </button>
   <button class="cat-quick-btn" onclick="abrirCabazes()">
     <img src="fotos/cabaz_detox.jpeg" alt="Cabazes de frutas e legumes" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
   </button>
   <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
     <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
+    <span class="cq-overlay" aria-hidden="true"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
 </div>
 
 <!-- ═══════════ COMO ENCOMENDAR (mini) ═══════════ -->
 <div class="order-steps-mini">
-  <span class="osm-step"><b>1</b> Escolha os produtos</span>
+  <span class="osm-step"><b aria-hidden="true">1</b> Escolha os produtos</span>
   <span class="osm-arrow">→</span>
-  <span class="osm-step"><b>2</b> Adicione ao carrinho</span>
+  <span class="osm-step"><b aria-hidden="true">2</b> Adicione ao carrinho</span>
   <span class="osm-arrow">→</span>
-  <span class="osm-step"><b>3</b> Confirme o subtotal</span>
+  <span class="osm-step"><b aria-hidden="true">3</b> Confirme o subtotal</span>
   <span class="osm-arrow">→</span>
-  <span class="osm-step"><b>4</b> Envie por WhatsApp</span>
+  <span class="osm-step"><b aria-hidden="true">4</b> Envie por WhatsApp</span>
   <span class="osm-arrow">→</span>
-  <span class="osm-step"><b>5</b> Levante na loja</span>
+  <span class="osm-step"><b aria-hidden="true">5</b> Levante na loja</span>
 </div>
 
 <!-- "How to order" explainer consolidated into a single section (#como-funciona) to reduce duplicate reading. -->
@@ -697,7 +697,7 @@
 </div>
 
 <script src="js/dados.js?v=25"></script>
-<script src="js/app.js?v=38"></script>
+<script src="js/app.js?v=39"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
