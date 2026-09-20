@@ -51,6 +51,14 @@ const carrinho = {};
   const NOTA_PRECO_ESTIMADO = 'Preço estimado com base no peso médio. O valor final pode variar conforme o peso real do produto no momento da preparação da encomenda.';
   const DISCLAIMER_PRODUTOS_NATURAIS = 'Produtos naturais podem variar de peso. O preço final será calculado de acordo com o peso exato preparado para a sua encomenda.';
 
+  /* Decorative leading marks (emoji / glyph + space) stay visible but are not announced. */
+  function esconderMarcaInicial(texto) {
+    const s = String(texto ?? '');
+    const m = s.match(/^([^\p{L}\p{N}]+)(.*)$/u);
+    if (!m || !m[2]) return s;
+    return `<span aria-hidden="true">${m[1]}</span>${m[2]}`;
+  }
+
   /* ══ IMAGE FALLBACKS ══ */
   function erroImagem(img) {
     const wrap = img.closest('.photo-wrap');
@@ -77,8 +85,8 @@ const carrinho = {};
     card.innerHTML = `
       <button class="feature-photo" type="button" onclick="abrirProduto('${item._id}')" aria-label="Ver ${item.nome}">
         <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" data-emoji="${item.emoji}" onerror="erroImagem(this)" loading="lazy" decoding="async"/>
-        ${item.badge ? `<span class="feature-badge">${item.badge}</span>` : ''}
-        ${item.topVendido ? `<span class="top-badge">⭐ Mais vendido</span>` : ''}
+        ${item.badge ? `<span class="feature-badge">${esconderMarcaInicial(item.badge)}</span>` : ''}
+        ${item.topVendido ? `<span class="top-badge">${esconderMarcaInicial('⭐ Mais vendido')}</span>` : ''}
       </button>
       <div class="feature-body">
         <h3>${item.nome}</h3>
@@ -120,12 +128,12 @@ const carrinho = {};
 
   /* ══ PRODUCT CARDS ══ */
   function criarCard(item, id) {
-    const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
+    const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${esconderMarcaInicial(item.badge)}</div>` : '';
     const disponivel = produtoDisponivel(item);
     const card  = document.createElement('article');
     card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
     if (!disponivel) card.classList.add('is-unavailable');
-    const topRibbon = item.topVendido ? `<div class="top-badge">⭐ Mais vendido</div>` : '';
+    const topRibbon = item.topVendido ? `<div class="top-badge">${esconderMarcaInicial('⭐ Mais vendido')}</div>` : '';
     const oosOverlay = disponivel ? '' : `<div class="oos-flag">Esgotado</div>`;
     card.innerHTML = `
       ${badge}
@@ -139,7 +147,7 @@ const carrinho = {};
         <h3 class="product-name">${item.nome}</h3>
         <div class="product-meta">
           ${item.peso ? `<span class="product-peso">${item.peso}</span>` : ''}
-          ${item.origem ? `<span class="product-origem">🌍 ${item.origem}</span>` : ''}
+          ${item.origem ? `<span class="product-origem">${esconderMarcaInicial('🌍 ' + item.origem)}</span>` : ''}
         </div>
         <div class="product-price">${rotuloPreco(item)}${pctPromo(item) ? ` <span class="promo-save">−${pctPromo(item)}%</span>` : ''}</div>
         ${precoSecundario(item) ? `<div class="product-unit">${precoSecundario(item)}</div>` : ''}
@@ -318,7 +326,7 @@ const carrinho = {};
       item._cat = 'cabazes'; item._id = id;
       produtos_map[id] = item;
       const temItens = item.itens && item.itens.length;
-      const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
+      const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${esconderMarcaInicial(item.badge)}</div>` : '';
       const verBtn = temItens ? `<button class="cabaz-ver" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
       const card = document.createElement('div');
       card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
@@ -653,7 +661,7 @@ const carrinho = {};
       const subtotal = preco === null ? 'A confirmar' : formatarCentimos(preco * i.qtd);
       const estimado = produtoComPesoMedio(i);
       return `<li class="order-item">
-        <span class="order-item-main">${i.emoji} ${i.nome}${i.peso ? ` <small>(${i.peso})</small>` : ''}</span>
+        <span class="order-item-main">${esconderMarcaInicial(`${i.emoji} ${i.nome}`)}${i.peso ? ` <small>(${i.peso})</small>` : ''}</span>
         <span class="order-item-actions">
           <span class="oi-stepper">
             <button type="button" onclick="alterarQtdCarrinho('${i._id}',-1)" aria-label="Menos">−</button>
@@ -663,7 +671,7 @@ const carrinho = {};
           <span class="order-item-price">${estimado
             ? `${rotuloPreco(i)} <strong>Subtotal estimado: ${subtotal}</strong>`
             : `${i.preco} · <strong>${subtotal}</strong>`}</span>
-          <button class="order-remove" type="button" onclick="removerProduto('${i._id}')" aria-label="Remover ${i.nome}">×</button>
+          <button class="order-remove" type="button" onclick="removerProduto('${i._id}')" aria-label="Remover ${i.nome}"><span aria-hidden="true">×</span></button>
         </span>
       </li>`;
     }).join('');
@@ -926,7 +934,7 @@ const carrinho = {};
   let ultimoScrollY = window.scrollY;
   function mostrarToast(msg) {
     const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
+    t.innerHTML = esconderMarcaInicial(msg); t.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
   }
