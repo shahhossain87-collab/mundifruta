@@ -886,7 +886,7 @@
       font-family:'Poppins',sans-serif; text-decoration:underline; text-underline-offset:3px;
       transition:color 0.2s;
     }
-    .order-optional-toggle span { opacity:0.65; font-weight:500; }
+    .order-optional-toggle > span:not([aria-hidden]) { opacity:0.65; font-weight:500; }
     .order-optional-toggle:hover { color:#fff; }
     .order-optional[hidden] { display:none; }
     .order-btns { display:flex; flex-direction:column; gap:6px; margin-top:16px; }
@@ -1371,7 +1371,7 @@
       cursor:pointer;
     }
     .catalog-pagination button:disabled { opacity:.4; cursor:not-allowed; }
-    .catalog-pagination span { color:var(--text-md); font-size:.82rem; }
+    .catalog-pagination > span { color:var(--text-md); font-size:.82rem; }
     .veg-suggestion {
       position:sticky;
       bottom:84px;
@@ -1633,7 +1633,7 @@
         padding:0 11px;
         font-size:.72rem;
       }
-      .catalog-pagination span {
+      .catalog-pagination > span {
         flex:1;
         min-width:96px;
         text-align:center;

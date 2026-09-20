@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/estilos.css?v=64"/>
+  <link rel="stylesheet" href="css/estilos.css?v=65"/>
 
   <!-- ═══════════ DADOS ESTRUTURADOS (Google) ═══════════ -->
   <script type="application/ld+json">
@@ -427,7 +427,7 @@
           <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
                   onclick="var o=document.getElementById('order-optional');o.hidden=false;this.hidden=true;">
-            + Hora de levantamento ou nota <span>(opcional)</span>
+            <span aria-hidden="true">+</span> Hora de levantamento ou nota <span>(opcional)</span>
           </button>
           <div class="order-optional" id="order-optional" hidden>
             <input type="text" id="cust-levantamento" placeholder="Hora de levantamento (ex: 17h30)"/>
@@ -578,7 +578,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo"><span aria-hidden="true">▲</span></button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -697,7 +697,7 @@
 </div>
 
 <script src="js/dados.js?v=25"></script>
-<script src="js/app.js?v=38"></script>
+<script src="js/app.js?v=39"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
