@@ -174,8 +174,8 @@
         <div class="sb-panel">
           <h3>Filtros</h3>
           <div class="filter-chips" role="group" aria-label="Filtros">
-            <button class="filter-chip" id="filter-promo" type="button" aria-pressed="false" onclick="alternarFiltro('promo',this)">🏷️ Em promoção</button>
-            <button class="filter-chip" id="filter-disp"  type="button" aria-pressed="false" onclick="alternarFiltro('disp',this)">✓ Disponíveis</button>
+            <button class="filter-chip" id="filter-promo" type="button" aria-pressed="false" onclick="alternarFiltro('promo',this)"><span aria-hidden="true">🏷️</span> Em promoção</button>
+            <button class="filter-chip" id="filter-disp"  type="button" aria-pressed="false" onclick="alternarFiltro('disp',this)"><span aria-hidden="true">✓</span> Disponíveis</button>
           </div>
           <label class="sb-field">Preço
             <select class="filter-select" id="filter-preco" onchange="aplicarCatalogo()" aria-label="Filtrar por preço">
@@ -409,7 +409,7 @@
     <div class="order-grid">
       <div class="order-card">
         <div class="order-card-title">🛒 A Sua Encomenda</div>
-        <button type="button" class="btn-continuar" onclick="continuarAComprar()">← Continuar a comprar</button>
+        <button type="button" class="btn-continuar" onclick="continuarAComprar()"><span aria-hidden="true">←</span> Continuar a comprar</button>
         <ul class="order-items" id="order-list">
           <li class="empty-msg">Sem artigos ainda. Selecione produtos acima para começar.</li>
         </ul>
@@ -434,8 +434,8 @@
             <textarea          id="cust-notas"     placeholder="Pedidos especiais ou notas..."></textarea>
           </div>
           <div class="order-btns">
-            <button type="submit" class="btn-wa">📱 Encomendar por WhatsApp</button>
-            <p class="order-reassure">🔒 Sem pagamento antecipado. Pague apenas na loja ao levantar.</p>
+            <button type="submit" class="btn-wa"><span aria-hidden="true">📱</span> Encomendar por WhatsApp</button>
+            <p class="order-reassure"><span aria-hidden="true">🔒</span> Sem pagamento antecipado. Pague apenas na loja ao levantar.</p>
             <button type="button" class="btn-em" onclick="enviarEmail()">ou encomende por email</button>
           </div>
           <p class="order-note">Depois de enviar, respondemos pelo WhatsApp a confirmar. Preparamos a sua encomenda e avisamos assim que estiver pronta para levantamento (normalmente em cerca de 1 hora).</p>
@@ -622,7 +622,7 @@
       <p class="reveal-text" id="offer-text"></p>
       <p class="reveal-fine" id="offer-fine"></p>
       <div class="reveal-actions">
-        <button class="reveal-cta" type="button" onclick="aceitarOferta()">🎁 Receber Oferta</button>
+        <button class="reveal-cta" type="button" onclick="aceitarOferta()"><span aria-hidden="true">🎁</span> Receber Oferta</button>
         <button class="reveal-later" type="button" onclick="fecharOferta()">Agora não</button>
       </div>
     </div>
