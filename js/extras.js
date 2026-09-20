@@ -156,16 +156,16 @@
     box.hidden = false;
     if (total <= 0) {
       box.className = 'promo-progress';
-      box.innerHTML = `🎁 <strong>Cupão de ${cupaoConfig.desconto}€ reservado.</strong> Adicione produtos até ${cupaoConfig.minimo}€ e desbloqueie o seu desconto.`;
+      box.innerHTML = `<span aria-hidden="true">🎁 </span><strong>Cupão de ${cupaoConfig.desconto}€ reservado.</strong> Adicione produtos até ${cupaoConfig.minimo}€ e desbloqueie o seu desconto.`;
     } else if (total < minimo) {
       const faltam = formatarCentimos(minimo - total);
       box.className = 'promo-progress';
-      box.innerHTML = `🎁 Faltam <strong>${faltam}</strong> para desbloquear o seu desconto de <strong>${cupaoConfig.desconto}€</strong>.`;
+      box.innerHTML = `<span aria-hidden="true">🎁 </span>Faltam <strong>${faltam}</strong> para desbloquear o seu desconto de <strong>${cupaoConfig.desconto}€</strong>.`;
     } else {
       const desconto = descontoCentimos(total);
       const net = formatarCentimos(total - desconto);
       box.className = 'promo-progress qualificado';
-      box.innerHTML = `✅ Já atingiu o mínimo! Desconto de boas-vindas <strong>−${formatarCentimos(desconto)}</strong> · Total com desconto: <strong>${net}</strong>
+      box.innerHTML = `<span aria-hidden="true">✅ </span>Já atingiu o mínimo! Desconto de boas-vindas <strong>−${formatarCentimos(desconto)}</strong> · Total com desconto: <strong>${net}</strong>
         <small>Cupão ${cupaoConfig.codigo} confirmado no levantamento na loja.</small>`;
     }
   };
@@ -204,7 +204,7 @@
         <img src="${urlFoto(item.foto)}" alt="${item.alt || item.nome}" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'cs-emoji',textContent:'${item.emoji}'}))"/>
         <span class="cs-nome">${item.nome}</span>
         <span class="cs-preco">${rotuloPreco(item)}</span>
-        <span class="cs-add">＋</span>
+        <span class="cs-add" aria-hidden="true">＋</span>
       </button>`;
   }
 
@@ -303,11 +303,13 @@
       const passo = () => (grid.firstElementChild ? grid.firstElementChild.offsetWidth + 14 : 220);
       const prev = document.createElement('button');
       prev.className = 'carousel-nav prev'; prev.type = 'button';
-      prev.setAttribute('aria-label', 'Anterior'); prev.textContent = '‹';
+      prev.setAttribute('aria-label', 'Anterior');
+      prev.innerHTML = '<span aria-hidden="true">‹</span>';
       prev.onclick = () => grid.scrollBy({ left: -passo() * 2, behavior: 'smooth' });
       const next = document.createElement('button');
       next.className = 'carousel-nav next'; next.type = 'button';
-      next.setAttribute('aria-label', 'Seguinte'); next.textContent = '›';
+      next.setAttribute('aria-label', 'Seguinte');
+      next.innerHTML = '<span aria-hidden="true">›</span>';
       next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: 'smooth' });
       wrap.appendChild(prev); wrap.appendChild(next);
 
