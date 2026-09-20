@@ -101,7 +101,7 @@
 </div>
 
 <!-- ═══════════ NAV ═══════════ -->
-<nav id="main-nav">
+<nav id="main-nav" aria-label="Principal">
   <div class="nav-inner">
     <a href="#inicio" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
     <div class="nav-links">
@@ -552,7 +552,7 @@
 </div>
 
 <!-- ═══════════ MOBILE BOTTOM BAR ═══════════ -->
-<nav class="mobile-bar" id="mobile-bar">
+<nav class="mobile-bar" id="mobile-bar" aria-label="Carrinho e contactos">
   <button class="mb-item" onclick="irParaEncomenda()">
     <span class="mb-icon">🛒</span><span class="mb-label" id="mb-cart-label">Carrinho</span>
     <span class="mb-badge" id="mb-cart-count">0</span>
@@ -583,7 +583,7 @@
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
 <div class="cs-pop" id="cs-pop" hidden role="dialog" aria-label="Sugestões de produtos">
-  <button class="cs-pop-close" type="button" onclick="fecharCrossSell()" aria-label="Fechar">✕</button>
+  <button class="cs-pop-close" type="button" onclick="fecharCrossSell()" aria-label="Fechar sugestões">✕</button>
   <div class="cs-pop-title" id="cs-pop-title">Também pode gostar</div>
   <div class="cs-row" id="cs-pop-row"></div>
   <button class="cs-pop-skip" type="button" onclick="fecharCrossSell()">Continuar sem adicionar</button>
@@ -644,7 +644,7 @@
 <!-- ═══════════ POLÍTICA DE PRIVACIDADE ═══════════ -->
 <div class="privacy-modal" id="privacy-modal" hidden onclick="if(event.target===this)fecharPrivacidade()">
   <div class="privacy-box" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
-    <button class="privacy-close" type="button" onclick="fecharPrivacidade()" aria-label="Fechar">✕</button>
+    <button class="privacy-close" type="button" onclick="fecharPrivacidade()" aria-label="Fechar política de privacidade">✕</button>
     <h3 id="privacy-title">Política de Privacidade</h3>
     <p>A Mundi Fruta respeita a sua privacidade e cumpre o RGPD.</p>
     <h4>Que dados usamos</h4>
@@ -697,7 +697,7 @@
 </div>
 
 <script src="js/dados.js?v=25"></script>
-<script src="js/app.js?v=38"></script>
+<script src="js/app.js?v=39"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
