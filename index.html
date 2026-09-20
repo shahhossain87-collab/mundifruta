@@ -178,7 +178,7 @@
             <button class="filter-chip" id="filter-disp"  type="button" aria-pressed="false" onclick="alternarFiltro('disp',this)">✓ Disponíveis</button>
           </div>
           <label class="sb-field">Preço
-            <select class="filter-select" id="filter-preco" onchange="aplicarCatalogo()" aria-label="Filtrar por preço">
+            <select class="filter-select" id="filter-preco" name="preco" onchange="aplicarCatalogo()" aria-label="Filtrar por preço">
               <option value="">Todos</option>
               <option value="0-2">Até 2 €</option>
               <option value="2-5">2 € – 5 €</option>
@@ -191,7 +191,7 @@
       <div class="shop-main">
         <div class="search-row">
           <span class="search-ico" aria-hidden="true">🔍</span>
-          <input class="search-input" id="search-input" type="search" autocomplete="off"
+          <input class="search-input" id="search-input" type="search" name="pesquisa" autocomplete="off"
                  placeholder="Pesquisar produto… (ex: morangos, tomate, banana)"
                  oninput="pesquisar()" aria-label="Pesquisar produtos"/>
           <button class="search-clear" id="search-clear" onclick="limparPesquisa()" aria-label="Limpar pesquisa">✕</button>
@@ -200,7 +200,7 @@
         <div class="catalog-resultbar">
           <button class="filtbtn" type="button" onclick="toggleFiltros()" aria-label="Abrir filtros e categorias">⚙️ Filtros</button>
           <div class="catalog-count" id="catalog-count" aria-live="polite"></div>
-          <select class="price-sort" id="price-sort" onchange="ordenarPreco()" aria-label="Ordenar produtos">
+          <select class="price-sort" id="price-sort" name="ordenar" onchange="ordenarPreco()" aria-label="Ordenar produtos">
             <option value="">Ordenar: relevância</option>
             <option value="asc">Preço: baixo → alto</option>
             <option value="desc">Preço: alto → baixo</option>
@@ -582,7 +582,7 @@
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
-<div class="cs-pop" id="cs-pop" hidden role="dialog" aria-label="Sugestões de produtos">
+<div class="cs-pop" id="cs-pop" hidden role="dialog" aria-modal="true" aria-label="Sugestões de produtos">
   <button class="cs-pop-close" type="button" onclick="fecharCrossSell()" aria-label="Fechar">✕</button>
   <div class="cs-pop-title" id="cs-pop-title">Também pode gostar</div>
   <div class="cs-row" id="cs-pop-row"></div>
@@ -682,7 +682,7 @@
 
 <!-- ═══════════ CABAZ MODAL ═══════════ -->
 <div class="cabaz-modal" id="cabaz-modal" onclick="if(event.target===this)fecharCabaz()">
-  <div class="cabaz-modal-box">
+  <div class="cabaz-modal-box" role="dialog" aria-modal="true" aria-labelledby="cabaz-modal-title">
     <button class="cabaz-modal-close" onclick="fecharCabaz()" aria-label="Fechar">✕</button>
     <div class="cabaz-modal-head">
       <span class="eyebrow">Composição do Cabaz</span>
