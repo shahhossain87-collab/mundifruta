@@ -124,7 +124,7 @@
 </nav>
 
 <!-- ═══════════ MOBILE MENU ═══════════ -->
-<div class="mobile-menu" id="mobile-menu">
+<nav class="mobile-menu" id="mobile-menu" aria-label="Menu">
   <button class="mobile-close" onclick="toggleMenu()">✕</button>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
@@ -134,7 +134,7 @@
   <a href="#avaliacoes"     onclick="toggleMenu()">Avaliações</a>
   <a href="#encomenda"      onclick="toggleMenu()">Encomendar</a>
   <a href="#contacto"       onclick="toggleMenu()">Contacto</a>
-</div>
+</nav>
 <!-- ═══════════ PRODUCTS / LOJA ═══════════ -->
 <section class="section shop" id="produtos" style="padding-top:26px; padding-bottom:26px;">
   <div class="section-hdr fi" style="margin-bottom:18px">
@@ -259,7 +259,7 @@
 </div>
 
 <!-- ═══════════ CATEGORY QUICK ACCESS ═══════════ -->
-<div class="cat-quick">
+<nav class="cat-quick" aria-label="Categorias e carrinho">
   <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
     <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
@@ -288,7 +288,7 @@
     <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
-</div>
+</nav>
 
 <!-- ═══════════ COMO ENCOMENDAR (mini) ═══════════ -->
 <div class="order-steps-mini">
@@ -410,7 +410,7 @@
       <div class="order-card">
         <div class="order-card-title">🛒 A Sua Encomenda</div>
         <button type="button" class="btn-continuar" onclick="continuarAComprar()">← Continuar a comprar</button>
-        <ul class="order-items" id="order-list">
+        <ul class="order-items" id="order-list" aria-label="A Sua Encomenda">
           <li class="empty-msg">Sem artigos ainda. Selecione produtos acima para começar.</li>
         </ul>
         <div class="order-total" id="order-total" hidden></div>
@@ -422,7 +422,7 @@
       </div>
       <div class="order-card">
         <div class="order-card-title">📋 Os Seus Dados</div>
-        <form class="order-form" id="order-form" onsubmit="enviarWhatsApp(event)">
+        <form class="order-form" id="order-form" aria-label="Os Seus Dados" onsubmit="enviarWhatsApp(event)">
           <input type="text" id="cust-nome"      placeholder="O Seu Nome *" required/>
           <input type="tel"  id="cust-telemovel" placeholder="Nº de Telemóvel *" required/>
           <button type="button" class="order-optional-toggle" id="order-optional-toggle"
