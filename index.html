@@ -260,27 +260,27 @@
 
 <!-- ═══════════ CATEGORY QUICK ACCESS ═══════════ -->
 <div class="cat-quick">
-  <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
+  <button class="cat-quick-btn" data-cat="frutas" aria-current="true" onclick="abrirCatalogo('frutas')">
     <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="frutas">Frutas</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('legumes')">
+  <button class="cat-quick-btn" data-cat="legumes" onclick="abrirCatalogo('legumes')">
     <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('ervas')">
+  <button class="cat-quick-btn" data-cat="ervas" onclick="abrirCatalogo('ervas')">
     <img src="fotos/hortela.jpeg" alt="Ervas frescas e aromáticas" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="ervas">Ervas frescas</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('epoca')">
+  <button class="cat-quick-btn" data-cat="epoca" onclick="abrirCatalogo('epoca')">
     <img src="fotos/melancia.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('promocoes')">
+  <button class="cat-quick-btn" data-cat="promocoes" onclick="abrirCatalogo('promocoes')">
     <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCabazes()">
+  <button class="cat-quick-btn" data-cat="cabazes" onclick="abrirCabazes()">
     <img src="fotos/cabaz_detox.jpeg" alt="Cabazes de frutas e legumes" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
   </button>
@@ -697,7 +697,7 @@
 </div>
 
 <script src="js/dados.js?v=25"></script>
-<script src="js/app.js?v=38"></script>
+<script src="js/app.js?v=39"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
