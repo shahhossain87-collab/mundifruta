@@ -98,6 +98,7 @@
       display:none; position:fixed; inset:0; z-index:999;
       background:var(--forest);
       flex-direction:column; align-items:center; justify-content:center; gap:32px;
+      overscroll-behavior:contain;
     }
     .mobile-menu.open { display:flex; }
     .mobile-menu a {
@@ -2037,6 +2038,7 @@
       position:sticky; top:calc(var(--announcement-height) + var(--nav-height) - 8px);
       display:flex; flex-direction:column; gap:14px;
       max-height:calc(100vh - 96px); overflow:auto; padding-right:2px;
+      overscroll-behavior:contain;
     }
     .sb-panel { border:1px solid var(--line); border-radius:var(--r-lg); padding:14px 16px; background:#fff; box-shadow:var(--sh-soft); }
     .sb-panel[hidden] { display:none; }
@@ -2096,7 +2098,7 @@
       .shop-backdrop[hidden] { display:none; }
       .sidebar-close { display:block; margin:0 0 6px auto; background:none; border:none; font-size:1.35rem; line-height:1; cursor:pointer; color:var(--text); }
       .filtbtn { display:inline-flex; }
-      body.filtros-open { overflow:hidden; }
+      body.filtros-open { overflow:hidden; overscroll-behavior:none; }
     }
 
     /* ═══════════════════════════════════════════════════════════
