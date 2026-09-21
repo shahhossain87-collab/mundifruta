@@ -1006,6 +1006,16 @@
       opacity:0; z-index:9999; transition:all 0.3s; white-space:nowrap; pointer-events:none;
     }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    /* Leftover 4-item bar covers leftover "adicionado" / "removido" toasts
+       unless leftover #toast sits above leftover #mobile-bar.
+       Complementary to PR #4 (consent lift + moving toast under the header)
+       and PR #106 / #107 (cs-pop / scroll-top vs bar). Desktop 32px stays. */
+    @media (max-width:768px) {
+      .toast { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+    }
+    @media (max-width:700px) {
+      .toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+    }
 
     /* ??????????????????????????????????????
        RESPONSIVE
