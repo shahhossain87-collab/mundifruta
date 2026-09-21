@@ -275,6 +275,15 @@
       display:inline-flex; align-items:center; gap:8px;
       flex-shrink:0;
     }
+    /* Leftover ticker + leftover hash/scrollIntoView stay animated unless
+       the shopper asked for reduced motion. Must sit after leftover
+       `.announcement-track { animation: ticker }` so it wins. Complementary
+       to PR #21 (catalog-search pairing / skip / contactPoint stay there)
+       and PR #30 (carousel scroll-behavior / float-cart.pop stay there). */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .announcement-track { animation: none; }
+    }
 
     .homepage-search {
       max-width:1280px;
