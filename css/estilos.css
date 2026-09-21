@@ -1686,6 +1686,16 @@
       width:min(94vw,520px); background:var(--white); border-radius:var(--r-lg);
       box-shadow:var(--sh-lg); padding:16px 16px 12px; z-index:1400; animation:cs-up .28s ease;
     }
+    /* Leftover 4-item bar covers Combina bem / Continuar sem adicionar
+       unless the leftover sheet sits above leftover #mobile-bar.
+       Complementary to PR #39 (desktop dock gutter) and PR #4
+       (consent/toast overlay vs bar). Desktop 84px stays. */
+    @media (max-width:768px) {
+      .cs-pop { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+    }
+    @media (max-width:700px) {
+      .cs-pop { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+    }
     @keyframes cs-up { from{opacity:0; transform:translate(-50%,16px);} to{opacity:1; transform:translate(-50%,0);} }
     .cs-pop-close { position:absolute; top:8px; right:10px; border:none; background:none; font-size:1.1rem; cursor:pointer; color:var(--text-md); }
     .cs-pop-skip { margin-top:10px; width:100%; padding:9px; border:none; background:var(--cream-2); color:var(--text); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
@@ -1787,7 +1797,6 @@
     @media (max-width:600px) {
       .consent { flex-direction:column; align-items:stretch; }
       .consent-btns { justify-content:stretch; } .consent-btns button { flex:1; }
-      .cs-pop { bottom:74px; }
     }
 
     /* ═══════════ RONDA DE CORREÇÕES (continuar a comprar, encomenda online, quem somos) ═══════════ */
