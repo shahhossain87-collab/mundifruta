@@ -412,6 +412,11 @@
       .float-cart { top:calc(var(--announcement-height) + 8px); right:14px; padding:6px 10px; gap:6px; font-size:.72rem; }
       .scroll-top { bottom:78px; }
       body { padding-bottom:62px; }
+      /* Leftover 4-item bar covers focused checkout / footer controls
+         unless html scroll-padding-bottom matches the leftover bar.
+         Complementary to PR #97 (scroll-padding-top / leftover hash
+         headings under leftover announcement + nav). */
+      html { scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
     }
 
     /* ?? FLOATING CART (pops top-right when items added) ?? */
@@ -1531,6 +1536,7 @@
       .section { padding-top:56px; padding-bottom:56px; }
       .steps-grid { grid-template-columns:1fr; }
       body { padding-bottom:70px; }
+      html { scroll-padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
     }
     @media (max-width:380px) {
       .feature-grid { grid-template-columns:1fr; }
