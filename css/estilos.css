@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover hero rating: no hover lift on touch so leftover
+       4,9 / 107+ Google chip stays put on the first tap.
+       Desktop pointer hover lift stays. Complementary to leftover
+       contact-card hover (PR #118) — this leftover is the hero
+       rating, not Encontre-nos. */
+    @media (hover: none) {
+      .hero-rating:hover { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-rating { transition: none; }
+      .hero-rating:hover { transform: none; }
+    }
