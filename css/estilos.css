@@ -189,6 +189,11 @@
       display:flex; grid-template-columns:none; gap:14px;
       overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth;
       -webkit-overflow-scrolling:touch; padding:4px 2px 14px; scrollbar-width:none;
+      /* Horizontal swipe stays in the leftover featured row instead of
+         bouncing the catalog/page behind it (complementary to leftover
+         filter/menu overscroll in PR #98 and leftover overlay overscroll
+         in PR #27). */
+      overscroll-behavior:contain;
     }
     .feature-grid.carousel::-webkit-scrollbar { display:none; }
     .feature-grid.carousel > .feature-product {
