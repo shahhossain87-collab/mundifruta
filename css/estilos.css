@@ -2117,3 +2117,21 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover category tiles: :hover lift/zoom sticks after the first tap on
+       touch (the tap is consumed as hover). Desktop hover stays. Reduced-motion
+       stops the leftover zoom. Complementary to PR #25 (shortcut types/alts/
+       rings), PR #90 (cq-overlay hidden), PR #94 (cat-quick current). */
+    @media (hover: none) {
+      .cat-quick-btn:hover {
+        transform: none;
+        box-shadow: var(--sh);
+      }
+      .cat-quick-btn:hover img { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cat-quick-btn,
+      .cat-quick-btn img { transition: none; }
+      .cat-quick-btn:hover,
+      .cat-quick-btn:hover img { transform: none; }
+    }
