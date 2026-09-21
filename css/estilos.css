@@ -1664,7 +1664,17 @@
     .crosssell { margin-top:16px; }
     .cs-title, .cs-pop-title { font-weight:800; margin-bottom:10px; color:var(--forest); }
     .crosssell-cart .cs-title { color:var(--white); }
-    .cs-row { display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; min-width:0; max-width:100%; }
+    .cs-row {
+      display:flex; gap:10px; overflow-x:auto; padding-bottom:6px;
+      scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+      min-width:0; max-width:100%;
+      /* Horizontal swipe stays in the leftover Combina bem / Complete o
+         seu pedido row instead of bouncing the checkout/page behind it
+         (complementary to leftover featured-carousel overscroll in PR
+         #99, leftover filter/menu overscroll in PR #98, and leftover
+         overlay overscroll in PR #27). */
+      overscroll-behavior:contain;
+    }
     /* Evita que a linha de cross-sell alargue o cartão da encomenda (min-width:auto do grid/flex) */
     .order-card { min-width:0; }
     .crosssell-cart { min-width:0; max-width:100%; }
