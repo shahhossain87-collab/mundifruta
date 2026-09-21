@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover cross-sell cards: no hover lift on touch so leftover Combina
+       bem / Complete o seu pedido cards activate on the first tap. Desktop
+       pointer hover lift stays. Complementary to leftover catalog-card hover
+       (PR #113) and leftover featured-photo hover (PR #114) — this leftover
+       is the CS cards, not the catalog or featured photos. */
+    @media (hover: none) {
+      .cs-card:hover { transform: none; box-shadow: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cs-card { transition: none; }
+      .cs-card:hover { transform: none; }
+    }
