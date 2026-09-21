@@ -2117,3 +2117,14 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Quem Somos gallery: keep leftover desktop hover zoom, but do not
+       stick leftover :hover scale(1.06) after the first tap on touch, and
+       do not animate leftover photos when motion is reduced. */
+    @media (hover: none) {
+      .qs-photo:hover img { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .qs-photo img { transition: none; }
+      .qs-photo:hover img { transform: none; }
+    }
