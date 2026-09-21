@@ -2117,3 +2117,20 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover overlay motion: toast / Voltar ao topo / product+cabaz preview /
+       Filtros drawer / float-cart show still animate after the leftover ticker
+       and html scroll-behavior stop (PR #104) and leftover carousel / cart-pop
+       (PR #30). Keyboard-only so mouse hover color fades stay. */
+    @media (prefers-reduced-motion: reduce) {
+      .toast,
+      .scroll-top,
+      .product-modal,
+      .product-modal-box,
+      .cabaz-modal,
+      .cabaz-modal-box,
+      .shop-sidebar,
+      .float-cart {
+        transition: none;
+      }
+    }
