@@ -2121,7 +2121,7 @@
     /* Leftover overlay motion: toast / Voltar ao topo / product+cabaz preview /
        Filtros drawer / float-cart show still animate after the leftover ticker
        and html scroll-behavior stop (PR #104) and leftover carousel / cart-pop
-       (PR #30). Keyboard-only so mouse hover color fades stay. */
+       (PR #30). Hover color fades stay. */
     @media (prefers-reduced-motion: reduce) {
       .toast,
       .scroll-top,
