@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover featured photos: no hover zoom on touch so leftover photo
+       preview activates on the first tap. Desktop pointer hover zoom stays.
+       Complementary to leftover catalog-card hover (PR #113) and leftover
+       category-tile hover (PR #112) — this leftover is the featured photos,
+       not the catalog cards or shortcuts. */
+    @media (hover: none) {
+      .feature-photo:hover img { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .feature-photo img { transition: none; }
+      .feature-photo:hover img { transform: none; }
+    }
