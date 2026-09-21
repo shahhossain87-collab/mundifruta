@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover Avaliações google-badge: no hover lift on touch so leftover
+       4,9 / 107 avaliações no Google stays put on the first tap.
+       Desktop pointer hover lift stays. Complementary to leftover
+       hero-rating hover (PR #119) — this leftover is the Avaliações
+       badge, not the leftover hero chip. */
+    @media (hover: none) {
+      .google-badge:hover { transform: none; box-shadow: var(--sh); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .google-badge { transition: none; }
+      .google-badge:hover { transform: none; }
+    }
