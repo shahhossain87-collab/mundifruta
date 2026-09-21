@@ -410,7 +410,6 @@
       /* replace the sliding social panel with the bottom bar on mobile */
       .social-panel { display:none; }
       .float-cart { top:calc(var(--announcement-height) + 8px); right:14px; padding:6px 10px; gap:6px; font-size:.72rem; }
-      .scroll-top { bottom:78px; }
       body { padding-bottom:62px; }
     }
 
@@ -995,6 +994,12 @@
     }
     .scroll-top.visible { opacity:1; transform:translateY(0); pointer-events:all; }
     .scroll-top:hover   { background:var(--forest-2); transform:translateY(-3px); }
+    @media (max-width:768px) {
+      .scroll-top { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+    }
+    @media (max-width:700px) {
+      .scroll-top { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+    }
 
     /* ??????????????????????????????????????
        TOAST
