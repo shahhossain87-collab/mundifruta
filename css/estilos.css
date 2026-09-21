@@ -2117,3 +2117,19 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover catalog / cabaz cards: no hover lift/zoom on touch so leftover
+       Adicionar and photo preview activate on the first tap. Desktop pointer
+       hover lift/zoom stays. Complementary to leftover category-tile hover
+       (PR #112) — this leftover is the product cards, not the shortcuts. */
+    @media (hover: none) {
+      .product-card:hover { transform: none; }
+      .product-card:not(.selected):hover { box-shadow: var(--sh-soft); }
+      .product-card:hover .photo-wrap img { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .product-card,
+      .product-card .photo-wrap img { transition: none; }
+      .product-card:hover,
+      .product-card:hover .photo-wrap img { transform: none; }
+    }
