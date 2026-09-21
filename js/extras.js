@@ -44,23 +44,91 @@
   function estadoConsentimento() {
     try { return localStorage.getItem('mf_consent'); } catch (e) { return null; }
   }
+  /* Leftover cookie / privacy Tab cycle — same idea as the welcome-offer
+     trap in mostrarOferta. Does not move leftover .consent vs the 4-item
+     bar (PR #4), add leftover aria-modal (PR #32), or redo leftover
+     product/cabaz/menu/filter traps (PR #8 / #9 / #41). When the leftover
+     offer is open (z-index 3000), that trap stays in charge. */
+  let _rgpdKey = null;
+  function rgpdVisivel() {
+    const c = document.getElementById('consent');
+    const p = document.getElementById('privacy-modal');
+    return (c && !c.hidden) || (p && !p.hidden);
+  }
+  function rgpdFocusaveis() {
+    const offer = document.getElementById('offer-pop');
+    if (offer && !offer.hidden) return [];
+    const priv = document.getElementById('privacy-modal');
+    if (priv && !priv.hidden) {
+      return [...priv.querySelectorAll('a[href], button')].filter(el => !el.disabled);
+    }
+    const box = document.getElementById('consent');
+    if (box && !box.hidden) return [...box.querySelectorAll('button')];
+    return [];
+  }
+  function ligarRgpdTrap() {
+    if (_rgpdKey) return;
+    _rgpdKey = function (e) {
+      if (e.key !== 'Tab') return;
+      const foco = rgpdFocusaveis();
+      if (foco.length < 2) return;
+      const first = foco[0], last = foco[foco.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      else if (!foco.includes(document.activeElement)) { e.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', _rgpdKey);
+  }
+  function desligarRgpdTrap() {
+    if (_rgpdKey) { document.removeEventListener('keydown', _rgpdKey); _rgpdKey = null; }
+  }
+  function sincronizarRgpdTrap() {
+    if (rgpdVisivel()) ligarRgpdTrap();
+    else desligarRgpdTrap();
+  }
+  function focarRgpd() {
+    const priv = document.getElementById('privacy-modal');
+    const alvo = (priv && !priv.hidden)
+      ? document.querySelector('.privacy-close')
+      : document.querySelector('.consent-yes');
+    if (alvo) setTimeout(() => { try { alvo.focus(); } catch (e) {} }, 60);
+  }
   function initConsent() {
     const estado = estadoConsentimento();
     if (estado === 'all') carregarGtag();
-    if (!estado) document.getElementById('consent').hidden = false;
+    if (!estado) {
+      document.getElementById('consent').hidden = false;
+      sincronizarRgpdTrap();
+      focarRgpd();
+    }
   }
   window.definirConsentimento = function (aceitarTudo) {
     try { localStorage.setItem('mf_consent', aceitarTudo ? 'all' : 'essential'); } catch (e) {}
     document.getElementById('consent').hidden = true;
+    sincronizarRgpdTrap();
     if (aceitarTudo) carregarGtag();
   };
   window.reporConsentimento = function () {
     try { localStorage.removeItem('mf_consent'); } catch (e) {}
-    fecharPrivacidade();
+    window.fecharPrivacidade();
     document.getElementById('consent').hidden = false;
+    sincronizarRgpdTrap();
+    focarRgpd();
   };
-  window.abrirPrivacidade = function () { document.getElementById('privacy-modal').hidden = false; };
-  window.fecharPrivacidade = function () { document.getElementById('privacy-modal').hidden = true; };
+  window.abrirPrivacidade = function () {
+    document.getElementById('privacy-modal').hidden = false;
+    sincronizarRgpdTrap();
+    focarRgpd();
+  };
+  window.fecharPrivacidade = function () {
+    document.getElementById('privacy-modal').hidden = true;
+    sincronizarRgpdTrap();
+    const c = document.getElementById('consent');
+    if (c && !c.hidden) {
+      const link = c.querySelector('.consent-link');
+      if (link) setTimeout(() => { try { link.focus(); } catch (e) {} }, 60);
+    }
+  };
 
   /* ═══════════ CUPÃO / OFERTA 1ª COMPRA ═══════════ */
   function lerCupao() {
@@ -116,6 +184,8 @@
     if (pop) pop.hidden = true;
     document.body.style.overflow = '';
     if (_revealKey) { document.removeEventListener('keydown', _revealKey); _revealKey = null; }
+    sincronizarRgpdTrap();
+    if (rgpdVisivel()) focarRgpd();
   }
   window.aceitarOferta = function () {
     gravarCupao({ code: cupaoConfig.codigo, status: 'available', issuedAt: Date.now() });
