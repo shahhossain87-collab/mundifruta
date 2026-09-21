@@ -1789,6 +1789,17 @@
       .consent-btns { justify-content:stretch; } .consent-btns button { flex:1; }
       .cs-pop { bottom:74px; }
     }
+    /* Leftover 4-item bar covers leftover "Só essenciais" / "Aceitar tudo"
+       unless leftover #consent sits above leftover #mobile-bar.
+       Complementary to PR #4 (consent+toast vs bar + toast-under-header),
+       PR #108 (toast vs bar), PR #107 (scroll-top vs bar), PR #106 (cs-pop vs bar).
+       Desktop leftover 12px stays. */
+    @media (max-width:768px) {
+      .consent { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+    }
+    @media (max-width:700px) {
+      .consent { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+    }
 
     /* ═══════════ RONDA DE CORREÇÕES (continuar a comprar, encomenda online, quem somos) ═══════════ */
     .btn-continuar {
