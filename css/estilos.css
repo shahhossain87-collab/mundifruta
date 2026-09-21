@@ -2117,3 +2117,15 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover how-to cards: no hover lift on touch so leftover Como
+       Encomendar / 5 passos cards stay put on the first tap. Desktop
+       pointer hover lift stays. Complementary to leftover cs-card hover
+       (PR #116) — this leftover is the how-to cards, not Combina bem. */
+    @media (hover: none) {
+      .step-card:hover { transform: none; box-shadow: var(--sh); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .step-card { transition: none; }
+      .step-card:hover { transform: none; }
+    }
