@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover contact cards: no hover lift on touch so leftover
+       Encontre-nos / Morada / Telefone cards stay put on the first tap.
+       Desktop pointer hover lift stays. Complementary to leftover
+       step-card hover (PR #117) — this leftover is the contact cards,
+       not Como Encomendar. */
+    @media (hover: none) {
+      .contact-card:hover { transform: none; box-shadow: var(--sh); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .contact-card { transition: none; }
+      .contact-card:hover { transform: none; }
+    }
