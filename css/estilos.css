@@ -94,12 +94,20 @@
     .hamburger span { display:block; width:24px; height:2px; background:#fff; border-radius:2px; transition:all 0.3s; }
     #main-nav.scrolled .hamburger span { background:var(--forest); }
 
+    /* Leftover hamburger Menu sat at z-index 999, under leftover announcement
+       (1100), leftover nav (1000), and leftover 4-item bar (1200). Short /
+       landscape viewports also clipped Promoções…Contacto with no scroller.
+       Stack above the leftover bar (same 1300 as leftover Filtros in PR #40);
+       keep leftover overscroll-behavior for PR #98. */
     .mobile-menu {
-      display:none; position:fixed; inset:0; z-index:999;
+      display:none; position:fixed; inset:0; z-index:1300;
       background:var(--forest);
-      flex-direction:column; align-items:center; justify-content:center; gap:32px;
+      flex-direction:column; align-items:center; justify-content:center; justify-content:safe center; gap:32px;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
+      padding:calc(env(safe-area-inset-top, 0px) + 72px) 24px calc(env(safe-area-inset-bottom, 0px) + 40px);
     }
     .mobile-menu.open { display:flex; }
+    body:has(#mobile-menu.open) { overflow:hidden; }
     .mobile-menu a {
       color:#fff; text-decoration:none;
       font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700;
@@ -107,7 +115,7 @@
     }
     .mobile-menu a:hover { color:var(--peach); }
     .mobile-close {
-      position:absolute; top:24px; right:28px;
+      position:fixed; top:calc(env(safe-area-inset-top, 0px) + 16px); right:28px;
       background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;
     }
 
