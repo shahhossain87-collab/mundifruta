@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover catalog qty stepper: first tap on touch
+       must not stick leftover hover forest fill. Desktop pointer hover stays. */
+    @media (hover: none) {
+      .qty-btn:hover { background:var(--cream); color:var(--text); border-color:var(--cream-3); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .qty-btn { transition: none; }
+      .qty-btn:hover { background:var(--cream); color:var(--text); border-color:var(--cream-3); }
+    }
