@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover checkout remove stays rest-state
+       instead of sticking leftover cherry after the first tap. */
+    @media (hover: none) {
+      .order-remove:hover { background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .order-remove { transition: none; }
+      .order-remove:hover { background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7); }
+    }
