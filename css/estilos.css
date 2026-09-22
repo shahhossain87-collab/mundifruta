@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover Encontre-nos contact links stay text-md
+       instead of sticking leftover forest after the first tap. */
+    @media (hover: none) {
+      .contact-card a:hover { color:var(--text-md); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .contact-card a { transition: none; }
+      .contact-card a:hover { color:var(--text-md); }
+    }
