@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover cabaz "Ver o que leva" stays rest-state */
+    @media (hover: none) {
+      .cabaz-ver:hover { background:rgba(82,183,136,0.08); border-color:var(--sage-lt); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cabaz-ver { transition: none; }
+      .cabaz-ver:hover { background:rgba(82,183,136,0.08); border-color:var(--sage-lt); }
+    }
