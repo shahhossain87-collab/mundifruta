@@ -426,6 +426,13 @@
     }
     .float-cart.visible { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
     .float-cart:hover { filter:brightness(1.08); }
+    @media (hover: none) {
+      .float-cart:hover { filter: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .float-cart { transition: none; }
+      .float-cart:hover { filter: none; }
+    }
     .float-cart .fc-icon { font-size:1.25rem; line-height:1; }
     .float-cart .fc-text {
       color:#fff; font-weight:800; white-space:nowrap;
