@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover footer links: first tap on touch
+       must not stick leftover hover peach. Desktop pointer hover stays. */
+    @media (hover: none) {
+      .footer-links a:hover { color:rgba(255,255,255,0.5); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .footer-links a { transition: none; }
+      .footer-links a:hover { color:rgba(255,255,255,0.5); }
+    }
