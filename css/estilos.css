@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover checkout Hora de levantamento toggle: first tap on touch
+       must not stick leftover hover whitening. Desktop pointer hover stays. */
+    @media (hover: none) {
+      .order-optional-toggle:hover { color:var(--sage-lt); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .order-optional-toggle { transition: none; }
+      .order-optional-toggle:hover { color:var(--sage-lt); }
+    }
