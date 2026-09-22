@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover Comprar Agora: no hover lift on touch so leftover
+       hero CTA stays put on the first tap.
+       Desktop pointer hover lift stays. Complementary to leftover
+       hero-rating hover (PR #119) — this leftover is the hero
+       button, not the 4,9 chip. */
+    @media (hover: none) {
+      .btn-prim:hover { transform: none; box-shadow: 0 8px 28px rgba(224,123,57,0.45); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-prim { transition: none; }
+      .btn-prim:hover { transform: none; }
+    }
