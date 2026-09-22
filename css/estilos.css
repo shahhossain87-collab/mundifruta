@@ -981,6 +981,13 @@
       box-shadow:-4px 4px 22px rgba(37,211,102,.45);
     }
     .social-wa:hover { transform:translateX(0) scale(1.03); }
+    @media (hover: none) {
+      .social-link:not(.social-wa):hover { transform: translateX(calc(100% - 50px)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .social-link:not(.social-wa) { transition: none; }
+      .social-link:not(.social-wa):hover { transform: translateX(calc(100% - 50px)); }
+    }
 
     /* ??????????????????????????????????????
        SCROLL TOP
