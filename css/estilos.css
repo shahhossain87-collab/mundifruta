@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover Voltar ao topo: no first-tap lift on touch; desktop pointer hover stays. */
+    @media (hover: none) {
+      .scroll-top:hover { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-top { transition: none; }
+      .scroll-top:hover { transform: none; }
+    }
