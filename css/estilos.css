@@ -2117,3 +2117,17 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover header Encomendar: no hover lift on touch so leftover
+       .nav-order stays put on the first tap (visible above leftover
+       768px; leftover ≤768px still hides leftover .nav-order).
+       Desktop pointer hover lift stays. Complementary to leftover
+       Comprar Agora hover (PR #121) — this leftover is the header
+       button, not the hero CTA. */
+    @media (hover: none) {
+      .nav-order:hover { transform: none; box-shadow: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nav-order { transition: none; }
+      .nav-order:hover { transform: none; }
+    }
