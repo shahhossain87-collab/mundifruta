@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover WhatsApp order CTA: no first-tap lift on touch; desktop pointer hover stays. */
+    @media (hover: none) {
+      .btn-wa:hover { transform: none; box-shadow: 0 6px 18px rgba(37,211,102,0.28); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-wa { transition: none; }
+      .btn-wa:hover { transform: none; }
+    }
