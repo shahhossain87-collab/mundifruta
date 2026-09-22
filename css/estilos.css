@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover Avaliações reviews-cta: first tap on touch
+       must not stick leftover hover peach. Desktop pointer hover stays. */
+    @media (hover: none) {
+      .reviews-cta:hover { color:var(--forest-2); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reviews-cta { transition: none; }
+      .reviews-cta:hover { color:var(--forest-2); }
+    }
