@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover catalog Adicionar stays forest
+       instead of sticking leftover forest-2 after the first tap. */
+    @media (hover: none) {
+      .add-btn:hover { background:var(--forest); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .add-btn { transition: none; }
+      .add-btn:hover { background:var(--forest); }
+    }
