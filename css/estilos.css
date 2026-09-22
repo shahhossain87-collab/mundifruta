@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover featured shop links: first tap on touch
+       must not stick leftover hover peach. Desktop pointer hover stays. */
+    @media (hover: none) {
+      .shop-link:hover { color:var(--forest-2); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .shop-link { transition: none; }
+      .shop-link:hover { color:var(--forest-2); }
+    }
