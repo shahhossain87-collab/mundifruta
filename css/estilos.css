@@ -2117,3 +2117,14 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover catalog filter-tag stays rest-state */
+    @media (hover: none) {
+      .filter-tag:hover { border-color:var(--line-2); }
+      .filter-tag.clear-all:hover { border-color:transparent; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .filter-tag { transition: none; }
+      .filter-tag:hover { border-color:var(--line-2); }
+      .filter-tag.clear-all:hover { border-color:transparent; }
+    }
