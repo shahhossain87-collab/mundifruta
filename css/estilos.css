@@ -1736,6 +1736,13 @@
     .reveal-actions { display:flex; flex-direction:column; gap:10px; margin-top:20px; width:100%; max-width:320px; }
     .reveal-cta { padding:15px 22px; border:none; border-radius:var(--r-full); background:var(--peach); color:#fff; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.05rem; cursor:pointer; min-height:52px; box-shadow:0 10px 26px rgba(224,123,57,.45); }
     .reveal-cta:hover { filter:brightness(1.07); }
+    @media (hover: none) {
+      .reveal-cta:hover { filter: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-cta { transition: none; }
+      .reveal-cta:hover { filter: none; }
+    }
     .reveal-later { padding:12px; border:none; background:none; color:rgba(255,255,255,.7); font-family:'Poppins',sans-serif; font-weight:600; font-size:.9rem; cursor:pointer; text-decoration:underline; min-height:44px; }
     @media (max-height:650px) { .reveal-stage { width:min(40vw,150px); height:min(40vw,150px); } .reveal-actions { margin-top:12px; } .reveal-copy { margin-top:0; } }
     @media (prefers-reduced-motion: reduce) {
