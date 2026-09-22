@@ -912,6 +912,13 @@
       font-family:'Poppins',sans-serif; transition:color 0.2s;
     }
     .btn-em:hover { color:#fff; background:none; }
+    @media (hover: none) {
+      .btn-em:hover { color:rgba(255,255,255,0.6); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-em { transition: none; }
+      .btn-em:hover { color:rgba(255,255,255,0.6); }
+    }
 
     /* ??????????????????????????????????????
        CONTACT
