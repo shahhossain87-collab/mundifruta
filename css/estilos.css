@@ -1798,6 +1798,13 @@
       transition:background .2s ease;
     }
     .btn-continuar:hover { background:rgba(255,255,255,0.2); }
+    @media (hover: none) {
+      .btn-continuar:hover { background:rgba(255,255,255,0.1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-continuar { transition: none; }
+      .btn-continuar:hover { background:rgba(255,255,255,0.1); }
+    }
 
     .order-note { margin-top:12px; color:var(--sage-lt); font-size:.82rem; line-height:1.5; }
 
