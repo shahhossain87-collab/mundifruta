@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Leftover desktop WhatsApp dock: no first-tap scale on touch; desktop pointer hover stays. */
+    @media (hover: none) {
+      .social-wa:hover { transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .social-wa { transition: none; }
+      .social-wa:hover { transform: translateX(0); }
+    }
