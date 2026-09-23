@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover cabaz-modal-close stays rest-state */
+    @media (hover: none) {
+      .cabaz-modal-close:hover { background:var(--cream-2); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cabaz-modal-close { transition: none; }
+      .cabaz-modal-close:hover { background:var(--cream-2); }
+    }
