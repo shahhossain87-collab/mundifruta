@@ -206,6 +206,13 @@
     .carousel-nav.prev { left:-6px; }
     .carousel-nav.next { right:-6px; }
     @media (hover:none) { .carousel-nav { display:none; } }
+    @media (hover: none) {
+      .carousel-nav:hover { opacity:.92; transform:translateY(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .carousel-nav { transition:none; }
+      .carousel-nav:hover { opacity:.92; transform:translateY(-50%); }
+    }
 
     .hero-eyebrow {
       display:inline-flex; align-items:center; gap:10px;
