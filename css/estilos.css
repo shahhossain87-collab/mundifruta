@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover mobile-menu links stay rest-state */
+    @media (hover: none) {
+      .mobile-menu a:hover { color:#fff; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-menu a { transition: none; }
+      .mobile-menu a:hover { color:#fff; }
+    }
