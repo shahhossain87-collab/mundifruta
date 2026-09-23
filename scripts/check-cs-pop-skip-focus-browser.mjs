@@ -225,6 +225,10 @@ async function leftoverSkipRing(page, label) {
 
   const closed = await page.evaluate(() => {
     if (window.fecharCrossSell) window.fecharCrossSell();
+    const card = [...document.querySelectorAll('.shop-main .product-card')]
+      .find(c => /Melancia 1\/4/i.test(c.textContent || ''));
+    const id = card ? card.dataset.productId : '';
+    if (id && typeof removerProduto === 'function') removerProduto(id);
     return Boolean(document.getElementById('cs-pop')?.hidden);
   });
   ok(closed, `${label}: leftover Continuar sem adicionar / fecharCrossSell still closes leftover Combina bem`);
@@ -263,6 +267,11 @@ async function leftoverPreviewQty(page, label) {
 async function addMelancia(page, label) {
   const added = await page.evaluate(() => {
     if (window.limparTudo) window.limparTudo();
+    if (typeof carrinho === 'object' && carrinho) {
+      Object.keys(carrinho).forEach(id => {
+        if (typeof removerProduto === 'function') removerProduto(id);
+      });
+    }
     if (window.mostrarCategoria) window.mostrarCategoria('frutas', document.getElementById('tab-frutas'));
     const card = [...document.querySelectorAll('.shop-main .product-card')]
       .find(c => /Melancia 1\/4/i.test(c.textContent || ''));
