@@ -2117,3 +2117,16 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+    @media (hover: none) {
+      .nav-links a:hover { background:transparent; color:rgba(255,255,255,0.82); }
+      #main-nav.scrolled .nav-links a:hover { background:transparent; color:var(--text); }
+      .nav-links a.active:hover { background:rgba(255,255,255,0.18); color:#fff; }
+      #main-nav.scrolled .nav-links a.active:hover { background:var(--sage-lt); color:var(--forest); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nav-links a { transition: none; }
+      .nav-links a:hover { background:transparent; color:rgba(255,255,255,0.82); }
+      #main-nav.scrolled .nav-links a:hover { background:transparent; color:var(--text); }
+      .nav-links a.active:hover { background:rgba(255,255,255,0.18); color:#fff; }
+      #main-nav.scrolled .nav-links a.active:hover { background:var(--sage-lt); color:var(--forest); }
+    }
