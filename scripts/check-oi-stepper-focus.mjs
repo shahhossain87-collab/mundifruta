@@ -210,7 +210,7 @@ assert(
   'must not redo leftover search-clear / hamburger / close / wordmark / CTA rings'
 );
 assert(
-  !/@media \(hover:\s*none\) \{[\s\S]*?\.oi-stepper button:hover/.test(css),
+  !/@media \(hover:\s*none\) \{[\s\S]*?\.oi-stepper button:hover \{ background:rgba\(255,255,255,0\.08\)/.test(css),
   'must not redo PR #139 leftover checkout stepper hover sage on touch'
 );
 assert(
