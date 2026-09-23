@@ -2117,3 +2117,12 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+
+    /* Touch / reduced-motion: leftover reveal-close stays rest-state */
+    @media (hover: none) {
+      .reveal-close:hover { background:rgba(255,255,255,.12); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-close { transition: none; }
+      .reveal-close:hover { background:rgba(255,255,255,.12); }
+    }
