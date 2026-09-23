@@ -2117,3 +2117,10 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+    @media (hover: none) {
+      .btn-ghost:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.3); transform:none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-ghost { transition: none; }
+      .btn-ghost:hover { background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.3); transform:none; }
+    }
