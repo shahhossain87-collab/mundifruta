@@ -2117,3 +2117,13 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+    @media (hover: none) {
+      .sc:hover { transform:none; box-shadow:0 8px 32px rgba(0,0,0,0.14); }
+      .sc:hover img { transform:none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .sc { transition: none; }
+      .sc img { transition: none; }
+      .sc:hover { transform:none; box-shadow:0 8px 32px rgba(0,0,0,0.14); }
+      .sc:hover img { transform:none; }
+    }
