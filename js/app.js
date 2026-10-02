@@ -170,6 +170,21 @@ const carrinho = {};
     marcar(produtos.legumes, 'legume', 'legumes');
   }
 
+  // URL estável das páginas estáticas de produto (a mesma regra usada pelo gerador SEO).
+  function slugProduto(nome) {
+    return String(nome || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/&/g, ' e ')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
+  function abrirProdutoPorSlug(slug) {
+    const item = Object.values(produtos_map).find(produto => slugProduto(produto.nome) === slug);
+    if (!item) return;
+    if (item._cat === 'cabazes') abrirCabaz(item._id);
+    else abrirProduto(item._id);
+  }
+
   // Lista base da categoria atual (antes de filtros/pesquisa/ordenação).
   function itensDaCategoria() {
     const def = CATEGORIAS[catalogo.categoria] || CATEGORIAS.frutas;
@@ -996,6 +1011,8 @@ const carrinho = {};
   renderAvaliacoes();
   atualizarContadoresCategorias();
   carregarCarrinho();
+  const produtoDaPagina = new URLSearchParams(window.location.search).get('produto');
+  if (produtoDaPagina) abrirProdutoPorSlug(produtoDaPagina);
   if (window.iniciarExtras) window.iniciarExtras();
 
   document.addEventListener('keydown', e => {

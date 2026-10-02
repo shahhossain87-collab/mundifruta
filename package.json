@@ -1,0 +1,9 @@
+{
+  "name": "mundifruta-static-site",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate-seo-pages.mjs",
+    "check:seo": "node scripts/check-generated-seo.mjs",
+    "check": "npm run build && npm run check:seo && node scripts/check-sort-ring-cabaz-names.mjs"
+  }
+}
