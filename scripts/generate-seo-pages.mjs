@@ -64,6 +64,10 @@ function fixedPrice(product) {
 }
 
 function offerFor(product, canonical) {
+  // The product page currently shows only the unavailable message for these
+  // items, so do not emit an Offer from a stale catalog price.
+  if (product.status === 'Indisponível') return null;
+
   const offer = {
     '@type': 'Offer',
     url: canonical,
@@ -86,10 +90,9 @@ function offerFor(product, canonical) {
     return offer;
   }
   const price = product.status === 'Indisponível' ? null : fixedPrice(product);
-  if (price !== null) {
-    offer.price = price;
-    offer.priceCurrency = 'EUR';
-  }
+  if (price === null) return null;
+  offer.price = price;
+  offer.priceCurrency = 'EUR';
   return offer;
 }
 
@@ -200,8 +203,9 @@ function productPage(product, category) {
     description: descriptionFor(product),
     image,
     url: canonical,
-    offers: offerFor(product, canonical),
   };
+  const offer = offerFor(product, canonical);
+  if (offer) structuredData.offers = offer;
   const actionHref = `/?produto=${encodeURIComponent(slug)}#produtos`;
   const body = `<article class="seo-product-detail">
     <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span>›</span><a href="../../categorias/${category.slug}/">${esc(category.label)}</a><span>›</span><span>${esc(product.nome)}</span></nav>

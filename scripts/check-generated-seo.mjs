@@ -8,6 +8,13 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const domain = 'https://mundifruta.com';
 const categorySlugs = ['frutas', 'legumes', 'ervas-frescas', 'frutas-da-epoca', 'promocoes', 'cabazes'];
 const slugify = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' e ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const fixedPrice = product => {
+  if (!product.preco || product.preco === 'A consultar') return null;
+  const value = Number.parseFloat(String(product.preco).replace('.', '').replace(',', '.'));
+  return Number.isFinite(value) ? value : null;
+};
+const hasCurrentPrice = product => product.status !== 'Indisponível'
+  && (Number.isFinite(product.pricePerKg) || fixedPrice(product) !== null);
 const source = await readFile(join(root, 'js', 'dados.js'), 'utf8');
 const { produtos } = vm.runInNewContext(`${source}\n;({ produtos })`, { console }, { filename: 'js/dados.js' });
 const products = [...produtos.frutas, ...produtos.legumes, ...produtos.cabazes];
@@ -37,15 +44,19 @@ for (const product of products) {
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
   try {
     const jsonLd = JSON.parse(jsonLdMatch?.[1] || 'null');
-    const expectedAvailability = product.status === 'Indisponível'
-      ? 'https://schema.org/OutOfStock'
-      : 'https://schema.org/InStock';
-    expect(jsonLd?.offers?.availability === expectedAvailability, `Wrong availability in product JSON-LD: ${slug}`);
-    if (Number.isFinite(product.pricePerKg)) {
-      const specification = jsonLd?.offers?.priceSpecification;
-      expect(specification?.['@type'] === 'UnitPriceSpecification', `Missing unit price specification: ${slug}`);
-      expect(specification?.price === product.pricePerKg, `Wrong unit price in JSON-LD: ${slug}`);
-      expect(specification?.referenceQuantity?.value === 1 && specification?.referenceQuantity?.unitCode === 'KGM', `Wrong kilogram reference quantity: ${slug}`);
+    const offer = jsonLd?.offers;
+    if (offer) {
+      const expectedAvailability = 'https://schema.org/InStock';
+      expect(offer.availability === expectedAvailability, `Wrong availability in product JSON-LD: ${slug}`);
+      expect(Number.isFinite(offer.price) || Number.isFinite(offer.priceSpecification?.price), `Offer missing price: ${slug}`);
+      if (Number.isFinite(product.pricePerKg)) {
+        const specification = offer.priceSpecification;
+        expect(specification?.['@type'] === 'UnitPriceSpecification', `Missing unit price specification: ${slug}`);
+        expect(specification?.price === product.pricePerKg, `Wrong unit price in JSON-LD: ${slug}`);
+        expect(specification?.referenceQuantity?.value === 1 && specification?.referenceQuantity?.unitCode === 'KGM', `Wrong kilogram reference quantity: ${slug}`);
+      }
+    } else {
+      expect(!hasCurrentPrice(product), `Missing Offer for priced product: ${slug}`);
     }
   } catch {
     failures.push(`Invalid product JSON-LD: ${slug}`);
