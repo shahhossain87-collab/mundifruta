@@ -59,6 +59,24 @@ no carrinho e na mensagem de WhatsApp automaticamente.
 Em `js/dados.js`, adicionar ou apagar uma linha nos arrays `produtos.frutas`,
 `produtos.legumes` ou `produtos.cabazes` (cabazes = cestos prontos).
 
+## Páginas SEO do catálogo
+
+As páginas HTML em `produtos/` e `categorias/`, bem como `sitemap.xml`, são
+geradas a partir de `js/dados.js` pelo gerador estático. Sempre que mudar o
+nome, preço, peso, disponibilidade (`status`) ou qualquer outro dado de um
+produto, executar na raiz do repositório:
+
+```bash
+npm run build
+```
+
+Antes de criar o commit, executar também `npm run check`. Este comando regenera
+as páginas e valida os links, canonicals, sitemap, disponibilidade e dados
+estruturados. Os ficheiros gerados devem ser incluídos no commit (`produtos/`,
+`categorias/`, `sitemap.xml` e, quando atualizado, `index.html`), porque o site
+é publicado como ficheiros estáticos e não tem um build step no servidor. Não
+editar manualmente as páginas geradas.
+
 ## Fotos dos produtos
 
 Todas as imagens estão em `fotos/` (nada é carregado da internet em tempo real):
