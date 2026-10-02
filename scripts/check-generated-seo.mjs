@@ -34,6 +34,22 @@ for (const product of products) {
   expect(html.includes(`<h1>${product.nome}</h1>`), `Product name missing from initial HTML: ${slug}`);
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in product: ${slug}`);
   expect(html.includes('"@type":"Product"'), `Product JSON-LD missing: ${slug}`);
+  const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+  try {
+    const jsonLd = JSON.parse(jsonLdMatch?.[1] || 'null');
+    const expectedAvailability = product.status === 'Indisponível'
+      ? 'https://schema.org/OutOfStock'
+      : 'https://schema.org/InStock';
+    expect(jsonLd?.offers?.availability === expectedAvailability, `Wrong availability in product JSON-LD: ${slug}`);
+    if (Number.isFinite(product.pricePerKg)) {
+      const specification = jsonLd?.offers?.priceSpecification;
+      expect(specification?.['@type'] === 'UnitPriceSpecification', `Missing unit price specification: ${slug}`);
+      expect(specification?.price === product.pricePerKg, `Wrong unit price in JSON-LD: ${slug}`);
+      expect(specification?.referenceQuantity?.value === 1 && specification?.referenceQuantity?.unitCode === 'KGM', `Wrong kilogram reference quantity: ${slug}`);
+    }
+  } catch {
+    failures.push(`Invalid product JSON-LD: ${slug}`);
+  }
   expect(sitemap.includes(`<loc>${canonical}</loc>`), `Sitemap lacks product: ${slug}`);
 }
 const sitemapUrls = [...sitemap.matchAll(/<loc>(https:\/\/mundifruta\.com\/[^<]*)<\/loc>/g)].map(match => match[1]);

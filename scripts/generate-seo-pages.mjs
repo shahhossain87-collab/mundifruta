@@ -50,6 +50,49 @@ function descriptionFor(product) {
   return `${product.nome}. ${details.join(' ')}`.trim();
 }
 
+// The browser app treats every item without the explicit unavailable status as sellable.
+function availabilityFor(product) {
+  return product.status === 'Indisponível'
+    ? 'https://schema.org/OutOfStock'
+    : 'https://schema.org/InStock';
+}
+
+function fixedPrice(product) {
+  if (!product.preco || product.preco === 'A consultar') return null;
+  const value = Number.parseFloat(String(product.preco).replace('.', '').replace(',', '.'));
+  return Number.isFinite(value) ? value : null;
+}
+
+function offerFor(product, canonical) {
+  const offer = {
+    '@type': 'Offer',
+    url: canonical,
+    availability: availabilityFor(product),
+  };
+  // These products are sold by estimated physical unit, but the source provides
+  // an exact €/kg rate. Keep the active price in UnitPriceSpecification and make
+  // the one-kilogram reference quantity explicit; do not invent a unit total.
+  if (Number.isFinite(product.pricePerKg)) {
+    offer.priceSpecification = {
+      '@type': 'UnitPriceSpecification',
+      price: product.pricePerKg,
+      priceCurrency: 'EUR',
+      referenceQuantity: {
+        '@type': 'QuantitativeValue',
+        value: 1,
+        unitCode: 'KGM',
+      },
+    };
+    return offer;
+  }
+  const price = product.status === 'Indisponível' ? null : fixedPrice(product);
+  if (price !== null) {
+    offer.price = price;
+    offer.priceCurrency = 'EUR';
+  }
+  return offer;
+}
+
 async function loadCatalog() {
   const source = await readFile(join(root, 'js', 'dados.js'), 'utf8');
   const context = vm.createContext({ console });
@@ -157,11 +200,8 @@ function productPage(product, category) {
     description: descriptionFor(product),
     image,
     url: canonical,
+    offers: offerFor(product, canonical),
   };
-  if (product.status !== 'Indisponível' && product.venda !== 'estimado' && product.preco && product.preco !== 'A consultar') {
-    const value = Number.parseFloat(product.preco.replace('.', '').replace(',', '.'));
-    if (Number.isFinite(value)) structuredData.offers = { '@type': 'Offer', priceCurrency: 'EUR', price: value.toFixed(2), url: canonical };
-  }
   const actionHref = `/?produto=${encodeURIComponent(slug)}#produtos`;
   const body = `<article class="seo-product-detail">
     <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span>›</span><a href="../../categorias/${category.slug}/">${esc(category.label)}</a><span>›</span><span>${esc(product.nome)}</span></nav>
