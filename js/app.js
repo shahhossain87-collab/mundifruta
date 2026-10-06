@@ -26,7 +26,8 @@ const carrinho = {};
     ],
   };
 
-  const ehEpoca = item => /ver(ã|a)o/i.test(String(item.badge || ''));
+  // Fruta da época (outono): badge "Fruta da época" ou epoca:true (ex: em promoção).
+  const ehEpoca = item => item.epoca === true || /(é|e)poca/i.test(String(item.badge || ''));
 
   // Categorias do catálogo (Cabazes mantém a sua própria secção).
   const CATEGORIAS = {
@@ -109,9 +110,7 @@ const carrinho = {};
       produtos.frutas,
       ['Morango 500g','Banana Madeira','Laranja África do Sul premium quality','Pêra Rocha','Maçã Royal Gala média','Melancia 1/4','Manga Avião','Abacate Hass']
     ));
-    preencherDestaques('season-grid', produtos.frutas.filter(item =>
-      String(item.badge || '').includes('Verão')
-    ).slice(0, 8));
+    preencherDestaques('season-grid', produtos.frutas.filter(ehEpoca).slice(0, 12));
     preencherDestaques('veg-featured-grid', selecionarPorNomes(
       produtos.legumes,
       ['Cenoura','Brócolos sem Folha','Alface','Tomate Salada','Batata Branca','Curgete','Pepino','Couve-flor']

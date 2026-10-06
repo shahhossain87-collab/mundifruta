@@ -107,7 +107,7 @@ function categoryItems(catalog) {
   const fruits = catalog.frutas;
   const vegetables = catalog.legumes.filter(item => !herbNames.has(item.nome));
   const herbs = catalog.legumes.filter(item => herbNames.has(item.nome));
-  const seasonal = fruits.filter(item => /ver(ã|a)o/i.test(String(item.badge || '')));
+  const seasonal = fruits.filter(item => item.epoca === true || /(é|e)poca/i.test(String(item.badge || '')));
   const promotions = [...catalog.frutas, ...catalog.legumes].filter(item => item.promo);
   return {
     frutas: fruits,

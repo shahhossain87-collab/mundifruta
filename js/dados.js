@@ -15,6 +15,9 @@
      promo:true, precoNormal:"1,99 €" (riscado), preco:"0,99 €" (destacado)
      → o carrinho usa `preco` (o preço promocional).
 
+   epoca:true → inclui na secção "Fruta da época" mesmo com outro badge (ex: Promoção).
+                Produtos com badge "Fruta da época" entram automaticamente.
+
    baseLinha  → linha extra opcional no cartão (ex: "Base: 2,99 €/kg")
    status     → "Indisponível" esconde o botão de compra
    rel        → nomes de produtos relacionados (cross-sell "Também pode gostar")
@@ -186,9 +189,10 @@
       { nome:"Ameixa vermelha",         emoji:"🍑", peso:"1 kg", preco:"2,49 €", origem:"Nacional", foto:FOTOS.ameixa_vermelha, alt:"Ameixas vermelhas frescas" },
       { nome:"Cereja de Fundão",        emoji:"🍒", topVendido:true, peso:"1 kg", preco:"6,99 €", status:"Indisponível",   foto:FOTOS.cerejas, alt:"Cerejas vermelhas e escuras em fundo claro", badge:"⛔ Esgotado",  badgeClass:"badge-hot" },
       { nome:"Cereja Gardunha",         emoji:"🍒", peso:"1 kg", preco:"5,99 €", status:"Indisponível", origem:"Beira",    foto:FOTOS.cereja_gardunha, alt:"Cerejas Bing vermelhas brilhantes", badge:"⛔ Esgotado" , badgeClass:"badge-hot" },
-      { nome:"Uva Vale de Rosa sem grainha", emoji:"🍇", peso:"1 kg", preco:"7,99 €", origem:"Portugal", foto:FOTOS.uva_vale_rosa, alt:"Uvas vermelhas sem grainha, variedade Vale de Rosa" },
-      { nome:"Figos",                   emoji:"🫐", peso:"1 kg", preco:"7,99 €",                    foto:FOTOS.figos, alt:"Figo comum cortado ao meio, polpa rosada", badge:"🌞 Verão",    badgeClass:"" },
-      { nome:"Manga Avião",             emoji:"🥭", venda:"estimado", pricePerKg:5.79, averageWeightKg:0.65, peso:"1 unidade • aprox. 650 g", preco:"5,79 €", origem:"Espanha", foto:FOTOS.manga, alt:"Manga Kent de avião", badge:"🌱 Bio", badgeClass:"badge-new", rel:["Abacaxi Maturado","Mamão","Papaia","Banana Madeira"] },
+      { nome:"Uva Vale de Rosa sem grainha", emoji:"🍇", peso:"1 kg", preco:"7,99 €", origem:"Portugal", foto:FOTOS.uva_vale_rosa, alt:"Uvas vermelhas sem grainha, variedade Vale de Rosa", badge:"🍂 Fruta da época", badgeClass:"" },
+      { nome:"Figos",                   emoji:"🫐", peso:"500 g", preco:"4,99 €",                   foto:FOTOS.figos, alt:"Figo comum cortado ao meio, polpa rosada", badge:"🍂 Fruta da época", badgeClass:"" },
+      { nome:"Manga Avião",             emoji:"🥭", venda:"estimado", pricePerKg:5.99, averageWeightKg:0.65, peso:"1 unidade • aprox. 650 g", preco:"5,99 €", origem:"Espanha", foto:FOTOS.manga, alt:"Manga Kent de avião", badge:"🍂 Fruta da época", badgeClass:"", rel:["Abacaxi Maturado","Mamão","Papaia","Banana Madeira"] },
+      { nome:"Manga Premium",           emoji:"🥭", peso:"1 kg", preco:"7,99 €", origem:"Huelva", foto:FOTOS.manga, alt:"Manga Premium de Huelva", badge:"🆕 Novo", badgeClass:"badge-new" },
       { nome:"Abacaxi Maturado",        emoji:"🍍", venda:"estimado", pricePerKg:2.99, averageWeightKg:1.8, peso:"1 unidade • aprox. 1,8 kg", preco:"2,99 €", origem:"Costa Rica", foto:FOTOS.ananas, alt:"Ananás inteiro em fundo branco", badge:"💎 Premium", badgeClass:"" },
       { nome:"Limão",                   emoji:"🍋", peso:"1 kg", preco:"1,99 €", origem:"Portugal", foto:FOTOS.limoes, alt:"Limão inteiro e cortado ao meio", badge:"🌱 Bio" , badgeClass:"badge-new"},
       { nome:"Lima",                    emoji:"🍋", peso:"1 kg", preco:"4,99 €",                   foto:FOTOS.lima, alt:"Limas verdes inteiras" },
@@ -197,9 +201,10 @@
       { nome:"Banana-pão",            emoji:"🍌", peso:"1 kg", preco:"2,99 €", origem:"Angola", foto:FOTOS.banana_pao, alt:"Banana-pão (plantain) em fundo branco", badge:"🆕 Novo", badgeClass:"badge-new" },
       { nome:"Laranja Algarve",         emoji:"🍊", peso:"1 kg", preco:"1,20 €", origem:"Algarve",  status:"Indisponível", foto:FOTOS.laranja_algarve, alt:"Laranjas com folhas, aspeto de pomar" },
       { nome:"Laranja Algarve Premium", emoji:"🍊", peso:"1 kg", preco:"1,79 €", origem:"Nacional", status:"Indisponível", foto:FOTOS.laranja_algarve_premium, alt:"Laranjas no ramo com folhas", badge:"💎 Premium",  badgeClass:"" },
-      { nome:"Clementina",              emoji:"🍊", peso:"1 kg", preco:"2,99 €", origem:"Nacional", foto:FOTOS.clementina, alt:"Clementinas com folhas em ramo" },
+      { nome:"Clementina",              emoji:"🍊", peso:"1 kg", preco:"2,99 €", origem:"Nacional", foto:FOTOS.clementina, alt:"Clementinas com folhas em ramo", badge:"🍂 Fruta da época", badgeClass:"" },
+      { nome:"Clementina com folhas",   emoji:"🍊", peso:"1 kg", preco:"3,99 €",                    foto:FOTOS.clementina, alt:"Clementinas com folhas", badge:"🆕 Novo", badgeClass:"badge-new" },
       { nome:"Tangerina",               emoji:"🍊", peso:"1 kg", preco:"2,99 €",                    foto:FOTOS.tangerina, alt:"Tangerinas mandarinas frescas" },
-      { nome:"Pêra Rocha",              emoji:"🍐", peso:"1 kg", preco:"1,99 €", origem:"Oeste",    foto:FOTOS.peras, alt:"Pêra Rocha do Oeste, vista do cálice" },
+      { nome:"Pêra Rocha",              emoji:"🍐", peso:"1 kg", preco:"1,99 €", origem:"Oeste",    foto:FOTOS.peras, alt:"Pêra Rocha do Oeste, vista do cálice", badge:"🍂 Fruta da época", badgeClass:"" },
       { nome:"Pêra Rocha grande",       emoji:"🍐", peso:"1 kg", preco:"2,99 €", origem:"Nacional", foto:FOTOS.pera_rocha_grande, alt:"Pêra Rocha grande em fundo branco", badge:"💎 Premium",  badgeClass:"" },
       { nome:"Pêra Rocha nacional pequena", emoji:"🍐", peso:"1 kg", promo:true, precoNormal:"1,99 €", preco:"0,79 €", origem:"Nacional", foto:FOTOS.pera_rocha_pequena, alt:"Pêra Rocha nacional pequena", badge:"🏷️ Promoção", badgeClass:"badge-hot" },
       { nome:"Pêra General grande",     emoji:"🍐", peso:"1 kg", preco:"2,99 €",                    foto:FOTOS.pera_general, alt:"Peras grandes da variedade General" },
@@ -210,10 +215,10 @@
       { nome:"Ameixa Branca Nacional",  emoji:"🟡", peso:"1 kg", preco:"1,49 €", origem:"Nacional", status:"Indisponível", foto:FOTOS.ameixa_branca, alt:"Ameixas amarelas ou brancas" },
       { nome:"Ameixa Abrunho nacional", emoji:"🟣", peso:"1 kg", preco:"2,99 €",                    foto:FOTOS.ameixa_abrunho, alt:"Ameixa abrunho nacional (tipo damasco-ameixa)", badge:"👌 Recomendado", badgeClass:"badge-new" },
       { nome:"Alperce Nacional",        emoji:"🍑", peso:"1 kg", preco:"2,99 €", origem:"Nacional", status:"Indisponível", foto:FOTOS.alperce, alt:"Alperces nacionais inteiros" },
-      { nome:"Diospiros / Kaki",        emoji:"🟠", peso:"1 kg", preco:"3,99 €", origem:"Nacional", foto:FOTOS.diospiro, alt:"Diospiro kaki inteiro e cortado em fundo branco" },
+      { nome:"Diospiros / Kaki",        emoji:"🟠", peso:"1 kg", preco:"3,50 €", origem:"Nacional", foto:FOTOS.diospiro, alt:"Diospiro kaki inteiro e cortado em fundo branco", badge:"🍂 Fruta da época", badgeClass:"" },
       { nome:"Mamão",                   emoji:"🥭", venda:"estimado", pricePerKg:4.79, averageWeightKg:0.9, peso:"1 unidade • aprox. 900 g", preco:"4,79 €", foto:FOTOS.mamao, alt:"Mamão / papaia cortado ao meio com sementes", rel:["Manga Avião","Papaia","Abacaxi Maturado"] },
       { nome:"Papaia",                  emoji:"🥭", venda:"estimado", pricePerKg:5.49, averageWeightKg:0.45, peso:"1 unidade • aprox. 450 g", preco:"5,49 €", foto:FOTOS.papaia, alt:"Metade de papaia madura", rel:["Manga Avião","Mamão","Abacaxi Maturado"] },
-      { nome:"Romã",                    emoji:"🔴", peso:"1 kg", preco:"3,99 €",                    foto:FOTOS.roma, alt:"Romã inteira em fundo branco" },
+      { nome:"Romã",                    emoji:"🔴", peso:"1 kg", promo:true, precoNormal:"2,99 €", preco:"1,49 €", epoca:true, foto:FOTOS.roma, alt:"Romã inteira em fundo branco", badge:"🏷️ Promoção", badgeClass:"badge-hot" },
       { nome:"Maçã Pink Lady",          emoji:"🍎", peso:"1 kg", preco:"3,99 €",                    foto:FOTOS.maca_pink_lady, alt:"Maçãs Pink Lady vermelhas" },
       { nome:"Maçã Granny Smith",       emoji:"🍏", peso:"1 kg", preco:"2,99 €",                    foto:FOTOS.maca_verde, alt:"Maçã Granny Smith verde" },
       { nome:"Maçã Golden",             emoji:"🍎", peso:"1 kg", preco:"1,59 €",                    foto:FOTOS.maca_golden, alt:"Maçãs Golden Delicious" },
@@ -227,11 +232,11 @@
       { nome:"Framboesa",               emoji:"🍒", peso:"Cuvete 130 g", preco:"2,29 €",            foto:FOTOS.framboesa, alt:"Framboesa isolada", badge:"🌞 Verão",    badgeClass:"" },
       { nome:"Mirtilos",                emoji:"🫐", peso:"Cuvete 125 g", preco:"2,49 €",            foto:FOTOS.mirtilos, alt:"Mirtilos frescos", badge:"🌞 Verão",    badgeClass:"" },
       { nome:"Amoras",                  emoji:"🫐", peso:"Cuvete 150 g", preco:"2,99 €",            foto:FOTOS.amoras, alt:"Amoras silvestres", badge:"🌞 Verão",    badgeClass:"" },
-      { nome:"Uva Dona Maria",          emoji:"🍇", peso:"1 kg", preco:"2,99 €", origem:"Portugal", foto:FOTOS.uva_dona_maria, alt:"Cacho de uvas verdes Dona Maria em fundo branco" },
+      { nome:"Uva Dona Maria",          emoji:"🍇", peso:"1 kg", preco:"2,99 €", origem:"Portugal", foto:FOTOS.uva_dona_maria, alt:"Cacho de uvas verdes Dona Maria em fundo branco", badge:"🍂 Fruta da época", badgeClass:"" },
       { nome:"Uva Vale de Rosa preta sem grainha", emoji:"🍇", peso:"1 kg", preco:P, origem:"Portugal", foto:FOTOS.uva_vale_rosa_preta, alt:"Uvas pretas sem grainha, variedade Vale de Rosa" },
       { nome:"Laranja África do Sul premium quality", emoji:"🍊", peso:"1 kg", preco:"1,99 €", origem:"África do Sul", foto:FOTOS.laranja_africa, alt:"Laranja da África do Sul cortada em fundo branco", badge:"💎 Premium", badgeClass:"" },
       { nome:"Manguita",                emoji:"🥭", peso:"1 kg", preco:"5,99 €",                    foto:FOTOS.manguita, alt:"Manguita amarela pequena, tipo Nam Dok Mai" },
-      { nome:"Marmelo",                 emoji:"🍐", peso:"1 kg", preco:"2,49 €",                    foto:FOTOS.marmelo, alt:"Marmelo variedade Portugal no ramo" },
+      { nome:"Marmelo",                 emoji:"🍐", peso:"1 kg", preco:"2,49 €",                    foto:FOTOS.marmelo, alt:"Marmelo variedade Portugal no ramo", badge:"🍂 Fruta da época", badgeClass:"" },
       { nome:"Anona",                   emoji:"🍏", peso:"1 kg", preco:"3,99 €",                    foto:FOTOS.anona, alt:"Anona (fruta-pinha) em fundo branco" },
       { nome:"Castanha",                emoji:"🌰", peso:"1 kg", preco:"5,99 €",                    foto:FOTOS.castanha, alt:"Castanhas doce (Castanea sativa) no ouriço" },
       { nome:"Maçã Royal Gala nacional pequena", emoji:"🍎", peso:"1 kg", preco:"0,79 €", origem:"Nacional", foto:FOTOS.maca_gala_pequena, alt:"Maçã Royal Gala nacional de calibre pequeno" },
@@ -258,6 +263,7 @@
       { nome:"Beterraba",              emoji:"🟣", peso:"1 kg",       preco:"1,69 €", foto:FOTOS.beterraba,        badge:null },
       { nome:"Brócolos sem Folha",     emoji:"🥦", venda:"unidade", peso:"1 unidade • aprox. 500 g", preco:"1,50 €", baseLinha:"Base: 2,99 €/kg", foto:FOTOS.brocoulos, badge:"🌱 Bio", badgeClass:"badge-bio" },
       { nome:"Cebola Doce",            emoji:"🧅", peso:"1 kg",       preco:"2,49 €", foto:FOTOS.cebolas,          badge:null },
+      { nome:"Cebola Nacional",        emoji:"🧅", peso:"1 kg",       preco:"1,79 €", origem:"Nacional", foto:FOTOS.cebolas, badge:"🆕 Novo", badgeClass:"badge-new" },
       { nome:"Cebola Nova",            emoji:"🧅", peso:"1 kg",       preco:"1,20 €", foto:FOTOS.cebola_nova,      badge:null },
       { nome:"Cenoura",                emoji:"🥕", peso:"1 kg",       preco:"0,99 €", foto:FOTOS.cenouras,         badge:null },
       { nome:"Chuchu",                 emoji:"🥒", venda:"estimado", pricePerKg:3.49, averageWeightKg:0.4, peso:"1 unidade • aprox. 400 g", preco:"3,49 €", foto:FOTOS.xuxu, badge:null },
