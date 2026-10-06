@@ -1,0 +1,15 @@
+node_modules
+dist
+.output
+.nitro
+.tanstack
+.vercel
+.grok
+artifacts
+screenshots
+attachments
+AGENTS.md
+startup.sh
+*.log
+.env
+.env.*
