@@ -9,6 +9,7 @@ const NAV = [
   { href: "/produtos", label: "Produtos" },
   { href: "/categorias/promocoes", label: "Promoções" },
   { href: "/categorias/cabazes", label: "Cabazes" },
+  { href: "/guia/fruta-da-epoca", label: "Guia da época" },
 ] as const;
 
 export function Shell({ children }: { children: ReactNode }) {
@@ -69,6 +70,9 @@ export function Shell({ children }: { children: ReactNode }) {
             </Link>
             <Link to="/categorias/$categoria" params={{ categoria: "cabazes" }} className="hover:text-leaf">
               Cabazes
+            </Link>
+            <Link to="/guia/fruta-da-epoca" className="hover:text-leaf">
+              Guia da época
             </Link>
             <Link to="/" hash="quem-somos" className="hover:text-leaf">
               Quem Somos
@@ -175,6 +179,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <Link to="/categorias/$categoria" params={{ categoria: "cabazes" }}>
               Cabazes
             </Link>
+            <Link to="/guia/fruta-da-epoca">Guia da fruta da época</Link>
             <Link to="/privacidade">Privacidade</Link>
             <Link to="/creditos">Créditos das fotos</Link>
           </nav>

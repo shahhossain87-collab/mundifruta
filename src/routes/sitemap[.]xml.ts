@@ -9,6 +9,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const paths = [
           "/",
           "/produtos",
+          "/guia/fruta-da-epoca",
           "/privacidade",
           "/creditos",
           ...categorias.map((categoria) => `/categorias/${categoria.slug}`),
