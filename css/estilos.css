@@ -2127,11 +2127,12 @@
     .seo-crawl-links a { background:#fff; border:1px solid var(--line); border-radius:var(--r-full); padding:8px 13px; font-size:.82rem; }
     .seo-crawl-links a:hover, .seo-text-link:hover { color:var(--sage); }
 
-    .seo-page { background:var(--cream); color:var(--text); min-height:100vh; }
+    .seo-page { background:var(--cream); color:var(--text); min-height:100vh; padding-top:0; }
     .seo-header { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px max(24px,calc((100vw - 1240px)/2)); background:#fff; border-bottom:1px solid var(--line); }
-    .seo-nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:16px; }
-    .seo-nav a { color:var(--text); text-decoration:none; font:600 .86rem 'Poppins',sans-serif; }
+    .seo-nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px 14px; }
+    .seo-nav a { color:var(--text); text-decoration:none; font:600 .86rem 'Poppins',sans-serif; padding:8px 2px; }
     .seo-nav a:hover { color:var(--forest); }
+    .seo-nav a[aria-current="page"] { color:var(--forest); }
     .seo-hero { padding:64px max(24px,calc((100vw - 1100px)/2)); background:linear-gradient(120deg,var(--forest),var(--forest-2)); color:#fff; }
     .seo-hero > div, .seo-catalog, .seo-product-detail { max-width:1100px; margin:0 auto; }
     .seo-hero h1, .seo-product-copy h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.4rem); line-height:1.1; margin:10px 0; }
@@ -2145,10 +2146,9 @@
     .seo-product-card { background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--sh-soft); display:flex; flex-direction:column; }
     .seo-product-image { display:block; aspect-ratio:1; background:var(--cream-2); overflow:hidden; }
     .seo-product-image img { width:100%; height:100%; object-fit:cover; transition:transform .2s ease; }
-    .seo-product-card:hover .seo-product-image img { transform:scale(1.04); }
     .seo-product-card-body { display:flex; flex:1; flex-direction:column; padding:16px; }
-    .seo-product-card h2 { font-size:1rem; line-height:1.3; margin:0 0 8px; }
-    .seo-product-card h2 a { color:var(--text); text-decoration:none; }
+    .seo-product-card h2, .seo-product-card h3 { font-size:1rem; line-height:1.3; margin:0 0 8px; }
+    .seo-product-card h2 a, .seo-product-card h3 a { color:var(--text); text-decoration:none; }
     .seo-product-card p { color:var(--text-md); font-size:.82rem; margin-bottom:5px; }
     .seo-product-card .seo-product-price { color:var(--forest); font-size:1rem; font-weight:800; margin-bottom:12px; }
     .seo-text-link { margin-top:auto; font-size:.85rem; }
@@ -2159,17 +2159,23 @@
     .seo-product-copy .eyebrow { color:var(--forest); font-weight:800; }
     .seo-product-detail-price { color:var(--forest); font-size:1.55rem; font-weight:800; margin:14px 0; }
     .seo-product-copy > p:not(.eyebrow):not(.seo-product-detail-price) { color:var(--text-md); line-height:1.65; margin:10px 0; }
-    .seo-order-link { display:inline-block; margin-top:14px; text-decoration:none; }
+    .seo-order-link { display:inline-flex; justify-content:center; margin-top:14px; text-decoration:none; }
     .seo-status { color:var(--cherry); font-weight:800; }
     .seo-footer { border-top:1px solid var(--line); padding:28px 24px; text-align:center; color:var(--text-md); font-size:.85rem; }
     .seo-footer a { color:var(--forest); font-weight:800; text-decoration:none; }
+    .seo-footer-contact { display:flex; flex-wrap:wrap; justify-content:center; gap:10px 18px; margin-top:12px; }
+    .seo-footer-contact a { font-weight:700; }
+    @media (hover:hover) {
+      .seo-product-card:hover .seo-product-image img { transform:scale(1.04); }
+    }
     @media (max-width:640px) {
       .seo-header { align-items:flex-start; flex-direction:column; padding:16px 20px; gap:10px; }
-      .seo-nav { justify-content:flex-start; gap:12px; }
+      .seo-nav { justify-content:flex-start; gap:8px 12px; }
       .seo-hero { padding:44px 20px; }
       .seo-product-layout { grid-template-columns:1fr; gap:24px; }
       .seo-catalog, .seo-product-detail { padding-left:16px; padding-right:16px; }
       .seo-product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
       .seo-product-card-body { padding:12px; }
-      .seo-product-card h2 { font-size:.9rem; }
+      .seo-product-card h2, .seo-product-card h3 { font-size:.9rem; }
+      .seo-order-link { width:100%; }
     }
