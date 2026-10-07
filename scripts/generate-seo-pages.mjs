@@ -11,14 +11,15 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const siteUrl = 'https://mundifruta.com';
 const categories = [
-  { slug: 'frutas', label: 'Frutas', description: 'Frutas frescas disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'legumes', label: 'Legumes', description: 'Legumes frescos disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'ervas-frescas', label: 'Ervas frescas', description: 'Ervas frescas disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'frutas-da-epoca', label: 'Frutas da época', description: 'Frutas da época disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'promocoes', label: 'Promoções', description: 'Produtos em promoção na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.' },
+  { slug: 'frutas', label: 'Frutas', description: 'Frutas frescas disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/cabaz_frutas.jpeg', imageAlt: 'Seleção de frutas frescas' },
+  { slug: 'legumes', label: 'Legumes', description: 'Legumes frescos disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/cabaz_legumes.jpeg', imageAlt: 'Seleção apenas de legumes frescos' },
+  { slug: 'ervas-frescas', label: 'Ervas frescas', description: 'Ervas frescas disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/hortela.jpeg', imageAlt: 'Ervas frescas e aromáticas' },
+  { slug: 'frutas-da-epoca', label: 'Frutas da época', description: 'Frutas da época disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/uvas.jpeg', imageAlt: 'Fruta fresca da época' },
+  { slug: 'promocoes', label: 'Promoções', description: 'Produtos em promoção na MUNDIFRUTA em Carnaxide.', image: 'fotos/morangos.jpeg', imageAlt: 'Promoções e destaques da semana' },
+  { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/cabaz_detox.jpeg', imageAlt: 'Cabazes de frutas e legumes' },
 ];
 const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
+const cssVersion = '66';
 
 function esc(value = '') {
   return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
@@ -125,7 +126,33 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function seoNav(homePath, currentSlug) {
+  const links = [
+    { href: homePath, label: 'Início', slug: 'inicio' },
+    ...categories.map(category => ({
+      href: `${homePath}categorias/${category.slug}/`,
+      label: category.label,
+      slug: category.slug,
+    })),
+  ];
+  return `<nav class="seo-nav" aria-label="Navegação principal">${links.map(link => {
+    const current = link.slug === currentSlug ? ' aria-current="page"' : '';
+    return `<a href="${link.href}"${current}>${esc(link.label)}</a>`;
+  }).join('')}</nav>`;
+}
+
+function shareTags({ title, description, image, imageAlt }) {
+  const imageUrl = image ? `${siteUrl}/${image}` : `${siteUrl}/fotos/cabaz_mix.jpeg`;
+  const alt = imageAlt || title;
+  return `<meta property="og:image" content="${esc(imageUrl)}"/>
+  <meta property="og:image:alt" content="${esc(alt)}"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="${esc(title)}"/>
+  <meta name="twitter:description" content="${esc(description)}"/>
+  <meta name="twitter:image" content="${esc(imageUrl)}"/>`;
+}
+
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, image, imageAlt, currentSlug }) {
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -135,11 +162,15 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <title>${esc(title)}</title>
   <link rel="canonical" href="${canonical}"/>
   <link rel="alternate" hreflang="pt-PT" href="${canonical}"/>
+  <link rel="alternate" hreflang="x-default" href="${canonical}"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍓</text></svg>"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="MUNDIFRUTA"/>
   <meta property="og:title" content="${esc(title)}"/>
   <meta property="og:description" content="${esc(description)}"/>
   <meta property="og:url" content="${canonical}"/>
+  <meta property="og:locale" content="pt_PT"/>
+  ${shareTags({ title, description, image, imageAlt })}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -149,15 +180,17 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
 <body class="seo-page">
   <header class="seo-header">
     <a class="logo" href="${homePath}">MUNDI<span class="logo-accent">FRUTA</span></a>
-    <nav class="seo-nav" aria-label="Navegação principal">
-      <a href="${homePath}">Início</a>
-      <a href="${homePath}categorias/frutas/">Frutas</a>
-      <a href="${homePath}categorias/legumes/">Legumes</a>
-      <a href="${homePath}categorias/promocoes/">Promoções</a>
-    </nav>
+    ${seoNav(homePath, currentSlug)}
   </header>
   <main>${body}</main>
-  <footer class="seo-footer"><a href="${homePath}">MUNDIFRUTA</a> · Frutas e legumes frescos em Carnaxide.</footer>
+  <footer class="seo-footer">
+    <p><a href="${homePath}">MUNDIFRUTA</a> · Frutas e legumes frescos em Carnaxide.</p>
+    <nav class="seo-footer-contact" aria-label="Contactos">
+      <a href="https://wa.me/351932699850">WhatsApp</a>
+      <a href="tel:932699850">932 699 850</a>
+      <a href="mailto:shahhossain87@gmail.com">Email</a>
+    </nav>
+  </footer>
 </body>
 </html>`;
 }
@@ -168,7 +201,7 @@ function productCard(product, categorySlug) {
   return `<article class="seo-product-card">
     <a href="${productPath}" class="seo-product-image"><img src="../../${esc(product.foto)}" alt="${esc(product.alt || product.nome)}" loading="lazy" decoding="async"></a>
     <div class="seo-product-card-body">
-      <h2><a href="${productPath}">${esc(product.nome)}</a></h2>
+      <h3><a href="${productPath}">${esc(product.nome)}</a></h3>
       <p>${esc(product.peso || 'Unidade de venda não indicada')}</p>
       <p class="seo-product-price">${esc(priceLabel(product))}</p>
       <a class="seo-text-link" href="${productPath}">Ver produto</a>
@@ -186,9 +219,12 @@ function categoryPage(category, products) {
     title: `${category.label} em Carnaxide | MUNDIFRUTA`,
     description: category.description,
     canonical: `${siteUrl}/categorias/${category.slug}/`,
-    cssPath: '../../css/estilos.css?v=65',
+    cssPath: `../../css/estilos.css?v=${cssVersion}`,
     homePath: '../../',
     body,
+    image: category.image,
+    imageAlt: category.imageAlt,
+    currentSlug: category.slug,
   });
 }
 
@@ -225,10 +261,13 @@ function productPage(product, category) {
     title: `${product.nome} | MUNDIFRUTA Carnaxide`,
     description: descriptionFor(product),
     canonical,
-    cssPath: '../../css/estilos.css?v=65',
+    cssPath: `../../css/estilos.css?v=${cssVersion}`,
     homePath: '../../',
     body,
     structuredData,
+    image: product.foto,
+    imageAlt: product.alt || product.nome,
+    currentSlug: category.slug,
   });
 }
 

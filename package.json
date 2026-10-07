@@ -4,6 +4,7 @@
   "scripts": {
     "build": "node scripts/generate-seo-pages.mjs",
     "check:seo": "node scripts/check-generated-seo.mjs",
+    "check:seo-layout": "node scripts/check-seo-page-layout-browser.mjs",
     "check": "npm run build && npm run check:seo && node scripts/check-sort-ring-cabaz-names.mjs"
   }
 }
