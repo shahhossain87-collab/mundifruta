@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LOJA, OFERTA, whatsappHref } from "@/lib/shop";
+import { canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacidade")({
   head: () => ({
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/privacidade")({
         content: "Como a MUNDIFRUTA trata os dados da encomenda e o que fica guardado neste dispositivo.",
       },
     ],
+    links: [canonicalLink("/privacidade")],
   }),
   component: Privacidade,
 });

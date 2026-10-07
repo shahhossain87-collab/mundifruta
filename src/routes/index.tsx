@@ -13,6 +13,7 @@ import {
   selecionados,
   whatsappHref,
 } from "@/lib/shop";
+import { canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/")({
           "Frutas e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja. Seg–Dom, 8h–20h. Pagamento na loja.",
       },
     ],
+    links: [canonicalLink("/")],
   }),
   component: Home,
 });
@@ -50,12 +52,6 @@ function Home() {
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       opens: "08:00",
       closes: "20:00",
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: String(LOJA.avaliacoes),
-      bestRating: "5",
     },
   };
 

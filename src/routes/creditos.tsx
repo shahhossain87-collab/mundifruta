@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import credits from "@/data/credits.json";
+import { canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/creditos")({
   head: () => ({
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/creditos")({
         content: "Créditos e licenças das fotografias do catálogo MUNDIFRUTA em Carnaxide.",
       },
     ],
+    links: [canonicalLink("/creditos")],
   }),
   component: Creditos,
 });

@@ -303,6 +303,14 @@ export function titleFromDocument(html) {
   return match ? unescapeHtml(match[1]).trim() : "";
 }
 
+/** href of `<link rel="canonical">` in the document head, or "". */
+export function canonicalFromDocument(html) {
+  const tag = String(html ?? "").match(/<link\b[^>]*\brel\s*=\s*["']canonical["'][^>]*>/i);
+  if (!tag) return "";
+  const href = tag[0].match(/\bhref\s*=\s*["']([^"']+)["']/i);
+  return href ? unescapeHtml(href[1]).trim() : "";
+}
+
 export function resolveOgTitle(
   site = {},
   appName = DEFAULT_APP_NAME,
@@ -344,14 +352,20 @@ export function grokOgHeadTags({
   appName = DEFAULT_APP_NAME,
   site = {},
   documentTitle = "",
+  canonical = "",
   cwd = process.cwd(),
 } = {}) {
   const title = resolveOgTitle(site, appName, host, documentTitle);
+  // MUNDIFRUTA SEO: og:title follows each page's <title>; og:url = canonical.
+  const ogTitle = String(documentTitle ?? "").trim() || title;
   const publicHost = resolvePublicHost(host);
   const tags = [
     `<meta name="twitter:card" content="summary_large_image">`,
-    `<meta property="og:title" content="${escapeHtml(title)}">`,
+    `<meta property="og:title" content="${escapeHtml(ogTitle)}">`,
   ];
+  if (canonical) {
+    tags.push(`<meta property="og:url" content="${escapeHtml(canonical)}">`);
+  }
   const description = String(site.description ?? "").trim();
   if (description) {
     tags.push(`<meta property="og:description" content="${escapeHtml(description)}">`);
@@ -458,7 +472,7 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   next = insertAfterHeadOpen(
     next,
-    grokOgHeadTags({ host, appName, site, documentTitle, cwd }).join(""),
+    grokOgHeadTags({ host, appName, site, documentTitle, canonical: canonicalFromDocument(html), cwd }).join(""),
   );
 
   if (readGrokExtensionsEnabled() && !next.includes("/grok-app-builder/extensions.js")) {

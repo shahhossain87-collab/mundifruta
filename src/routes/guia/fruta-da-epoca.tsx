@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LOJA, nomeVisivel, porSlug, whatsappHref, type Product } from "@/lib/shop";
+import { canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/guia/fruta-da-epoca")({
   head: () => ({
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/guia/fruta-da-epoca")({
           "Guia prático de fruta de outono em Portugal — como escolher, conservar e encomendar para levantamento na loja em Carnaxide.",
       },
     ],
+    links: [canonicalLink("/guia/fruta-da-epoca")],
   }),
   component: GuiaFrutaDaEpoca,
 });

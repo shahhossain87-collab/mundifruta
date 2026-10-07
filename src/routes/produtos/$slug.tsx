@@ -20,6 +20,7 @@ import {
   relacionados,
   sobConfirmacao,
 } from "@/lib/shop";
+import { absoluteUrl, canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/produtos/$slug")({
   loader: ({ params }) => {
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/produtos/$slug")({
           { name: "description", content: descricaoProduto(loaderData) },
         ]
       : [],
+    links: loaderData ? [canonicalLink(`/produtos/${loaderData.slug}`)] : [],
   }),
   component: ProdutoPage,
   notFoundComponent: () => (
@@ -64,7 +66,7 @@ function ProdutoPage() {
     "@type": "Product",
     name: nomeVisivel(produto),
     description: descricaoProduto(produto),
-    image: produto.foto,
+    image: absoluteUrl(produto.foto),
     sku: produto.id,
     brand: { "@type": "Brand", name: "MUNDIFRUTA" },
     offers:

@@ -8,6 +8,7 @@ import {
   searchFromQuery,
   type ShopSearch,
 } from "@/lib/shop";
+import { canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/categorias/$categoria")({
   validateSearch: (search: Record<string, unknown>): ShopSearch => parseShopSearch(search),
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/categorias/$categoria")({
       { title: `${loaderData?.titulo ?? "Categoria"} em Carnaxide | MUNDIFRUTA` },
       { name: "description", content: loaderData?.intro ?? "Produtos frescos na MUNDIFRUTA, Carnaxide." },
     ],
+    links: loaderData ? [canonicalLink(`/categorias/${loaderData.slug}`)] : [],
   }),
   component: CategoriaPage,
   notFoundComponent: () => (

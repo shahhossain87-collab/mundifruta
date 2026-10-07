@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ShopView } from "@/components/shop-view";
 import { parseShopSearch, queryFromSearch, searchFromQuery, todosProdutos, type ShopSearch } from "@/lib/shop";
+import { canonicalLink } from "@/lib/seo";
 
 export const Route = createFileRoute("/produtos/")({
   validateSearch: (search: Record<string, unknown>): ShopSearch => parseShopSearch(search),
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/produtos/")({
           "Catálogo de frutas, legumes e ervas da MUNDIFRUTA em Carnaxide. Preços, unidades e encomenda por WhatsApp.",
       },
     ],
+    links: [canonicalLink("/produtos")],
   }),
   component: ProdutosPage,
 });
