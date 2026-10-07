@@ -12,9 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreditosRouteImport } from './routes/creditos'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
-import { Route as GuiaFrutaDaEpocaRouteImport } from './routes/guia/fruta-da-epoca'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as CategoriasCategoriaRouteImport } from './routes/categorias/$categoria'
+import { Route as GuiaFrutaDaEpocaRouteImport } from './routes/guia/fruta-da-epoca'
 import { Route as ProdutosIndexRouteImport } from './routes/produtos/index'
 import { Route as ProdutosSlugRouteImport } from './routes/produtos/$slug'
 
@@ -33,11 +33,6 @@ const PrivacidadeRoute = PrivacidadeRouteImport.update({
   path: '/privacidade',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuiaFrutaDaEpocaRoute = GuiaFrutaDaEpocaRouteImport.update({
-  id: '/guia/fruta-da-epoca',
-  path: '/guia/fruta-da-epoca',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -46,6 +41,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const CategoriasCategoriaRoute = CategoriasCategoriaRouteImport.update({
   id: '/categorias/$categoria',
   path: '/categorias/$categoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiaFrutaDaEpocaRoute = GuiaFrutaDaEpocaRouteImport.update({
+  id: '/guia/fruta-da-epoca',
+  path: '/guia/fruta-da-epoca',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutosIndexRoute = ProdutosIndexRouteImport.update({
@@ -63,9 +63,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/creditos': typeof CreditosRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categorias/$categoria': typeof CategoriasCategoriaRoute
+  '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos/': typeof ProdutosIndexRoute
 }
@@ -73,9 +73,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/creditos': typeof CreditosRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categorias/$categoria': typeof CategoriasCategoriaRoute
+  '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos': typeof ProdutosIndexRoute
 }
@@ -84,9 +84,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/creditos': typeof CreditosRoute
   '/privacidade': typeof PrivacidadeRoute
-  '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/categorias/$categoria': typeof CategoriasCategoriaRoute
+  '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
   '/produtos/': typeof ProdutosIndexRoute
 }
@@ -96,9 +96,9 @@ export interface FileRouteTypes {
     | '/'
     | '/creditos'
     | '/privacidade'
-    | '/guia/fruta-da-epoca'
     | '/sitemap.xml'
     | '/categorias/$categoria'
+    | '/guia/fruta-da-epoca'
     | '/produtos/$slug'
     | '/produtos/'
   fileRoutesByTo: FileRoutesByTo
@@ -106,9 +106,9 @@ export interface FileRouteTypes {
     | '/'
     | '/creditos'
     | '/privacidade'
-    | '/guia/fruta-da-epoca'
     | '/sitemap.xml'
     | '/categorias/$categoria'
+    | '/guia/fruta-da-epoca'
     | '/produtos/$slug'
     | '/produtos'
   id:
@@ -116,9 +116,9 @@ export interface FileRouteTypes {
     | '/'
     | '/creditos'
     | '/privacidade'
-    | '/guia/fruta-da-epoca'
     | '/sitemap.xml'
     | '/categorias/$categoria'
+    | '/guia/fruta-da-epoca'
     | '/produtos/$slug'
     | '/produtos/'
   fileRoutesById: FileRoutesById
@@ -127,9 +127,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreditosRoute: typeof CreditosRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
-  GuiaFrutaDaEpocaRoute: typeof GuiaFrutaDaEpocaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CategoriasCategoriaRoute: typeof CategoriasCategoriaRoute
+  GuiaFrutaDaEpocaRoute: typeof GuiaFrutaDaEpocaRoute
   ProdutosSlugRoute: typeof ProdutosSlugRoute
   ProdutosIndexRoute: typeof ProdutosIndexRoute
 }
@@ -157,13 +157,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacidadeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/guia/fruta-da-epoca': {
-      id: '/guia/fruta-da-epoca'
-      path: '/guia/fruta-da-epoca'
-      fullPath: '/guia/fruta-da-epoca'
-      preLoaderRoute: typeof GuiaFrutaDaEpocaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -176,6 +169,13 @@ declare module '@tanstack/react-router' {
       path: '/categorias/$categoria'
       fullPath: '/categorias/$categoria'
       preLoaderRoute: typeof CategoriasCategoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guia/fruta-da-epoca': {
+      id: '/guia/fruta-da-epoca'
+      path: '/guia/fruta-da-epoca'
+      fullPath: '/guia/fruta-da-epoca'
+      preLoaderRoute: typeof GuiaFrutaDaEpocaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produtos/': {
@@ -199,9 +199,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreditosRoute: CreditosRoute,
   PrivacidadeRoute: PrivacidadeRoute,
-  GuiaFrutaDaEpocaRoute: GuiaFrutaDaEpocaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CategoriasCategoriaRoute: CategoriasCategoriaRoute,
+  GuiaFrutaDaEpocaRoute: GuiaFrutaDaEpocaRoute,
   ProdutosSlugRoute: ProdutosSlugRoute,
   ProdutosIndexRoute: ProdutosIndexRoute,
 }
