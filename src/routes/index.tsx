@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { HeroFruitBackground, HeroFruitChips } from "@/components/hero-fruit";
 import { OfferCard } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
 import { adicionarProduto } from "@/lib/cart";
@@ -62,9 +63,11 @@ function Home() {
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="border-b border-line">
-        <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 py-4 md:grid-cols-[1.15fr_0.85fr] md:py-10">
-          <div>
+      <section className="relative isolate overflow-hidden border-b border-line">
+        <HeroFruitBackground />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-6 px-4 py-4 md:grid-cols-[1.15fr_0.85fr] md:py-10">
+          <HeroFruitChips />
+          <div className="relative">
             <h1 className="font-display text-3xl leading-tight md:text-5xl">Frutas e legumes frescos em Carnaxide</h1>
             <ul className="mt-4 space-y-1 text-sm text-muted">
               <li>{LOJA.horario}</li>
@@ -85,7 +88,7 @@ function Home() {
               </a>
             </div>
           </div>
-          <div className="hidden grid-cols-2 gap-3 md:grid">
+          <div className="relative hidden grid-cols-2 gap-3 md:grid">
             <img src="/fotos/loja/uva-dona-maria.webp" alt="Uva Dona Maria" width={480} height={480} className="aspect-square rounded-lg bg-foam object-contain p-4" />
             <img src="/fotos/loja/roma.webp" alt="Romã em promoção" width={480} height={480} className="mt-8 aspect-square rounded-lg bg-foam object-contain p-4" />
           </div>
