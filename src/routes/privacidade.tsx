@@ -36,7 +36,11 @@ function Privacidade() {
         <h2 className="font-display text-2xl">Oferta de primeira compra</h2>
         <p>
           A oferta {OFERTA.codigo} ({OFERTA.descontoEur}€ a partir de {OFERTA.minimoEur}€) é indicativa. A loja confirma no
-          levantamento, uma vez por cliente. Este site não tem contas de cliente e não verifica se a compra é a primeira.
+          levantamento, uma vez por cliente.
+        </p>
+        <p>
+          Para aplicar a oferta de primeira compra uma só vez por cliente, o site guarda um registo cifrado (hash) do número
+          de telemóvel usado, com apenas os últimos 3 dígitos e a data. O número completo não fica guardado.
         </p>
         <h2 className="font-display text-2xl">Os seus direitos</h2>
         <p>

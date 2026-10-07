@@ -560,6 +560,8 @@ export function textoEncomenda(input: {
   levantamento: string;
   nota: string;
   linhas: { produto: Product; qtd: number }[];
+  /** Este número já usou a oferta (verificado no servidor): sem linhas MUNDI10. */
+  semOferta?: boolean;
 }) {
   const totais = totaisDe(input.linhas);
   let texto = `Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantamento na loja:\n\nNome: ${input.nome}\nTelemóvel: ${input.telefone}\n`;
@@ -585,9 +587,9 @@ export function textoEncomenda(input: {
     texto += `\nNota: ${totais.porConfirmar} ${totais.porConfirmar === 1 ? "artigo tem" : "artigos têm"} preço a confirmar.`;
   }
   if (totais.estimado) texto += `\n${NOTA_PESO}`;
-  if (totais.oferta) {
+  if (totais.oferta && !input.semOferta) {
     texto += `\n\nOferta ${OFERTA.codigo}: -${formatarCentimos(totais.desconto)} indicados na primeira compra de ${OFERTA.minimoEur}€ ou mais.`;
-    texto += `\nA loja confirma uma vez por cliente. Este site não verifica se a compra é a primeira.`;
+    texto += `\nA loja confirma, uma vez por cliente.`;
     texto += `\n*TOTAL ESTIMADO COM OFERTA, SE CONFIRMADA: ${formatarCentimos(totais.comOferta)}*`;
   }
   if (input.nota.trim()) texto += `\nNotas: ${input.nota.trim()}`;
