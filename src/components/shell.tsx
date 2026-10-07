@@ -7,6 +7,8 @@ import { formatarCentimos, LOJA, porId, precoLinhaCentimos, totaisDe, whatsappHr
 
 const NAV = [
   { href: "/produtos", label: "Produtos" },
+  { href: "/categorias/frutas", label: "Frutas" },
+  { href: "/categorias/legumes", label: "Legumes" },
   { href: "/categorias/promocoes", label: "Promoções" },
   { href: "/categorias/cabazes", label: "Cabazes" },
   { href: "/guia/fruta-da-epoca", label: "Guia da época" },
@@ -64,6 +66,12 @@ export function Shell({ children }: { children: ReactNode }) {
           <nav className="ml-4 hidden items-center gap-4 text-sm font-medium lg:flex" aria-label="Principal">
             <Link to="/produtos" className="hover:text-leaf">
               Produtos
+            </Link>
+            <Link to="/categorias/$categoria" params={{ categoria: "frutas" }} className="hover:text-leaf">
+              Frutas
+            </Link>
+            <Link to="/categorias/$categoria" params={{ categoria: "legumes" }} className="hover:text-leaf">
+              Legumes
             </Link>
             <Link to="/categorias/$categoria" params={{ categoria: "promocoes" }} className="hover:text-leaf">
               Promoções
@@ -173,6 +181,12 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
           <nav className="flex flex-col gap-2 text-sm" aria-label="Rodapé">
             <Link to="/produtos">Produtos</Link>
+            <Link to="/categorias/$categoria" params={{ categoria: "frutas" }}>
+              Frutas
+            </Link>
+            <Link to="/categorias/$categoria" params={{ categoria: "legumes" }}>
+              Legumes
+            </Link>
             <Link to="/categorias/$categoria" params={{ categoria: "promocoes" }}>
               Promoções
             </Link>

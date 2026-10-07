@@ -165,7 +165,7 @@ export function ShopView({
             </button>
           ) : null}
           {lista.length ? (
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
               {lista.map((produto, index) => (
                 <ProductCard key={produto.id} product={produto} eager={index < 4} />
               ))}

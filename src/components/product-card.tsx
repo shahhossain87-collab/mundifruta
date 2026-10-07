@@ -26,7 +26,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
       <Link
         to="/produtos/$slug"
         params={{ slug: product.slug }}
-        className="relative block aspect-square overflow-hidden rounded-t-lg bg-foam"
+        className="relative block aspect-[3/2] overflow-hidden rounded-t-lg bg-foam sm:aspect-[4/3]"
       >
         {fotoOk ? (
           <img
@@ -36,7 +36,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
             height={480}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
-            className={cn("h-full w-full object-contain p-3", !aberto && "opacity-50")}
+            className={cn("h-full w-full object-contain p-2 sm:p-3", !aberto && "opacity-50")}
             onError={() => setFotoOk(false)}
           />
         ) : (
@@ -55,8 +55,8 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
           </span>
         ) : null}
       </Link>
-      <div className="flex flex-1 flex-col gap-2 p-3">
-        <h3 className="min-h-10 text-sm leading-5 font-semibold">
+      <div className="flex flex-1 flex-col gap-1.5 p-2 sm:gap-2 sm:p-3">
+        <h3 className="min-h-9 text-sm leading-4 font-semibold sm:min-h-10 sm:leading-5">
           <Link to="/produtos/$slug" params={{ slug: product.slug }} className="line-clamp-2">
             {nomeVisivel(product)}
           </Link>
@@ -87,7 +87,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
           ) : (
             <button
               type="button"
-              className="mt-auto h-11 rounded-lg bg-leaf text-sm font-semibold text-paper"
+              className="mt-auto inline-flex h-11 min-w-24 self-start items-center justify-center rounded-lg bg-leaf px-3 text-sm font-semibold text-paper"
               onClick={() => adicionarProduto(product.id)}
             >
               Adicionar

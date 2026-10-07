@@ -34,6 +34,9 @@ function Home() {
   const destaques = novidades();
   const escolha = selecionados();
   const cabazes = produtosDaCategoria("cabazes");
+  const categoriasDestaque = ["frutas", "legumes", "cabazes", "promocoes"]
+    .map((slug) => categorias.find((categoria) => categoria.slug === slug))
+    .filter((categoria): categoria is (typeof categorias)[number] => Boolean(categoria));
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "GroceryStore",
@@ -88,41 +91,68 @@ function Home() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="categorias-titulo">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-leaf">Escolha por tipo</p>
+            <h2 id="categorias-titulo" className="mt-1 font-display text-3xl">
+              Comprar por categoria
+            </h2>
+          </div>
+          <Link to="/produtos" className="hidden text-sm font-semibold text-leaf sm:inline">
+            Ver produtos
+          </Link>
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
+          {categoriasDestaque.map((categoria) => (
+            <Link
+              key={categoria.slug}
+              to="/categorias/$categoria"
+              params={{ categoria: categoria.slug }}
+              className="group relative isolate flex min-h-32 overflow-hidden rounded-xl border border-line bg-card p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:min-h-40 sm:p-4"
+            >
+              <img
+                src={categoria.foto}
+                alt=""
+                width={320}
+                height={320}
+                loading="eager"
+                className="absolute inset-0 -z-10 h-full w-full object-cover opacity-25 transition duration-300 group-hover:scale-105"
+              />
+              <span className="mt-auto w-full rounded-lg bg-paper/90 px-3 py-2 backdrop-blur-sm">
+                <span className="block font-display text-xl font-semibold sm:text-2xl">{categoria.label}</span>
+                <span className="text-xs text-muted">{produtosDaCategoria(categoria.slug).length} produtos</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+          {categorias
+            .filter((categoria) => ["ervas-frescas", "frutas-da-epoca"].includes(categoria.slug))
+            .map((categoria) => (
+              <Link key={categoria.slug} to="/categorias/$categoria" params={{ categoria: categoria.slug }} className="font-semibold text-leaf">
+                {categoria.label}
+              </Link>
+            ))}
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="novidades-titulo">
         <div className="flex items-end justify-between gap-3">
           <h2 id="novidades-titulo" className="font-display text-3xl">
             Novidades
           </h2>
-          <Link to="/categorias/$categoria" params={{ categoria: "promocoes" }} className="text-sm font-semibold text-leaf">
-            Ver promoções
-          </Link>
+          <div className="flex gap-3 text-sm font-semibold text-leaf">
+            <Link to="/produtos">Ver tudo</Link>
+            <Link to="/categorias/$categoria" params={{ categoria: "promocoes" }}>
+              Ver promoções
+            </Link>
+          </div>
         </div>
         <p className="mt-1 text-sm text-muted">Acabaram de chegar. Preço válido enquanto houver.</p>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {destaques.map((produto) => (
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
+          {destaques.slice(0, 4).map((produto) => (
             <ProductCard key={produto.id} product={produto} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-5" aria-labelledby="categorias-titulo">
-        <h2 id="categorias-titulo" className="font-display text-3xl">
-          Comprar por categoria
-        </h2>
-        <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-3">
-          {categorias.map((categoria) => (
-            <Link
-              key={categoria.slug}
-              to="/categorias/$categoria"
-              params={{ categoria: categoria.slug }}
-              className="flex items-center gap-3 rounded-lg border border-line bg-card p-3"
-            >
-              <img src={categoria.foto} alt="" width={64} height={64} className="size-14 rounded-lg bg-foam object-contain" />
-              <span>
-                <span className="block font-semibold">{categoria.label}</span>
-                <span className="text-xs text-muted">{produtosDaCategoria(categoria.slug).length} produtos</span>
-              </span>
-            </Link>
           ))}
         </div>
       </section>
@@ -136,8 +166,8 @@ function Home() {
             Ver tudo
           </Link>
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {escolha.map((produto) => (
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
+          {escolha.slice(0, 4).map((produto) => (
             <ProductCard key={produto.id} product={produto} />
           ))}
         </div>
