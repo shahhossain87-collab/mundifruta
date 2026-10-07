@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { OfferCard } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
 import { adicionarProduto } from "@/lib/cart";
 import {
@@ -90,6 +91,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <OfferCard />
 
       <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="categorias-titulo">
         <div className="flex items-end justify-between gap-3">

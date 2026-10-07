@@ -19,9 +19,11 @@ export const LOJA = {
 } as const;
 
 export const OFERTA = {
-  codigo: "MUNDI10",
-  descontoEur: 10,
-  minimoEur: 40,
+  codigo: catalog.cupao.codigo,
+  descontoEur: catalog.cupao.desconto,
+  minimoEur: catalog.cupao.minimo,
+  titulo: catalog.cupao.copyTitulo,
+  exclusivo: catalog.cupao.copyExclusivo,
 } as const;
 
 export const NOTA_PESO =

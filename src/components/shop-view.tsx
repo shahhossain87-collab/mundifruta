@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Link } from "@tanstack/react-router";
 import { SlidersHorizontal } from "lucide-react";
+import { OfferLine } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
 import { cn } from "@/lib/cn";
 import {
@@ -66,6 +67,7 @@ export function ShopView({
       </nav>
       <h1 className="font-display text-4xl">{title}</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted">{intro}</p>
+      <OfferLine className="mt-3" />
 
       {subs.length ? (
         <div className="mt-4 flex flex-nowrap gap-2 overflow-x-auto pb-1">

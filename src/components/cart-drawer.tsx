@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Link } from "@tanstack/react-router";
-import { Minus, Plus, X } from "lucide-react";
+import { Gift, Minus, Plus, X } from "lucide-react";
 import { useCart, useUi } from "@/lib/cart";
 import {
   disponivel,
@@ -42,6 +42,7 @@ export function CartDrawer() {
     .filter((linha): linha is { produto: NonNullable<ReturnType<typeof porId>>; qtd: number } => Boolean(linha));
   const totais = totaisDe(linhas);
   const faltam = Math.max(0, OFERTA.minimoEur * 100 - totais.centimos);
+  const progresso = Math.min(100, Math.round((totais.centimos / (OFERTA.minimoEur * 100)) * 100));
 
   function enviar(event: FormEvent) {
     event.preventDefault();
@@ -72,10 +73,17 @@ export function CartDrawer() {
             {!linhas.length ? (
               <div className="space-y-3">
                 <p>O carrinho está vazio.</p>
-                <p className="text-sm text-muted">
-                  Na primeira compra, {OFERTA.descontoEur}€ indicados a partir de {OFERTA.minimoEur}€. A loja confirma,
-                  uma vez por cliente. Este site não verifica se já comprou antes.
-                </p>
+                <div className="rounded-lg border border-fruit/30 bg-fruit/10 px-3 py-2 text-sm">
+                  <p className="flex items-center gap-2 font-semibold">
+                    <Gift className="size-4 shrink-0 text-fruit" aria-hidden="true" />
+                    Novo cliente? −{OFERTA.descontoEur}€ na primeira compra a partir de {OFERTA.minimoEur}€ (código{" "}
+                    {OFERTA.codigo})
+                  </p>
+                  <p className="mt-1 text-xs text-muted">
+                    Na primeira compra, {OFERTA.descontoEur}€ indicados a partir de {OFERTA.minimoEur}€. A loja confirma,
+                    uma vez por cliente. Este site não verifica se já comprou antes.
+                  </p>
+                </div>
                 <Dialog.Close asChild>
                   <Link to="/produtos" className="inline-flex h-11 items-center rounded-lg bg-leaf px-4 text-sm font-semibold text-paper">
                     Ver produtos
@@ -143,9 +151,12 @@ export function CartDrawer() {
                 ) : null}
                 {totais.estimado ? <p className="text-xs text-muted">{NOTA_PESO}</p> : null}
                 {totais.oferta ? (
-                  <div className="rounded-lg bg-foam px-3 py-2 text-sm">
-                    <p className="flex justify-between gap-4 font-semibold">
-                      <span>Oferta indicada</span>
+                  <div className="rounded-lg border border-leaf/30 bg-foam px-3 py-2 text-sm">
+                    <p className="flex justify-between gap-4 font-semibold text-leaf-deep">
+                      <span className="flex items-center gap-2">
+                        <Gift className="size-4 shrink-0" aria-hidden="true" />
+                        Oferta indicada
+                      </span>
                       <span className="tabular-nums">−{formatarCentimos(totais.desconto)}</span>
                     </p>
                     <p className="mt-1 text-xs text-muted">
@@ -158,10 +169,29 @@ export function CartDrawer() {
                     </p>
                   </div>
                 ) : (
-                  <p className="text-xs text-muted">
-                    Faltam {formatarCentimos(faltam)} para {OFERTA.minimoEur}€. A partir daí, a primeira compra pode incluir{" "}
-                    {OFERTA.descontoEur}€, confirmados na loja.
-                  </p>
+                  <div className="rounded-lg border border-fruit/30 bg-fruit/10 px-3 py-2">
+                    <p className="flex items-center gap-2 text-sm font-semibold">
+                      <Gift className="size-4 shrink-0 text-fruit" aria-hidden="true" />
+                      <span>
+                        Faltam <span className="tabular-nums text-fruit">{formatarCentimos(faltam)}</span> para{" "}
+                        {OFERTA.minimoEur}€ e −{OFERTA.descontoEur}€ ({OFERTA.codigo})
+                      </span>
+                    </p>
+                    <div
+                      className="mt-2 h-2 overflow-hidden rounded-full bg-line"
+                      role="progressbar"
+                      aria-label={`Progresso para ${OFERTA.minimoEur}€`}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={progresso}
+                    >
+                      <div className="h-full rounded-full bg-fruit transition-[width]" style={{ width: `${progresso}%` }} />
+                    </div>
+                    <p className="mt-1 text-xs text-muted">
+                      A partir de {OFERTA.minimoEur}€, a primeira compra pode incluir {OFERTA.descontoEur}€ de desconto,
+                      confirmados na loja.
+                    </p>
+                  </div>
                 )}
                 <p className="text-xs text-muted">Pagamento na loja: MB WAY, Multibanco ou dinheiro. Sem entrega.</p>
               </div>

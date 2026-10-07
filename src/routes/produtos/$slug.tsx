@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ProductCard } from "@/components/product-card";
+import { OfferLine } from "@/components/offer";
 import { PriceBlock } from "@/components/price-block";
 import { adicionarProduto, useCart } from "@/lib/cart";
 import {
@@ -137,6 +138,7 @@ function ProdutoPage() {
             <p className="mt-5 text-sm">Este produto está esgotado e não pode ser adicionado.</p>
           )}
           {noCarrinho > 0 ? <p className="mt-2 text-sm text-muted">{noCarrinho} no carrinho.</p> : null}
+          <OfferLine className="mt-3" />
           {centimos !== null && pesoMedio(produto) ? (
             <p className="mt-2 text-xs text-muted">
               Estimativa por unidade: {formatarCentimos(centimos)}. O total do carrinho usa este peso médio.
