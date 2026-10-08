@@ -303,6 +303,19 @@ export function titleFromDocument(html) {
   return match ? unescapeHtml(match[1]).trim() : "";
 }
 
+/**
+ * MUNDIFRUTA SEO: per-page share image from `<meta name="mundifruta:og-image">`
+ * (absolute http(s) URL), or "". Uses its own name so the share-meta strip
+ * leaves it in place and re-injection stays idempotent.
+ */
+export function pageOgImageFromDocument(html) {
+  const tag = String(html ?? "").match(/<meta\b[^>]*\bname\s*=\s*["']mundifruta:og-image["'][^>]*>/i);
+  if (!tag) return "";
+  const content = tag[0].match(/\bcontent\s*=\s*["']([^"']+)["']/i);
+  const url = content ? unescapeHtml(content[1]).trim() : "";
+  return /^https?:\/\//i.test(url) ? url : "";
+}
+
 /** href of `<link rel="canonical">` in the document head, or "". */
 export function canonicalFromDocument(html) {
   const tag = String(html ?? "").match(/<link\b[^>]*\brel\s*=\s*["']canonical["'][^>]*>/i);
@@ -353,6 +366,7 @@ export function grokOgHeadTags({
   site = {},
   documentTitle = "",
   canonical = "",
+  pageImage = "",
   cwd = process.cwd(),
 } = {}) {
   const title = resolveOgTitle(site, appName, host, documentTitle);
@@ -373,7 +387,10 @@ export function grokOgHeadTags({
   if (String(site.type ?? "").toLowerCase() === "x:game") {
     tags.push(`<meta property="og:type" content="x:game">`);
   }
-  if (publicHost) {
+  if (pageImage) {
+    // MUNDIFRUTA SEO: the page's own photo (e.g. product pages); size unknown, so no width/height.
+    tags.push(`<meta property="og:image" content="${escapeHtml(pageImage)}">`);
+  } else if (publicHost) {
     const asset = resolveOgCardAsset(site, cwd);
     const custom = Boolean(asset);
     let image = custom
@@ -472,7 +489,7 @@ export function injectGrokPwaHead(html, ctx = {}) {
 
   next = insertAfterHeadOpen(
     next,
-    grokOgHeadTags({ host, appName, site, documentTitle, canonical: canonicalFromDocument(html), cwd }).join(""),
+    grokOgHeadTags({ host, appName, site, documentTitle, canonical: canonicalFromDocument(html), pageImage: pageOgImageFromDocument(html), cwd }).join(""),
   );
 
   if (readGrokExtensionsEnabled() && !next.includes("/grok-app-builder/extensions.js")) {

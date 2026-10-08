@@ -35,6 +35,7 @@ export const Route = createFileRoute("/produtos/$slug")({
       ? [
           { title: `${nomeVisivel(loaderData)} | MUNDIFRUTA Carnaxide` },
           { name: "description", content: metaDescricaoProduto(loaderData) },
+          ...(loaderData.foto ? [{ name: "mundifruta:og-image", content: absoluteUrl(loaderData.foto) }] : []),
         ]
       : [],
     links: loaderData ? [canonicalLink(`/produtos/${loaderData.slug}`)] : [],
@@ -144,6 +145,22 @@ function ProdutoPage() {
             <p className="mt-2 text-xs text-muted">
               Estimativa por unidade: {formatarCentimos(centimos)}. O total do carrinho usa este peso médio.
             </p>
+          ) : null}
+          {produto.itens?.length ? (
+            <section className="mt-6 rounded-lg border border-line bg-card p-4 text-sm" aria-labelledby="cabaz-itens">
+              <h2 id="cabaz-itens" className="font-display text-2xl">
+                O que leva este cabaz
+              </h2>
+              {produto.nota ? <p className="mt-1 text-xs text-muted">{produto.nota}</p> : null}
+              <ul className="mt-2 space-y-1">
+                {produto.itens.map((item, index) => (
+                  <li key={`${item.nome}-${index}`}>
+                    {item.grupo ? <span className="mt-3 block text-xs font-semibold text-muted">{item.grupo}</span> : null}
+                    <span className="tabular-nums">{item.q}</span> · {item.nome}
+                  </li>
+                ))}
+              </ul>
+            </section>
           ) : null}
           <div className="mt-6 rounded-lg border border-line bg-card p-4 text-sm">
             <p className="font-semibold">Levantamento na loja</p>
