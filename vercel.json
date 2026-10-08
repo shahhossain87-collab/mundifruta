@@ -16,5 +16,47 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/produtos/cereja-de-fundao",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/cereja-gardunha",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/laranja-algarve",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/laranja-algarve-premium",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/lichia",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/ameixa-branca-nacional",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/alperce-nacional",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/maca-golden-rosa-francesa",
+      "destination": "/categorias/frutas",
+      "permanent": true
+    }
   ]
 }

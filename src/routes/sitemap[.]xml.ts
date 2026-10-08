@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { categorias, produtos } from "@/lib/shop";
 
 const CABAZES_NO_SITEMAP = ["cabaz-de-legumes", "cabaz-de-verao", "cabaz-detox", "cabaz-familiar"];
-const LASTMOD = "2026-10-06";
+const LASTMOD = "2026-10-08";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
