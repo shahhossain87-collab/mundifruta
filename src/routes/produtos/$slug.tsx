@@ -8,6 +8,7 @@ import {
   biologico,
   categoriaDe,
   descricaoProduto,
+  metaDescricaoProduto,
   disponivel,
   estadoProduto,
   formatarCentimos,
@@ -33,7 +34,7 @@ export const Route = createFileRoute("/produtos/$slug")({
     meta: loaderData
       ? [
           { title: `${nomeVisivel(loaderData)} | MUNDIFRUTA Carnaxide` },
-          { name: "description", content: descricaoProduto(loaderData) },
+          { name: "description", content: metaDescricaoProduto(loaderData) },
         ]
       : [],
     links: loaderData ? [canonicalLink(`/produtos/${loaderData.slug}`)] : [],

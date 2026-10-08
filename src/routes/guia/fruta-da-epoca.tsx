@@ -9,7 +9,7 @@ export const Route = createFileRoute("/guia/fruta-da-epoca")({
       {
         name: "description",
         content:
-          "Que fruta está tipicamente de época no outono em Portugal: uva, dióspiro, figo, manga, clementina, romã, marmelo e pêra Rocha. Como escolher e encomendar na MUNDIFRUTA, Carnaxide.",
+          "Fruta da época no outono em Portugal: uva, dióspiro, figo, romã, clementina e pêra Rocha. Como escolher e encomendar na MUNDIFRUTA, Carnaxide.",
       },
       {
         property: "og:title",

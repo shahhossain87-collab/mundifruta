@@ -603,6 +603,23 @@ export function whatsappHref(texto?: string) {
   return `${base}?text=${encodeURIComponent(texto)}`;
 }
 
+/** Short meta description for search results (Google shows ~155 chars). */
+export function metaDescricaoProduto(produto: Product) {
+  const LIMITE = 155;
+  const base = `${nomeVisivel(produto)} na MUNDIFRUTA, frutaria em Carnaxide (Oeiras).`;
+  const estado = !disponivel(produto) ? " De momento esgotado." : "";
+  const opcionais = [
+    produto.origem ? ` Origem: ${produto.origem}.` : "",
+    " Encomende por WhatsApp e levante na loja.",
+    " Sem entrega.",
+  ];
+  let texto = base + estado;
+  for (const parte of opcionais) {
+    if (parte && (texto + parte).length <= LIMITE) texto += parte;
+  }
+  return texto;
+}
+
 export function descricaoProduto(produto: Product) {
   const partes = [
     `${nomeVisivel(produto)} na MUNDIFRUTA, frutaria em Carnaxide (Oeiras).`,
