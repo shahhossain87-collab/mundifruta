@@ -64,6 +64,8 @@ export type Product = {
   rel?: string[];
   nota?: string;
   itens?: CabazLinha[];
+  descricao?: string;
+  metaDescricao?: string;
 };
 
 export const produtos = catalog.produtos as Product[];
@@ -605,6 +607,7 @@ export function whatsappHref(texto?: string) {
 
 /** Short meta description for search results (Google shows ~155 chars). */
 export function metaDescricaoProduto(produto: Product) {
+  if (produto.metaDescricao) return produto.metaDescricao;
   const LIMITE = 155;
   const base = `${nomeVisivel(produto)} na MUNDIFRUTA, frutaria em Carnaxide (Oeiras).`;
   const estado = !disponivel(produto) ? " De momento esgotado." : "";
@@ -621,6 +624,7 @@ export function metaDescricaoProduto(produto: Product) {
 }
 
 export function descricaoProduto(produto: Product) {
+  if (produto.descricao) return produto.descricao;
   const partes = [
     `${nomeVisivel(produto)} na MUNDIFRUTA, frutaria em Carnaxide (Oeiras).`,
     produto.peso ? `Unidade de venda: ${produto.peso}.` : "",
