@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { HeroFruitBackground, HeroFruitChips } from "@/components/hero-fruit";
+import type { CSSProperties } from "react";
 import { OfferCard } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
 import { adicionarProduto } from "@/lib/cart";
@@ -36,7 +36,7 @@ function Home() {
   const destaques = novidades();
   const escolha = selecionados();
   const cabazes = produtosDaCategoria("cabazes");
-  const categoriasDestaque = ["frutas", "legumes", "cabazes", "promocoes"]
+  const categoriasDestaque = ["frutas", "legumes", "cabazes", "promocoes", "frutas-da-epoca", "ervas-frescas"]
     .map((slug) => categorias.find((categoria) => categoria.slug === slug))
     .filter((categoria): categoria is (typeof categorias)[number] => Boolean(categoria));
   const jsonLd = {
@@ -63,86 +63,104 @@ function Home() {
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="relative isolate overflow-hidden border-b border-line">
-        <HeroFruitBackground />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-6 px-4 py-4 md:grid-cols-[1.15fr_0.85fr] md:py-10">
-          <HeroFruitChips />
-          <div className="relative">
-            <h1 className="font-display text-3xl leading-tight md:text-5xl">Frutas e legumes frescos em Carnaxide</h1>
-            <p className="mt-2 text-base font-semibold md:text-lg">Encomende por WhatsApp, levante na loja.</p>
-            <ol className="mt-4 space-y-1 text-sm text-muted" aria-label="Como encomendar">
-              <li><span className="font-semibold text-ink">1.</span> Veja os produtos no site</li>
-              <li><span className="font-semibold text-ink">2.</span> Envie a encomenda por WhatsApp</li>
-              <li><span className="font-semibold text-ink">3.</span> Levante e pague na loja</li>
-            </ol>
-            <p className="mt-2 text-xs text-muted">{LOJA.horario} · Sem entrega ao domicílio</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Link to="/produtos" className="inline-flex h-11 items-center rounded-lg bg-leaf px-4 text-sm font-semibold text-paper">
-                Ver produtos
-              </Link>
+      <section className="relative isolate overflow-hidden bg-leaf-deep text-white" aria-labelledby="hero-titulo">
+        {/* Real shop photos (mosaic). Sized webp, LCP image: eager + fetchpriority high; box sized by the section, so no layout shift. */}
+        <picture className="pointer-events-none absolute inset-0 -z-10 block overflow-hidden" aria-hidden="true">
+          <source media="(min-width: 768px)" srcSet="/fotos/home/hero-desktop.webp" width={1600} height={600} type="image/webp" />
+          <img
+            src="/fotos/home/hero-phone.webp"
+            alt=""
+            width={780}
+            height={680}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="hero-zoom h-full w-full object-cover"
+          />
+        </picture>
+        {/* Gradient keeps the text readable: from the bottom on phones, from the left on desktop. */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/55 to-black/0 md:bg-gradient-to-r md:from-black/80 md:via-black/45 md:to-black/0"
+          aria-hidden="true"
+        />
+        <div className="mx-auto flex min-h-[19.5rem] max-w-6xl flex-col justify-end px-4 pt-24 pb-4 md:min-h-[24rem] md:justify-center md:py-12">
+          <div className="max-w-xl [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
+            <h1 id="hero-titulo" className="font-display text-[1.75rem] leading-tight md:text-5xl">
+              Frutas e legumes frescos em Carnaxide
+            </h1>
+            <p className="mt-1 text-base font-semibold md:mt-2 md:text-lg">Encomende por WhatsApp, levante na loja.</p>
+            <p className="mt-1 text-xs text-white/90 md:text-sm">{LOJA.horario} · Sem entrega ao domicílio</p>
+            <div className="mt-3 flex flex-wrap gap-2 [text-shadow:none] md:mt-5">
               <a
                 href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-white shadow-sm"
+                className="inline-flex h-11 items-center rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-white shadow-md"
               >
                 Encomendar por WhatsApp
               </a>
+              <Link
+                to="/produtos"
+                className="inline-flex h-11 items-center rounded-lg bg-white/95 px-4 text-sm font-semibold text-leaf-deep shadow-md"
+              >
+                Ver produtos
+              </Link>
             </div>
           </div>
-          <div className="relative hidden grid-cols-2 gap-3 md:grid">
-            <img src="/fotos/loja/uva-dona-maria.webp" alt="Uva Dona Maria" width={480} height={480} className="aspect-square rounded-lg bg-foam object-contain p-4" />
-            <img src="/fotos/loja/roma.webp" alt="Romã em promoção" width={480} height={480} className="mt-8 aspect-square rounded-lg bg-foam object-contain p-4" />
-          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-3 pb-2 md:pt-6" aria-labelledby="categorias-titulo">
+        <div className="flex items-end justify-between gap-3">
+          <h2 id="categorias-titulo" className="font-display text-xl md:text-3xl">
+            Comprar por categoria
+          </h2>
+          <Link to="/produtos" className="text-sm font-semibold text-leaf">
+            Ver tudo
+          </Link>
+        </div>
+        <div className="mt-2 grid grid-cols-2 gap-2.5 sm:gap-3 md:mt-4 lg:grid-cols-6">
+          {categoriasDestaque.map((categoria, index) => (
+            <Link
+              key={categoria.slug}
+              to="/categorias/$categoria"
+              params={{ categoria: categoria.slug }}
+              className="group relative isolate block aspect-[4/3] overflow-hidden rounded-2xl bg-foam shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <img
+                src={`/fotos/home/tile-${categoria.slug}.webp`}
+                alt=""
+                width={560}
+                height={420}
+                loading="eager"
+                decoding="async"
+                className="tile-drift absolute inset-0 -z-10 h-full w-full object-cover"
+                style={{ "--tile-delay": `${-index * 1.7}s` } as CSSProperties}
+              />
+              <span className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-black/75 to-black/0" aria-hidden="true" />
+              <span className="absolute inset-x-0 bottom-0 p-2.5 text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.6)] sm:p-3">
+                <span className="block font-display text-lg leading-tight font-semibold sm:text-xl">{categoria.label}</span>
+                <span className="block text-xs text-white/90">{produtosDaCategoria(categoria.slug).length} produtos</span>
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 
       <OfferCard />
 
-      <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="categorias-titulo">
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-leaf">Escolha por tipo</p>
-            <h2 id="categorias-titulo" className="mt-1 font-display text-3xl">
-              Comprar por categoria
-            </h2>
-          </div>
-          <Link to="/produtos" className="hidden text-sm font-semibold text-leaf sm:inline">
-            Ver produtos
-          </Link>
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
-          {categoriasDestaque.map((categoria) => (
-            <Link
-              key={categoria.slug}
-              to="/categorias/$categoria"
-              params={{ categoria: categoria.slug }}
-              className="group relative isolate flex min-h-32 overflow-hidden rounded-xl border border-line bg-card p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:min-h-40 sm:p-4"
-            >
-              <img
-                src={categoria.foto}
-                alt=""
-                width={320}
-                height={320}
-                loading="eager"
-                className="absolute inset-0 -z-10 h-full w-full object-cover opacity-25 transition duration-300 group-hover:scale-105"
-              />
-              <span className="mt-auto w-full rounded-lg bg-paper/90 px-3 py-2 backdrop-blur-sm">
-                <span className="block font-display text-xl font-semibold sm:text-2xl">{categoria.label}</span>
-                <span className="text-xs text-muted">{produtosDaCategoria(categoria.slug).length} produtos</span>
-              </span>
-            </Link>
+      <section className="mx-auto max-w-6xl px-4 pt-4" aria-labelledby="como-titulo">
+        <h2 id="como-titulo" className="sr-only">
+          Como encomendar
+        </h2>
+        <ol className="grid grid-cols-3 gap-2 text-center text-xs sm:text-sm">
+          {["Veja os produtos no site", "Envie a encomenda por WhatsApp", "Levante e pague na loja"].map((passo, index) => (
+            <li key={passo} className="rounded-xl border border-line bg-card px-2 py-2.5">
+              <span className="mx-auto mb-1 grid size-6 place-items-center rounded-full bg-leaf text-xs font-bold text-paper">{index + 1}</span>
+              {passo}
+            </li>
           ))}
-        </div>
-        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
-          {categorias
-            .filter((categoria) => ["ervas-frescas", "frutas-da-epoca"].includes(categoria.slug))
-            .map((categoria) => (
-              <Link key={categoria.slug} to="/categorias/$categoria" params={{ categoria: categoria.slug }} className="font-semibold text-leaf">
-                {categoria.label}
-              </Link>
-            ))}
-        </div>
+        </ol>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="novidades-titulo">

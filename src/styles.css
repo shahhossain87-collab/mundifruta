@@ -105,3 +105,37 @@
     opacity: 1;
   }
 }
+
+/* Homepage v2 hero: slow zoom/pan over the real shop-photo mosaic (transform only, no layout shift). */
+.hero-zoom {
+  animation: hero-zoom 22s ease-in-out infinite alternate;
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+@keyframes hero-zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.09) translate3d(-1.5%, -1%, 0);
+  }
+}
+/* Category tiles: gentle staggered float of the photo inside its rounded frame. */
+.tile-drift {
+  animation: tile-drift 9s ease-in-out var(--tile-delay, 0s) infinite alternate;
+  will-change: transform;
+}
+@keyframes tile-drift {
+  0% {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.1) translate3d(-2%, -2%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-zoom,
+  .tile-drift {
+    animation: none;
+  }
+}
