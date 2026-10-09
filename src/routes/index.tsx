@@ -69,22 +69,24 @@ function Home() {
           <HeroFruitChips />
           <div className="relative">
             <h1 className="font-display text-3xl leading-tight md:text-5xl">Frutas e legumes frescos em Carnaxide</h1>
-            <ul className="mt-4 space-y-1 text-sm text-muted">
-              <li>{LOJA.horario}</li>
-              <li>Encomendas por WhatsApp</li>
-              <li>Levantamento na loja</li>
-            </ul>
+            <p className="mt-2 text-base font-semibold md:text-lg">Encomende por WhatsApp, levante na loja.</p>
+            <ol className="mt-4 space-y-1 text-sm text-muted" aria-label="Como encomendar">
+              <li><span className="font-semibold text-ink">1.</span> Veja os produtos no site</li>
+              <li><span className="font-semibold text-ink">2.</span> Envie a encomenda por WhatsApp</li>
+              <li><span className="font-semibold text-ink">3.</span> Levante e pague na loja</li>
+            </ol>
+            <p className="mt-2 text-xs text-muted">{LOJA.horario} · Sem entrega ao domicílio</p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link to="/produtos" className="inline-flex h-11 items-center rounded-lg bg-leaf px-4 text-sm font-semibold text-paper">
                 Ver produtos
               </Link>
               <a
-                href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma pergunta.")}
+                href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center rounded-lg border border-line bg-card px-4 text-sm font-semibold"
+                className="inline-flex h-11 items-center rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-white shadow-sm"
               >
-                WhatsApp
+                Encomendar por WhatsApp
               </a>
             </div>
           </div>
