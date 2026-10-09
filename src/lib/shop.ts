@@ -144,7 +144,7 @@ export const subcategorias: Record<string, { key: string; label: string; re: Reg
     {
       key: "tropicais",
       label: "Uvas e tropicais",
-      re: /uva|manga|manguita|abacaxi|anan(á|a)s|papaia|mam(ã|a)o|kiwi|abacate|lichia|anona|castanha/i,
+      re: /uva|manga|manguita|abacaxi|anan(á|a)s|papaia|mam(ã|a)o|kiwi|abacate|lichia|anona|castanha|goiaba|pitaia|pitaya/i,
     },
     { key: "caroco", label: "Pêssego e ameixa", re: /p(ê|e)ssego|paraguaio|nectarina|ameixa|alperce|d(i|í)(o|ó)spiro|kaki/i },
     { key: "melao-melancia", label: "Melão e melancia", re: /mel(ã|a)o|melancia|meloa|figo/i },

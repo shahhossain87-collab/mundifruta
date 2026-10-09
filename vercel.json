@@ -57,6 +57,16 @@
       "source": "/produtos/maca-golden-rosa-francesa",
       "destination": "/categorias/frutas",
       "permanent": true
+    },
+    {
+      "source": "/produtos/melancia-1-4",
+      "destination": "/produtos/melancia-sem-sementes",
+      "permanent": true
+    },
+    {
+      "source": "/produtos/melancia-com-sementes",
+      "destination": "/produtos/melancia-sem-sementes",
+      "permanent": true
     }
   ]
 }
