@@ -48,7 +48,7 @@ function CopyCode({ className }: { className?: string }) {
       type="button"
       onClick={() => void copiar()}
       className={cn(
-        "inline-flex h-11 items-center gap-2 rounded-lg border-2 border-dashed border-foam/70 bg-leaf-deep px-3 font-display text-lg tracking-widest text-paper",
+        "inline-flex h-9 items-center gap-2 rounded-lg border-2 border-dashed border-foam/70 bg-leaf-deep px-2.5 font-display text-base tracking-widest text-paper",
         className,
       )}
       aria-label={copiado ? `Código ${OFERTA.codigo} copiado` : `Copiar código ${OFERTA.codigo}`}
@@ -62,49 +62,26 @@ function CopyCode({ className }: { className?: string }) {
   );
 }
 
-/** Cartão compacto da oferta na página inicial. */
+/** Faixa compacta da oferta na página inicial (âncora #oferta usada pela faixa do topo). */
 export function OfferCard() {
   return (
     <section id="oferta" className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-4" aria-labelledby="oferta-titulo">
-      <div className="rounded-xl bg-leaf text-paper shadow-sm">
-        <div className="grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-3 p-4 lg:grid-cols-[auto_1fr_auto] lg:gap-x-6">
-          <p
-            className="grid size-[4.5rem] shrink-0 place-items-center rounded-full bg-fruit text-center font-display leading-none shadow-md ring-4 ring-paper/20 sm:size-24"
-            aria-hidden="true"
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-fruit/30 bg-fruit/10 px-3 py-2.5 text-sm text-ink sm:flex-nowrap">
+        <Gift className="size-5 shrink-0 text-fruit" aria-hidden="true" />
+        <h2 id="oferta-titulo" className="min-w-0 flex-1 basis-56 leading-snug">
+          <strong className="font-semibold">{DESCONTO} de desconto</strong> na 1.ª compra de {MINIMO} ou mais (novos clientes) · código{" "}
+          <strong className="font-semibold tracking-wide text-fruit">{OFERTA.codigo}</strong>
+          <span className="sr-only">. {PEQUENAS_LETRAS}</span>
+        </h2>
+        <div className="flex shrink-0 items-center gap-2">
+          <CopyCode />
+          <Link
+            to="/categorias/$categoria"
+            params={{ categoria: "frutas" }}
+            className="inline-flex h-9 items-center rounded-lg bg-leaf px-3 text-xs font-semibold text-paper hover:bg-leaf-deep"
           >
-            <span>
-              <span className="block text-2xl sm:text-4xl">−{DESCONTO}</span>
-              <span className="mt-0.5 block font-sans text-[0.55rem] font-semibold uppercase tracking-[0.12em] sm:text-[0.65rem]">
-                desconto
-              </span>
-            </span>
-          </p>
-          <div className="min-w-0">
-            <h2 id="oferta-titulo" className="font-display text-xl leading-tight sm:text-3xl">
-              {OFERTA.titulo}
-            </h2>
-            <p className="mt-0.5 text-sm font-semibold sm:mt-1 sm:text-lg">
-              {DESCONTO} de desconto na sua primeira compra de {MINIMO} ou mais
-            </p>
-            <p className="mt-1 hidden text-xs text-foam sm:block">{PEQUENAS_LETRAS}</p>
-          </div>
-          <div className="col-span-2 flex flex-wrap items-center gap-2 lg:col-span-1 lg:grid lg:w-72 lg:grid-cols-2">
-            <CopyCode className="lg:col-span-2 lg:justify-between" />
-            <Link
-              to="/categorias/$categoria"
-              params={{ categoria: "frutas" }}
-              className="inline-flex h-11 items-center justify-center rounded-lg bg-paper px-4 text-sm font-semibold text-leaf-deep hover:bg-card"
-            >
-              Ver frutas
-            </Link>
-            <Link
-              to="/produtos"
-              className="hidden h-11 items-center justify-center rounded-lg border border-paper/60 px-3 text-sm font-semibold whitespace-nowrap text-paper hover:bg-leaf-deep sm:inline-flex"
-            >
-              Fazer encomenda
-            </Link>
-          </div>
-          <p className="col-span-2 text-xs text-foam sm:hidden">{PEQUENAS_LETRAS}</p>
+            Ver frutas
+          </Link>
         </div>
       </div>
     </section>

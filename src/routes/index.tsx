@@ -163,6 +163,38 @@ function Home() {
         </ol>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 pt-6" aria-labelledby="loja-titulo">
+        <div className="grid items-center gap-4 rounded-2xl border border-line bg-card p-3 sm:grid-cols-[minmax(0,26rem)_1fr] sm:p-4">
+          <img
+            src="/fotos/loja/fachada.webp"
+            alt="Fachada da loja MUNDIFRUTA no Centro Cívico de Carnaxide, com bancas de fruta e chapéus vermelhos"
+            width={720}
+            height={591}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[720/591] w-full rounded-xl object-cover"
+          />
+          <div>
+            <h2 id="loja-titulo" className="font-display text-2xl md:text-3xl">
+              A nossa loja
+            </h2>
+            <p className="mt-1 text-sm">Centro Cívico, loja 24C, Carnaxide · {LOJA.horario}</p>
+            <p className="mt-2 text-sm">
+              <span className="font-semibold text-fruit">{LOJA.nota} ★</span> ({LOJA.avaliacoes} avaliações Google)
+            </p>
+            <p className="mt-2 text-sm text-muted">Há mais de 12 anos em Carnaxide. Encomende por WhatsApp e levante na loja.</p>
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-leaf">
+              <a href={LOJA.mapas} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center">
+                Como chegar
+              </a>
+              <a href="#reviews-titulo" className="inline-flex h-9 items-center">
+                Ler avaliações
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="novidades-titulo">
         <div className="flex items-end justify-between gap-3">
           <h2 id="novidades-titulo" className="font-display text-3xl">
