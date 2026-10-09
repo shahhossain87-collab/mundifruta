@@ -17,34 +17,33 @@ type Chip = {
   rot: number;
 };
 
-// Mobile: chips sit in the free space to the right of the list/buttons.
-// Desktop (md+): chips float around the two shop photos on the right.
 const CHIPS: Chip[] = [
+  // Mobile: hide floating chips so they never cover the CTA buttons.
+  // Desktop (md+): same positions as before around the shop photos.
   {
     nome: "roma",
-    className: "right-3 bottom-[30%] size-16 md:right-[45%] md:bottom-[8%] md:size-24",
+    className: "hidden md:block md:right-[45%] md:bottom-[8%] md:size-24",
     dur: 8,
     delay: 0,
     rot: 6,
   },
   {
     nome: "clementina-folhas",
-    className: "right-[84px] bottom-[40%] size-12 md:right-[2%] md:bottom-[7%] md:size-20",
+    className: "hidden md:block md:right-[2%] md:bottom-[7%] md:size-20",
     dur: 9.5,
     delay: -3,
     rot: -5,
   },
   {
     nome: "uva-sem-grainha",
-    className:
-      "right-[70px] bottom-[6%] size-12 md:right-[38%] md:top-[6%] md:bottom-auto md:size-16",
+    className: "hidden md:block md:right-[38%] md:top-[6%] md:bottom-auto md:size-16",
     dur: 7,
     delay: -1.5,
     rot: 4,
   },
   {
     nome: "manga-premium",
-    className: "right-3 bottom-[5%] size-11 md:right-[1%] md:top-[4%] md:bottom-auto md:size-16",
+    className: "hidden md:block md:right-[1%] md:top-[4%] md:bottom-auto md:size-16",
     dur: 10,
     delay: -5,
     rot: -7,
