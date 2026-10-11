@@ -206,7 +206,7 @@
       { nome:"Kiwi Green New Zealand",  emoji:"🥝", peso:"1 kg", preco:"5,99 €", origem:"Nova Zelândia", foto:FOTOS.kiwi, alt:"Kiwi verde da Nova Zelândia, inteiro e cortado" },
       { nome:"Abacate Hass",            emoji:"🥑", peso:"1 kg", preco:"5,99 €",                    foto:FOTOS.abacate, alt:"Abacate Hass inteiro e cortado ao meio", badge:"💎 Premium",  badgeClass:"" },
       { nome:"Lichia",                  emoji:"🔴", peso:"1 kg", preco:"5,99 €", status:"Indisponível", foto:FOTOS.lichia, alt:"Lichias com casca e semente", badge:"💎 Premium",  badgeClass:"" },
-      { nome:"Ameixa Roxa Nacional",    emoji:"🟣", topVendido:true, peso:"1 kg", promo:true, precoNormal:"1,99 €", preco:"0,99 €", origem:"Nacional", foto:FOTOS.ameixa_roxa, alt:"Ameixas roxas nacionais", badge:"🏷️ Promoção", badgeClass:"badge-hot" },
+      { nome:"Ameixa Roxa Nacional",    emoji:"🟣", topVendido:true, peso:"1 kg", precoNormal:"1,99 €", preco:"0,99 €", origem:"Nacional", foto:FOTOS.ameixa_roxa, alt:"Ameixas roxas nacionais", badge:"🏷️ Promoção", badgeClass:"badge-hot" },
       { nome:"Ameixa Branca Nacional",  emoji:"🟡", peso:"1 kg", preco:"1,49 €", origem:"Nacional", status:"Indisponível", foto:FOTOS.ameixa_branca, alt:"Ameixas amarelas ou brancas" },
       { nome:"Ameixa Abrunho nacional", emoji:"🟣", peso:"1 kg", preco:"2,99 €",                    foto:FOTOS.ameixa_abrunho, alt:"Ameixa abrunho nacional (tipo damasco-ameixa)", badge:"👌 Recomendado", badgeClass:"badge-new" },
       { nome:"Alperce Nacional",        emoji:"🍑", peso:"1 kg", preco:"2,99 €", origem:"Nacional", status:"Indisponível", foto:FOTOS.alperce, alt:"Alperces nacionais inteiros" },
