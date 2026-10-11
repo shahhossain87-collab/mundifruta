@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Fruta e legumes frescos em Carnaxide. 10€ de desconto na primeira compra acima de 40€. Encomende hoje e levante na loja."/>
+  <meta name="description" content="Fruta e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja, com seleção renovada todos os dias."/>
   <title>Fruta e legumes em Carnaxide | MUNDIFRUTA</title>
   <link rel="canonical" href="https://mundifruta.com/"/>
   <link rel="alternate" hreflang="pt-PT" href="https://mundifruta.com/"/>
@@ -16,7 +16,7 @@
   <meta property="og:type" content="business.business"/>
   <meta property="og:site_name" content="MUNDIFRUTA"/>
   <meta property="og:title" content="MUNDIFRUTA — Frutas &amp; Legumes Frescos em Carnaxide"/>
-  <meta property="og:description" content="Fruta e legumes frescos em Carnaxide. 10€ de desconto na primeira compra acima de 40€. Encomende hoje e levante na loja."/>
+  <meta property="og:description" content="Fruta e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja, com seleção renovada todos os dias."/>
   <meta property="og:image" content="https://mundifruta.com/fotos/cabaz_mix.jpeg"/>
   <meta property="og:url" content="https://mundifruta.com/"/>
   <meta property="og:locale" content="pt_PT"/>
@@ -24,7 +24,7 @@
   <!-- Twitter card -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="MUNDIFRUTA — Frutas &amp; Legumes Frescos em Carnaxide"/>
-  <meta name="twitter:description" content="Fruta e legumes frescos em Carnaxide. 10€ de desconto na primeira compra acima de 40€. Encomende hoje e levante na loja."/>
+  <meta name="twitter:description" content="Fruta e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja, com seleção renovada todos os dias."/>
   <meta name="twitter:image" content="https://mundifruta.com/fotos/cabaz_mix.jpeg"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,26 +78,22 @@
   }
   </script>
 </head>
-<body>
+<body class="homepage">
 
 <!-- ═══════════ ANNOUNCEMENT BAR ═══════════ -->
 <div class="announcement-bar" aria-live="polite" aria-label="Notícias e promoções rápidas">
   <div class="announcement-track">
-    <span>🎁 10€ de desconto na primeira compra acima de 40€</span>
     <span>🛒 Encomende por WhatsApp e levante na loja</span>
     <span>🍉 Melancia 1/4 aprox. 3 kg</span>
     <span>🍋 Limão biológico 1,99€/kg</span>
     <span>🍅 Tomate salada biológico 1,99€/kg</span>
     <span>🥒 Curgete biológica 2,49€/kg</span>
-    <span>🚚 Entregas rápidas para Carnaxide e Oeiras</span>
     <span>🎉 Produtos frescos, selecionados todos os dias</span>
-    <span>🎁 10€ de desconto na primeira compra acima de 40€</span>
     <span>🛒 Encomende por WhatsApp e levante na loja</span>
     <span>🍉 Melancia 1/4 aprox. 3 kg</span>
     <span>🍋 Limão biológico 1,99€/kg</span>
     <span>🍅 Tomate salada biológico 1,99€/kg</span>
     <span>🥒 Curgete biológica 2,49€/kg</span>
-    <span>🚚 Entregas rápidas para Carnaxide e Oeiras</span>
     <span>🎉 Produtos frescos, selecionados todos os dias</span>
   </div>
 </div>
@@ -108,6 +104,8 @@
     <a href="#inicio" class="logo">MUNDI<span class="logo-accent">FRUTA</span></a>
     <div class="nav-links">
       <a href="#produtos">Produtos</a>
+      <a href="#produtos" onclick="abrirCatalogo('frutas')">Frutas</a>
+      <a href="#produtos" onclick="abrirCatalogo('legumes')">Legumes</a>
       <a href="#cabazes">Cabazes</a>
       <a href="#promocoes">Promoções</a>
       <a href="#quem-somos">Quem Somos</a>
@@ -128,6 +126,8 @@
 <!-- ═══════════ MOBILE MENU ═══════════ -->
 <div class="mobile-menu" id="mobile-menu">
   <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#produtos"       onclick="abrirCatalogo('frutas');toggleMenu()">Frutas</a>
+  <a href="#produtos"       onclick="abrirCatalogo('legumes');toggleMenu()">Legumes</a>
   <a href="#promocoes"      onclick="toggleMenu()">Promoções</a>
   <a href="#cabazes"        onclick="toggleMenu()">Cabazes</a>
   <a href="#como-funciona"  onclick="toggleMenu()">Como Funciona</a>
@@ -228,9 +228,11 @@
 <div class="hero" id="inicio">
   <div class="hero-slides" id="hero-slides" aria-hidden="true"></div>
   <div class="hero-content">
+    <span class="hero-eyebrow"><i></i> Frescura local em Carnaxide</span>
     <h1 class="hero-heading">
-      Fruta &amp; Legumes<br><em>Frescos Todos os Dias</em>
+      Frutas e legumes<br><em>frescos todos os dias</em>
     </h1>
+    <p class="hero-sub">Escolha a sua seleção, encomende por WhatsApp e levante na loja.</p>
     <div class="hero-trust">
       <a class="hero-rating" href="https://maps.app.goo.gl/1gHGqMac4ahTtfxf8?g_st=ac" target="_blank" rel="noopener" title="Ver avaliações no Google">
         <span class="hr-stars">★★★★★</span>
@@ -242,7 +244,8 @@
       <span class="hero-chip">🛍️ Levantamento na Loja</span>
     </div>
     <div class="hero-ctas">
-      <a href="#produtos" class="btn-prim">Comprar Agora</a>
+      <a href="#produtos" class="btn-prim">Ver Produtos <span aria-hidden="true">↗</span></a>
+      <a href="#encomenda" class="btn-ghost">Encomendar por WhatsApp <span aria-hidden="true">↗</span></a>
     </div>
   </div>
   <svg class="hero-wave" viewBox="0 0 1440 72" fill="none" preserveAspectRatio="none">
@@ -261,6 +264,12 @@
 </div>
 
 <!-- ═══════════ CATEGORY QUICK ACCESS ═══════════ -->
+<section class="homepage-category" aria-labelledby="homepage-category-title">
+  <div class="homepage-category-intro">
+    <span class="eyebrow">Comprar por categoria</span>
+    <h2 id="homepage-category-title">Encontre o que procura</h2>
+    <p>Frutas, legumes, cabazes e os destaques desta semana — tudo pronto para levantar na loja.</p>
+  </div>
 <div class="cat-quick">
   <button class="cat-quick-btn" onclick="abrirCatalogo('frutas')">
     <img src="fotos/cabaz_frutas.jpeg" alt="Seleção de frutas frescas" loading="lazy" decoding="async"/>
@@ -270,6 +279,14 @@
     <img src="fotos/cabaz_legumes.jpeg" alt="Seleção apenas de legumes frescos" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="legumes">Legumes</span>
   </button>
+  <button class="cat-quick-btn" onclick="abrirCabazes()">
+    <img src="fotos/cabaz_detox.jpeg" alt="Cabazes de frutas e legumes" loading="lazy" decoding="async"/>
+    <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
+  </button>
+  <button class="cat-quick-btn" onclick="abrirCatalogo('promocoes')">
+    <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
+    <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
+  </button>
   <button class="cat-quick-btn" onclick="abrirCatalogo('ervas')">
     <img src="fotos/hortela.jpeg" alt="Ervas frescas e aromáticas" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="ervas">Ervas frescas</span>
@@ -278,19 +295,12 @@
     <img src="fotos/uvas.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
-  <button class="cat-quick-btn" onclick="abrirCatalogo('promocoes')">
-    <img src="fotos/morangos.jpeg" alt="Promoções e destaques da semana" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="promocoes">Promoções</span>
-  </button>
-  <button class="cat-quick-btn" onclick="abrirCabazes()">
-    <img src="fotos/cabaz_detox.jpeg" alt="Cabazes de frutas e legumes" loading="lazy" decoding="async"/>
-    <span class="cq-overlay"></span><span class="cq-label" data-count-label="cabazes">Cabazes</span>
-  </button>
   <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
     <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
 </div>
+</section>
 
 <!-- SEO-CATALOG-LINKS:START -->
 <section class="seo-crawl-links" aria-labelledby="seo-crawl-title">
@@ -530,6 +540,8 @@
     <div class="footer-text">&copy; 2026 MUNDIFRUTA · Frutas e Legumes Frescos · Carnaxide</div>
     <div class="footer-links">
       <a href="#produtos">Produtos</a>
+      <a href="#produtos" onclick="abrirCatalogo('frutas')">Frutas</a>
+      <a href="#produtos" onclick="abrirCatalogo('legumes')">Legumes</a>
       <a href="#quem-somos">Quem Somos</a>
       <a href="#encomenda">Encomendar</a>
       <a href="#contacto">Contacto</a>
@@ -596,46 +608,6 @@
   <div class="cs-pop-title" id="cs-pop-title">Também pode gostar</div>
   <div class="cs-row" id="cs-pop-row"></div>
   <button class="cs-pop-skip" type="button" onclick="fecharCrossSell()">Continuar sem adicionar</button>
-</div>
-
-<!-- ═══════════ OFERTA 1ª COMPRA — REVELAÇÃO MELANCIA ═══════════ -->
-<div class="offer-reveal" id="offer-pop" hidden role="dialog" aria-modal="true" aria-labelledby="offer-aria" aria-describedby="offer-text">
-  <span id="offer-aria" class="sr-only">Oferta de boas-vindas: 10 euros de desconto na sua primeira compra.</span>
-  <button class="reveal-close" type="button" onclick="fecharOferta()" aria-label="Fechar oferta">✕</button>
-  <div class="reveal-inner">
-    <div class="reveal-stage" aria-hidden="true">
-      <svg class="watermelon" viewBox="0 0 240 220" role="presentation" focusable="false">
-        <g class="wm-half wm-l">
-          <path d="M120 30 A88 88 0 0 0 120 210 Z" fill="#2f7d32"/>
-          <path d="M120 30 A88 88 0 0 0 120 210" fill="none" stroke="#194d1d" stroke-width="4"/>
-          <path d="M120 40 A78 78 0 0 0 120 200 Z" fill="#f2fbe6"/>
-          <path d="M120 47 A71 71 0 0 0 120 193 Z" fill="#e23b4e"/>
-          <ellipse cx="96" cy="86" rx="4" ry="7" fill="#2a1414"/>
-          <ellipse cx="84" cy="120" rx="4" ry="7" fill="#2a1414"/>
-          <ellipse cx="96" cy="154" rx="4" ry="7" fill="#2a1414"/>
-        </g>
-        <g class="wm-half wm-r">
-          <path d="M120 30 A88 88 0 0 1 120 210 Z" fill="#2f7d32"/>
-          <path d="M120 30 A88 88 0 0 1 120 210" fill="none" stroke="#194d1d" stroke-width="4"/>
-          <path d="M120 40 A78 78 0 0 1 120 200 Z" fill="#f2fbe6"/>
-          <path d="M120 47 A71 71 0 0 1 120 193 Z" fill="#e23b4e"/>
-          <ellipse cx="144" cy="86" rx="4" ry="7" fill="#2a1414"/>
-          <ellipse cx="156" cy="120" rx="4" ry="7" fill="#2a1414"/>
-          <ellipse cx="144" cy="154" rx="4" ry="7" fill="#2a1414"/>
-        </g>
-      </svg>
-      <div class="reveal-amount"><span>10€</span></div>
-    </div>
-    <div class="reveal-copy">
-      <h2 class="reveal-title">De Desconto</h2>
-      <p class="reveal-text" id="offer-text"></p>
-      <p class="reveal-fine" id="offer-fine"></p>
-      <div class="reveal-actions">
-        <button class="reveal-cta" type="button" onclick="aceitarOferta()">🎁 Receber Oferta</button>
-        <button class="reveal-later" type="button" onclick="fecharOferta()">Agora não</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- ═══════════ CONSENTIMENTO (RGPD) ═══════════ -->
@@ -706,7 +678,7 @@
 </div>
 
 <script src="js/dados.js?v=26"></script>
-<script src="js/app.js?v=40"></script>
+<script src="js/app.js?v=39"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
