@@ -1802,8 +1802,8 @@
       .hero-heading { font-size:1.5rem; line-height:1.06; margin-bottom:4px; }
       .hero-trust { margin-top:4px; }
       .hero-rating { padding:5px 11px; }
-      /* Comprar Agora is redundant on mobile — category tiles + catalog sit directly below */
-      .hero-ctas { display:none; }
+      /* Keep the refreshed homepage actions visible on mobile. */
+      body:not(.homepage) .hero-ctas { display:none; }
       .hero-wave { height:16px; }
       .cat-quick {
         grid-template-columns:repeat(3,1fr);
