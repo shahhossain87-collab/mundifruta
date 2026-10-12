@@ -1717,6 +1717,7 @@
       body.homepage .hero-heading { font-size:clamp(2.05rem,10vw,2.8rem); letter-spacing:-1px; }
       body.homepage .hero-sub { margin:0 auto 20px; font-size:.9rem; }
       body.homepage .hero-ctas { justify-content:center; gap:9px; }
+      body.homepage .hero-ctas .btn-ghost { display:inline-flex; }
       body.homepage .hero-ctas .btn-prim,
       body.homepage .hero-ctas .btn-ghost { min-height:44px; padding:10px 14px; font-size:.75rem; }
       body.homepage .hero-trust { justify-content:center; margin-top:17px; }
