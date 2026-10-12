@@ -1543,6 +1543,244 @@
       .add-btn { font-size:.62rem; }
     }
 
+    /* ═══════════ HOMEPAGE REFRESH ═══════════
+       Scoped to the homepage so generated category, product and cabaz pages
+       keep their existing visual language. */
+    body.homepage {
+      --home-ink: #173d2e;
+      --home-muted: #5f7167;
+      --home-line: rgba(27,67,50,.12);
+      overflow-x:hidden;
+    }
+    body.homepage .hero {
+      min-height:clamp(460px, 64vh, 650px);
+      padding:112px 24px 74px;
+      align-items:flex-start;
+      text-align:left;
+    }
+    body.homepage .hero-content {
+      width:min(1180px,100%);
+      margin:0 auto;
+      animation:homepage-rise .75s cubic-bezier(.2,.75,.25,1) both;
+    }
+    @keyframes homepage-rise {
+      from { opacity:0; transform:translateY(16px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    body.homepage .hero-eyebrow {
+      margin-bottom:22px;
+      padding:8px 14px;
+      letter-spacing:1.4px;
+      background:rgba(255,255,255,.12);
+    }
+    body.homepage .hero-heading {
+      max-width:760px;
+      margin-bottom:16px;
+      font-size:clamp(2.55rem,5.6vw,5rem);
+      letter-spacing:-1.8px;
+    }
+    body.homepage .hero-sub {
+      max-width:520px;
+      margin:0 0 24px;
+      color:rgba(255,255,255,.82);
+      font-size:clamp(1rem,1.8vw,1.15rem);
+    }
+    body.homepage .hero-ctas { justify-content:flex-start; }
+    body.homepage .hero-ctas .btn-prim,
+    body.homepage .hero-ctas .btn-ghost {
+      min-height:48px;
+      padding:12px 22px;
+      font-size:.9rem;
+    }
+    body.homepage .hero-ctas .btn-prim span,
+    body.homepage .hero-ctas .btn-ghost span {
+      transition:transform .2s ease;
+    }
+    body.homepage .hero-ctas a:hover span { transform:translate(2px,-2px); }
+    body.homepage .hero-trust {
+      justify-content:flex-start;
+      margin-top:24px;
+    }
+    body.homepage .hero-wave { height:54px; }
+
+    body.homepage .homepage-category {
+      position:relative;
+      z-index:3;
+      margin:0 auto;
+      padding:50px max(20px,calc((100vw - 1180px)/2)) 32px;
+      background:var(--cream);
+    }
+    body.homepage .homepage-category-intro {
+      max-width:1180px;
+      margin:0 auto;
+    }
+    body.homepage .homepage-category-intro h2 {
+      margin:6px 0 7px;
+      color:var(--home-ink);
+      font:900 clamp(1.75rem,3vw,2.35rem)/1.1 'Playfair Display',serif;
+      letter-spacing:-.5px;
+    }
+    body.homepage .homepage-category-intro p {
+      max-width:620px;
+      margin:0;
+      color:var(--home-muted);
+      font-size:.92rem;
+    }
+    body.homepage .homepage-category .cat-quick {
+      max-width:1180px;
+      margin:24px auto 0;
+      padding:0;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+    }
+    body.homepage .homepage-category .cat-quick-btn {
+      min-height:176px;
+      border:1px solid var(--home-line);
+      border-radius:20px;
+      box-shadow:0 8px 24px rgba(27,67,50,.08);
+    }
+    body.homepage .homepage-category .cat-quick-btn:nth-child(n+5) {
+      min-height:112px;
+    }
+    body.homepage .homepage-category .cat-quick-btn:focus-visible,
+    body.homepage .homepage-category .cat-quick-btn:hover {
+      outline:3px solid rgba(82,183,136,.3);
+      outline-offset:3px;
+      border-color:var(--sage);
+      transform:translateY(-4px);
+    }
+    body.homepage .homepage-category .cat-quick-btn img { transition:transform .45s ease; }
+    body.homepage .homepage-category .cat-quick-btn:hover img { transform:scale(1.06); }
+    body.homepage .homepage-category .cat-quick-btn .cq-label {
+      left:16px;
+      right:16px;
+      bottom:14px;
+      padding:8px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,.94);
+      color:var(--home-ink);
+      font-size:1rem;
+      box-shadow:0 5px 16px rgba(8,28,18,.12);
+    }
+    body.homepage .homepage-category .cat-quick-btn:nth-child(n+5) .cq-label {
+      font-size:.86rem;
+      padding:6px 10px;
+    }
+    body.homepage .homepage-category .cat-quick-btn.cq-order {
+      background:var(--forest);
+      border-color:var(--forest);
+    }
+
+    /* The homepage catalogue stays compact without changing the shared cards. */
+    body.homepage #produtos .products-grid {
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+    }
+    body.homepage #produtos .product-card {
+      min-height:0;
+      border-radius:16px;
+    }
+    body.homepage #produtos .photo-wrap { height:172px; }
+    body.homepage #produtos .card-body { padding:12px 13px 13px; }
+    body.homepage #produtos .product-name { font-size:.88rem; min-height:2.35em; }
+    body.homepage #produtos .product-origem,
+    body.homepage #produtos .product-fresh { margin-bottom:7px; }
+    body.homepage #produtos .add-btn {
+      min-height:42px;
+      padding:0 12px;
+      border-radius:12px;
+      font-size:.78rem;
+    }
+    body.homepage .shop-feature { padding-top:58px; padding-bottom:58px; }
+    body.homepage .feature-product {
+      border:1px solid var(--home-line);
+      box-shadow:0 8px 26px rgba(27,67,50,.07);
+    }
+    body.homepage .feature-photo { height:190px; }
+    body.homepage .feature-body { padding:12px 13px 13px; }
+    body.homepage .feature-name { font-size:.88rem; }
+    body.homepage .feature-add { min-height:40px; height:40px; border-radius:12px; }
+
+    @media (max-width:900px) {
+      body.homepage #produtos .products-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    }
+    @media (max-width:700px) {
+      body.homepage .hero {
+        min-height:470px;
+        padding:82px 18px 54px;
+        align-items:center;
+        text-align:center;
+      }
+      body.homepage .hero-content { width:100%; }
+      body.homepage .hero-eyebrow { display:inline-flex; margin-bottom:15px; font-size:.62rem; }
+      body.homepage .hero-heading { font-size:clamp(2.05rem,10vw,2.8rem); letter-spacing:-1px; }
+      body.homepage .hero-sub { margin:0 auto 20px; font-size:.9rem; }
+      body.homepage .hero-ctas { justify-content:center; gap:9px; }
+      body.homepage .hero-ctas .btn-ghost { display:inline-flex; }
+      body.homepage .hero-ctas .btn-prim,
+      body.homepage .hero-ctas .btn-ghost { min-height:44px; padding:10px 14px; font-size:.75rem; }
+      body.homepage .hero-trust { justify-content:center; margin-top:17px; }
+      body.homepage .hero-chip { display:none; }
+      body.homepage .hero-rating { padding:6px 10px; }
+      body.homepage .hero-wave { height:24px; }
+      body.homepage .homepage-category { padding:30px 0 22px; }
+      body.homepage .homepage-category-intro { padding:0 16px; }
+      body.homepage .homepage-category-intro h2 { font-size:1.75rem; }
+      body.homepage .homepage-category-intro p { font-size:.82rem; line-height:1.5; }
+      body.homepage .homepage-category .cat-quick {
+        display:flex;
+        max-width:none;
+        margin-top:18px;
+        padding:0 16px 7px;
+        gap:10px;
+        overflow-x:auto;
+        overscroll-behavior-x:contain;
+        scroll-snap-type:x mandatory;
+        scrollbar-width:none;
+        -webkit-overflow-scrolling:touch;
+      }
+      body.homepage .homepage-category .cat-quick::-webkit-scrollbar { display:none; }
+      body.homepage .homepage-category .cat-quick-btn,
+      body.homepage .homepage-category .cat-quick-btn:nth-child(n+5) {
+        flex:0 0 148px;
+        min-height:142px;
+        scroll-snap-align:start;
+      }
+      body.homepage .homepage-category .cat-quick-btn .cq-label,
+      body.homepage .homepage-category .cat-quick-btn:nth-child(n+5) .cq-label {
+        left:9px;
+        right:9px;
+        bottom:9px;
+        padding:7px 8px;
+        font-size:.78rem;
+      }
+      body.homepage #produtos .products-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+      body.homepage #produtos .photo-wrap { height:128px; }
+      body.homepage #produtos .card-body { padding:9px 9px 10px; }
+      body.homepage #produtos .product-name { font-size:.78rem; line-height:1.2; }
+      body.homepage #produtos .product-peso,
+      body.homepage #produtos .product-origem { font-size:.66rem; }
+      body.homepage #produtos .product-price { font-size:.88rem; margin-bottom:5px; }
+      body.homepage #produtos .product-unit { font-size:.65rem; }
+      body.homepage #produtos .product-origem { display:block; }
+      body.homepage #produtos .add-btn { min-height:40px; font-size:.7rem; }
+      body.homepage .shop-feature { padding:42px 16px; }
+      body.homepage .feature-grid.carousel > .feature-product { flex-basis:calc(50vw - 24px); }
+      body.homepage .feature-photo { height:142px; }
+      body.homepage .feature-body { padding:10px; }
+      body.homepage .feature-buy { display:flex; gap:6px; }
+      body.homepage .feature-add { width:auto; min-width:40px; padding:0 10px; }
+      body.homepage .feature-add { font-size:0; }
+      body.homepage .feature-add::after { content:'+'; font-size:1rem; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      body.homepage .hero-content { animation:none; }
+      body.homepage .homepage-category .cat-quick-btn,
+      body.homepage .homepage-category .cat-quick-btn img,
+      body.homepage .hero-ctas span { transition:none; }
+    }
+
     /* Final shopping-flow refinements */
     .veg-suggestion[hidden] { display:none; }
     #produtos { padding-top:32px !important; }
@@ -1565,8 +1803,8 @@
       .hero-heading { font-size:1.5rem; line-height:1.06; margin-bottom:4px; }
       .hero-trust { margin-top:4px; }
       .hero-rating { padding:5px 11px; }
-      /* Comprar Agora is redundant on mobile — category tiles + catalog sit directly below */
-      .hero-ctas { display:none; }
+      /* Keep the refreshed homepage actions visible on mobile. */
+      body:not(.homepage) .hero-ctas { display:none; }
       .hero-wave { height:16px; }
       .cat-quick {
         grid-template-columns:repeat(3,1fr);
