@@ -84,12 +84,15 @@ function Home() {
           aria-hidden="true"
         />
         <div className="mx-auto flex min-h-[19.5rem] max-w-6xl flex-col justify-end px-4 pt-24 pb-4 md:min-h-[24rem] md:justify-center md:py-12">
-          <div className="max-w-xl [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
+          <div className="hero-rise max-w-xl [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
+            <span className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold tracking-wide uppercase backdrop-blur-sm [text-shadow:none]">
+              <i className="size-1.5 rounded-full bg-[#25D366]" aria-hidden="true" /> Frescura local em Carnaxide
+            </span>
             <h1 id="hero-titulo" className="font-display text-[1.75rem] leading-tight md:text-5xl">
-              Frutas e legumes frescos em Carnaxide
+              Frutas e legumes <em className="not-italic text-[#ffd54a]">frescos todos os dias</em>
             </h1>
-            <p className="mt-1 text-base font-semibold md:mt-2 md:text-lg">Encomende por WhatsApp, levante na loja.</p>
-            <p className="mt-1 text-xs text-white/90 md:text-sm">{LOJA.horario} · Sem entrega ao domicílio</p>
+            <p className="mt-1 text-base font-semibold md:mt-2 md:text-lg">Escolha a sua seleção, encomende por WhatsApp e levante na loja.</p>
+            <p className="mt-1 text-xs text-white/90 md:text-sm"><a href="#reviews-titulo" className="font-semibold text-[#ffd54a]">★★★★★ {LOJA.nota}</a> · {LOJA.horario} · Sem entrega ao domicílio</p>
             <div className="mt-3 flex flex-wrap gap-2 [text-shadow:none] md:mt-5">
               <a
                 href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
@@ -97,13 +100,13 @@ function Home() {
                 rel="noreferrer"
                 className="inline-flex h-11 items-center rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-white shadow-md"
               >
-                Encomendar por WhatsApp
+                Encomendar por WhatsApp <span aria-hidden="true" className="ml-1">↗</span>
               </a>
               <Link
                 to="/produtos"
                 className="inline-flex h-11 items-center rounded-lg bg-white/95 px-4 text-sm font-semibold text-leaf-deep shadow-md"
               >
-                Ver produtos
+                Ver produtos <span aria-hidden="true" className="ml-1">↗</span>
               </Link>
             </div>
           </div>
@@ -111,14 +114,16 @@ function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pt-3 pb-2 md:pt-6" aria-labelledby="categorias-titulo">
+        <span className="text-xs font-semibold tracking-wide text-leaf uppercase">Comprar por categoria</span>
         <div className="flex items-end justify-between gap-3">
           <h2 id="categorias-titulo" className="font-display text-xl md:text-3xl">
-            Comprar por categoria
+            Encontre o que procura
           </h2>
           <Link to="/produtos" className="text-sm font-semibold text-leaf">
             Ver tudo
           </Link>
         </div>
+        <p className="mt-1 text-sm text-muted">Frutas, legumes, cabazes e os destaques desta semana, prontos a levantar na loja.</p>
         <div className="mt-2 grid grid-cols-2 gap-2.5 sm:gap-3 md:mt-4 lg:grid-cols-6">
           {categoriasDestaque.map((categoria, index) => (
             <Link
