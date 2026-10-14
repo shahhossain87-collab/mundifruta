@@ -30,6 +30,8 @@ for (const category of categorySlugs) {
   try { await access(file); } catch { failures.push(`Missing category page: ${category}`); continue; }
   const html = await readFile(file, 'utf8');
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in category: ${category}`);
+  expect(html.includes('../../css/estilos.css?v=67'), `Category page should cache-bust estilos.css?v=67: ${category}`);
+  expect(html.includes('class="logo"'), `Category header should keep the leftover wordmark: ${category}`);
   expect(sitemap.includes(`<loc>${canonical}</loc>`), `Sitemap lacks category: ${category}`);
 }
 for (const product of products) {
@@ -40,6 +42,8 @@ for (const product of products) {
   const html = await readFile(file, 'utf8');
   expect(html.includes(`<h1>${product.nome}</h1>`), `Product name missing from initial HTML: ${slug}`);
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in product: ${slug}`);
+  expect(html.includes('../../css/estilos.css?v=67'), `Product page should cache-bust estilos.css?v=67: ${slug}`);
+  expect(html.includes('class="logo"'), `Product header should keep the leftover wordmark: ${slug}`);
   expect(html.includes('"@type":"Product"'), `Product JSON-LD missing: ${slug}`);
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
   try {
@@ -78,5 +82,10 @@ const robots = await readFile(join(root, 'robots.txt'), 'utf8');
 expect(robots.includes(`Sitemap: ${domain}/sitemap.xml`), 'robots.txt must point to the canonical sitemap');
 const index = await readFile(join(root, 'index.html'), 'utf8');
 expect(index.includes('seo-crawl-links'), 'Homepage lacks crawlable category links');
+expect(index.includes('css/estilos.css?v=66'), 'Homepage stylesheet cache should stay ?v=66');
+const css = await readFile(join(root, 'css/estilos.css'), 'utf8');
+expect(/\.logo \{[^}]*color:#fff/.test(css), 'Homepage hero wordmark should stay white');
+expect(/\.seo-header \.logo \{[^}]*color:var\(--forest\)/.test(css), 'SEO header wordmark must use forest on the white header');
+expect(!/\.seo-header \.logo \{[^}]*color:#fff/.test(css), 'SEO header wordmark must not stay white on white');
 if (failures.length) { console.error('check-generated-seo failed:\n' + failures.map(item => ` - ${item}`).join('\n')); process.exit(1); }
 console.log(`check-generated-seo: ok (${products.length} products, ${categorySlugs.length} categories, ${sitemapUrls.length} URLs)`);
