@@ -2367,6 +2367,8 @@
 
     .seo-page { background:var(--cream); color:var(--text); min-height:100vh; }
     .seo-header { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px max(24px,calc((100vw - 1240px)/2)); background:#fff; border-bottom:1px solid var(--line); }
+    /* Shared .logo is white for the homepage hero overlay. Catalog pages use a white header. */
+    .seo-header .logo { color:var(--forest); }
     .seo-nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:16px; }
     .seo-nav a { color:var(--text); text-decoration:none; font:600 .86rem 'Poppins',sans-serif; }
     .seo-nav a:hover { color:var(--forest); }
