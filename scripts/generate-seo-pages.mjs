@@ -125,7 +125,43 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function jsonLdScripts(...blocks) {
+  return blocks.flat().filter(Boolean)
+    .map(block => `<script type="application/ld+json">${JSON.stringify(block)}</script>`)
+    .join('\n  ');
+}
+
+function breadcrumbList(crumbs) {
+  // Visible .seo-breadcrumbs already list Início / category / product.
+  // Emit the same leftover names and leftover canonical URLs for search engines.
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.item,
+    })),
+  };
+}
+
+function categoryBreadcrumbs(category) {
+  return breadcrumbList([
+    { name: 'Início', item: `${siteUrl}/` },
+    { name: category.label, item: `${siteUrl}/categorias/${category.slug}/` },
+  ]);
+}
+
+function productBreadcrumbs(product, category) {
+  return breadcrumbList([
+    { name: 'Início', item: `${siteUrl}/` },
+    { name: category.label, item: `${siteUrl}/categorias/${category.slug}/` },
+    { name: product.nome, item: `${siteUrl}/produtos/${slugify(product.nome)}/` },
+  ]);
+}
+
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, breadcrumbs }) {
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -144,7 +180,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="${cssPath}"/>
-  ${structuredData ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>` : ''}
+  ${jsonLdScripts(structuredData, breadcrumbs)}
 </head>
 <body class="seo-page">
   <header class="seo-header">
@@ -189,6 +225,7 @@ function categoryPage(category, products) {
     cssPath: '../../css/estilos.css?v=65',
     homePath: '../../',
     body,
+    breadcrumbs: categoryBreadcrumbs(category),
   });
 }
 
@@ -229,6 +266,7 @@ function productPage(product, category) {
     homePath: '../../',
     body,
     structuredData,
+    breadcrumbs: productBreadcrumbs(product, category),
   });
 }
 
