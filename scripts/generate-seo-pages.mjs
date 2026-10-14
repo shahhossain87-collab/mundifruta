@@ -176,6 +176,25 @@ function productCard(product, categorySlug) {
   </article>`;
 }
 
+function itemListFor(category, products) {
+  // Summary-page ItemList: leftover category label + leftover product URLs/names.
+  // Prices and Offers stay on the product pages; do not duplicate them here.
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: category.label,
+    description: category.description,
+    url: `${siteUrl}/categorias/${category.slug}/`,
+    numberOfItems: products.length,
+    itemListElement: products.map((product, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${siteUrl}/produtos/${slugify(product.nome)}/`,
+      name: product.nome,
+    })),
+  };
+}
+
 function categoryPage(category, products) {
   const body = `<section class="seo-hero"><div>
     <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span>›</span><span>${esc(category.label)}</span></nav>
@@ -189,6 +208,7 @@ function categoryPage(category, products) {
     cssPath: '../../css/estilos.css?v=65',
     homePath: '../../',
     body,
+    structuredData: itemListFor(category, products),
   });
 }
 

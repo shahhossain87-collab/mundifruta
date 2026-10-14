@@ -7,6 +7,14 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const domain = 'https://mundifruta.com';
 const categorySlugs = ['frutas', 'legumes', 'ervas-frescas', 'frutas-da-epoca', 'promocoes', 'cabazes'];
+const categoryLabels = {
+  frutas: 'Frutas',
+  legumes: 'Legumes',
+  'ervas-frescas': 'Ervas frescas',
+  'frutas-da-epoca': 'Frutas da época',
+  promocoes: 'Promoções',
+  cabazes: 'Cabazes',
+};
 const slugify = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' e ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const fixedPrice = product => {
   if (!product.preco || product.preco === 'A consultar') return null;
@@ -15,11 +23,24 @@ const fixedPrice = product => {
 };
 const hasCurrentPrice = product => product.status !== 'Indisponível'
   && (Number.isFinite(product.pricePerKg) || fixedPrice(product) !== null);
+const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
 const source = await readFile(join(root, 'js', 'dados.js'), 'utf8');
 const { produtos } = vm.runInNewContext(`${source}\n;({ produtos })`, { console }, { filename: 'js/dados.js' });
 const products = [...produtos.frutas, ...produtos.legumes, ...produtos.cabazes];
+const categoryItems = {
+  frutas: produtos.frutas,
+  legumes: produtos.legumes.filter(item => !herbNames.has(item.nome)),
+  'ervas-frescas': produtos.legumes.filter(item => herbNames.has(item.nome)),
+  'frutas-da-epoca': produtos.frutas.filter(item => item.epoca === true || /(é|e)poca/i.test(String(item.badge || ''))),
+  promocoes: [...produtos.frutas, ...produtos.legumes].filter(item => item.promo),
+  cabazes: produtos.cabazes,
+};
 const failures = [];
 const expect = (condition, message) => { if (!condition) failures.push(message); };
+const parseJsonLd = html => {
+  const match = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+  return JSON.parse(match?.[1] || 'null');
+};
 
 const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8');
 expect(sitemap.includes(`${domain}/`), 'sitemap lacks homepage canonical URL');
@@ -31,6 +52,27 @@ for (const category of categorySlugs) {
   const html = await readFile(file, 'utf8');
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in category: ${category}`);
   expect(sitemap.includes(`<loc>${canonical}</loc>`), `Sitemap lacks category: ${category}`);
+  const items = categoryItems[category] || [];
+  try {
+    const jsonLd = parseJsonLd(html);
+    expect(jsonLd?.['@type'] === 'ItemList', `Category ItemList JSON-LD missing: ${category}`);
+    expect(jsonLd?.name === categoryLabels[category], `Wrong ItemList name in category: ${category}`);
+    expect(jsonLd?.url === canonical, `Wrong ItemList url in category: ${category}`);
+    expect(jsonLd?.numberOfItems === items.length, `Wrong ItemList numberOfItems in category: ${category}`);
+    expect(Array.isArray(jsonLd?.itemListElement) && jsonLd.itemListElement.length === items.length,
+      `Wrong ItemList length in category: ${category}`);
+    items.forEach((product, index) => {
+      const entry = jsonLd.itemListElement[index];
+      const productUrl = `${domain}/produtos/${slugify(product.nome)}/`;
+      expect(entry?.['@type'] === 'ListItem', `ListItem type missing at ${index} in ${category}`);
+      expect(entry?.position === index + 1, `Wrong ListItem position at ${index} in ${category}`);
+      expect(entry?.url === productUrl, `Wrong ListItem url at ${index} in ${category}`);
+      expect(entry?.name === product.nome, `Wrong ListItem name at ${index} in ${category}`);
+      expect(!entry?.offers && !entry?.item?.offers, `Category ItemList must not duplicate product Offers: ${category}`);
+    });
+  } catch {
+    failures.push(`Invalid category JSON-LD: ${category}`);
+  }
 }
 for (const product of products) {
   const slug = slugify(product.nome);
@@ -41,9 +83,9 @@ for (const product of products) {
   expect(html.includes(`<h1>${product.nome}</h1>`), `Product name missing from initial HTML: ${slug}`);
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in product: ${slug}`);
   expect(html.includes('"@type":"Product"'), `Product JSON-LD missing: ${slug}`);
-  const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
+  expect(!html.includes('"@type":"ItemList"'), `Product page must not use ItemList JSON-LD: ${slug}`);
   try {
-    const jsonLd = JSON.parse(jsonLdMatch?.[1] || 'null');
+    const jsonLd = parseJsonLd(html);
     const offer = jsonLd?.offers;
     if (offer) {
       const expectedAvailability = 'https://schema.org/InStock';
