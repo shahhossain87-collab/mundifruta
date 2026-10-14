@@ -27,6 +27,9 @@
     }
 
     html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
     body { font-family:'Poppins',sans-serif; color:var(--text); background:var(--cream); overflow-x:hidden; padding-top: calc(var(--announcement-height) + var(--nav-height)); }
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-track { background:var(--cream-2); }
