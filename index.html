@@ -295,7 +295,7 @@
     <img src="fotos/uvas.jpeg" alt="Fruta fresca da época" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label" data-count-label="epoca">Fruta da Época</span>
   </button>
-  <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:'smooth'})">
+  <button class="cat-quick-btn cq-order" onclick="document.getElementById('encomenda').scrollIntoView({behavior:preferenciaScroll()})">
     <img src="fotos/cart-review.jpg" alt="Carrinho de compras vazio para rever a encomenda" loading="lazy" decoding="async"/>
     <span class="cq-overlay"></span><span class="cq-label">Carrinho <b id="quick-cart-count">0</b></span>
   </button>
@@ -329,7 +329,7 @@
 <div class="section shop-feature promo-shop" id="promocoes">
   <div class="shop-feature-head">
     <div><span class="eyebrow">Poupe esta semana</span><h2 class="section-title">Promoções da Semana</h2></div>
-    <button class="shop-link" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">Ver catálogo completo →</button>
+    <button class="shop-link" onclick="document.getElementById('produtos').scrollIntoView({behavior:preferenciaScroll()})">Ver catálogo completo →</button>
   </div>
   <div class="feature-grid" id="promo-grid"></div>
 </div>
@@ -599,7 +599,7 @@
   Legumes
 </button>
 
-<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">▲</button>
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:preferenciaScroll()})" title="Voltar ao topo">▲</button>
 <div class="toast" id="toast"></div>
 
 <!-- ═══════════ CROSS-SELL (após adicionar) ═══════════ -->
@@ -678,7 +678,7 @@
 </div>
 
 <script src="js/dados.js?v=26"></script>
-<script src="js/app.js?v=40"></script>
+<script src="js/app.js?v=41"></script>
 <script src="js/extras.js?v=21"></script>
 </body>
 </html>
