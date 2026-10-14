@@ -206,6 +206,9 @@
     .carousel-nav.prev { left:-6px; }
     .carousel-nav.next { right:-6px; }
     @media (hover:none) { .carousel-nav { display:none; } }
+    @media (prefers-reduced-motion:reduce) {
+      .feature-grid.carousel { scroll-behavior:auto; }
+    }
 
     .hero-eyebrow {
       display:inline-flex; align-items:center; gap:10px;

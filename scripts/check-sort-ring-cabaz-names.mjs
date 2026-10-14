@@ -21,12 +21,12 @@ const failures = [];
 const assert = (cond, msg) => { if (!cond) failures.push(msg); };
 
 assert(
-  html.includes('css/estilos.css?v=66') && html.includes('js/app.js?v=40'),
-  'index.html should cache-bust estilos.css?v=66 and app.js?v=40'
+  html.includes('css/estilos.css?v=67') && html.includes('js/app.js?v=40'),
+  'index.html should cache-bust estilos.css?v=67 and app.js?v=40'
 );
 assert(
-  html.includes('js/extras.js?v=21'),
-  'extras.js cache token should stay ?v=21'
+  html.includes('js/extras.js?v=22'),
+  'extras.js cache token should stay ?v=22'
 );
 assert(
   !/\.shop-main \.price-sort:focus \{[^}]*outline:none/.test(css),
