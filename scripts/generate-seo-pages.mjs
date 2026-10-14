@@ -19,6 +19,8 @@ const categories = [
   { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.' },
 ];
 const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
+// Same leftover strawberry tab icon as the homepage — catalog pages had none.
+const leftoverFavicon = `<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍓</text></svg>"/>`;
 
 function esc(value = '') {
   return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
@@ -135,6 +137,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <title>${esc(title)}</title>
   <link rel="canonical" href="${canonical}"/>
   <link rel="alternate" hreflang="pt-PT" href="${canonical}"/>
+  ${leftoverFavicon}
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="MUNDIFRUTA"/>
   <meta property="og:title" content="${esc(title)}"/>
