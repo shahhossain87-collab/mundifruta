@@ -292,6 +292,7 @@
   /* ═══════════ CARROSSÉIS (linhas de destaque) ═══════════ */
   function initCarousels() {
     const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const comportamento = reduzir ? 'auto' : 'smooth';
     document.querySelectorAll('.feature-grid').forEach(grid => {
       if (!grid.children.length || grid.dataset.carousel) return;
       grid.dataset.carousel = '1';
@@ -304,19 +305,19 @@
       const prev = document.createElement('button');
       prev.className = 'carousel-nav prev'; prev.type = 'button';
       prev.setAttribute('aria-label', 'Anterior'); prev.textContent = '‹';
-      prev.onclick = () => grid.scrollBy({ left: -passo() * 2, behavior: 'smooth' });
+      prev.onclick = () => grid.scrollBy({ left: -passo() * 2, behavior: comportamento });
       const next = document.createElement('button');
       next.className = 'carousel-nav next'; next.type = 'button';
       next.setAttribute('aria-label', 'Seguinte'); next.textContent = '›';
-      next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: 'smooth' });
+      next.onclick = () => grid.scrollBy({ left: passo() * 2, behavior: comportamento });
       wrap.appendChild(prev); wrap.appendChild(next);
 
       if (reduzir) return;
       let timer = setInterval(auto, 4500);
       function auto() {
         const fim = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 8;
-        if (fim) grid.scrollTo({ left: 0, behavior: 'smooth' });
-        else grid.scrollBy({ left: passo(), behavior: 'smooth' });
+        if (fim) grid.scrollTo({ left: 0, behavior: comportamento });
+        else grid.scrollBy({ left: passo(), behavior: comportamento });
       }
       const parar = () => { clearInterval(timer); timer = null; };
       const retomar = () => { if (!timer) timer = setInterval(auto, 4500); };
