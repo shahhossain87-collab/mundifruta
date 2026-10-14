@@ -78,5 +78,22 @@ const robots = await readFile(join(root, 'robots.txt'), 'utf8');
 expect(robots.includes(`Sitemap: ${domain}/sitemap.xml`), 'robots.txt must point to the canonical sitemap');
 const index = await readFile(join(root, 'index.html'), 'utf8');
 expect(index.includes('seo-crawl-links'), 'Homepage lacks crawlable category links');
+const css = await readFile(join(root, 'css', 'estilos.css'), 'utf8');
+expect(/\.seo-page\s*\{[^}]*padding-top:\s*0/.test(css), 'SEO pages must reset the homepage fixed-header padding-top');
+expect(index.includes('css/estilos.css?v=67'), 'Homepage should cache-bust estilos.css?v=67');
+const credits = await readFile(join(root, 'creditos.html'), 'utf8');
+expect(credits.includes('css/estilos.css?v=67'), 'Credits should cache-bust estilos.css?v=67');
+for (const category of categorySlugs) {
+  const html = await readFile(join(root, 'categorias', category, 'index.html'), 'utf8');
+  expect(html.includes('css/estilos.css?v=67'), `Category page should cache-bust estilos.css?v=67: ${category}`);
+  expect(html.includes('class="seo-page"'), `Category page should use seo-page: ${category}`);
+}
+const sampleProduct = products[0];
+if (sampleProduct) {
+  const slug = slugify(sampleProduct.nome);
+  const html = await readFile(join(root, 'produtos', slug, 'index.html'), 'utf8');
+  expect(html.includes('css/estilos.css?v=67'), `Product page should cache-bust estilos.css?v=67: ${slug}`);
+  expect(html.includes('class="seo-page"'), `Product page should use seo-page: ${slug}`);
+}
 if (failures.length) { console.error('check-generated-seo failed:\n' + failures.map(item => ` - ${item}`).join('\n')); process.exit(1); }
 console.log(`check-generated-seo: ok (${products.length} products, ${categorySlugs.length} categories, ${sitemapUrls.length} URLs)`);

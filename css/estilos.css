@@ -2365,7 +2365,7 @@
     .seo-crawl-links a { background:#fff; border:1px solid var(--line); border-radius:var(--r-full); padding:8px 13px; font-size:.82rem; }
     .seo-crawl-links a:hover, .seo-text-link:hover { color:var(--sage); }
 
-    .seo-page { background:var(--cream); color:var(--text); min-height:100vh; }
+    .seo-page { background:var(--cream); color:var(--text); min-height:100vh; padding-top:0; }
     .seo-header { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px max(24px,calc((100vw - 1240px)/2)); background:#fff; border-bottom:1px solid var(--line); }
     .seo-nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:16px; }
     .seo-nav a { color:var(--text); text-decoration:none; font:600 .86rem 'Poppins',sans-serif; }
