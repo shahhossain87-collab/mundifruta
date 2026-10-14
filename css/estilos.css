@@ -271,6 +271,9 @@
       0% { transform:translateX(0); }
       100% { transform:translateX(-50%); }
     }
+    @media (prefers-reduced-motion: reduce) {
+      .announcement-track { animation: none; }
+    }
     .announcement-track span {
       display:inline-flex; align-items:center; gap:8px;
       flex-shrink:0;
