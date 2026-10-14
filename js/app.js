@@ -52,6 +52,12 @@ const carrinho = {};
   const NOTA_PRECO_ESTIMADO = 'Preço estimado com base no peso médio. O valor final pode variar conforme o peso real do produto no momento da preparação da encomenda.';
   const DISCLAIMER_PRODUTOS_NATURAIS = 'Produtos naturais podem variar de peso. O preço final será calculado de acordo com o peso exato preparado para a sua encomenda.';
 
+  /* JS in-page jumps: keep leftover smooth scroll unless the visitor asked for reduced motion.
+     Complementary to leftover CSS `html { scroll-behavior }`; does not change hash-link CSS. */
+  function preferenciaScroll() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  }
+
   /* ══ IMAGE FALLBACKS ══ */
   function erroImagem(img) {
     const wrap = img.closest('.photo-wrap');
@@ -287,7 +293,7 @@ const carrinho = {};
     const paginas = Math.max(1, Math.ceil(catalogo.filtrados.length / POR_PAGINA));
     catalogo.pagina = Math.min(paginas, Math.max(1, catalogo.pagina + delta));
     renderCatalogo();
-    document.getElementById('catalog-toolbar').scrollIntoView({ behavior:'smooth', block:'start' });
+    document.getElementById('catalog-toolbar').scrollIntoView({ behavior:preferenciaScroll(), block:'start' });
   }
 
   // Chips de subcategoria para a categoria atual (Frutas/Legumes).
@@ -375,7 +381,7 @@ const carrinho = {};
     addBtn.onclick = () => {
       adicionarProduto(id, item, 1);
       fecharCabaz();
-      document.getElementById('encomenda').scrollIntoView({ behavior:'smooth' });
+      document.getElementById('encomenda').scrollIntoView({ behavior:preferenciaScroll() });
     };
     document.getElementById('cabaz-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -812,14 +818,14 @@ const carrinho = {};
 
   function abrirCatalogo(cat) {
     mostrarCategoria(cat, document.getElementById(`tab-${cat}`));
-    document.getElementById('produtos').scrollIntoView({ behavior:'smooth', block:'start' });
+    document.getElementById('produtos').scrollIntoView({ behavior:preferenciaScroll(), block:'start' });
   }
 
   // Cabazes têm secção própria — o separador leva o cliente até lá.
   function abrirCabazes() {
     fecharFiltros();
     const el = document.getElementById('cabazes');
-    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    if (el) el.scrollIntoView({ behavior:preferenciaScroll(), block:'start' });
   }
 
   /* ══ FILTROS: painel lateral / drawer no mobile ══ */
@@ -849,13 +855,13 @@ const carrinho = {};
     // Só memoriza se o cliente está a ver o catálogo (não a partir do topo/hero).
     if (prod && y >= prod.offsetTop - 240) posCatalogo = y;
     const enc = document.getElementById('encomenda');
-    if (enc) enc.scrollIntoView({ behavior:'smooth', block:'start' });
+    if (enc) enc.scrollIntoView({ behavior:preferenciaScroll(), block:'start' });
   }
   // "Continuar a comprar" — fecha a vista de encomenda e volta ao catálogo, na posição anterior.
   function continuarAComprar() {
     const prod = document.getElementById('produtos');
     const alvo = posCatalogo || (prod ? prod.getBoundingClientRect().top + window.scrollY - 8 : 0);
-    window.scrollTo({ top: alvo, behavior:'smooth' });
+    window.scrollTo({ top: alvo, behavior:preferenciaScroll() });
   }
 
   /* ══ ORDER ══ */
