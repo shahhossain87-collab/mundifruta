@@ -7,7 +7,20 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const domain = 'https://mundifruta.com';
 const categorySlugs = ['frutas', 'legumes', 'ervas-frescas', 'frutas-da-epoca', 'promocoes', 'cabazes'];
+const categoryLabels = {
+  frutas: 'Frutas',
+  legumes: 'Legumes',
+  'ervas-frescas': 'Ervas frescas',
+  'frutas-da-epoca': 'Frutas da época',
+  promocoes: 'Promoções',
+  cabazes: 'Cabazes',
+};
+const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
 const slugify = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' e ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const parseJsonLdBlocks = html => [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(match => {
+  try { return JSON.parse(match[1]); } catch { return { parseError: true }; }
+});
+const jsonLdByType = (html, type) => parseJsonLdBlocks(html).find(block => block && block['@type'] === type) || null;
 const fixedPrice = product => {
   if (!product.preco || product.preco === 'A consultar') return null;
   const value = Number.parseFloat(String(product.preco).replace('.', '').replace(',', '.'));
@@ -18,8 +31,27 @@ const hasCurrentPrice = product => product.status !== 'Indisponível'
 const source = await readFile(join(root, 'js', 'dados.js'), 'utf8');
 const { produtos } = vm.runInNewContext(`${source}\n;({ produtos })`, { console }, { filename: 'js/dados.js' });
 const products = [...produtos.frutas, ...produtos.legumes, ...produtos.cabazes];
+const primaryCategory = product => {
+  if (produtos.cabazes.includes(product)) return { slug: 'cabazes', label: categoryLabels.cabazes };
+  if (produtos.frutas.includes(product)) return { slug: 'frutas', label: categoryLabels.frutas };
+  if (herbNames.has(product.nome)) return { slug: 'ervas-frescas', label: categoryLabels['ervas-frescas'] };
+  return { slug: 'legumes', label: categoryLabels.legumes };
+};
 const failures = [];
 const expect = (condition, message) => { if (!condition) failures.push(message); };
+const expectBreadcrumbs = (html, crumbs, label) => {
+  const list = jsonLdByType(html, 'BreadcrumbList');
+  expect(list?.['@type'] === 'BreadcrumbList', `BreadcrumbList missing: ${label}`);
+  expect(Array.isArray(list?.itemListElement) && list.itemListElement.length === crumbs.length,
+    `Wrong BreadcrumbList length: ${label}`);
+  crumbs.forEach((crumb, index) => {
+    const entry = list?.itemListElement?.[index];
+    expect(entry?.['@type'] === 'ListItem', `ListItem type missing at ${index} in ${label}`);
+    expect(entry?.position === index + 1, `Wrong breadcrumb position at ${index} in ${label}`);
+    expect(entry?.name === crumb.name, `Wrong breadcrumb name at ${index} in ${label}`);
+    expect(entry?.item === crumb.item, `Wrong breadcrumb item at ${index} in ${label}`);
+  });
+};
 
 const sitemap = await readFile(join(root, 'sitemap.xml'), 'utf8');
 expect(sitemap.includes(`${domain}/`), 'sitemap lacks homepage canonical URL');
@@ -31,6 +63,10 @@ for (const category of categorySlugs) {
   const html = await readFile(file, 'utf8');
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in category: ${category}`);
   expect(sitemap.includes(`<loc>${canonical}</loc>`), `Sitemap lacks category: ${category}`);
+  expectBreadcrumbs(html, [
+    { name: 'Início', item: `${domain}/` },
+    { name: categoryLabels[category], item: canonical },
+  ], `category ${category}`);
 }
 for (const product of products) {
   const slug = slugify(product.nome);
@@ -41,6 +77,12 @@ for (const product of products) {
   expect(html.includes(`<h1>${product.nome}</h1>`), `Product name missing from initial HTML: ${slug}`);
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in product: ${slug}`);
   expect(html.includes('"@type":"Product"'), `Product JSON-LD missing: ${slug}`);
+  const category = primaryCategory(product);
+  expectBreadcrumbs(html, [
+    { name: 'Início', item: `${domain}/` },
+    { name: category.label, item: `${domain}/categorias/${category.slug}/` },
+    { name: product.nome, item: canonical },
+  ], `product ${slug}`);
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
   try {
     const jsonLd = JSON.parse(jsonLdMatch?.[1] || 'null');
