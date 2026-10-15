@@ -125,7 +125,22 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function seoNav(homePath, currentSlug) {
+  const items = [
+    { href: homePath, label: 'Início', slug: '' },
+    ...categories.map(category => ({
+      href: `${homePath}categorias/${category.slug}/`,
+      label: category.label,
+      slug: category.slug,
+    })),
+  ];
+  return items.map(item => {
+    const current = item.slug && item.slug === currentSlug ? ' aria-current="page"' : '';
+    return `<a href="${item.href}"${current}>${esc(item.label)}</a>`;
+  }).join('\n      ');
+}
+
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, currentSlug }) {
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -150,10 +165,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <header class="seo-header">
     <a class="logo" href="${homePath}">MUNDI<span class="logo-accent">FRUTA</span></a>
     <nav class="seo-nav" aria-label="Navegação principal">
-      <a href="${homePath}">Início</a>
-      <a href="${homePath}categorias/frutas/">Frutas</a>
-      <a href="${homePath}categorias/legumes/">Legumes</a>
-      <a href="${homePath}categorias/promocoes/">Promoções</a>
+      ${seoNav(homePath, currentSlug)}
     </nav>
   </header>
   <main>${body}</main>
@@ -186,9 +198,10 @@ function categoryPage(category, products) {
     title: `${category.label} em Carnaxide | MUNDIFRUTA`,
     description: category.description,
     canonical: `${siteUrl}/categorias/${category.slug}/`,
-    cssPath: '../../css/estilos.css?v=65',
+    cssPath: '../../css/estilos.css?v=67',
     homePath: '../../',
     body,
+    currentSlug: category.slug,
   });
 }
 
@@ -225,10 +238,11 @@ function productPage(product, category) {
     title: `${product.nome} | MUNDIFRUTA Carnaxide`,
     description: descriptionFor(product),
     canonical,
-    cssPath: '../../css/estilos.css?v=65',
+    cssPath: '../../css/estilos.css?v=67',
     homePath: '../../',
     body,
     structuredData,
+    currentSlug: category.slug,
   });
 }
 
