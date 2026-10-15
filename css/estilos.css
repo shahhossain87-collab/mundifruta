@@ -203,6 +203,11 @@
       opacity:.92; transition:opacity .2s ease, transform .2s ease;
     }
     .carousel-nav:hover { opacity:1; transform:translateY(-50%) scale(1.08); }
+    /* Keyboard-only so leftover mouse clicks stay quiet. Uses leftover catalog forest ring. */
+    .carousel-nav:focus-visible {
+      outline:3px solid var(--forest);
+      outline-offset:2px;
+    }
     .carousel-nav.prev { left:-6px; }
     .carousel-nav.next { right:-6px; }
     @media (hover:none) { .carousel-nav { display:none; } }
