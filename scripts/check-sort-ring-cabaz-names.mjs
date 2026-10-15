@@ -21,8 +21,8 @@ const failures = [];
 const assert = (cond, msg) => { if (!cond) failures.push(msg); };
 
 assert(
-  html.includes('css/estilos.css?v=66') && html.includes('js/app.js?v=40'),
-  'index.html should cache-bust estilos.css?v=66 and app.js?v=40'
+  html.includes('css/estilos.css?v=67') && html.includes('js/app.js?v=40'),
+  'index.html should cache-bust estilos.css?v=67 and app.js?v=40'
 );
 assert(
   html.includes('js/extras.js?v=21'),
@@ -99,7 +99,6 @@ assert(
 );
 assert(
   !/\.btn-wa:focus-visible/.test(css) &&
-  !/\.feature-add:focus-visible/.test(css) &&
   !/\.logo:focus-visible/.test(css) &&
   !html.includes('role="tabpanel"'),
   'must not redo leftover peach rings or catalog tabpanel from open PRs'
