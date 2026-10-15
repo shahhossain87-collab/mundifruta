@@ -11,12 +11,12 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const siteUrl = 'https://mundifruta.com';
 const categories = [
-  { slug: 'frutas', label: 'Frutas', description: 'Frutas frescas disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'legumes', label: 'Legumes', description: 'Legumes frescos disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'ervas-frescas', label: 'Ervas frescas', description: 'Ervas frescas disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'frutas-da-epoca', label: 'Frutas da época', description: 'Frutas da época disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'promocoes', label: 'Promoções', description: 'Produtos em promoção na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.' },
+  { slug: 'frutas', label: 'Frutas', description: 'Frutas frescas disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/cabaz_frutas.jpeg', imageAlt: 'Seleção de frutas frescas' },
+  { slug: 'legumes', label: 'Legumes', description: 'Legumes frescos disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/cabaz_legumes.jpeg', imageAlt: 'Seleção apenas de legumes frescos' },
+  { slug: 'ervas-frescas', label: 'Ervas frescas', description: 'Ervas frescas disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/hortela.jpeg', imageAlt: 'Ervas frescas e aromáticas' },
+  { slug: 'frutas-da-epoca', label: 'Frutas da época', description: 'Frutas da época disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/uvas.jpeg', imageAlt: 'Fruta fresca da época' },
+  { slug: 'promocoes', label: 'Promoções', description: 'Produtos em promoção na MUNDIFRUTA em Carnaxide.', image: 'fotos/morangos.jpeg', imageAlt: 'Promoções e destaques da semana' },
+  { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.', image: 'fotos/cabaz_detox.jpeg', imageAlt: 'Cabazes de frutas e legumes' },
 ];
 const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
 
@@ -125,7 +125,20 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function shareTags({ title, description, image, imageAlt }) {
+  // Leftover product.foto / leftover homepage category-tile photos only.
+  if (!image) throw new Error(`Missing leftover share image for ${title}`);
+  const imageUrl = `${siteUrl}/${image}`;
+  const alt = imageAlt || title;
+  return `<meta property="og:image" content="${esc(imageUrl)}"/>
+  <meta property="og:image:alt" content="${esc(alt)}"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="${esc(title)}"/>
+  <meta name="twitter:description" content="${esc(description)}"/>
+  <meta name="twitter:image" content="${esc(imageUrl)}"/>`;
+}
+
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, image, imageAlt }) {
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -140,6 +153,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <meta property="og:title" content="${esc(title)}"/>
   <meta property="og:description" content="${esc(description)}"/>
   <meta property="og:url" content="${canonical}"/>
+  ${shareTags({ title, description, image, imageAlt })}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -189,6 +203,8 @@ function categoryPage(category, products) {
     cssPath: '../../css/estilos.css?v=65',
     homePath: '../../',
     body,
+    image: category.image,
+    imageAlt: category.imageAlt,
   });
 }
 
@@ -229,6 +245,8 @@ function productPage(product, category) {
     homePath: '../../',
     body,
     structuredData,
+    image: product.foto,
+    imageAlt: product.alt || product.nome,
   });
 }
 
