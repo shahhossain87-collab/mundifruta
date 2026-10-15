@@ -98,6 +98,8 @@
       display:none; position:fixed; inset:0; z-index:999;
       background:var(--forest);
       flex-direction:column; align-items:center; justify-content:center; gap:32px;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
     }
     .mobile-menu.open { display:flex; }
     .mobile-menu a {
@@ -107,8 +109,11 @@
     }
     .mobile-menu a:hover { color:var(--peach); }
     .mobile-close {
-      position:absolute; top:24px; right:28px;
+      position:fixed; top:24px; right:28px;
       background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;
+    }
+    @media (max-height:700px) {
+      .mobile-menu { gap:12px; padding:48px 16px 16px; }
     }
 
     /* ??????????????????????????????????????
