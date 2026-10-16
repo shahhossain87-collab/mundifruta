@@ -135,6 +135,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <title>${esc(title)}</title>
   <link rel="canonical" href="${canonical}"/>
   <link rel="alternate" hreflang="pt-PT" href="${canonical}"/>
+  <link rel="alternate" hreflang="x-default" href="${canonical}"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="MUNDIFRUTA"/>
   <meta property="og:title" content="${esc(title)}"/>
