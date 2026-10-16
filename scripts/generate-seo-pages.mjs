@@ -178,7 +178,7 @@ function productCard(product, categorySlug) {
 
 function categoryPage(category, products) {
   const body = `<section class="seo-hero"><div>
-    <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span>›</span><span>${esc(category.label)}</span></nav>
+    <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span aria-hidden="true">›</span><span>${esc(category.label)}</span></nav>
     <h1>${esc(category.label)}</h1><p>${esc(category.description)}</p>
   </div></section>
   <section class="seo-catalog"><h2>Produtos</h2><div class="seo-product-grid">${products.map(product => productCard(product, category.slug)).join('\n')}</div></section>`;
@@ -208,7 +208,7 @@ function productPage(product, category) {
   if (offer) structuredData.offers = offer;
   const actionHref = `/?produto=${encodeURIComponent(slug)}#produtos`;
   const body = `<article class="seo-product-detail">
-    <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span>›</span><a href="../../categorias/${category.slug}/">${esc(category.label)}</a><span>›</span><span>${esc(product.nome)}</span></nav>
+    <nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="../..">Início</a><span aria-hidden="true">›</span><a href="../../categorias/${category.slug}/">${esc(category.label)}</a><span aria-hidden="true">›</span><span>${esc(product.nome)}</span></nav>
     <div class="seo-product-layout">
       <div class="seo-product-detail-image"><img src="../../${esc(product.foto)}" alt="${esc(product.alt || product.nome)}"></div>
       <div class="seo-product-copy"><p class="eyebrow">${esc(category.label)}</p><h1>${esc(product.nome)}</h1>
