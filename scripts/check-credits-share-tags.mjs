@@ -1,0 +1,217 @@
+#!/usr/bin/env node
+/**
+ * Guards leftover credits-page og:image + Twitter share tags on
+ * creditos.html. Homepage already ships leftover og:image /
+ * twitter:card / twitter:title / twitter:description / twitter:image
+ * using leftover fotos/cabaz_mix.jpeg. Complementary to leftover
+ * homepage share tags; does not redo leftover credits Open Graph
+ * identity (PR #241), leftover credits og:locale (PR #242), leftover
+ * catalog og:locale (PR #240), leftover homepage lang (PR #239),
+ * leftover credits hreflang (PR #238), leftover SEO breadcrumb ›
+ * aria-hidden (PR #237), leftover catalog hreflang="x-default"
+ * (PR #236), leftover catalog og:image / Twitter share tags (PR #215),
+ * leftover wrapping-nav Ervas / Época / Cabazes (PR #218), leftover
+ * catalog SEO drafts #195–#199, leftover wrapping-nav / breadcrumb /
+ * Ver produto / crawl-link / title / photo / footer forest rings
+ * (#208–#214), leftover Encontre-nos Morada maps (PR #235), leftover
+ * info-strip maps (PR #234), leftover Avaliações maps hrefs (PR #233),
+ * leftover info-strip tel: (PR #232), leftover-ring drafts #141–#190,
+ * leftover ticker/html/JS/carousel reduced-motion drafts
+ * #200/#202–#204, leftover credits-page favicon (draft #201), leftover
+ * hero-eyebrow pulse, leftover floating-fruit CSS, leftover 4-item-bar
+ * rings, leftover homepage category-tile rings from #194.
+ */
+import { readFileSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const html = readFileSync(join(root, 'index.html'), 'utf8');
+const css = readFileSync(join(root, 'css/estilos.css'), 'utf8');
+const app = readFileSync(join(root, 'js/app.js'), 'utf8');
+const extras = readFileSync(join(root, 'js/extras.js'), 'utf8');
+const generator = readFileSync(join(root, 'scripts/generate-seo-pages.mjs'), 'utf8');
+const product = readFileSync(join(root, 'produtos/melancia-1-4/index.html'), 'utf8');
+const morango = readFileSync(join(root, 'produtos/morango-500g/index.html'), 'utf8');
+const category = readFileSync(join(root, 'categorias/frutas/index.html'), 'utf8');
+const promocoes = readFileSync(join(root, 'categorias/promocoes/index.html'), 'utf8');
+const cabazes = readFileSync(join(root, 'categorias/cabazes/index.html'), 'utf8');
+const creditos = readFileSync(join(root, 'creditos.html'), 'utf8');
+
+const failures = [];
+const assert = (cond, msg) => { if (!cond) failures.push(msg); };
+
+const shareImage = 'https://mundifruta.com/fotos/cabaz_mix.jpeg';
+const creditsTitle = 'Créditos das fotos — MUNDIFRUTA';
+const creditsDescription = 'Créditos e licenças das fotografias do catálogo MUNDIFRUTA em Carnaxide (fotos próprias e Wikimedia Commons).';
+
+assert(
+  html.includes('css/estilos.css?v=66') && html.includes('js/app.js?v=40'),
+  'index.html should keep estilos.css?v=66 and app.js?v=40'
+);
+assert(
+  html.includes('js/extras.js?v=21') && html.includes('js/dados.js?v=26'),
+  'homepage extras.js should stay ?v=21 and dados.js should stay ?v=26'
+);
+assert(
+  generator.includes("cssPath: '../../css/estilos.css?v=65'") &&
+  product.includes('css/estilos.css?v=65') &&
+  category.includes('css/estilos.css?v=65'),
+  'generated catalog pages should keep estilos.css?v=65'
+);
+assert(
+  creditos.includes('css/estilos.css?v=64'),
+  'creditos.html cache stays estilos.css?v=64 (do not combine leftover credits favicon)'
+);
+assert(
+  html.includes('property="og:locale" content="pt_PT"') &&
+  html.includes('hreflang="pt-PT" href="https://mundifruta.com/"') &&
+  html.includes('hreflang="x-default" href="https://mundifruta.com/"'),
+  'leftover homepage og:locale pt_PT and leftover pt-PT + x-default hreflang stay'
+);
+assert(
+  html.includes(`property="og:image" content="${shareImage}"`) &&
+  html.includes('name="twitter:card" content="summary_large_image"') &&
+  html.includes(`name="twitter:image" content="${shareImage}"`),
+  'leftover homepage og:image / Twitter share tags stay on leftover cabaz_mix.jpeg'
+);
+assert(
+  existsSync(join(root, 'fotos/cabaz_mix.jpeg')),
+  'leftover homepage share photo fotos/cabaz_mix.jpeg must stay on disk'
+);
+assert(
+  creditos.includes('rel="canonical" href="https://mundifruta.com/creditos.html"') &&
+  creditos.includes(`<meta property="og:image" content="${shareImage}"/>`) &&
+  creditos.includes('<meta name="twitter:card" content="summary_large_image"/>') &&
+  creditos.includes(`<meta name="twitter:title" content="${creditsTitle}"/>`) &&
+  creditos.includes(`<meta name="twitter:description" content="${creditsDescription}"/>`) &&
+  creditos.includes(`<meta name="twitter:image" content="${shareImage}"/>`),
+  'leftover credits page should emit leftover og:image + Twitter share tags next to leftover canonical'
+);
+assert(
+  (creditos.match(/property="og:/g) || []).length === 1,
+  'leftover credits Open Graph stays the leftover og:image-only first phase'
+);
+assert(
+  creditos.includes('<html lang="pt-PT">') &&
+  creditos.includes(`<title>${creditsTitle}</title>`) &&
+  creditos.includes(`content="${creditsDescription}"`) &&
+  creditos.includes('class="credits-back" href="index.html"') &&
+  creditos.includes('>← Voltar à loja</a>') &&
+  creditos.includes('<h1>Créditos das fotos</h1>'),
+  'leftover credits lang, title, description, back link, and h1 stay'
+);
+assert(
+  !creditos.includes('rel="icon"') &&
+  !creditos.includes('og:type') &&
+  !creditos.includes('og:site_name') &&
+  !creditos.includes('og:title') &&
+  !creditos.includes('og:description') &&
+  !creditos.includes('og:url') &&
+  !creditos.includes('og:locale') &&
+  !creditos.includes('og:image:alt') &&
+  !creditos.includes('hreflang='),
+  'must not combine leftover credits favicon, leftover credits Open Graph identity, leftover credits og:locale, leftover credits og:image:alt, or leftover credits hreflang'
+);
+assert(
+  generator.includes('property="og:type" content="website"') &&
+  generator.includes('property="og:site_name" content="MUNDIFRUTA"') &&
+  generator.includes('property="og:title" content="${esc(title)}"') &&
+  generator.includes('property="og:description" content="${esc(description)}"') &&
+  generator.includes('property="og:url" content="${canonical}"') &&
+  !generator.includes('og:locale') &&
+  !generator.includes('og:image') &&
+  !generator.includes('twitter:card') &&
+  category.includes('property="og:type" content="website"') &&
+  category.includes('property="og:url" content="https://mundifruta.com/categorias/frutas/"') &&
+  !category.includes('og:locale') &&
+  !product.includes('og:locale') &&
+  !morango.includes('og:locale') &&
+  !promocoes.includes('og:locale') &&
+  !cabazes.includes('og:locale'),
+  'leftover catalog Open Graph identity stays; must not redo leftover catalog og:locale (PR #240) or leftover catalog share tags (PR #215)'
+);
+assert(
+  generator.includes('hreflang="pt-PT" href="${canonical}"') &&
+  !generator.includes('hreflang="x-default"') &&
+  category.includes('hreflang="pt-PT" href="https://mundifruta.com/categorias/frutas/"') &&
+  !category.includes('hreflang="x-default"') &&
+  !promocoes.includes('hreflang="x-default"') &&
+  !cabazes.includes('hreflang="x-default"') &&
+  product.includes('hreflang="pt-PT" href="https://mundifruta.com/produtos/melancia-1-4/"') &&
+  !product.includes('hreflang="x-default"') &&
+  !morango.includes('hreflang="x-default"'),
+  'must not redo leftover catalog hreflang="x-default" (PR #236)'
+);
+assert(
+  /<nav class="seo-nav" aria-label="Navegação principal">\s*<a href="\.\.\/\.\.\/">Início<\/a>\s*<a href="\.\.\/\.\.\/categorias\/frutas\/">Frutas<\/a>\s*<a href="\.\.\/\.\.\/categorias\/legumes\/">Legumes<\/a>\s*<a href="\.\.\/\.\.\/categorias\/promocoes\/">Promoções<\/a>\s*<\/nav>/.test(category) &&
+  /<nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="\.\.\/\.\.">Início<\/a><span>›<\/span><span>Frutas<\/span><\/nav>/.test(category) &&
+  /<nav class="seo-breadcrumbs" aria-label="Breadcrumb"><a href="\.\.\/\.\.">Início<\/a><span>›<\/span><a href="\.\.\/\.\.\/categorias\/frutas\/">Frutas<\/a><span>›<\/span><span>Melancia 1\/4<\/span><\/nav>/.test(product),
+  'visible leftover wrapping Início / Frutas / Legumes / Promoções and leftover Início breadcrumbs must stay'
+);
+assert(
+  !category.includes('aria-hidden="true"') &&
+  !product.includes('aria-hidden="true"') &&
+  !generator.includes('aria-hidden="true"'),
+  'must not combine leftover SEO breadcrumb › aria-hidden (PR #237)'
+);
+assert(
+  /<footer class="seo-footer"><a href="\.\.\/\.\.\/">MUNDIFRUTA<\/a> · Frutas e legumes frescos em Carnaxide\.<\/footer>/.test(category) &&
+  /<h2><a href="\.\.\/\.\.\/produtos\/melancia-1-4\/">Melancia 1\/4<\/a><\/h2>/.test(category) &&
+  category.includes('>Ver produto</a>') &&
+  product.includes('Ver no catálogo e encomendar') &&
+  !category.includes('<h3>') &&
+  !product.includes('mailto:shahhossain87@gmail.com') &&
+  !product.includes('rel="icon"') &&
+  !category.includes('rel="icon"') &&
+  !product.includes('property="og:image"') &&
+  !category.includes('property="og:image"') &&
+  !product.includes('twitter:card') &&
+  !category.includes('twitter:card'),
+  'must not redo leftover category-card h3, leftover SEO footer contacts, leftover catalog favicon, or leftover catalog og:image / Twitter cards'
+);
+assert(
+  !product.includes('hamburger') &&
+  !category.includes('hamburger') &&
+  !generator.includes('hamburger') &&
+  !product.includes('aria-expanded') &&
+  !html.includes('aria-expanded') &&
+  !creditos.includes('hamburger'),
+  'must not add a SEO-page hamburger or leftover hamburger aria-expanded'
+);
+assert(
+  !/\.seo-nav a:focus-visible/.test(css) &&
+  !/\.seo-breadcrumbs a:focus-visible/.test(css) &&
+  !/\.seo-text-link:focus-visible/.test(css) &&
+  !/\.seo-crawl-links a:focus-visible/.test(css) &&
+  !/\.seo-product-card h2 a:focus-visible/.test(css) &&
+  !/\.seo-product-image:focus-visible/.test(css) &&
+  !/\.seo-footer a:focus-visible/.test(css) &&
+  !/\.credits-wrap a:focus-visible/.test(css) &&
+  !/\.credits-back:focus-visible/.test(css) &&
+  !/\.logo:focus-visible/.test(css) &&
+  !/\.btn-wa:focus-visible/.test(css) &&
+  !/\.feature-add:focus-visible/.test(css) &&
+  !/\.float-cart:focus-visible/.test(css) &&
+  !/\.order-optional-toggle:focus-visible/.test(css) &&
+  !/\.mb-item:focus-visible/.test(css) &&
+  !/\.seo-header \.logo \{[^}]*color:var\(--forest\)/.test(css) &&
+  !html.includes('role="tabpanel"'),
+  'must not redo leftover catalog forest rings, leftover peach rings, leftover credits rings, leftover SEO header forest wordmark, or catalog tabpanel'
+);
+assert(
+  html.includes('Explorar o catálogo') &&
+  html.includes('categorias/frutas/') &&
+  html.includes('lang="pt"') &&
+  html.includes('href="creditos.html">Créditos das fotos</a>') &&
+  html.includes('property="og:locale" content="pt_PT"') &&
+  !app.includes('function irParaSeccao') &&
+  !extras.includes("behavior: reduzir ? 'auto' : 'smooth'"),
+  'leftover homepage crawl links, leftover lang="pt", leftover homepage og:locale, and leftover footer credits link stay; must not rewrite leftover JS scroll helper'
+);
+
+if (failures.length) {
+  console.error('check-credits-share-tags failed:\n' + failures.map(f => ' - ' + f).join('\n'));
+  process.exit(1);
+}
+console.log('check-credits-share-tags: ok');
