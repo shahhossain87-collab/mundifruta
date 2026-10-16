@@ -144,3 +144,15 @@
 .hero-rise { animation: hero-rise 0.75s cubic-bezier(0.2, 0.75, 0.25, 1) both; }
 @keyframes hero-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .hero-rise { animation: none; } }
+
+/* Homepage hero: seasonal fruit-pile grid with gentle staggered zoom (transform only). */
+.hero-grid { display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 4px; padding: 4px; background: #1c2d12; }
+.hero-cell { display: grid; place-items: center; overflow: hidden; border-radius: 10px; background: radial-gradient(75% 70% at 50% 55%, #4a5a2a 0, #2a3d1a 60%, #1c2d12 100%); }
+.hero-cell:nth-child(even) { background: radial-gradient(75% 70% at 50% 55%, #6a4a26 0, #3d2a17 60%, #261a0e 100%); }
+.hero-cell:nth-child(n + 7) { display: none; }
+.hero-cell img { max-width: 94%; max-height: 90%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 10px 12px rgb(0 0 0 / 0.45)); transform-origin: 50% 60%; will-change: transform; backface-visibility: hidden; animation: hero-pile-zoom 6s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+@keyframes hero-pile-zoom { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(0, 0, 0) scale(1.12); } }
+@media (min-width: 768px) {
+  .hero-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 6px; padding: 6px; }
+  .hero-cell:nth-child(n + 7) { display: grid; }
+}

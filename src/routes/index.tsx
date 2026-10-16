@@ -17,6 +17,17 @@ import {
 } from "@/lib/shop";
 import { canonicalLink } from "@/lib/seo";
 
+const HERO_PILHAS: [string, number][] = [
+  ["diospiro", 388],
+  ["castanhas", 263],
+  ["abobora", 338],
+  ["roma", 433],
+  ["laranja", 324],
+  ["grelos", 278],
+  ["maca", 340],
+  ["uva", 254],
+];
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -27,7 +38,11 @@ export const Route = createFileRoute("/")({
           "Frutas e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja. Seg–Dom, 8h–20h. Pagamento na loja.",
       },
     ],
-    links: [canonicalLink("/")],
+    links: [
+      canonicalLink("/"),
+      { rel: "preload", as: "image", href: "/fotos/home/grid/diospiro.webp", type: "image/webp", fetchPriority: "high" },
+      { rel: "preload", as: "image", href: "/fotos/home/grid/castanhas.webp", type: "image/webp" },
+    ],
   }),
   component: Home,
 });
@@ -64,20 +79,22 @@ function Home() {
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="relative isolate overflow-hidden bg-leaf-deep text-white" aria-labelledby="hero-titulo">
-        {/* Real shop photos (mosaic). Sized webp, LCP image: eager + fetchpriority high; box sized by the section, so no layout shift. */}
-        <picture className="pointer-events-none absolute inset-0 -z-10 block overflow-hidden" aria-hidden="true">
-          <source media="(min-width: 768px)" srcSet="/fotos/home/hero-desktop.webp" width={1600} height={600} type="image/webp" />
-          <img
-            src="/fotos/home/hero-phone.webp"
-            alt=""
-            width={780}
-            height={680}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="hero-zoom h-full w-full object-cover"
-          />
-        </picture>
+        {/* Seasonal fruit piles in a grid (2x3 phone, 4x2 desktop). Gentle transform-only zoom, staggered per cell. */}
+        <div className="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+          {HERO_PILHAS.map(([nome, altura], i) => (
+            <div key={nome} className="hero-cell" style={{ "--d": `${i * -0.8}s` } as CSSProperties}>
+              <img
+                src={`/fotos/home/grid/${nome}.webp`}
+                alt=""
+                width={480}
+                height={altura}
+                loading={i < 6 ? "eager" : "lazy"}
+                decoding="async"
+                fetchPriority={i < 2 ? "high" : "auto"}
+              />
+            </div>
+          ))}
+        </div>
         {/* Gradient keeps the text readable: from the bottom on phones, from the left on desktop. */}
         <div
           className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/55 to-black/0 md:bg-gradient-to-r md:from-black/80 md:via-black/45 md:to-black/0"
