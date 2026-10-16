@@ -30,6 +30,7 @@ for (const category of categorySlugs) {
   try { await access(file); } catch { failures.push(`Missing category page: ${category}`); continue; }
   const html = await readFile(file, 'utf8');
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in category: ${category}`);
+  expect(html.includes('property="og:locale" content="pt_PT"'), `Missing og:locale in category: ${category}`);
   expect(sitemap.includes(`<loc>${canonical}</loc>`), `Sitemap lacks category: ${category}`);
 }
 for (const product of products) {
@@ -40,6 +41,7 @@ for (const product of products) {
   const html = await readFile(file, 'utf8');
   expect(html.includes(`<h1>${product.nome}</h1>`), `Product name missing from initial HTML: ${slug}`);
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in product: ${slug}`);
+  expect(html.includes('property="og:locale" content="pt_PT"'), `Missing og:locale in product: ${slug}`);
   expect(html.includes('"@type":"Product"'), `Product JSON-LD missing: ${slug}`);
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
   try {
