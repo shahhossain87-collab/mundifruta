@@ -21,8 +21,8 @@ const failures = [];
 const assert = (cond, msg) => { if (!cond) failures.push(msg); };
 
 assert(
-  html.includes('css/estilos.css?v=66') && html.includes('js/app.js?v=40'),
-  'index.html should cache-bust estilos.css?v=66 and app.js?v=40'
+  html.includes('css/estilos.css?v=72') && html.includes('js/app.js?v=40'),
+  'index.html should cache-bust estilos.css?v=72 and app.js?v=40'
 );
 assert(
   html.includes('js/extras.js?v=21'),
