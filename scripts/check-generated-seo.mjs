@@ -30,6 +30,15 @@ for (const category of categorySlugs) {
   try { await access(file); } catch { failures.push(`Missing category page: ${category}`); continue; }
   const html = await readFile(file, 'utf8');
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in category: ${category}`);
+  expect(html.includes('property="og:image"'), `Category page missing og:image: ${category}`);
+  expect(html.includes('name="twitter:image"'), `Category page missing twitter:image: ${category}`);
+  expect(html.includes('categorias/ervas-frescas/'), `Category nav missing Ervas: ${category}`);
+  expect(html.includes('categorias/frutas-da-epoca/'), `Category nav missing Fruta da época: ${category}`);
+  expect(html.includes('categorias/cabazes/'), `Category nav missing Cabazes: ${category}`);
+  expect(html.includes('aria-current="page"'), `Category nav missing current page: ${category}`);
+  expect(html.includes('https://wa.me/351932699850'), `Category footer missing WhatsApp: ${category}`);
+  expect(html.includes('tel:932699850'), `Category footer missing phone: ${category}`);
+  expect(html.includes('<h3><a href="../../produtos/'), `Category product titles should be h3: ${category}`);
   expect(sitemap.includes(`<loc>${canonical}</loc>`), `Sitemap lacks category: ${category}`);
 }
 for (const product of products) {
@@ -41,6 +50,9 @@ for (const product of products) {
   expect(html.includes(`<h1>${product.nome}</h1>`), `Product name missing from initial HTML: ${slug}`);
   expect(html.includes(`rel="canonical" href="${canonical}"`), `Wrong canonical in product: ${slug}`);
   expect(html.includes('"@type":"Product"'), `Product JSON-LD missing: ${slug}`);
+  expect(html.includes(`property="og:image" content="${domain}/${product.foto}"`), `Wrong og:image in product: ${slug}`);
+  expect(html.includes('https://wa.me/351932699850'), `Product footer missing WhatsApp: ${slug}`);
+  expect(html.includes('tel:932699850'), `Product footer missing phone: ${slug}`);
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/);
   try {
     const jsonLd = JSON.parse(jsonLdMatch?.[1] || 'null');
@@ -78,5 +90,8 @@ const robots = await readFile(join(root, 'robots.txt'), 'utf8');
 expect(robots.includes(`Sitemap: ${domain}/sitemap.xml`), 'robots.txt must point to the canonical sitemap');
 const index = await readFile(join(root, 'index.html'), 'utf8');
 expect(index.includes('seo-crawl-links'), 'Homepage lacks crawlable category links');
+const css = await readFile(join(root, 'css', 'estilos.css'), 'utf8');
+expect(/\.seo-page \{[^}]*padding-top:\s*0/.test(css), 'SEO pages must reset homepage fixed-header padding');
+expect(index.includes('css/estilos.css?v=66'), 'Homepage should cache-bust estilos.css?v=66');
 if (failures.length) { console.error('check-generated-seo failed:\n' + failures.map(item => ` - ${item}`).join('\n')); process.exit(1); }
 console.log(`check-generated-seo: ok (${products.length} products, ${categorySlugs.length} categories, ${sitemapUrls.length} URLs)`);
