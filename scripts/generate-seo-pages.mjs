@@ -132,6 +132,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="${esc(description)}"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
   <title>${esc(title)}</title>
   <link rel="canonical" href="${canonical}"/>
   <link rel="alternate" hreflang="pt-PT" href="${canonical}"/>
