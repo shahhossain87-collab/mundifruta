@@ -2397,7 +2397,13 @@
     .seo-product-copy .eyebrow { color:var(--forest); font-weight:800; }
     .seo-product-detail-price { color:var(--forest); font-size:1.55rem; font-weight:800; margin:14px 0; }
     .seo-product-copy > p:not(.eyebrow):not(.seo-product-detail-price) { color:var(--text-md); line-height:1.65; margin:10px 0; }
-    .seo-order-link { display:inline-block; margin-top:14px; text-decoration:none; }
+    .seo-order-link {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:14px;
+      text-decoration:none;
+    }
     .seo-status { color:var(--cherry); font-weight:800; }
     .seo-footer { border-top:1px solid var(--line); padding:28px 24px; text-align:center; color:var(--text-md); font-size:.85rem; }
     .seo-footer a { color:var(--forest); font-weight:800; text-decoration:none; }
@@ -2410,4 +2416,6 @@
       .seo-product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
       .seo-product-card-body { padding:12px; }
       .seo-product-card h2 { font-size:.9rem; }
+      /* Product-page order CTA: full-width 48px target on phones, copy unchanged. */
+      .seo-order-link { width:100%; min-height:48px; box-sizing:border-box; }
     }
