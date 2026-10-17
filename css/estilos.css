@@ -2383,7 +2383,9 @@
     .seo-product-card { background:#fff; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--sh-soft); display:flex; flex-direction:column; }
     .seo-product-image { display:block; aspect-ratio:1; background:var(--cream-2); overflow:hidden; }
     .seo-product-image img { width:100%; height:100%; object-fit:cover; transition:transform .2s ease; }
-    .seo-product-card:hover .seo-product-image img { transform:scale(1.04); }
+    @media (hover: hover) {
+      .seo-product-card:hover .seo-product-image img { transform:scale(1.04); }
+    }
     .seo-product-card-body { display:flex; flex:1; flex-direction:column; padding:16px; }
     .seo-product-card h2 { font-size:1rem; line-height:1.3; margin:0 0 8px; }
     .seo-product-card h2 a { color:var(--text); text-decoration:none; }
