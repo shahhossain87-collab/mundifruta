@@ -2020,7 +2020,9 @@
     .qs-gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
     .qs-photo { aspect-ratio:1; border-radius:var(--r-md); overflow:hidden; }
     .qs-photo img { width:100%; height:100%; object-fit:cover; transition:transform .4s ease; }
-    .qs-photo:hover img { transform:scale(1.06); }
+    @media (hover: hover) {
+      .qs-photo:hover img { transform:scale(1.06); }
+    }
 
     @media (max-width:600px) {
       .consent { flex-direction:column; align-items:stretch; }
