@@ -1435,6 +1435,13 @@
       background:rgba(255,255,255,.92);
       color:var(--charcoal);
       cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    @media (max-width:640px) {
+      /* Product-modal close ✕: 44px tap target on phones, copy unchanged. */
+      .product-modal-close { min-height:44px; min-width:44px; box-sizing:border-box; }
     }
     .product-modal-photo { min-height:440px; background:var(--cream-2); }
     .product-modal-photo img { width:100%; height:100%; object-fit:cover; }
