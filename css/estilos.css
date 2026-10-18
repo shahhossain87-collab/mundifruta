@@ -2367,6 +2367,7 @@
 
     .seo-page { background:var(--cream); color:var(--text); min-height:100vh; }
     .seo-header { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px max(24px,calc((100vw - 1240px)/2)); background:#fff; border-bottom:1px solid var(--line); }
+    .seo-header .logo { display:inline-flex; align-items:center; }
     .seo-nav { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:16px; }
     .seo-nav a { color:var(--text); text-decoration:none; font:600 .86rem 'Poppins',sans-serif; }
     .seo-nav a:hover { color:var(--forest); }
@@ -2403,6 +2404,8 @@
     .seo-footer a { color:var(--forest); font-weight:800; text-decoration:none; }
     @media (max-width:640px) {
       .seo-header { align-items:flex-start; flex-direction:column; padding:16px 20px; gap:10px; }
+      /* Catalog header MUNDIFRUTA: 44px tap target on phones, copy unchanged. */
+      .seo-header .logo { min-height:44px; box-sizing:border-box; }
       .seo-nav { justify-content:flex-start; gap:12px; }
       .seo-hero { padding:44px 20px; }
       .seo-product-layout { grid-template-columns:1fr; gap:24px; }
