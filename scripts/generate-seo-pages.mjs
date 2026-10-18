@@ -11,12 +11,12 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const siteUrl = 'https://mundifruta.com';
 const categories = [
-  { slug: 'frutas', label: 'Frutas', description: 'Frutas frescas disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'legumes', label: 'Legumes', description: 'Legumes frescos disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'ervas-frescas', label: 'Ervas frescas', description: 'Ervas frescas disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'frutas-da-epoca', label: 'Frutas da época', description: 'Frutas da época disponíveis na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'promocoes', label: 'Promoções', description: 'Produtos em promoção na MUNDIFRUTA em Carnaxide.' },
-  { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.' },
+  { slug: 'frutas', label: 'Frutas', description: 'Frutas frescas disponíveis na MUNDIFRUTA em Carnaxide.', imageAlt: 'Seleção de frutas frescas' },
+  { slug: 'legumes', label: 'Legumes', description: 'Legumes frescos disponíveis na MUNDIFRUTA em Carnaxide.', imageAlt: 'Seleção apenas de legumes frescos' },
+  { slug: 'ervas-frescas', label: 'Ervas frescas', description: 'Ervas frescas disponíveis na MUNDIFRUTA em Carnaxide.', imageAlt: 'Ervas frescas e aromáticas' },
+  { slug: 'frutas-da-epoca', label: 'Frutas da época', description: 'Frutas da época disponíveis na MUNDIFRUTA em Carnaxide.', imageAlt: 'Fruta fresca da época' },
+  { slug: 'promocoes', label: 'Promoções', description: 'Produtos em promoção na MUNDIFRUTA em Carnaxide.', imageAlt: 'Promoções e destaques da semana' },
+  { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.', imageAlt: 'Cabazes de frutas e legumes' },
 ];
 const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
 
@@ -125,7 +125,9 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, imageAlt }) {
+  // Leftover twitter:image:alt only. Do not emit leftover og:image / leftover Twitter cards here.
+  if (!imageAlt) throw new Error(`Missing leftover twitter:image:alt for ${title}`);
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -140,6 +142,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <meta property="og:title" content="${esc(title)}"/>
   <meta property="og:description" content="${esc(description)}"/>
   <meta property="og:url" content="${canonical}"/>
+  <meta name="twitter:image:alt" content="${esc(imageAlt)}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -189,6 +192,7 @@ function categoryPage(category, products) {
     cssPath: '../../css/estilos.css?v=65',
     homePath: '../../',
     body,
+    imageAlt: category.imageAlt,
   });
 }
 
@@ -229,6 +233,7 @@ function productPage(product, category) {
     homePath: '../../',
     body,
     structuredData,
+    imageAlt: product.alt || product.nome,
   });
 }
 
