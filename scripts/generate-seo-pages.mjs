@@ -3,6 +3,7 @@
  * Creates crawlable catalog pages from the same JavaScript data used by the shop.
  * Run `npm run build` after editing js/dados.js.
  */
+import { readFileSync } from 'node:fs';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import vm from 'node:vm';
@@ -19,6 +20,74 @@ const categories = [
   { slug: 'cabazes', label: 'Cabazes', description: 'Cabazes de frutas e legumes disponíveis na MUNDIFRUTA em Carnaxide.' },
 ];
 const herbNames = new Set(['Salsa', 'Coentros', 'Hortelã', 'Agrião']);
+// Leftover og:image:width / leftover og:image:height only. Category tiles
+// match leftover catalog share photos (PR #215); product pages reuse leftover
+// product.foto. Do not invent leftover 500×500.
+const leftoverCategoryShareFotos = {
+  frutas: 'fotos/cabaz_frutas.jpeg',
+  legumes: 'fotos/cabaz_legumes.jpeg',
+  'ervas-frescas': 'fotos/hortela.jpeg',
+  'frutas-da-epoca': 'fotos/uvas.jpeg',
+  promocoes: 'fotos/morangos.jpeg',
+  cabazes: 'fotos/cabaz_detox.jpeg',
+};
+const leftoverImageSizeCache = new Map();
+
+function leftoverJpegSize(buf) {
+  let i = 2;
+  while (i + 9 < buf.length) {
+    if (buf[i] !== 0xFF) { i += 1; continue; }
+    const marker = buf[i + 1];
+    if (marker === 0xC0 || marker === 0xC1 || marker === 0xC2) {
+      return { width: (buf[i + 7] << 8) | buf[i + 8], height: (buf[i + 5] << 8) | buf[i + 6] };
+    }
+    if (marker === 0xD8 || marker === 0xD9) { i += 2; continue; }
+    const length = (buf[i + 2] << 8) | buf[i + 3];
+    i += 2 + length;
+  }
+  return null;
+}
+
+function leftoverWebpSize(buf) {
+  if (buf.slice(0, 4).toString('ascii') !== 'RIFF' || buf.slice(8, 12).toString('ascii') !== 'WEBP') return null;
+  let i = 12;
+  while (i + 8 <= buf.length) {
+    const chunk = buf.slice(i, i + 4).toString('ascii');
+    const size = buf.readUInt32LE(i + 4);
+    const dataStart = i + 8;
+    if (chunk === 'VP8X' && buf.length >= dataStart + 10) {
+      return {
+        width: 1 + (buf[dataStart + 4] | (buf[dataStart + 5] << 8) | (buf[dataStart + 6] << 16)),
+        height: 1 + (buf[dataStart + 7] | (buf[dataStart + 8] << 8) | (buf[dataStart + 9] << 16)),
+      };
+    }
+    if (chunk === 'VP8 ' && buf.length >= dataStart + 10) {
+      return {
+        width: buf.readUInt16LE(dataStart + 6) & 0x3fff,
+        height: buf.readUInt16LE(dataStart + 8) & 0x3fff,
+      };
+    }
+    if (chunk === 'VP8L' && buf.length >= dataStart + 5) {
+      const bits = buf.readUInt32LE(dataStart + 1);
+      return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 };
+    }
+    i += 8 + size + (size & 1);
+  }
+  return null;
+}
+
+function leftoverImageSize(foto) {
+  const rel = String(foto || '').split('?')[0];
+  if (leftoverImageSizeCache.has(rel)) return leftoverImageSizeCache.get(rel);
+  const buf = readFileSync(join(root, rel));
+  const lower = rel.toLowerCase();
+  let size = null;
+  if (lower.endsWith('.webp')) size = leftoverWebpSize(buf);
+  else if (lower.endsWith('.jpeg') || lower.endsWith('.jpg')) size = leftoverJpegSize(buf);
+  if (!size || !size.width || !size.height) throw new Error(`Missing leftover catalog og:image size for ${foto}`);
+  leftoverImageSizeCache.set(rel, size);
+  return size;
+}
 
 function esc(value = '') {
   return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
@@ -125,7 +194,10 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, imageWidth, imageHeight }) {
+  // Leftover og:image:width / leftover og:image:height only. Do not emit leftover
+  // share photos, leftover Twitter cards, or leftover MIME type hints here.
+  if (!imageWidth || !imageHeight) throw new Error(`Missing leftover og:image size for ${title}`);
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -140,6 +212,8 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <meta property="og:title" content="${esc(title)}"/>
   <meta property="og:description" content="${esc(description)}"/>
   <meta property="og:url" content="${canonical}"/>
+  <meta property="og:image:width" content="${esc(imageWidth)}"/>
+  <meta property="og:image:height" content="${esc(imageHeight)}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -182,6 +256,7 @@ function categoryPage(category, products) {
     <h1>${esc(category.label)}</h1><p>${esc(category.description)}</p>
   </div></section>
   <section class="seo-catalog"><h2>Produtos</h2><div class="seo-product-grid">${products.map(product => productCard(product, category.slug)).join('\n')}</div></section>`;
+  const size = leftoverImageSize(leftoverCategoryShareFotos[category.slug]);
   return layout({
     title: `${category.label} em Carnaxide | MUNDIFRUTA`,
     description: category.description,
@@ -189,6 +264,8 @@ function categoryPage(category, products) {
     cssPath: '../../css/estilos.css?v=65',
     homePath: '../../',
     body,
+    imageWidth: String(size.width),
+    imageHeight: String(size.height),
   });
 }
 
@@ -221,6 +298,7 @@ function productPage(product, category) {
       </div>
     </div>
   </article>`;
+  const size = leftoverImageSize(product.foto);
   return layout({
     title: `${product.nome} | MUNDIFRUTA Carnaxide`,
     description: descriptionFor(product),
@@ -229,6 +307,8 @@ function productPage(product, category) {
     homePath: '../../',
     body,
     structuredData,
+    imageWidth: String(size.width),
+    imageHeight: String(size.height),
   });
 }
 
