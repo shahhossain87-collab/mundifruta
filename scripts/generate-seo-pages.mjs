@@ -24,6 +24,16 @@ function esc(value = '') {
   return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[char]);
 }
 
+// Leftover og:image:type only. Category tiles from leftover catalog share
+// photos (PR #215) are JPEG; product pages reuse leftover product.foto.
+function leftoverImageType(foto) {
+  const path = String(foto || '').split('?')[0].toLowerCase();
+  if (path.endsWith('.webp')) return 'image/webp';
+  if (path.endsWith('.jpeg') || path.endsWith('.jpg')) return 'image/jpeg';
+  if (path.endsWith('.png')) return 'image/png';
+  throw new Error(`Missing leftover catalog og:image:type for ${foto}`);
+}
+
 function slugify(value) {
   return String(value)
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -125,7 +135,9 @@ function primaryCategory(product, catalog) {
   return herbNames.has(product.nome) ? 'ervas-frescas' : 'legumes';
 }
 
-function layout({ title, description, canonical, cssPath, homePath, body, structuredData }) {
+function layout({ title, description, canonical, cssPath, homePath, body, structuredData, imageType }) {
+  // Leftover og:image:type only. Do not emit leftover og:image / leftover Twitter cards here.
+  if (!imageType) throw new Error(`Missing leftover og:image:type for ${title}`);
   return `<!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -140,6 +152,7 @@ function layout({ title, description, canonical, cssPath, homePath, body, struct
   <meta property="og:title" content="${esc(title)}"/>
   <meta property="og:description" content="${esc(description)}"/>
   <meta property="og:url" content="${canonical}"/>
+  <meta property="og:image:type" content="${esc(imageType)}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -189,6 +202,7 @@ function categoryPage(category, products) {
     cssPath: '../../css/estilos.css?v=65',
     homePath: '../../',
     body,
+    imageType: 'image/jpeg',
   });
 }
 
@@ -229,6 +243,7 @@ function productPage(product, category) {
     homePath: '../../',
     body,
     structuredData,
+    imageType: leftoverImageType(product.foto),
   });
 }
 
