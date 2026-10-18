@@ -2001,7 +2001,11 @@
     .privacy-box h3 { font-family:'Playfair Display',serif; color:var(--forest); margin-bottom:10px; }
     .privacy-box h4 { margin-top:14px; color:var(--forest-2); font-size:.95rem; }
     .privacy-box p { color:var(--text); font-size:.9rem; line-height:1.55; margin-top:4px; }
-    .privacy-box a { color:var(--cherry); }
+    .privacy-box a { color:var(--cherry); display:inline-flex; align-items:center; }
+    @media (max-width:640px) {
+      /* Privacy-dialog WhatsApp / email: 44px tap target on phones, copy unchanged. */
+      .privacy-box a { min-height:44px; box-sizing:border-box; }
+    }
     .privacy-close { position:absolute; top:10px; right:14px; border:none; background:none; font-size:1.2rem; cursor:pointer; color:var(--text-md); }
     .privacy-reset { margin-top:16px; padding:10px 16px; border:1px solid var(--cream-3); background:var(--cream-2); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
 
