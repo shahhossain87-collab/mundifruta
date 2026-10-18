@@ -186,7 +186,7 @@ function categoryPage(category, products) {
     title: `${category.label} em Carnaxide | MUNDIFRUTA`,
     description: category.description,
     canonical: `${siteUrl}/categorias/${category.slug}/`,
-    cssPath: '../../css/estilos.css?v=65',
+    cssPath: '../../css/estilos.css?v=70',
     homePath: '../../',
     body,
   });
@@ -225,7 +225,7 @@ function productPage(product, category) {
     title: `${product.nome} | MUNDIFRUTA Carnaxide`,
     description: descriptionFor(product),
     canonical,
-    cssPath: '../../css/estilos.css?v=65',
+    cssPath: '../../css/estilos.css?v=70',
     homePath: '../../',
     body,
     structuredData,
