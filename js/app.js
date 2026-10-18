@@ -333,7 +333,7 @@ const carrinho = {};
       produtos_map[id] = item;
       const temItens = item.itens && item.itens.length;
       const badge = item.badge ? `<div class="product-badge ${item.badgeClass||''}">${item.badge}</div>` : '';
-      const verBtn = temItens ? `<button class="cabaz-ver" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
+      const verBtn = temItens ? `<button class="cabaz-ver" type="button" onclick="event.stopPropagation(); abrirCabaz('${id}')">👁 Ver o que leva</button>` : '';
       const card = document.createElement('div');
       card.className = 'product-card'; card.id = `card-${id}`; card.dataset.productId = id;
       card.innerHTML = `
