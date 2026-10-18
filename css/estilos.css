@@ -953,8 +953,12 @@
     .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
     .footer-links a:hover { color:var(--peach); }
     .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
-    .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
+    .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; display:inline-flex; align-items:center; }
     .footer-credit a:hover { color:var(--sage); }
+    @media (max-width:640px) {
+      /* Homepage footer Shah Hossain: 44px tap target on phones, copy unchanged. */
+      .footer-credit a { min-height:44px; box-sizing:border-box; }
+    }
 
     /* ??????????????????????????????????????
        SOCIAL PANEL
