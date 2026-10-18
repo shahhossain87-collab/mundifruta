@@ -950,8 +950,12 @@
     .footer-logo span { color:var(--peach); }
     .footer-text { color:rgba(255,255,255,0.4); font-size:0.8rem; }
     .footer-links { display:flex; flex-wrap:wrap; gap:20px; }
-    .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; }
+    .footer-links a { color:rgba(255,255,255,0.5); text-decoration:none; font-size:0.84rem; transition:color 0.2s; display:inline-flex; align-items:center; }
     .footer-links a:hover { color:var(--peach); }
+    @media (max-width:640px) {
+      /* Homepage footer shop-links: 44px tap target on phones, copy unchanged. */
+      .footer-links a { min-height:44px; box-sizing:border-box; }
+    }
     .footer-credit { width:100%; text-align:center; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.3); font-size:0.72rem; }
     .footer-credit a { color:rgba(255,255,255,0.45); text-decoration:none; transition:color 0.2s; }
     .footer-credit a:hover { color:var(--sage); }
