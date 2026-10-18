@@ -1133,6 +1133,10 @@
       display:flex; align-items:center; justify-content:center; transition:background 0.2s;
     }
     .cabaz-modal-close:hover { background:var(--cream-3); }
+    @media (max-width:640px) {
+      /* Cabaz-modal close ✕: 44px tap target on phones, copy unchanged. */
+      .cabaz-modal-close { min-height:44px; min-width:44px; box-sizing:border-box; }
+    }
     .cabaz-modal-head { text-align:center; margin-bottom:6px; }
     .cabaz-modal-head h3 { font-family:'Playfair Display',serif; font-size:1.7rem; color:var(--forest); margin:4px 0; }
     .cabaz-modal-price { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--peach); }
