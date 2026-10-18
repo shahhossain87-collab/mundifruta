@@ -925,7 +925,9 @@
       text-align:center; box-shadow:var(--sh);
       transition:transform 0.35s, box-shadow 0.35s;
     }
-    .contact-card:hover { transform:translateY(-6px); box-shadow:var(--sh-lg); }
+    @media (hover: hover) {
+      .contact-card:hover { transform:translateY(-6px); box-shadow:var(--sh-lg); }
+    }
     .contact-icon { font-size:2.4rem; margin-bottom:14px; }
     .contact-card h4 {
       font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
