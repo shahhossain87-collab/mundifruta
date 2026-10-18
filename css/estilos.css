@@ -1926,7 +1926,11 @@
     }
     @keyframes cs-up { from{opacity:0; transform:translate(-50%,16px);} to{opacity:1; transform:translate(-50%,0);} }
     .cs-pop-close { position:absolute; top:8px; right:10px; border:none; background:none; font-size:1.1rem; cursor:pointer; color:var(--text-md); }
-    .cs-pop-skip { margin-top:10px; width:100%; padding:9px; border:none; background:var(--cream-2); color:var(--text); border-radius:var(--r-md); font-weight:700; cursor:pointer; }
+    .cs-pop-skip { margin-top:10px; width:100%; padding:9px; border:none; background:var(--cream-2); color:var(--text); border-radius:var(--r-md); font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+    @media (max-width:640px) {
+      /* Cross-sell Continuar sem adicionar: 44px tap target on phones, copy unchanged. */
+      .cs-pop-skip { min-height:44px; box-sizing:border-box; }
+    }
 
     /* Oferta 1ª compra — cartão discreto (não cobre o ecrã todo) */
     /* ═══ OFERTA 1ª COMPRA — REVELAÇÃO FULL-SCREEN (melancia) ═══ */
