@@ -2400,10 +2400,12 @@
     .seo-order-link { display:inline-block; margin-top:14px; text-decoration:none; }
     .seo-status { color:var(--cherry); font-weight:800; }
     .seo-footer { border-top:1px solid var(--line); padding:28px 24px; text-align:center; color:var(--text-md); font-size:.85rem; }
-    .seo-footer a { color:var(--forest); font-weight:800; text-decoration:none; }
+    .seo-footer a { color:var(--forest); font-weight:800; text-decoration:none; display:inline-flex; align-items:center; }
     @media (max-width:640px) {
       .seo-header { align-items:flex-start; flex-direction:column; padding:16px 20px; gap:10px; }
       .seo-nav { justify-content:flex-start; gap:12px; }
+      /* Catalog footer MUNDIFRUTA: 44px tap target on phones, copy unchanged. */
+      .seo-footer a { min-height:44px; box-sizing:border-box; }
       .seo-hero { padding:44px 20px; }
       .seo-product-layout { grid-template-columns:1fr; gap:24px; }
       .seo-catalog, .seo-product-detail { padding-left:16px; padding-right:16px; }
