@@ -2355,6 +2355,11 @@
     @media (max-width:640px) {
       .shop-main .product-name { min-height:2.3em; }
     }
+    @media (max-width:640px) {
+      /* Catalog Adicionar: 44px tap target on phones, copy unchanged. */
+      .add-btn,
+      body.homepage #produtos .add-btn { min-height:44px; box-sizing:border-box; }
+    }
 
     /* ═══════════ PÁGINAS ESTÁTICAS DE CATEGORIA E PRODUTO ═══════════ */
     .seo-crawl-links { background:var(--cream-2); padding:28px 0; text-align:center; }
