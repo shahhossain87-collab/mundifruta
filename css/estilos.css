@@ -2336,6 +2336,10 @@
       .filtbtn { display:inline-flex; }
       body.filtros-open { overflow:hidden; }
     }
+    @media (max-width:640px) {
+      /* Filter-drawer Filtros: 44px tap target on phones, copy unchanged. */
+      .filtbtn { min-height:44px; box-sizing:border-box; }
+    }
 
     /* ═══════════════════════════════════════════════════════════
        PHASE D — Imagens uniformes (quadradas) e cartões alinhados,
