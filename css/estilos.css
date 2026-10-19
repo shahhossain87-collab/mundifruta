@@ -2332,9 +2332,13 @@
       .shop-sidebar.open { transform:translateX(0); }
       .shop-backdrop { display:block; position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:1150; border:none; padding:0; }
       .shop-backdrop[hidden] { display:none; }
-      .sidebar-close { display:block; margin:0 0 6px auto; background:none; border:none; font-size:1.35rem; line-height:1; cursor:pointer; color:var(--text); }
+      .sidebar-close { display:flex; align-items:center; justify-content:center; margin:0 0 6px auto; background:none; border:none; font-size:1.35rem; line-height:1; cursor:pointer; color:var(--text); }
       .filtbtn { display:inline-flex; }
       body.filtros-open { overflow:hidden; }
+    }
+    @media (max-width:640px) {
+      /* Filter-drawer close ✕: 44px tap target on phones, copy unchanged. */
+      .sidebar-close { min-height:44px; min-width:44px; box-sizing:border-box; }
     }
 
     /* ═══════════════════════════════════════════════════════════
