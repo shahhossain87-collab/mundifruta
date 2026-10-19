@@ -1252,8 +1252,14 @@
       font:700 .86rem 'Poppins',sans-serif;
       cursor:pointer;
       white-space:nowrap;
+      display:inline-flex;
+      align-items:center;
     }
     .shop-link:hover { color:var(--peach); }
+    @media (max-width:640px) {
+      /* Shop-feature Ver catálogo / Ver frutas / Explorar fruta / Ver legumes: 44px tap target on phones, copy unchanged. */
+      .shop-link { min-height:44px; box-sizing:border-box; }
+    }
     .promo-shop {
       background:linear-gradient(135deg,#fff7e9,#fff);
       border-top:1px solid #f3e3ca;
