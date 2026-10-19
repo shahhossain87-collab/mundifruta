@@ -109,6 +109,11 @@
     .mobile-close {
       position:absolute; top:24px; right:28px;
       background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center;
+    }
+    @media (max-width:640px) {
+      /* Mobile-menu close ✕: 44px tap target on phones, copy unchanged. */
+      .mobile-close { min-height:44px; min-width:44px; box-sizing:border-box; }
     }
 
     /* ??????????????????????????????????????
