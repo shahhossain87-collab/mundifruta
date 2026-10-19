@@ -1006,6 +1006,10 @@
       opacity:0; z-index:9999; transition:all 0.3s; white-space:nowrap; pointer-events:none;
     }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    /* Toast: sit above leftover 4-item bar. Must come after leftover bottom:32px. */
+    @media (max-width:768px) {
+      .toast { bottom:78px; }
+    }
 
     /* ??????????????????????????????????????
        RESPONSIVE
