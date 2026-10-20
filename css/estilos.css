@@ -2135,6 +2135,10 @@
     }
     .subcat-chip:hover { border-color:var(--sage); color:var(--forest); }
     .subcat-chip.active { background:var(--forest); border-color:var(--forest); color:#fff; }
+    @media (max-width:640px) {
+      /* Subcat-chip: 44px tap target on phones, copy unchanged. */
+      .subcat-chip { min-height:44px; box-sizing:border-box; }
+    }
     .subcat-count { font-size:.7rem; opacity:.7; }
 
     .catalog-filters {
