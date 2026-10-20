@@ -2248,6 +2248,10 @@
     .filter-tag:hover { border-color:var(--sage); }
     .filter-tag span { font-size:.72rem; opacity:.7; }
     .filter-tag.clear-all { background:none; color:var(--text-md); text-decoration:underline; border-color:transparent; }
+    @media (max-width:640px) {
+      /* Filter-tag Limpar tudo: 44px tap target on phones, copy unchanged. */
+      .filter-tag.clear-all { min-height:44px; box-sizing:border-box; }
+    }
 
     /* ── Indicador de poupança na promoção ── */
     .promo-save {
