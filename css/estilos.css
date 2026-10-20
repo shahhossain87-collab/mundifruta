@@ -2156,7 +2156,11 @@
     .filter-select:focus, .catalog-toolbar .price-sort:focus { outline:none; border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
 
     .catalog-count { color:var(--text-md); font-size:.82rem; margin:0 2px 14px; font-weight:600; }
-    .link-btn { background:none; border:none; color:var(--sage); font-weight:700; cursor:pointer; text-decoration:underline; font-family:'Poppins',sans-serif; }
+    .link-btn { background:none; border:none; color:var(--sage); font-weight:700; cursor:pointer; text-decoration:underline; font-family:'Poppins',sans-serif; display:inline-flex; align-items:center; }
+    @media (max-width:640px) {
+      /* No-results Limpar filtros: 44px tap target on phones, copy unchanged. */
+      .no-results .link-btn { min-height:44px; box-sizing:border-box; }
+    }
 
     /* ── Grelha e cartões (refinados) ── */
     .products-grid { grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:18px; }
