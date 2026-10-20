@@ -1885,6 +1885,10 @@
       }
       .shop-feature { padding-top:42px; }
     }
+    @media (max-width:640px) {
+      /* Catalog pagination: 44px tap target on phones, copy unchanged. */
+      .catalog-pagination button { min-height:44px; box-sizing:border-box; }
+    }
 
     /* ═══════════ NOVAS FUNCIONALIDADES (oferta, cross-sell, quem somos, RGPD) ═══════════ */
     /* Garantir que o atributo [hidden] esconde sempre (mesmo com display:flex/grid) */
