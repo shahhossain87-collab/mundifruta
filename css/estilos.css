@@ -880,7 +880,7 @@
     .order-form textarea { height:90px; resize:none; }
     /* Optional fields tucked behind a quiet reveal link — keeps the form a fast 2-field ask */
     .order-optional-toggle {
-      display:inline-block; margin-bottom:12px; padding:4px 2px;
+      display:inline-flex; align-items:center; margin-bottom:12px; padding:4px 2px;
       background:none; border:none; cursor:pointer;
       color:var(--sage-lt); font-weight:600; font-size:0.86rem;
       font-family:'Poppins',sans-serif; text-decoration:underline; text-underline-offset:3px;
@@ -888,6 +888,10 @@
     }
     .order-optional-toggle span { opacity:0.65; font-weight:500; }
     .order-optional-toggle:hover { color:#fff; }
+    @media (max-width:640px) {
+      /* Checkout Hora de levantamento: 44px tap target on phones, copy unchanged. */
+      .order-optional-toggle { min-height:44px; box-sizing:border-box; }
+    }
     .order-optional[hidden] { display:none; }
     .order-btns { display:flex; flex-direction:column; gap:6px; margin-top:16px; }
     /* WhatsApp is the single primary action */
