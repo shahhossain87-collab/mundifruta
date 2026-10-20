@@ -21,8 +21,8 @@ const failures = [];
 const assert = (cond, msg) => { if (!cond) failures.push(msg); };
 
 assert(
-  html.includes('css/estilos.css?v=66') && html.includes('js/app.js?v=40'),
-  'index.html should cache-bust estilos.css?v=66 and app.js?v=40'
+  html.includes('css/estilos.css?v=67') && html.includes('js/app.js?v=40'),
+  'index.html should cache-bust estilos.css?v=67 and app.js?v=40'
 );
 assert(
   html.includes('js/extras.js?v=21'),
@@ -92,10 +92,10 @@ assert(
   !/\.btn-wa \{[^}]*min-height:44px/.test(css) &&
   !/\.btn-prim \{[^}]*min-height:44px/.test(css) &&
   !/\.shop-main \.add-btn \{[^}]*min-height:44px/.test(css) &&
-  !/\.shop-main \.price-sort \{[^}]*min-height:44px/.test(css) &&
+  /\.shop-main \.price-sort \{\s*border:1px solid var\(--line-2\); background:#fff; color:var\(--text\);\s*border-radius:var\(--r-full\); padding:9px 14px; font:600 \.82rem 'Poppins',sans-serif; cursor:pointer;\s*\}/.test(css) &&
   !/\.feature-add \{[^}]*min-width:44px/.test(css) &&
   !/\.hamburger \{[^}]*min-(width|height):44px/.test(css),
-  'must not redo leftover 44px tap-target PRs'
+  'must not redo leftover 44px tap-target PRs; leftover catalog sort stays hugging labels on leftover desktop'
 );
 assert(
   !/\.btn-wa:focus-visible/.test(css) &&

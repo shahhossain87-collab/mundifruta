@@ -2309,6 +2309,10 @@
     /* Phase A :focus { outline:none } sat after the leftover catalog :focus-visible
        forest ring and hid it. Keyboard-only so mouse clicks stay quiet. */
     .shop-main .price-sort:focus-visible { border-color:var(--sage); box-shadow:0 0 0 3px rgba(82,183,136,.16); }
+    @media (max-width:640px) {
+      /* Catalog sort: 44px tap target on phones, copy unchanged. */
+      .shop-main .price-sort { min-height:44px; box-sizing:border-box; }
+    }
     .shop-main .products-grid { grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:18px; }
 
     /* Botão "Filtros", botão fechar e backdrop — só no mobile */
