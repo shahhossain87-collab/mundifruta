@@ -15,7 +15,7 @@ import {
   selecionados,
   whatsappHref,
 } from "@/lib/shop";
-import { canonicalLink } from "@/lib/seo";
+import { absoluteUrl, canonicalLink, LOJA_MORADA_SCHEMA, SITE_URL } from "@/lib/seo";
 
 const HERO_PILHAS: [string, number][] = [
   ["diospiro", 388],
@@ -57,15 +57,21 @@ function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "GroceryStore",
+    "@id": `${SITE_URL}/#loja`,
     name: "MUNDIFRUTA",
+    url: `${SITE_URL}/`,
+    image: absoluteUrl("/fotos/loja/fachada.webp"),
     telephone: "+351932699850",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Av. de Portugal, Centro Cívico, Loja 24-C",
-      postalCode: "2790-129",
-      addressLocality: "Carnaxide",
-      addressRegion: "Oeiras",
-      addressCountry: "PT",
+    priceRange: "€",
+    hasMap: LOJA.google,
+    sameAs: [LOJA.google],
+    address: LOJA_MORADA_SCHEMA,
+    geo: { "@type": "GeoCoordinates", latitude: 38.726, longitude: -9.2391 },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: LOJA.nota.replace(",", "."),
+      reviewCount: LOJA.avaliacoes,
+      bestRating: "5",
     },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",

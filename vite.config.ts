@@ -1,3 +1,4 @@
+process.env.VITE_BUILD_DATE ??= new Date().toISOString().slice(0, 10);
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { Plugin } from "vite";

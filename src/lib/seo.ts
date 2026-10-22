@@ -16,3 +16,22 @@ export function absoluteUrl(url: string): string {
 export function canonicalLink(path: string) {
   return { rel: "canonical", href: canonicalUrl(path) };
 }
+
+export const LOJA_MORADA_SCHEMA = {
+  "@type": "PostalAddress",
+  streetAddress: "Av. de Portugal, Centro Cívico, Loja 24-C",
+  postalCode: "2790-129",
+  addressLocality: "Carnaxide",
+  addressRegion: "Oeiras",
+  addressCountry: "PT",
+} as const;
+
+/** Vendedor (loja física) usado no schema Product > Offer. */
+export const LOJA_SCHEMA_VENDEDOR = {
+  "@type": "GroceryStore",
+  "@id": `${SITE_URL}/#loja`,
+  name: "MUNDIFRUTA",
+  url: `${SITE_URL}/`,
+  telephone: "+351932699850",
+  address: LOJA_MORADA_SCHEMA,
+} as const;

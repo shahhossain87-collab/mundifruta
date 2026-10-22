@@ -5,7 +5,6 @@ import { OfferLine } from "@/components/offer";
 import { PriceBlock } from "@/components/price-block";
 import { adicionarProduto, useCart } from "@/lib/cart";
 import {
-  biologico,
   categoriaDe,
   descricaoProduto,
   metaDescricaoProduto,
@@ -22,7 +21,7 @@ import {
   relacionados,
   sobConfirmacao,
 } from "@/lib/shop";
-import { absoluteUrl, canonicalLink } from "@/lib/seo";
+import { absoluteUrl, canonicalLink, LOJA_SCHEMA_VENDEDOR } from "@/lib/seo";
 
 export const Route = createFileRoute("/produtos/$slug")({
   loader: ({ params }) => {
@@ -64,6 +63,7 @@ function ProdutoPage() {
     : sobConfirmacao(produto)
       ? "https://schema.org/LimitedAvailability"
       : "https://schema.org/InStock";
+  const porKgSchema = Boolean(pesoMedio(produto)) || /€\s*\/\s*kg|\/kg/i.test(produto.preco || "") || produto.peso === "1 kg";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -78,8 +78,19 @@ function ProdutoPage() {
             "@type": "Offer",
             priceCurrency: "EUR",
             price: precoNumero.toFixed(2),
+            ...(porKgSchema
+              ? {
+                  priceSpecification: {
+                    "@type": "UnitPriceSpecification",
+                    price: precoNumero.toFixed(2),
+                    priceCurrency: "EUR",
+                    unitCode: "KGM",
+                    referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "KGM" },
+                  },
+                }
+              : {}),
             availability: disponibilidade,
-            seller: { "@type": "GroceryStore", name: "MUNDIFRUTA", address: "Carnaxide" },
+            seller: LOJA_SCHEMA_VENDEDOR,
           }
         : undefined,
   };
@@ -115,7 +126,6 @@ function ProdutoPage() {
           </div>
           {pesoMedio(produto) ? <p className="mt-2 text-sm text-muted">{NOTA_PESO}</p> : null}
           {produto.origem ? <p className="mt-2 text-sm">Origem: {produto.origem}</p> : null}
-          {biologico(produto) ? <p className="mt-1 text-sm">Marcado como biológico no catálogo da loja.</p> : null}
           {precoCentimos(produto.preco) === null ? <p className="mt-1 text-sm">Preço a confirmar com a loja.</p> : null}
           {aberto ? (
             <div className="mt-5 flex flex-wrap items-center gap-2">

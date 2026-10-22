@@ -285,8 +285,9 @@ export function sobConfirmacao(produto: Product) {
   return /disponibilidade/i.test(produto.baseLinha || "");
 }
 
-export function biologico(produto: Product) {
-  return /bio/i.test(produto.badge || "");
+export function biologico(_produto: Product) {
+  // A loja não tem produtos com certificação biológica.
+  return false;
 }
 
 export type Badge = "Esgotado" | "Promoção" | "Novo" | "Fruta da época";
@@ -629,7 +630,6 @@ export function descricaoProduto(produto: Product) {
     `${nomeVisivel(produto)} na MUNDIFRUTA, frutaria em Carnaxide (Oeiras).`,
     produto.peso ? `Unidade de venda: ${produto.peso}.` : "",
     produto.origem ? `Origem indicada: ${produto.origem}.` : "",
-    biologico(produto) ? "Marcado como biológico no catálogo da loja." : "",
     sobConfirmacao(produto) ? "Sujeito a confirmação de disponibilidade." : "",
     !disponivel(produto) ? "De momento esgotado." : "",
     "Encomenda por WhatsApp e levantamento na loja. Pagamento na loja. Sem entrega.",
