@@ -72,6 +72,11 @@
       "source": "/produtos/cebola-nova",
       "destination": "/produtos/cebola",
       "permanent": true
+    },
+    {
+      "source": "/produtos/melao",
+      "destination": "/produtos/melao-de-espanha",
+      "permanent": true
     }
   ]
 }
