@@ -67,6 +67,11 @@
       "source": "/produtos/melancia-com-sementes",
       "destination": "/produtos/melancia-sem-sementes",
       "permanent": true
+    },
+    {
+      "source": "/produtos/cebola-nova",
+      "destination": "/produtos/cebola",
+      "permanent": true
     }
   ]
 }

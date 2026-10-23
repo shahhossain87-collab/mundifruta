@@ -259,18 +259,13 @@ export function ehErva(produto: Product) {
 }
 
 const EPOCA = new Set([
-  "figos",
-  "diospiros-kaki",
-  "manguita",
-  "manga-aviao",
-  "clementina",
-  "clementina-com-folhas",
-  "uva-vale-de-rosa-sem-grainha",
-  "uva-dona-maria",
+  "diospiro-roer-algarvio",
+  "castanha",
   "roma",
-  "marmelo",
-  "ameixa-roxa-nacional",
-  "pera-rocha",
+  "clementina",
+  "uva-vale-de-rosa-sem-grainha",
+  "manguita",
+  "laranja-do-algarve",
 ]);
 
 export function ehEpoca(produto: Product) {
