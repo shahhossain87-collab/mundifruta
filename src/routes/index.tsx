@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { imgResponsiva } from "@/lib/img";
 import type { CSSProperties } from "react";
 import { OfferCard } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
@@ -40,8 +41,26 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       canonicalLink("/"),
-      { rel: "preload", as: "image", href: "/fotos/home/grid/diospiro.webp", type: "image/webp", fetchPriority: "high" },
-      { rel: "preload", as: "image", href: "/fotos/home/grid/castanhas.webp", type: "image/webp" },
+      {
+        rel: "preload",
+        as: "image",
+        href: "/fotos/home/grid/diospiro.webp",
+        imageSrcSet:
+          "/fotos/home/grid/diospiro-w240.webp 240w, /fotos/home/grid/diospiro-w320.webp 320w, /fotos/home/grid/diospiro-w400.webp 400w, /fotos/home/grid/diospiro.webp 480w",
+        imageSizes: "(min-width: 768px) 25vw, 50vw",
+        type: "image/webp",
+        fetchPriority: "high",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: "/fotos/home/tile-frutas.webp",
+        imageSrcSet:
+          "/fotos/home/tile-frutas-w240.webp 240w, /fotos/home/tile-frutas-w320.webp 320w, /fotos/home/tile-frutas-w400.webp 400w, /fotos/home/tile-frutas.webp 560w",
+        imageSizes: "(min-width: 1024px) 180px, 50vw",
+        type: "image/webp",
+        fetchPriority: "high",
+      },
     ],
   }),
   component: Home,
@@ -93,7 +112,7 @@ function Home() {
           {HERO_PILHAS.map(([nome, altura], i) => (
             <div key={nome} className="hero-cell" style={{ "--d": `${i * -0.8}s` } as CSSProperties}>
               <img
-                src={`/fotos/home/grid/${nome}.webp`}
+                {...imgResponsiva(`/fotos/home/grid/${nome}.webp`, "(min-width: 768px) 25vw, 50vw")}
                 alt=""
                 width={480}
                 height={altura}
@@ -124,7 +143,7 @@ function Home() {
                 href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center rounded-lg bg-[#25D366] px-5 text-sm font-semibold text-white shadow-md"
+                className="inline-flex h-11 items-center rounded-lg bg-[#1a7f45] px-5 text-sm font-semibold text-white shadow-md"
               >
                 Encomendar por WhatsApp <span aria-hidden="true" className="ml-1">↗</span>
               </a>
@@ -159,11 +178,12 @@ function Home() {
               className="group relative isolate block aspect-[4/3] overflow-hidden rounded-2xl bg-foam shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
             >
               <img
-                src={`/fotos/home/tile-${categoria.slug}.webp`}
+                {...imgResponsiva(`/fotos/home/tile-${categoria.slug}.webp`, "(min-width: 1024px) 180px, 50vw")}
                 alt=""
                 width={560}
                 height={420}
-                loading="lazy"
+                loading={index < 2 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
                 decoding="async"
                 className="tile-drift absolute inset-0 -z-10 h-full w-full object-cover"
                 style={{ "--tile-delay": `${-index * 1.7}s` } as CSSProperties}
@@ -197,7 +217,7 @@ function Home() {
       <section className="mx-auto max-w-6xl px-4 pt-6" aria-labelledby="loja-titulo">
         <div className="grid items-center gap-4 rounded-2xl border border-line bg-card p-3 sm:grid-cols-[minmax(0,26rem)_1fr] sm:p-4">
           <img
-            src="/fotos/loja/fachada.webp"
+            {...imgResponsiva("/fotos/loja/fachada.webp", "(min-width: 640px) 26rem, 92vw")}
             alt="Fachada da loja MUNDIFRUTA no Centro Cívico de Carnaxide, com bancas de fruta e chapéus vermelhos"
             width={720}
             height={591}
@@ -276,7 +296,7 @@ function Home() {
             const vista = precoVista(cabaz);
             return (
               <article key={cabaz.id} className="grid grid-cols-[112px_1fr] gap-3 rounded-lg border border-line bg-card p-3 sm:grid-cols-[160px_1fr]">
-                <img src={cabaz.foto} alt={cabaz.alt || nomeVisivel(cabaz)} width={320} height={320} loading="lazy" className="aspect-square rounded-lg bg-foam object-contain" />
+                <img {...imgResponsiva(cabaz.foto, "160px")} alt={cabaz.alt || nomeVisivel(cabaz)} width={320} height={320} loading="lazy" className="aspect-square rounded-lg bg-foam object-contain" />
                 <div>
                   <h3 className="font-display text-2xl">{nomeVisivel(cabaz)}</h3>
                   <p className="text-xs text-muted">{vista.unidade}</p>

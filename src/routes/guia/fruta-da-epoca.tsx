@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { imgResponsiva } from "@/lib/img";
 import { LOJA, nomeVisivel, porSlug, whatsappHref, type Product } from "@/lib/shop";
 import { canonicalLink } from "@/lib/seo";
 
@@ -115,7 +116,7 @@ function CartaoProduto({ slug, fallbackNome }: { slug: string; fallbackNome: str
       className="flex gap-3 rounded-lg border border-line bg-card p-3 transition hover:border-leaf"
     >
       <img
-        src={produto.foto}
+        {...imgResponsiva(produto.foto, "72px")}
         alt={produto.alt || nomeVisivel(produto)}
         width={72}
         height={72}

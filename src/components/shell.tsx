@@ -1,9 +1,11 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBasket, X } from "lucide-react";
-import { CartDrawer } from "@/components/cart-drawer";
 import { OfferBar } from "@/components/offer";
 import { useCart, useUi } from "@/lib/cart";
+
+// Cart drawer (Radix Dialog + form) is only needed once the cart is opened: load it on demand.
+const CartDrawer = lazy(() => import("@/components/cart-drawer").then((m) => ({ default: m.CartDrawer })));
 import { formatarCentimos, LOJA, porId, precoLinhaCentimos, totaisDe, whatsappHref } from "@/lib/shop";
 
 const NAV = [
@@ -24,6 +26,11 @@ export function Shell({ children }: { children: ReactNode }) {
   const qty = useCart((state) => state.qty);
   const setCartOpen = useUi((state) => state.setCartOpen);
   const toast = useUi((state) => state.toast);
+  const cartOpen = useUi((state) => state.cartOpen);
+  const [cartUsed, setCartUsed] = useState(false);
+  useEffect(() => {
+    if (cartOpen) setCartUsed(true);
+  }, [cartOpen]);
   const linhas = Object.entries(qty)
     .map(([id, qtd]) => {
       const produto = porId(id);
@@ -210,7 +217,11 @@ export function Shell({ children }: { children: ReactNode }) {
         </div>
         <p className="border-t border-leaf px-4 py-4 text-center text-xs text-foam">© 2026 MUNDIFRUTA · Carnaxide</p>
       </footer>
-      <CartDrawer />
+      {cartUsed ? (
+        <Suspense fallback={null}>
+          <CartDrawer />
+        </Suspense>
+      ) : null}
       <div className="fixed inset-x-0 bottom-0 z-40">
         {totais.quantidade > 0 ? (
           <button

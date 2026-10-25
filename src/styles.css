@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 @theme {
   --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
@@ -10,7 +11,7 @@
   --color-line: #e4dccb;
   --color-leaf: #1d6b3c;
   --color-leaf-deep: #134628;
-  --color-fruit: #b84e22;
+  --color-fruit: #a3441c;
   --color-foam: #e7f2e4;
   --color-warn: #8a3d16;
   --radius-lg: 0.75rem;

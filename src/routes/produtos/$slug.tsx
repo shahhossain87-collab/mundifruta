@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { imgResponsiva } from "@/lib/img";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ProductCard } from "@/components/product-card";
 import { OfferLine } from "@/components/offer";
@@ -110,10 +111,11 @@ function ProdutoPage() {
       <div className="grid gap-6 md:grid-cols-2">
         <div className="aspect-square overflow-hidden rounded-lg bg-foam">
           <img
-            src={produto.foto}
+            {...imgResponsiva(produto.foto, "(min-width: 768px) 560px, 92vw")}
             alt={produto.alt || nomeVisivel(produto)}
             width={800}
             height={800}
+            fetchPriority="high"
             className="h-full w-full object-contain p-6"
           />
         </div>

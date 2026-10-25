@@ -2,7 +2,7 @@ import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-r
 import { AuthProvider } from "@/lib/auth/provider";
 import { PreviewHostBridge } from "@/components/preview-host-bridge";
 import { Shell } from "@/components/shell";
-import appCss from "../styles.css?url";
+import appCss from "../styles.css?inline";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -19,19 +19,18 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-      { rel: "stylesheet", href: appCss },
+      { rel: "preload", as: "font", type: "font/woff2", href: "/fonts/outfit-latin-357083.woff2", crossOrigin: "anonymous" },
+      { rel: "preload", as: "font", type: "font/woff2", href: "/fonts/fraunces-latin-39ce20.woff2", crossOrigin: "anonymous" },
       { rel: "manifest", href: "/__grok/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Outfit:wght@400;500;600;700&display=swap",
-      },
     ],
   }),
   component: () => (
     <html lang="pt" className="antialiased">
       <head>
         <HeadContent />
+        {/* Critical CSS inlined (no render-blocking stylesheet request). */}
+        <style dangerouslySetInnerHTML={{ __html: appCss }} />
       </head>
       <body>
         <PreviewHostBridge />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { imgResponsiva } from "@/lib/img";
 import { Link } from "@tanstack/react-router";
 import { Minus, Plus } from "lucide-react";
 import { PriceBlock } from "@/components/price-block";
@@ -30,7 +31,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
       >
         {fotoOk ? (
           <img
-            src={product.foto}
+            {...imgResponsiva(product.foto, "(min-width: 1024px) 240px, (min-width: 640px) 33vw, 50vw")}
             alt={product.alt || nomeVisivel(product)}
             width={480}
             height={480}
