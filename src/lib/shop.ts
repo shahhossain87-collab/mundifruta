@@ -7,13 +7,15 @@ export const LOJA = {
   whatsapp: "351932699850",
   morada: "Av. de Portugal, Centro Cívico, Loja 24-C",
   cp: "2790-129 Carnaxide",
-  horario: "Seg–Dom · 8h–20h",
-  horarioLongo: "Segunda a domingo, 8:00–20:00",
+  horario: "Seg–Sáb 8h–20h · Dom 10h–13h",
+  horarioLongo: "Segunda a sábado, 8:00–20:00 · Domingo, 10:00–13:00",
   mapas:
     "https://www.google.com/maps/dir/?api=1&destination=Mundifruta-Carnaxide%2C+Av.+de+Portugal%2C+Centro+C%C3%ADvico%2C+Loja+24-C%2C+2790-129+Carnaxide",
   mapaEmbed:
     "https://maps.google.com/maps?q=Mundifruta-Carnaxide,%20Av%20de%20Portugal,%20Centro%20C%C3%ADvico,%20loja%2024-C,%202790-129%20Carnaxide&hl=pt&z=17&output=embed",
   google: catalog.avaliacoesInfo.link,
+  facebook: "https://www.facebook.com/954574154933740",
+  instagram: "https://www.instagram.com/mundifruta",
   nota: catalog.avaliacoesInfo.nota,
   avaliacoes: catalog.avaliacoesInfo.total,
 } as const;

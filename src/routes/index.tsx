@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Frutas e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja. Seg–Dom, 8h–20h. Pagamento na loja.",
+          "Frutas e legumes frescos em Carnaxide. Encomende por WhatsApp e levante na loja. Seg–Sáb 8h–20h, Dom 10h–13h. Pagamento na loja.",
       },
     ],
     links: [
@@ -64,21 +64,24 @@ function Home() {
     telephone: "+351932699850",
     priceRange: "€",
     hasMap: LOJA.google,
-    sameAs: [LOJA.google],
+    sameAs: [LOJA.google, LOJA.facebook, LOJA.instagram],
     address: LOJA_MORADA_SCHEMA,
-    geo: { "@type": "GeoCoordinates", latitude: 38.726, longitude: -9.2391 },
+    geo: { "@type": "GeoCoordinates", latitude: 38.726346, longitude: -9.241328 },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: LOJA.nota.replace(",", "."),
       reviewCount: LOJA.avaliacoes,
       bestRating: "5",
     },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      opens: "08:00",
-      closes: "20:00",
-    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        opens: "08:00",
+        closes: "20:00",
+      },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: "Sunday", opens: "10:00", closes: "13:00" },
+    ],
   };
 
   return (
@@ -94,9 +97,9 @@ function Home() {
                 alt=""
                 width={480}
                 height={altura}
-                loading={i < 6 ? "eager" : "lazy"}
+                loading={i < 3 ? "eager" : "lazy"}
                 decoding="async"
-                fetchPriority={i < 2 ? "high" : "auto"}
+                fetchPriority={i === 0 ? "high" : "auto"}
               />
             </div>
           ))}
@@ -160,7 +163,7 @@ function Home() {
                 alt=""
                 width={560}
                 height={420}
-                loading="eager"
+                loading="lazy"
                 decoding="async"
                 className="tile-drift absolute inset-0 -z-10 h-full w-full object-cover"
                 style={{ "--tile-delay": `${-index * 1.7}s` } as CSSProperties}

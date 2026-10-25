@@ -180,6 +180,14 @@ export function Shell({ children }: { children: ReactNode }) {
             <a className="mt-2 inline-block font-semibold" href={LOJA.telefoneHref}>
               {LOJA.telefone}
             </a>
+            <p className="mt-2 flex gap-4">
+              <a href={LOJA.facebook} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                Facebook
+              </a>
+              <a href={LOJA.instagram} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                Instagram
+              </a>
+            </p>
           </div>
           <nav className="flex flex-col gap-2 text-sm" aria-label="Rodapé">
             <Link to="/produtos">Produtos</Link>
