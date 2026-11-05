@@ -1,33 +1,29 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { imgResponsiva } from "@/lib/img";
-import type { CSSProperties } from "react";
-import { OfferCard } from "@/components/offer";
+import { OfferBand } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
 import { adicionarProduto } from "@/lib/cart";
 import {
   avaliacoes,
+  badgeProduto,
   categorias,
   disponivel,
   LOJA,
   nomeVisivel,
   novidades,
+  porNome,
   precoVista,
   produtosDaCategoria,
-  selecionados,
   whatsappHref,
+  type Product,
 } from "@/lib/shop";
 import { absoluteUrl, canonicalLink, LOJA_MORADA_SCHEMA, SITE_URL } from "@/lib/seo";
 
-const HERO_PILHAS: [string, number][] = [
-  ["diospiro", 388],
-  ["castanhas", 263],
-  ["abobora", 338],
-  ["roma", 433],
-  ["laranja", 324],
-  ["grelos", 278],
-  ["maca", 340],
-  ["uva", 254],
-];
+/** Real shop photos shown on the hero, each with its price tag (prices come from the catalog). */
+const HERO_PRODUTOS = ["Clementina com folhas", "Dióspiro Sharon", "Romã"];
+const HERO_SIZES_LARGE = "(min-width: 900px) 580px, 92vw";
+const HERO_SIZES_SMALL = "(min-width: 900px) 285px, 46vw";
+const HERO_LCP = imgResponsiva("/fotos/loja/clementina-folhas.webp", HERO_SIZES_LARGE);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,20 +40,8 @@ export const Route = createFileRoute("/")({
       {
         rel: "preload",
         as: "image",
-        href: "/fotos/home/grid/diospiro.webp",
-        imageSrcSet:
-          "/fotos/home/grid/diospiro-w240.webp 240w, /fotos/home/grid/diospiro-w320.webp 320w, /fotos/home/grid/diospiro-w400.webp 400w, /fotos/home/grid/diospiro.webp 480w",
-        imageSizes: "(min-width: 768px) 25vw, 50vw",
-        type: "image/webp",
-        fetchPriority: "high",
-      },
-      {
-        rel: "preload",
-        as: "image",
-        href: "/fotos/home/tile-frutas.webp",
-        imageSrcSet:
-          "/fotos/home/tile-frutas-w240.webp 240w, /fotos/home/tile-frutas-w320.webp 320w, /fotos/home/tile-frutas-w400.webp 400w, /fotos/home/tile-frutas.webp 560w",
-        imageSizes: "(min-width: 1024px) 180px, 50vw",
+        href: HERO_LCP.src,
+        ...(HERO_LCP.srcSet ? { imageSrcSet: HERO_LCP.srcSet, imageSizes: HERO_LCP.sizes } : {}),
         type: "image/webp",
         fetchPriority: "high",
       },
@@ -66,10 +50,44 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+function WhatsAppIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.2 1.5Z" />
+    </svg>
+  );
+}
+
+function HeroShot({ produto, index }: { produto: Product; index: number }) {
+  const vista = precoVista(produto);
+  const promocao = badgeProduto(produto) === "Promoção";
+  return (
+    <figure className={index === 0 ? "hv-shot hv-shot-wide" : "hv-shot"}>
+      <img
+        {...imgResponsiva(produto.foto, index === 0 ? HERO_SIZES_LARGE : HERO_SIZES_SMALL)}
+        alt={produto.alt || nomeVisivel(produto)}
+        loading={index === 0 ? "eager" : "lazy"}
+        fetchPriority={index === 0 ? "high" : "auto"}
+        decoding="async"
+      />
+      {promocao ? <span className="hv-flag">Promoção</span> : null}
+      <figcaption className="hv-tag">
+        <small>{nomeVisivel(produto)}</small>
+        <b>{vista.principal}</b>
+        {promocao && vista.rasurado ? <s>{vista.rasurado}</s> : null}
+      </figcaption>
+    </figure>
+  );
+}
+
 function Home() {
   const destaques = novidades();
-  const escolha = selecionados();
+  const heroProdutos = HERO_PRODUTOS.map((nome) => porNome(nome)).filter(
+    (produto): produto is Product => Boolean(produto && disponivel(produto)),
+  );
   const cabazes = produtosDaCategoria("cabazes");
+  const outono = porNome("Cabaz de Outono");
+  const cabaz = outono && disponivel(outono) ? outono : cabazes.find((item) => disponivel(item));
   const categoriasDestaque = ["frutas", "legumes", "cabazes", "promocoes", "frutas-da-epoca", "ervas-frescas"]
     .map((slug) => categorias.find((categoria) => categoria.slug === slug))
     .filter((categoria): categoria is (typeof categorias)[number] => Boolean(categoria));
@@ -102,250 +120,250 @@ function Home() {
       { "@type": "OpeningHoursSpecification", dayOfWeek: "Sunday", opens: "10:00", closes: "13:00" },
     ],
   };
+  const vistaCabaz = cabaz ? precoVista(cabaz) : null;
 
   return (
-    <div>
+    <div className="hv">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="relative isolate overflow-hidden bg-leaf-deep text-white" aria-labelledby="hero-titulo">
-        {/* Seasonal fruit piles in a grid (2x3 phone, 4x2 desktop). Gentle transform-only zoom, staggered per cell. */}
-        <div className="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-          {HERO_PILHAS.map(([nome, altura], i) => (
-            <div key={nome} className="hero-cell" style={{ "--d": `${i * -0.8}s` } as CSSProperties}>
-              <img
-                {...imgResponsiva(`/fotos/home/grid/${nome}.webp`, "(min-width: 768px) 25vw, 50vw")}
-                alt=""
-                width={480}
-                height={altura}
-                loading={i < 3 ? "eager" : "lazy"}
-                decoding="async"
-                fetchPriority={i === 0 ? "high" : "auto"}
-              />
-            </div>
-          ))}
-        </div>
-        {/* Gradient keeps the text readable: from the bottom on phones, from the left on desktop. */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/55 to-black/0 md:bg-gradient-to-r md:from-black/80 md:via-black/45 md:to-black/0"
-          aria-hidden="true"
-        />
-        <div className="mx-auto flex min-h-[19.5rem] max-w-6xl flex-col justify-end px-4 pt-24 pb-4 md:min-h-[24rem] md:justify-center md:py-12">
-          <div className="hero-rise max-w-xl [text-shadow:0_1px_3px_rgb(0_0_0/0.6)]">
-            <span className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold tracking-wide uppercase backdrop-blur-sm [text-shadow:none]">
-              <i className="size-1.5 rounded-full bg-[#25D366]" aria-hidden="true" /> Frescura local em Carnaxide
-            </span>
-            <h1 id="hero-titulo" className="font-display text-[1.75rem] leading-tight md:text-5xl">
-              Frutas e legumes <em className="not-italic text-[#ffd54a]">frescos todos os dias</em>
-            </h1>
-            <p className="mt-1 text-base font-semibold md:mt-2 md:text-lg">Escolha a sua seleção, encomende por WhatsApp e levante na loja.</p>
-            <p className="mt-1 text-xs text-white/90 md:text-sm"><a href="#reviews-titulo" className="font-semibold text-[#ffd54a]">★★★★★ {LOJA.nota}</a> · {LOJA.horario} · Sem entrega ao domicílio</p>
-            <div className="mt-3 flex flex-wrap gap-2 [text-shadow:none] md:mt-5">
+
+      <section className="hv-hero" aria-labelledby="hero-titulo">
+        <div className="hv-wrap hv-hero-grid">
+          <div>
+            <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
+            <p className="hv-lead">Escolha a sua seleção, encomende por WhatsApp e levante na loja.</p>
+            <div className="hv-cta">
               <a
                 href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center rounded-lg bg-[#1a7f45] px-5 text-sm font-semibold text-white shadow-md"
+                className="hv-btn hv-btn-wa"
               >
-                Encomendar por WhatsApp <span aria-hidden="true" className="ml-1">↗</span>
+                <WhatsAppIcon />
+                Encomendar por WhatsApp
               </a>
-              <Link
-                to="/produtos"
-                className="inline-flex h-11 items-center rounded-lg bg-white/95 px-4 text-sm font-semibold text-leaf-deep shadow-md"
-              >
-                Ver produtos <span aria-hidden="true" className="ml-1">↗</span>
+              <Link to="/produtos" className="hv-btn hv-btn-line">
+                Ver produtos
               </Link>
             </div>
+            <div className="hv-trust">
+              <span>
+                <span className="hv-stars" aria-hidden="true">
+                  ★★★★★
+                </span>
+                <a href="#reviews-titulo">
+                  <strong>{LOJA.nota}</strong> em {LOJA.avaliacoes} avaliações Google
+                </a>
+              </span>
+              <span>Há mais de 12 anos em Carnaxide</span>
+            </div>
+          </div>
+          <div className="hv-board" aria-label="Na banca hoje">
+            {heroProdutos.map((produto, index) => (
+              <HeroShot key={produto.id} produto={produto} index={index} />
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pt-3 pb-2 md:pt-6" aria-labelledby="categorias-titulo">
-        <span className="text-xs font-semibold tracking-wide text-leaf uppercase">Comprar por categoria</span>
-        <div className="flex items-end justify-between gap-3">
-          <h2 id="categorias-titulo" className="font-display text-xl md:text-3xl">
-            Encontre o que procura
-          </h2>
-          <Link to="/produtos" className="text-sm font-semibold text-leaf">
-            Ver tudo
-          </Link>
-        </div>
-        <p className="mt-1 text-sm text-muted">Frutas, legumes, cabazes e os destaques desta semana, prontos a levantar na loja.</p>
-        <div className="mt-2 grid grid-cols-2 gap-2.5 sm:gap-3 md:mt-4 lg:grid-cols-6">
-          {categoriasDestaque.map((categoria, index) => (
-            <Link
-              key={categoria.slug}
-              to="/categorias/$categoria"
-              params={{ categoria: categoria.slug }}
-              className="group relative isolate block aspect-[4/3] overflow-hidden rounded-2xl bg-foam shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-md"
-            >
-              <img
-                {...imgResponsiva(`/fotos/home/tile-${categoria.slug}.webp`, "(min-width: 1024px) 180px, 50vw")}
-                alt=""
-                width={560}
-                height={420}
-                loading={index < 2 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                decoding="async"
-                className="tile-drift absolute inset-0 -z-10 h-full w-full object-cover"
-                style={{ "--tile-delay": `${-index * 1.7}s` } as CSSProperties}
-              />
-              <span className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-black/75 to-black/0" aria-hidden="true" />
-              <span className="absolute inset-x-0 bottom-0 p-2.5 text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.6)] sm:p-3">
-                <span className="block font-display text-lg leading-tight font-semibold sm:text-xl">{categoria.label}</span>
-                <span className="block text-xs text-white/90">{produtosDaCategoria(categoria.slug).length} produtos</span>
-              </span>
+      <section className="hv-section" style={{ paddingTop: "0.5rem" }} aria-labelledby="categorias-titulo">
+        <div className="hv-wrap">
+          <div className="hv-head">
+            <div>
+              <h2 id="categorias-titulo" className="hv-h2">
+                Encontre o que procura
+              </h2>
+              <p className="hv-sub">Frutas, legumes, cabazes e os destaques desta semana, prontos a levantar na loja.</p>
+            </div>
+            <Link to="/produtos" className="hv-more">
+              Ver tudo
             </Link>
-          ))}
+          </div>
+          <div className="hv-cats">
+            {categoriasDestaque.map((categoria) => (
+              <Link key={categoria.slug} to="/categorias/$categoria" params={{ categoria: categoria.slug }} className="hv-cat">
+                <img
+                  {...imgResponsiva(`/fotos/home/tile-${categoria.slug}.webp`, "(min-width: 700px) 380px, 46vw")}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span>
+                  {categoria.label}
+                  <i>{produtosDaCategoria(categoria.slug).length} produtos</i>
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      <OfferCard />
+      {destaques.length > 0 ? (
+        <section className="hv-section" style={{ paddingTop: 0 }} aria-labelledby="novidades-titulo">
+          <div className="hv-wrap">
+            <div className="hv-head">
+              <div>
+                <h2 id="novidades-titulo" className="hv-h2">
+                  Novidades
+                </h2>
+                <p className="hv-sub">Acabaram de chegar. Preço válido enquanto houver.</p>
+              </div>
+              <Link to="/categorias/$categoria" params={{ categoria: "promocoes" }} className="hv-more">
+                Ver promoções
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
+              {destaques.slice(0, 4).map((produto) => (
+                <ProductCard key={produto.id} product={produto} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
-      <section className="mx-auto max-w-6xl px-4 pt-4" aria-labelledby="como-titulo">
-        <h2 id="como-titulo" className="sr-only">
-          Como encomendar
-        </h2>
-        <ol className="grid grid-cols-3 gap-2 text-center text-xs sm:text-sm">
-          {["Veja os produtos no site", "Envie a encomenda por WhatsApp", "Levante e pague na loja"].map((passo, index) => (
-            <li key={passo} className="rounded-xl border border-line bg-card px-2 py-2.5">
-              <span className="mx-auto mb-1 grid size-6 place-items-center rounded-full bg-leaf text-xs font-bold text-paper">{index + 1}</span>
-              {passo}
+      {cabaz && vistaCabaz ? (
+        <section className="hv-basket" aria-labelledby="cabaz-titulo">
+          <div className="hv-basket-grid">
+            <img
+              {...imgResponsiva(cabaz.foto, "(min-width: 900px) 590px, 100vw")}
+              alt={cabaz.alt || nomeVisivel(cabaz)}
+              loading="lazy"
+              decoding="async"
+            />
+            <div className="hv-basket-body">
+              <h2 id="cabaz-titulo" className="hv-h2">
+                {nomeVisivel(cabaz)}
+              </h2>
+              <p className="hv-price-big">
+                {vistaCabaz.principal}
+                {vistaCabaz.unidade ? <small>{vistaCabaz.unidade}</small> : null}
+              </p>
+              {cabaz.itens && cabaz.itens.length > 0 ? (
+                <p className="hv-basket-list">{cabaz.itens.map((item) => item.nome).join(", ")}.</p>
+              ) : null}
+              {cabaz.nota ? <p className="hv-note">{cabaz.nota}</p> : null}
+              <div className="hv-basket-actions">
+                <button type="button" className="hv-btn hv-btn-ink" onClick={() => adicionarProduto(cabaz.id)}>
+                  Adicionar ao carrinho
+                </button>
+                <Link to="/categorias/$categoria" params={{ categoria: "cabazes" }} className="hv-btn hv-btn-line">
+                  Ver todos os cabazes
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="hv-section" aria-labelledby="como-titulo">
+        <div className="hv-wrap">
+          <div className="hv-head">
+            <h2 id="como-titulo" className="hv-h2">
+              Como encomendar
+            </h2>
+          </div>
+          <ol className="hv-steps">
+            <li className="hv-step">
+              <div>
+                <h3>Veja os produtos no site</h3>
+                <p>Escolha frutas, legumes ou um cabaz.</p>
+              </div>
             </li>
-          ))}
-        </ol>
+            <li className="hv-step">
+              <div>
+                <h3>Envie a encomenda por WhatsApp</h3>
+                <p>Adicione ao carrinho e confirme o subtotal.</p>
+              </div>
+            </li>
+            <li className="hv-step">
+              <div>
+                <h3>Levante e pague na loja</h3>
+                <p>Centro Cívico, Carnaxide.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pt-6" aria-labelledby="loja-titulo">
-        <div className="grid items-center gap-4 rounded-2xl border border-line bg-card p-3 sm:grid-cols-[minmax(0,26rem)_1fr] sm:p-4">
+      <OfferBand />
+
+      <section className="hv-section" aria-labelledby="reviews-titulo">
+        <div className="hv-wrap">
+          <div className="hv-rating">
+            <span className="hv-score">{LOJA.nota}</span>
+            <div>
+              <div className="hv-stars" aria-hidden="true" style={{ fontSize: "1.4rem" }}>
+                ★★★★★
+              </div>
+              <h2 id="reviews-titulo" style={{ fontSize: "1rem", fontWeight: 400, letterSpacing: 0 }}>
+                {LOJA.avaliacoes} avaliações no Google
+              </h2>
+            </div>
+          </div>
+          <div className="hv-reviews">
+            {avaliacoes.map((avaliacao) => (
+              <figure key={avaliacao.nome} className="hv-review">
+                <blockquote>{avaliacao.texto}</blockquote>
+                <figcaption>
+                  {avaliacao.nome}
+                  <span className="sr-only">, {avaliacao.estrelas} de 5 estrelas</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <a className="hv-more" style={{ display: "inline-block", marginTop: "1.5rem" }} href={LOJA.google} target="_blank" rel="noreferrer">
+            Ver todas as avaliações no Google
+          </a>
+        </div>
+      </section>
+
+      <section className="hv-section hv-store" aria-labelledby="loja-titulo">
+        <div className="hv-wrap hv-store-grid">
           <img
-            {...imgResponsiva("/fotos/loja/fachada.webp", "(min-width: 640px) 26rem, 92vw")}
+            {...imgResponsiva("/fotos/loja/fachada.webp", "(min-width: 900px) 590px, 92vw")}
             alt="Fachada da loja MUNDIFRUTA no Centro Cívico de Carnaxide, com bancas de fruta e chapéus vermelhos"
-            width={720}
-            height={591}
             loading="lazy"
             decoding="async"
-            className="aspect-[720/591] w-full rounded-xl object-cover"
           />
           <div>
-            <h2 id="loja-titulo" className="font-display text-2xl md:text-3xl">
+            <h2 id="loja-titulo" className="hv-h2">
               A nossa loja
             </h2>
-            <p className="mt-1 text-sm">Centro Cívico, loja 24C, Carnaxide · {LOJA.horario}</p>
-            <p className="mt-2 text-sm">
-              <span className="font-semibold text-fruit">{LOJA.nota} ★</span> ({LOJA.avaliacoes} avaliações Google)
-            </p>
-            <p className="mt-2 text-sm text-muted">Há mais de 12 anos em Carnaxide. Encomende por WhatsApp e levante na loja.</p>
-            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-leaf">
-              <a href={LOJA.mapas} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center">
-                Como chegar
+            <dl>
+              <div>
+                <dt>Morada</dt>
+                <dd>
+                  {LOJA.morada}
+                  <br />
+                  {LOJA.cp}
+                </dd>
+              </div>
+              <div>
+                <dt>Horário</dt>
+                <dd>{LOJA.horarioLongo}</dd>
+              </div>
+              <div>
+                <dt>Telefone e WhatsApp</dt>
+                <dd>
+                  <a href={LOJA.telefoneHref}>{LOJA.telefone}</a>
+                </dd>
+              </div>
+            </dl>
+            <div className="hv-cta" style={{ marginTop: 0 }}>
+              <a
+                href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
+                target="_blank"
+                rel="noreferrer"
+                className="hv-btn hv-btn-wa"
+              >
+                <WhatsAppIcon />
+                Encomendar por WhatsApp
               </a>
-              <a href="#reviews-titulo" className="inline-flex h-9 items-center">
-                Ler avaliações
+              <a href={LOJA.mapas} target="_blank" rel="noreferrer" className="hv-btn hv-btn-line">
+                Como chegar
               </a>
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="novidades-titulo">
-        <div className="flex items-end justify-between gap-3">
-          <h2 id="novidades-titulo" className="font-display text-3xl">
-            Novidades
-          </h2>
-          <div className="flex gap-3 text-sm font-semibold text-leaf">
-            <Link to="/produtos">Ver tudo</Link>
-            <Link to="/categorias/$categoria" params={{ categoria: "promocoes" }}>
-              Ver promoções
-            </Link>
-          </div>
-        </div>
-        <p className="mt-1 text-sm text-muted">Acabaram de chegar. Preço válido enquanto houver.</p>
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
-          {destaques.slice(0, 4).map((produto) => (
-            <ProductCard key={produto.id} product={produto} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-8" aria-labelledby="selecao-titulo">
-        <div className="flex items-end justify-between gap-3">
-          <h2 id="selecao-titulo" className="font-display text-3xl">
-            A sair agora
-          </h2>
-          <Link to="/produtos" className="text-sm font-semibold text-leaf">
-            Ver tudo
-          </Link>
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4">
-          {escolha.slice(0, 4).map((produto) => (
-            <ProductCard key={produto.id} product={produto} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-4" aria-labelledby="cabazes-titulo">
-        <div className="flex items-end justify-between gap-3">
-          <h2 id="cabazes-titulo" className="font-display text-3xl">
-            Cabazes
-          </h2>
-          <Link to="/categorias/$categoria" params={{ categoria: "cabazes" }} className="text-sm font-semibold text-leaf">
-            Ver cabazes
-          </Link>
-        </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {cabazes.map((cabaz) => {
-            const vista = precoVista(cabaz);
-            return (
-              <article key={cabaz.id} className="grid grid-cols-[112px_1fr] gap-3 rounded-lg border border-line bg-card p-3 sm:grid-cols-[160px_1fr]">
-                <img {...imgResponsiva(cabaz.foto, "160px")} alt={cabaz.alt || nomeVisivel(cabaz)} width={320} height={320} loading="lazy" className="aspect-square rounded-lg bg-foam object-contain" />
-                <div>
-                  <h3 className="font-display text-2xl">{nomeVisivel(cabaz)}</h3>
-                  <p className="text-xs text-muted">{vista.unidade}</p>
-                  <p className="font-display text-2xl text-fruit tabular-nums">{vista.principal}</p>
-                  <p className="mt-1 text-xs text-muted">{cabaz.nota}</p>
-                  <details className="mt-2 text-sm">
-                    <summary className="cursor-pointer font-semibold">Ver o que leva</summary>
-                    <ul className="mt-2 space-y-1">
-                      {cabaz.itens?.map((item, index) => (
-                        <li key={`${item.nome}-${index}`}>
-                          {item.grupo ? <span className="mt-2 block text-xs font-semibold text-muted">{item.grupo}</span> : null}
-                          {item.q} · {item.nome}
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                  {disponivel(cabaz) ? (
-                    <button type="button" className="mt-3 h-11 rounded-lg bg-leaf px-4 text-sm font-semibold text-paper" onClick={() => adicionarProduto(cabaz.id)}>
-                      Adicionar
-                    </button>
-                  ) : null}
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-8" aria-labelledby="reviews-titulo">
-        <h2 id="reviews-titulo" className="font-display text-3xl">
-          Google
-        </h2>
-        <p className="mt-2 text-sm">
-          {LOJA.nota} em {LOJA.avaliacoes} avaliações no Google.
-        </p>
-        <div className="mt-4 grid gap-3 md:grid-cols-3">
-          {avaliacoes.map((avaliacao) => (
-            <figure key={avaliacao.nome} className="rounded-lg border border-line bg-card p-4">
-              <blockquote className="text-sm">{avaliacao.texto}</blockquote>
-              <figcaption className="mt-3 text-sm font-semibold">
-                {avaliacao.nome}
-                <span className="ml-2 font-normal text-muted">{avaliacao.estrelas}/5</span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-        <a className="mt-4 inline-block text-sm font-semibold text-leaf" href={LOJA.google} target="_blank" rel="noreferrer">
-          Ver todas as avaliações no Google
-        </a>
       </section>
 
       <section id="quem-somos" className="scroll-mt-20 border-t border-line">

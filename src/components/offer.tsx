@@ -105,3 +105,42 @@ export function OfferLine({ className }: { className?: string }) {
     </p>
   );
 }
+
+/** Faixa grande da oferta na página inicial (âncora #oferta usada pela faixa do topo). */
+export function OfferBand() {
+  const [copiado, setCopiado] = useState(false);
+  async function copiar() {
+    try {
+      await navigator.clipboard.writeText(OFERTA.codigo);
+      setCopiado(true);
+      window.setTimeout(() => setCopiado(false), 2000);
+    } catch {
+      setCopiado(false);
+    }
+  }
+  return (
+    <section id="oferta" className="hv-offer scroll-mt-20" aria-labelledby="oferta-titulo">
+      <div className="hv-wrap hv-offer-grid">
+        <div>
+          <h2 id="oferta-titulo">
+            {DESCONTO} de desconto na 1.ª compra a partir de {MINIMO}
+          </h2>
+          <p className="mt-2">
+            {OFERTA.exclusivo} Levantamento na loja.
+            <span className="sr-only"> {PEQUENAS_LETRAS}</span>
+          </p>
+        </div>
+        <div className="hv-code">
+          <span>{OFERTA.codigo}</span>
+          <button
+            type="button"
+            onClick={() => void copiar()}
+            aria-label={copiado ? `Código ${OFERTA.codigo} copiado` : `Copiar código ${OFERTA.codigo}`}
+          >
+            {copiado ? "Copiado" : "Copiar"}
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
