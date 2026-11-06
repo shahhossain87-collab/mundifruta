@@ -160,7 +160,7 @@
 
 /* ── Homepage v2 (hv-*): bright real photos, red price tags, one clear WhatsApp action ── */
 .hv {
-  --hv-paper: #fbfaf6;
+  --hv-paper: #f6f1e4;
   --hv-ink: #16251b;
   --hv-soft: #4a5a4f;
   --hv-red: #c21f2b;
@@ -195,9 +195,24 @@
 .hv :focus-visible { outline: 3px solid var(--hv-ink); outline-offset: 3px; border-radius: 6px; }
 
 /* hero */
-.hv-hero { padding-block: 1.75rem 2.5rem; }
+.hv-hero { padding-block: 0 2.5rem; background: #14351f; color: #fff; --hv-soft: #d7e3d6; }
+.hv-hero .hv-wrap { width: 100%; }
+.hv-hero-grid > div:first-child { padding: 1.5rem 1rem 0; }
+.hv-board { order: -1; }
+.hv-hero .hv-shot { border-radius: 0; }
+.hv-hero .hv-shot:not(.hv-shot-wide) { display: none; }
+.hv-hero h1 span { display: block; }
+.hv-hero h1 em { display: block; font-style: normal; color: var(--hv-persimmon); }
+.hv-hero .hv-btn-wa { background: #fff; color: #0e5a30; }
+.hv-hero .hv-btn-wa:hover { background: #ecf5ee; }
+.hv-hero .hv-btn-line { border-color: #fff; color: #fff; }
+.hv-hero .hv-btn-line:hover { background: #fff; color: #14351f; }
+.hv-hero .hv-trust strong { color: #fff; }
+.hv-hero .hv-stars { color: var(--hv-persimmon); }
+.hv-hero a { color: inherit; }
+.hv-hero :focus-visible { outline-color: #fff; }
 .hv-hero-grid { display: grid; gap: 1.75rem; }
-.hv-hero h1 { font-size: clamp(2.5rem, 9vw, 4.9rem); line-height: 1; word-spacing: 0.08em; max-width: 14ch; text-wrap: balance; }
+.hv-hero h1 { font-size: clamp(2.5rem, 9vw, 4.9rem); line-height: 1; word-spacing: 0.08em; }
 .hv-lead { margin-top: 1.1rem; font-size: 1.2rem; color: var(--hv-soft); max-width: 30ch; }
 .hv-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 .hv-cta .hv-btn { flex: 1 1 100%; }
@@ -285,6 +300,11 @@
 }
 @media (min-width: 900px) {
   .hv-hero { padding-block: 3.5rem 4.5rem; }
+  .hv-hero .hv-wrap { width: min(100% - 2rem, 73.75rem); }
+  .hv-hero-grid > div:first-child { padding: 0; }
+  .hv-board { order: 0; }
+  .hv-hero .hv-shot { border-radius: 14px; }
+  .hv-hero .hv-shot:not(.hv-shot-wide) { display: block; }
   .hv-hero-grid { grid-template-columns: 1fr 1.05fr; gap: 3.5rem; align-items: center; }
   .hv-shot { aspect-ratio: 1 / 1.12; }
   .hv-shot-wide { aspect-ratio: 16 / 9; }

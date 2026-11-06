@@ -129,7 +129,9 @@ function Home() {
       <section className="hv-hero" aria-labelledby="hero-titulo">
         <div className="hv-wrap hv-hero-grid">
           <div>
-            <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
+            <h1 id="hero-titulo">
+              <span>Fruta e legumes</span> <em>frescos,</em> <span>todos os dias.</span>
+            </h1>
             <p className="hv-lead">Escolha a sua seleção, encomende por WhatsApp e levante na loja.</p>
             <div className="hv-cta">
               <a

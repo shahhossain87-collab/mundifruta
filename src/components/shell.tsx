@@ -67,9 +67,9 @@ export function Shell({ children }: { children: ReactNode }) {
         Saltar para o conteúdo
       </a>
       <OfferBar />
-      <header className="sticky top-0 z-30 border-b border-line bg-paper">
+      <header className="sticky top-0 z-30 border-b border-line bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
-          <Link to="/" className="font-display text-xl tracking-tight">
+          <Link to="/" className="font-sans text-xl font-extrabold tracking-tight">
             MUNDI<span className="text-leaf">FRUTA</span>
           </Link>
           <nav className="ml-4 hidden items-center gap-4 text-sm font-medium lg:flex" aria-label="Principal">
