@@ -19,11 +19,13 @@
 
 @layer base {
   html {
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     background: var(--color-paper);
     color: var(--color-ink);
   }
   body {
+    overflow-x: clip;
     font-family: var(--font-sans);
     background: var(--color-paper);
     color: var(--color-ink);

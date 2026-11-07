@@ -100,7 +100,7 @@ export function CartDrawer() {
                           <div className="min-w-0 flex-1">
                             <p className="font-semibold">{nomeVisivel(produto)}</p>
                             <p className="text-xs text-muted">{vista.unidade}</p>
-                            {!disponivel(produto) ? <p className="text-xs text-warn">Esgotado — confirme com a loja</p> : null}
+                            {!disponivel(produto) ? <p className="text-xs text-warn">Esgotado, confirme com a loja</p> : null}
                             <p className="mt-1 text-sm tabular-nums">
                               {vista.principal}
                               {pesoMedio(produto) ? " · estimado" : ""}

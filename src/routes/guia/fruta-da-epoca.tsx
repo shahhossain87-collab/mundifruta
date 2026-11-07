@@ -105,7 +105,7 @@ function CartaoProduto({ slug, fallbackNome }: { slug: string; fallbackNome: str
   if (!produto) {
     return (
       <div className="rounded-lg border border-dashed border-line bg-card p-3 text-sm text-muted">
-        {fallbackNome} — confirme disponibilidade na loja.
+        {fallbackNome}: confirme disponibilidade na loja.
       </div>
     );
   }
@@ -126,7 +126,7 @@ function CartaoProduto({ slug, fallbackNome }: { slug: string; fallbackNome: str
       />
       <span className="flex min-w-0 flex-1 flex-col justify-center">
         <span className="font-semibold">{nomeVisivel(produto)}</span>
-        <span className="text-sm text-leaf">Ver preço atual no produto →</span>
+        <span className="text-sm text-leaf">Ver preço atual no produto</span>
       </span>
     </Link>
   );
@@ -150,7 +150,7 @@ function GuiaFrutaDaEpoca() {
       <h1 className="mt-3 font-display text-4xl tracking-tight">Guia da fruta da época em Carnaxide</h1>
       <p className="mt-3 text-base text-muted">
         Um guia prático para o outono em Portugal: que frutas costumam estar de época, como as escolher e como encomendar
-        na MUNDIFRUTA para levantamento na loja — sem preços inventados neste artigo.
+        na MUNDIFRUTA para levantamento na loja, sem preços inventados neste artigo.
       </p>
 
       <section className="mt-8 space-y-4 text-sm">

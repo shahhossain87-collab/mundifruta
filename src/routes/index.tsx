@@ -141,10 +141,10 @@ function Home() {
                 ★★★★★
               </span>
               <a href="#reviews-titulo">
-                <strong>{LOJA.nota}</strong> · {LOJA.avaliacoes} avaliações Google
+                <strong>{LOJA.nota}</strong>, {LOJA.avaliacoes} avaliações Google
               </a>
             </span>
-            <span>Levantamento na loja, em Carnaxide · {LOJA.horario}</span>
+            <span>Levantamento na loja, em Carnaxide. {LOJA.horario}</span>
             <Link to="/produtos" className="hv-more">
               Ver todos os produtos
             </Link>
