@@ -194,28 +194,18 @@
 .hv-btn svg { width: 1.375rem; height: 1.375rem; flex: none; }
 .hv :focus-visible { outline: 3px solid var(--hv-ink); outline-offset: 3px; border-radius: 6px; }
 
-/* hero */
-.hv-hero { padding-block: 1.75rem 2.5rem; }
-.hv-hero-grid { display: grid; gap: 1.75rem; }
-.hv-hero h1 { font-size: clamp(2.5rem, 9vw, 4.9rem); line-height: 1; word-spacing: 0.08em; max-width: 14ch; text-wrap: balance; }
-.hv-lead { margin-top: 1.1rem; font-size: 1.2rem; color: var(--hv-soft); max-width: 30ch; }
-.hv-cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
-.hv-cta .hv-btn { flex: 1 1 100%; }
-.hv-trust { margin-top: 1.4rem; display: grid; gap: 0.25rem; font-size: 0.98rem; color: var(--hv-soft); }
+/* hero: real produce photo first, short headline over it, actions right below */
+.hv-hero { padding-bottom: 1.25rem; }
+.hv-banner { position: relative; overflow: hidden; background: #2a2a22; }
+.hv-banner img { display: block; width: 100%; height: clamp(15rem, 58vw, 22rem); object-fit: cover; }
+.hv-banner-shade { position: absolute; inset: auto 0 0 0; padding-block: 3.5rem 1.1rem; background: linear-gradient(transparent, rgb(8 18 10 / 0.82)); color: #fff; }
+.hv-hero h1 { font-size: clamp(1.9rem, 7.4vw, 3.4rem); line-height: 1.04; max-width: 16ch; text-wrap: balance; text-shadow: 0 1px 12px rgb(0 0 0 / 0.35); }
+.hv-cta { display: flex; gap: 0.6rem; margin-top: 1rem; }
+.hv-cta .hv-btn { flex: 1 1 0; min-height: 3rem; padding: 0 0.75rem; font-size: 0.98rem; text-align: center; }
+.hv-pick { margin-top: 0.7rem; font-size: 0.92rem; color: var(--hv-soft); }
+.hv-trust { margin-top: 0.35rem; display: flex; flex-wrap: wrap; gap: 0.1rem 1rem; font-size: 0.92rem; color: var(--hv-soft); }
 .hv-trust strong { color: var(--hv-ink); font-weight: 600; }
 .hv-stars { color: #b97a00; letter-spacing: 2px; margin-right: 0.4rem; }
-.hv-board { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; }
-.hv-shot { position: relative; border-radius: 14px; overflow: hidden; background: #ddd; aspect-ratio: 4 / 5; }
-.hv-shot img { width: 100%; height: 100%; object-fit: cover; }
-.hv-shot-wide { grid-column: span 2; aspect-ratio: 16 / 10; }
-/* price tag: the one memorable element */
-.hv-tag { position: absolute; left: 0.625rem; bottom: 0.625rem; display: grid; grid-template-columns: auto auto; column-gap: 0.4rem; align-items: baseline; justify-content: start; background: var(--hv-red); color: #fff; padding: 0.5rem 1rem 0.55rem 1.5rem; border-radius: 6px 22px 22px 6px; font-weight: 700; line-height: 1.1; box-shadow: 0 1px 0 rgb(0 0 0 / 0.18); }
-.hv-tag::before { content: ""; position: absolute; left: 0.5rem; top: 50%; width: 0.5rem; height: 0.5rem; margin-top: -0.25rem; border-radius: 50%; background: var(--hv-paper); }
-.hv-tag small { grid-column: 1 / -1; font-weight: 500; font-size: 0.82rem; margin-bottom: 2px; }
-.hv-tag b { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; }
-.hv-tag s { grid-column: 1 / -1; font-weight: 500; font-size: 0.8rem; opacity: 0.9; margin-top: 1px; }
-.hv-tag { max-width: calc(100% - 1.25rem); }
-.hv-flag { position: absolute; top: 0.625rem; left: 0.625rem; background: var(--hv-persimmon); color: var(--hv-ink); font-weight: 700; font-size: 0.85rem; padding: 0.3rem 0.65rem; border-radius: 6px; }
 
 /* categories */
 .hv-cats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
@@ -262,10 +252,11 @@
 .hv-store dd { color: var(--hv-soft); }
 
 @media (min-width: 600px) {
-  .hv-cta .hv-btn { flex: 0 1 auto; }
+  .hv-cta .hv-btn { flex: 0 1 auto; padding: 0 1.5rem; }
   .hv-basket-list { columns: 2; column-gap: 1.25rem; }
 }
 @media (min-width: 700px) {
+  .hv-banner img { height: clamp(19rem, 34vw, 28rem); }
   .hv-cats { grid-template-columns: repeat(3, 1fr); }
   .hv-cat { aspect-ratio: 4 / 3; }
 }
@@ -275,10 +266,6 @@
   .hv-reviews { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
 }
 @media (min-width: 900px) {
-  .hv-hero { padding-block: 3.5rem 4.5rem; }
-  .hv-hero-grid { grid-template-columns: 1fr 1.05fr; gap: 3.5rem; align-items: center; }
-  .hv-shot { aspect-ratio: 1 / 1.12; }
-  .hv-shot-wide { aspect-ratio: 16 / 9; }
   .hv-basket-grid { grid-template-columns: 1fr 1fr; }
   .hv-basket img { max-height: none; min-height: 30rem; }
   .hv-basket-body { padding: 3.5rem 1rem 3.5rem 3.5rem; }

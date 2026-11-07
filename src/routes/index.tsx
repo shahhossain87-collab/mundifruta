@@ -4,7 +4,6 @@ import { ProductCard } from "@/components/product-card";
 import { adicionarProduto } from "@/lib/cart";
 import {
   avaliacoes,
-  badgeProduto,
   categorias,
   disponivel,
   LOJA,
@@ -14,15 +13,12 @@ import {
   precoVista,
   produtosDaCategoria,
   whatsappHref,
-  type Product,
 } from "@/lib/shop";
 import { absoluteUrl, canonicalLink, LOJA_MORADA_SCHEMA, SITE_URL } from "@/lib/seo";
 
-/** Real shop photos shown on the hero, each with its price tag (prices come from the catalog). */
-const HERO_PRODUTOS = ["Clementina com folhas", "Dióspiro Sharon", "Romã"];
-const HERO_SIZES_LARGE = "(min-width: 900px) 580px, 92vw";
-const HERO_SIZES_SMALL = "(min-width: 900px) 285px, 46vw";
-const HERO_LCP = imgResponsiva("/fotos/loja/clementina-folhas.webp", HERO_SIZES_LARGE);
+/** Real shop photo mosaics (already on the site). Phone = 3x2 crop, desktop = wide strip. */
+const HERO_PHONE = imgResponsiva("/fotos/home/hero-phone.webp", "100vw");
+const HERO_DESKTOP = imgResponsiva("/fotos/home/hero-desktop.webp", "100vw");
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,8 +35,18 @@ export const Route = createFileRoute("/")({
       {
         rel: "preload",
         as: "image",
-        href: HERO_LCP.src,
-        ...(HERO_LCP.srcSet ? { imageSrcSet: HERO_LCP.srcSet, imageSizes: HERO_LCP.sizes } : {}),
+        href: HERO_PHONE.src,
+        media: "(max-width: 699px)",
+        ...(HERO_PHONE.srcSet ? { imageSrcSet: HERO_PHONE.srcSet, imageSizes: HERO_PHONE.sizes } : {}),
+        type: "image/webp",
+        fetchPriority: "high",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: HERO_DESKTOP.src,
+        media: "(min-width: 700px)",
+        ...(HERO_DESKTOP.srcSet ? { imageSrcSet: HERO_DESKTOP.srcSet, imageSizes: HERO_DESKTOP.sizes } : {}),
         type: "image/webp",
         fetchPriority: "high",
       },
@@ -57,33 +63,8 @@ function WhatsAppIcon() {
   );
 }
 
-function HeroShot({ produto, index }: { produto: Product; index: number }) {
-  const vista = precoVista(produto);
-  const promocao = badgeProduto(produto) === "Promoção";
-  return (
-    <figure className={index === 0 ? "hv-shot hv-shot-wide" : "hv-shot"}>
-      <img
-        {...imgResponsiva(produto.foto, index === 0 ? HERO_SIZES_LARGE : HERO_SIZES_SMALL)}
-        alt={produto.alt || nomeVisivel(produto)}
-        loading={index === 0 ? "eager" : "lazy"}
-        fetchPriority={index === 0 ? "high" : "auto"}
-        decoding="async"
-      />
-      {promocao ? <span className="hv-flag">Promoção</span> : null}
-      <figcaption className="hv-tag">
-        <small>{nomeVisivel(produto)}</small>
-        <b>{vista.principal}</b>
-        {promocao && vista.rasurado ? <s>{vista.rasurado}</s> : null}
-      </figcaption>
-    </figure>
-  );
-}
-
 function Home() {
   const destaques = novidades();
-  const heroProdutos = HERO_PRODUTOS.map((nome) => porNome(nome)).filter(
-    (produto): produto is Product => Boolean(produto && disponivel(produto)),
-  );
   const cabazes = produtosDaCategoria("cabazes");
   const outono = porNome("Cabaz de Outono");
   const cabaz = outono && disponivel(outono) ? outono : cabazes.find((item) => disponivel(item));
@@ -126,40 +107,59 @@ function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="hv-hero" aria-labelledby="hero-titulo">
-        <div className="hv-wrap hv-hero-grid">
-          <div>
-            <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
-            <p className="hv-lead">Escolha a sua seleção, encomende por WhatsApp e levante na loja.</p>
-            <div className="hv-cta">
-              <a
-                href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
-                target="_blank"
-                rel="noreferrer"
-                className="hv-btn hv-btn-wa"
-              >
-                <WhatsAppIcon />
-                Encomendar por WhatsApp
-              </a>
-              <Link to="/produtos" className="hv-btn hv-btn-line">
-                Ver produtos
-              </Link>
-            </div>
-            <div className="hv-trust">
-              <span>
-                <span className="hv-stars" aria-hidden="true">
-                  ★★★★★
-                </span>
-                <a href="#reviews-titulo">
-                  <strong>{LOJA.nota}</strong> em {LOJA.avaliacoes} avaliações Google
-                </a>
-              </span>
-              <span>Há mais de 12 anos em Carnaxide</span>
+        <div className="hv-banner">
+          <picture>
+            <source
+              media="(min-width: 700px)"
+              srcSet={HERO_DESKTOP.srcSet}
+              sizes="100vw"
+              width={HERO_DESKTOP.width}
+              height={HERO_DESKTOP.height}
+              type="image/webp"
+            />
+            <img
+              src={HERO_PHONE.src}
+              srcSet={HERO_PHONE.srcSet}
+              sizes="100vw"
+              width={HERO_PHONE.width}
+              height={HERO_PHONE.height}
+              alt="Fruta fresca da banca: pêssegos, dióspiros, romãs, clementinas, maçãs e uvas"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+          <div className="hv-banner-shade">
+            <div className="hv-wrap">
+              <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
             </div>
           </div>
-          <div className="hv-board" aria-label="Na banca hoje">
-            {heroProdutos.map((produto, index) => (
-              <HeroShot key={produto.id} produto={produto} index={index} />
-            ))}
+        </div>
+        <div className="hv-wrap">
+          <div className="hv-cta">
+            <a
+              href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
+              target="_blank"
+              rel="noreferrer"
+              className="hv-btn hv-btn-wa"
+            >
+              <WhatsAppIcon />
+              Encomendar por WhatsApp
+            </a>
+            <Link to="/produtos" className="hv-btn hv-btn-line">
+              Ver produtos
+            </Link>
+          </div>
+          <p className="hv-pick">Levantamento na loja, em Carnaxide · {LOJA.horario}</p>
+          <div className="hv-trust">
+            <span>
+              <span className="hv-stars" aria-hidden="true">
+                ★★★★★
+              </span>
+              <a href="#reviews-titulo">
+                <strong>{LOJA.nota}</strong> em {LOJA.avaliacoes} avaliações Google
+              </a>
+            </span>
+            <span>Há mais de 12 anos em Carnaxide</span>
           </div>
         </div>
       </section>
