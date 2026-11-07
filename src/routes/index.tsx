@@ -16,16 +16,6 @@ import {
 } from "@/lib/shop";
 import { absoluteUrl, canonicalLink, LOJA_MORADA_SCHEMA, SITE_URL } from "@/lib/seo";
 
-/** Real shop photos already on the site: fruit, vegetables and fresh herbs fill the whole hero background. */
-const BANNER_FOTOS = [
-  { src: "/fotos/loja/clementina-folhas.webp", pos: "50% 50%" },
-  { src: "/fotos/catalogo/cenoura.webp", pos: "50% 50%" },
-  { src: "/fotos/loja/roma.webp", pos: "50% 45%" },
-  { src: "/fotos/catalogo/hortela.webp", pos: "50% 50%" },
-  { src: "/fotos/loja/feijao-verde.webp", pos: "50% 50%" },
-  { src: "/fotos/loja/maca-gala.webp", pos: "50% 40%" },
-] as const;
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -93,22 +83,9 @@ function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="hv-hero" aria-labelledby="hero-titulo">
-        <div className="hv-hero-bg" aria-hidden="true">
-          {BANNER_FOTOS.map((foto, index) => (
-            <img
-              key={foto.src}
-              {...imgResponsiva(foto.src, "(min-width: 700px) 240px, 34vw")}
-              alt=""
-              style={{ objectPosition: foto.pos }}
-              loading="eager"
-              fetchPriority={index < 3 ? "high" : "auto"}
-              decoding="async"
-            />
-          ))}
-        </div>
-        <div className="hv-hero-shade" />
         <div className="hv-wrap hv-hero-body">
           <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
+          <p className="hv-pick">Levantamento na loja, em Carnaxide</p>
           <div className="hv-cta">
             <a
               href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
@@ -120,8 +97,19 @@ function Home() {
               Encomendar por WhatsApp
             </a>
           </div>
-          <p className="hv-pick">Levantamento na loja, em Carnaxide</p>
         </div>
+        <img
+          className="hv-hero-img"
+          src="/fotos/home/hero-banner.webp"
+          srcSet="/fotos/home/hero-banner-w800.webp 800w, /fotos/home/hero-banner-w1200.webp 1200w, /fotos/home/hero-banner.webp 1782w"
+          sizes="100vw"
+          width={1782}
+          height={393}
+          alt="Ervas frescas, legumes, castanhas, fruta da época e uvas"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
       </section>
 
       <section className="hv-section hv-section-cats" aria-labelledby="categorias-titulo">
