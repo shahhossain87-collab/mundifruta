@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBasket, X } from "lucide-react";
-import { OfferBar } from "@/components/offer";
 import { useCart, useUi } from "@/lib/cart";
 
 // Cart drawer (Radix Dialog + form) is only needed once the cart is opened: load it on demand.
@@ -66,7 +65,6 @@ export function Shell({ children }: { children: ReactNode }) {
       <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-card focus:px-3 focus:py-2">
         Saltar para o conteúdo
       </a>
-      <OfferBar />
       <header className="sticky top-0 z-30 border-b border-line bg-paper">
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
           <Link to="/" className="font-display text-xl tracking-tight">

@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { imgResponsiva } from "@/lib/img";
-import { OfferBand } from "@/components/offer";
 import { ProductCard } from "@/components/product-card";
 import { adicionarProduto } from "@/lib/cart";
 import {
@@ -283,8 +282,6 @@ function Home() {
           </ol>
         </div>
       </section>
-
-      <OfferBand />
 
       <section className="hv-section" aria-labelledby="reviews-titulo">
         <div className="hv-wrap">

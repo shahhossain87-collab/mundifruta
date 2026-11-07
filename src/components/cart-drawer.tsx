@@ -1,22 +1,14 @@
 import { useState, type FormEvent } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Link } from "@tanstack/react-router";
-import { Gift, Minus, Plus, X } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 import { useCart, useUi } from "@/lib/cart";
-import {
-  normalizarTelefone,
-  registadoNesteDispositivo,
-  registarOferta,
-  verificarOferta,
-  type EstadoOferta,
-} from "@/lib/oferta-cliente";
 import {
   disponivel,
   formatarCentimos,
   LOJA,
   nomeVisivel,
   NOTA_PESO,
-  OFERTA,
   pesoMedio,
   porId,
   precoLinhaCentimos,
@@ -40,9 +32,6 @@ export function CartDrawer() {
   const setOpen = useUiSet();
   const [erro, setErro] = useState("");
   const [enviado, setEnviado] = useState("");
-  const [aEnviar, setAEnviar] = useState(false);
-  // Estado da oferta MUNDI10 por número normalizado (verificado no servidor).
-  const [estadosOferta, setEstadosOferta] = useState<Record<string, EstadoOferta>>({});
 
   const linhas = Object.entries(qty)
     .map(([id, qtd]) => {
@@ -51,53 +40,16 @@ export function CartDrawer() {
     })
     .filter((linha): linha is { produto: NonNullable<ReturnType<typeof porId>>; qtd: number } => Boolean(linha));
   const totais = totaisDe(linhas);
-  const faltam = Math.max(0, OFERTA.minimoEur * 100 - totais.centimos);
-  const progresso = Math.min(100, Math.round((totais.centimos / (OFERTA.minimoEur * 100)) * 100));
-  const telefoneNormalizado = normalizarTelefone(telefone);
-  // Só bloqueia quando o servidor confirma que o número já usou a oferta;
-  // qualquer falha ("desconhecido") mantém o comportamento anterior.
-  const ofertaUsada = telefoneNormalizado ? estadosOferta[telefoneNormalizado] === "usada" : false;
 
-  function guardarEstado(numero: string, estado: EstadoOferta) {
-    setEstadosOferta((atual) => ({ ...atual, [numero]: estado }));
-  }
-
-  async function verificarTelefone() {
-    const numero = normalizarTelefone(telefone);
-    if (!numero || estadosOferta[numero] === "usada" || estadosOferta[numero] === "livre") return;
-    const estado = await verificarOferta(numero);
-    if (estado === "usada" || estado === "livre") guardarEstado(numero, estado);
-  }
-
-  async function enviar(event: FormEvent) {
+  function enviar(event: FormEvent) {
     event.preventDefault();
-    if (!linhas.length || aEnviar) return;
+    if (!linhas.length) return;
     if (!nome.trim() || !telefone.trim()) {
       setErro("Indique o nome e o telemóvel.");
       return;
     }
     setErro("");
-    const numero = normalizarTelefone(telefone);
-    let semOferta = numero ? estadosOferta[numero] === "usada" : false;
-    if (totais.oferta && numero && !semOferta) {
-      if (estadosOferta[numero] === "livre" || registadoNesteDispositivo(numero)) {
-        // Já verificado: abre o WhatsApp já e regista em segundo plano.
-        void registarOferta(numero, qty).then((estado) => {
-          if (estado === "registada") guardarEstado(numero, "livre");
-        });
-      } else {
-        setAEnviar(true);
-        const estado = await registarOferta(numero, qty, 2500);
-        setAEnviar(false);
-        if (estado === "usada") {
-          semOferta = true;
-          guardarEstado(numero, "usada");
-        } else if (estado === "registada") {
-          guardarEstado(numero, "livre");
-        }
-      }
-    }
-    const texto = textoEncomenda({ nome, telefone, levantamento, nota, linhas, semOferta });
+    const texto = textoEncomenda({ nome, telefone, levantamento, nota, linhas });
     const href = whatsappHref(texto);
     setEnviado(href);
     window.open(href, "_blank", "noopener,noreferrer");
@@ -123,17 +75,6 @@ export function CartDrawer() {
               {!linhas.length ? (
                 <div className="space-y-3">
                   <p>O carrinho está vazio.</p>
-                  <div className="rounded-lg border border-fruit/30 bg-fruit/10 px-3 py-2 text-sm">
-                    <p className="flex items-center gap-2 font-semibold">
-                      <Gift className="size-4 shrink-0 text-fruit" aria-hidden="true" />
-                      Novo cliente? −{OFERTA.descontoEur}€ na primeira compra a partir de {OFERTA.minimoEur}€ (código{" "}
-                      {OFERTA.codigo})
-                    </p>
-                    <p className="mt-1 text-xs text-muted">
-                      Na primeira compra, {OFERTA.descontoEur}€ indicados a partir de {OFERTA.minimoEur}€. Uma vez por
-                      cliente (número de telemóvel), confirmado na loja.
-                    </p>
-                  </div>
                   <Dialog.Close asChild>
                     <Link to="/produtos" className="inline-flex h-11 items-center rounded-lg bg-leaf px-4 text-sm font-semibold text-paper">
                       Ver produtos
@@ -200,53 +141,6 @@ export function CartDrawer() {
                     </p>
                   ) : null}
                   {totais.estimado ? <p className="text-xs text-muted">{NOTA_PESO}</p> : null}
-                  {ofertaUsada ? (
-                    <p className="rounded-lg border border-line bg-paper px-3 py-2 text-sm" role="status">
-                      Este número já usou a oferta {OFERTA.codigo} (válida só na primeira compra).
-                    </p>
-                  ) : totais.oferta ? (
-                    <div className="rounded-lg border border-leaf/30 bg-foam px-3 py-2 text-sm">
-                      <p className="flex justify-between gap-4 font-semibold text-leaf-deep">
-                        <span className="flex items-center gap-2">
-                          <Gift className="size-4 shrink-0" aria-hidden="true" />
-                          Oferta indicada
-                        </span>
-                        <span className="tabular-nums">−{formatarCentimos(totais.desconto)}</span>
-                      </p>
-                      <p className="mt-1 text-xs text-muted">
-                        {OFERTA.codigo}: {OFERTA.descontoEur}€ na primeira compra a partir de {OFERTA.minimoEur}€. Uma vez por
-                        cliente (número de telemóvel), confirmado na loja.
-                      </p>
-                      <p className="mt-1 flex justify-between gap-4">
-                        <span>Total estimado com oferta</span>
-                        <strong className="tabular-nums">{formatarCentimos(totais.comOferta)}</strong>
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="rounded-lg border border-fruit/30 bg-fruit/10 px-3 py-2">
-                      <p className="flex items-center gap-2 text-sm font-semibold">
-                        <Gift className="size-4 shrink-0 text-fruit" aria-hidden="true" />
-                        <span>
-                          Faltam <span className="tabular-nums text-fruit">{formatarCentimos(faltam)}</span> para{" "}
-                          {OFERTA.minimoEur}€ e −{OFERTA.descontoEur}€ ({OFERTA.codigo})
-                        </span>
-                      </p>
-                      <div
-                        className="mt-2 h-2 overflow-hidden rounded-full bg-line"
-                        role="progressbar"
-                        aria-label={`Progresso para ${OFERTA.minimoEur}€`}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-valuenow={progresso}
-                      >
-                        <div className="h-full rounded-full bg-fruit transition-[width]" style={{ width: `${progresso}%` }} />
-                      </div>
-                      <p className="mt-1 text-xs text-muted">
-                        A partir de {OFERTA.minimoEur}€, a primeira compra pode incluir {OFERTA.descontoEur}€ de desconto,
-                        confirmados na loja.
-                      </p>
-                    </div>
-                  )}
                   <p className="text-xs text-muted">Pagamento na loja: MB WAY, Multibanco ou dinheiro. Sem entrega.</p>
                 </div>
                 <form className="space-y-2" onSubmit={enviar} noValidate>
@@ -271,7 +165,6 @@ export function CartDrawer() {
                       autoComplete="tel"
                       value={telefone}
                       onChange={(event) => setCliente({ telefone: event.target.value })}
-                      onBlur={() => void verificarTelefone()}
                       maxLength={40}
                       className="mt-1 h-11 w-full rounded-lg border border-line bg-paper px-3"
                     />
@@ -299,10 +192,9 @@ export function CartDrawer() {
                   {erro ? <p className="text-sm text-warn">{erro}</p> : null}
                   <button
                     type="submit"
-                    disabled={aEnviar}
-                    className="h-11 w-full rounded-lg bg-leaf text-sm font-semibold text-paper disabled:opacity-70"
+                    className="h-11 w-full rounded-lg bg-leaf text-sm font-semibold text-paper"
                   >
-                    {aEnviar ? "A preparar…" : "Enviar por WhatsApp"}
+                    Enviar por WhatsApp
                   </button>
                   <p className="text-xs text-muted">
                     A MUNDIFRUTA confirma a encomenda por WhatsApp antes do levantamento. O pedido só fica reservado depois

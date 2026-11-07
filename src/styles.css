@@ -245,13 +245,6 @@
 .hv-step h3 { font-size: 1.2rem; }
 .hv-step p { color: var(--hv-soft); font-size: 0.98rem; }
 
-/* offer */
-.hv-offer { background: var(--hv-red); color: #fff; padding-block: 2.75rem; }
-.hv-offer-grid { display: grid; gap: 1.1rem; align-items: center; }
-.hv-offer h2 { font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.08; max-width: 20ch; }
-.hv-code { display: inline-flex; align-items: center; gap: 0.9rem; background: #fff; color: var(--hv-ink); border-radius: 12px; padding: 0.6rem 0.75rem 0.6rem 1.1rem; font-weight: 800; font-size: 1.4rem; letter-spacing: 0.06em; justify-self: start; }
-.hv-code button { font-weight: 600; font-size: 0.95rem; letter-spacing: 0; border: 0; background: var(--hv-ink); color: #fff; border-radius: 8px; padding: 0.55rem 0.9rem; }
-
 /* reviews */
 .hv-rating { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
 .hv-score { font-weight: 800; font-size: clamp(3rem, 9vw, 4.6rem); line-height: 1; letter-spacing: -0.04em; }
@@ -279,8 +272,6 @@
 @media (min-width: 820px) {
   .hv-steps { grid-template-columns: repeat(3, 1fr); }
   .hv-step { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.6rem; }
-  .hv-offer-grid { grid-template-columns: 1.4fr 1fr; }
-  .hv-code { justify-self: end; }
   .hv-reviews { grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
 }
 @media (min-width: 900px) {
