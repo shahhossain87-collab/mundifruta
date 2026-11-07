@@ -164,14 +164,13 @@ function Home() {
         </div>
       </section>
 
-      <section className="hv-section" style={{ paddingTop: "0.5rem" }} aria-labelledby="categorias-titulo">
+      <section className="hv-section hv-section-cats" aria-labelledby="categorias-titulo">
         <div className="hv-wrap">
-          <div className="hv-head">
+          <div className="hv-head hv-head-tight">
             <div>
               <h2 id="categorias-titulo" className="hv-h2">
                 Encontre o que procura
               </h2>
-              <p className="hv-sub">Frutas, legumes, cabazes e os destaques desta semana, prontos a levantar na loja.</p>
             </div>
             <Link to="/produtos" className="hv-more">
               Ver tudo
