@@ -20,14 +20,6 @@ export const LOJA = {
   avaliacoes: catalog.avaliacoesInfo.total,
 } as const;
 
-export const OFERTA = {
-  codigo: catalog.cupao.codigo,
-  descontoEur: catalog.cupao.desconto,
-  minimoEur: catalog.cupao.minimo,
-  titulo: catalog.cupao.copyTitulo,
-  exclusivo: catalog.cupao.copyExclusivo,
-} as const;
-
 export const NOTA_PESO =
   "Preço estimado com base no peso médio. O valor final pode variar conforme o peso real no momento da preparação.";
 
@@ -532,9 +524,6 @@ export type Totais = {
   centimos: number;
   porConfirmar: number;
   estimado: boolean;
-  oferta: boolean;
-  desconto: number;
-  comOferta: number;
 };
 
 export function totaisDe(linhas: { produto: Product; qtd: number }[]): Totais {
@@ -549,9 +538,7 @@ export function totaisDe(linhas: { produto: Product; qtd: number }[]): Totais {
     },
     { quantidade: 0, centimos: 0, porConfirmar: 0, estimado: false },
   );
-  const oferta = totais.centimos >= OFERTA.minimoEur * 100 && totais.quantidade > 0;
-  const desconto = oferta ? OFERTA.descontoEur * 100 : 0;
-  return { ...totais, oferta, desconto, comOferta: Math.max(0, totais.centimos - desconto) };
+  return totais;
 }
 
 export function textoEncomenda(input: {
@@ -560,8 +547,6 @@ export function textoEncomenda(input: {
   levantamento: string;
   nota: string;
   linhas: { produto: Product; qtd: number }[];
-  /** Este número já usou a oferta (verificado no servidor): sem linhas MUNDI10. */
-  semOferta?: boolean;
 }) {
   const totais = totaisDe(input.linhas);
   let texto = `Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantamento na loja:\n\nNome: ${input.nome}\nTelemóvel: ${input.telefone}\n`;
@@ -587,11 +572,6 @@ export function textoEncomenda(input: {
     texto += `\nNota: ${totais.porConfirmar} ${totais.porConfirmar === 1 ? "artigo tem" : "artigos têm"} preço a confirmar.`;
   }
   if (totais.estimado) texto += `\n${NOTA_PESO}`;
-  if (totais.oferta && !input.semOferta) {
-    texto += `\n\nOferta ${OFERTA.codigo}: -${formatarCentimos(totais.desconto)} indicados na primeira compra de ${OFERTA.minimoEur}€ ou mais.`;
-    texto += `\nA loja confirma, uma vez por cliente.`;
-    texto += `\n*TOTAL ESTIMADO COM OFERTA, SE CONFIRMADA: ${formatarCentimos(totais.comOferta)}*`;
-  }
   if (input.nota.trim()) texto += `\nNotas: ${input.nota.trim()}`;
   texto += `\n\nAguardo confirmação da loja antes do levantamento.`;
   return texto;

@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreditosRouteImport } from './routes/creditos'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ApiOfertaRouteImport } from './routes/api/oferta'
 import { Route as CategoriasCategoriaRouteImport } from './routes/categorias/$categoria'
 import { Route as GuiaFrutaDaEpocaRouteImport } from './routes/guia/fruta-da-epoca'
 import { Route as ProdutosIndexRouteImport } from './routes/produtos/index'
@@ -37,11 +36,6 @@ const PrivacidadeRoute = PrivacidadeRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiOfertaRoute = ApiOfertaRouteImport.update({
-  id: '/api/oferta',
-  path: '/api/oferta',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategoriasCategoriaRoute = CategoriasCategoriaRouteImport.update({
@@ -70,7 +64,6 @@ export interface FileRoutesByFullPath {
   '/creditos': typeof CreditosRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/api/oferta': typeof ApiOfertaRoute
   '/categorias/$categoria': typeof CategoriasCategoriaRoute
   '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
@@ -81,7 +74,6 @@ export interface FileRoutesByTo {
   '/creditos': typeof CreditosRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/api/oferta': typeof ApiOfertaRoute
   '/categorias/$categoria': typeof CategoriasCategoriaRoute
   '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
@@ -93,7 +85,6 @@ export interface FileRoutesById {
   '/creditos': typeof CreditosRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/api/oferta': typeof ApiOfertaRoute
   '/categorias/$categoria': typeof CategoriasCategoriaRoute
   '/guia/fruta-da-epoca': typeof GuiaFrutaDaEpocaRoute
   '/produtos/$slug': typeof ProdutosSlugRoute
@@ -106,7 +97,6 @@ export interface FileRouteTypes {
     | '/creditos'
     | '/privacidade'
     | '/sitemap.xml'
-    | '/api/oferta'
     | '/categorias/$categoria'
     | '/guia/fruta-da-epoca'
     | '/produtos/$slug'
@@ -117,7 +107,6 @@ export interface FileRouteTypes {
     | '/creditos'
     | '/privacidade'
     | '/sitemap.xml'
-    | '/api/oferta'
     | '/categorias/$categoria'
     | '/guia/fruta-da-epoca'
     | '/produtos/$slug'
@@ -128,7 +117,6 @@ export interface FileRouteTypes {
     | '/creditos'
     | '/privacidade'
     | '/sitemap.xml'
-    | '/api/oferta'
     | '/categorias/$categoria'
     | '/guia/fruta-da-epoca'
     | '/produtos/$slug'
@@ -140,7 +128,6 @@ export interface RootRouteChildren {
   CreditosRoute: typeof CreditosRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  ApiOfertaRoute: typeof ApiOfertaRoute
   CategoriasCategoriaRoute: typeof CategoriasCategoriaRoute
   GuiaFrutaDaEpocaRoute: typeof GuiaFrutaDaEpocaRoute
   ProdutosSlugRoute: typeof ProdutosSlugRoute
@@ -175,13 +162,6 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/oferta': {
-      id: '/api/oferta'
-      path: '/api/oferta'
-      fullPath: '/api/oferta'
-      preLoaderRoute: typeof ApiOfertaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categorias/$categoria': {
@@ -220,7 +200,6 @@ const rootRouteChildren: RootRouteChildren = {
   CreditosRoute: CreditosRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  ApiOfertaRoute: ApiOfertaRoute,
   CategoriasCategoriaRoute: CategoriasCategoriaRoute,
   GuiaFrutaDaEpocaRoute: GuiaFrutaDaEpocaRoute,
   ProdutosSlugRoute: ProdutosSlugRoute,

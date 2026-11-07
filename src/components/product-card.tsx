@@ -23,11 +23,11 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
   const estado = estadoProduto(product);
 
   return (
-    <article className="flex h-full flex-col rounded-lg border border-line bg-card">
+    <article className="flex h-full flex-col overflow-hidden rounded-lg border border-line bg-white">
       <Link
         to="/produtos/$slug"
         params={{ slug: product.slug }}
-        className="relative block aspect-[3/2] overflow-hidden rounded-t-lg bg-foam sm:aspect-[4/3]"
+        className="relative block aspect-[4/3] overflow-hidden bg-white"
       >
         {fotoOk ? (
           <img
@@ -37,7 +37,7 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
             height={480}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
-            className={cn("h-full w-full object-contain p-2 sm:p-3", !aberto && "opacity-50")}
+            className={cn("h-full w-full object-contain p-1.5 sm:p-2", !aberto && "opacity-50")}
             onError={() => setFotoOk(false)}
           />
         ) : (
@@ -56,17 +56,17 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
           </span>
         ) : null}
       </Link>
-      <div className="flex flex-1 flex-col gap-1.5 p-2 sm:gap-2 sm:p-3">
-        <h3 className="min-h-9 text-sm leading-4 font-semibold sm:min-h-10 sm:leading-5">
+      <div className="flex flex-1 flex-col gap-1 px-2 pt-1 pb-2 sm:px-3 sm:pb-3">
+        <h3 className="min-h-8 text-[13px] leading-4 font-semibold sm:min-h-10 sm:text-sm sm:leading-5">
           <Link to="/produtos/$slug" params={{ slug: product.slug }} className="line-clamp-2">
             {nomeVisivel(product)}
           </Link>
         </h3>
-        <PriceBlock product={product} />
-        <p className={cn("text-xs", estado === "Disponível" ? "text-leaf" : "text-warn")}>{estado}</p>
+        <PriceBlock product={product} compact />
+        {estado !== "Disponível" ? <p className="text-xs text-warn">{estado}</p> : null}
         {aberto ? (
           qtd > 0 ? (
-            <div className="mt-auto grid h-11 grid-cols-3 overflow-hidden rounded-lg border border-line">
+            <div className="mt-auto grid h-10 grid-cols-3 overflow-hidden rounded-lg border border-line">
               <button
                 type="button"
                 className="text-lg"
@@ -88,14 +88,14 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
           ) : (
             <button
               type="button"
-              className="mt-auto inline-flex h-11 min-w-24 self-start items-center justify-center rounded-lg bg-leaf px-3 text-sm font-semibold text-paper"
+              className="mt-auto inline-flex h-10 w-full items-center justify-center rounded-lg bg-leaf px-3 text-sm font-semibold text-paper"
               onClick={() => adicionarProduto(product.id)}
             >
               Adicionar
             </button>
           )
         ) : (
-          <p className="mt-auto flex h-11 items-center text-sm text-muted">Indisponível</p>
+          <p className="mt-auto flex h-10 items-center text-sm text-muted">Indisponível</p>
         )}
       </div>
     </article>

@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Menu, Search, ShoppingBasket, X } from "lucide-react";
-import { OfferBar } from "@/components/offer";
 import { useCart, useUi } from "@/lib/cart";
 
 // Cart drawer (Radix Dialog + form) is only needed once the cart is opened: load it on demand.
@@ -23,6 +22,7 @@ export function Shell({ children }: { children: ReactNode }) {
   const [menu, setMenu] = useState(false);
   const [busca, setBusca] = useState(false);
   const [consent, setConsent] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const qty = useCart((state) => state.qty);
   const setCartOpen = useUi((state) => state.setCartOpen);
   const toast = useUi((state) => state.toast);
@@ -49,6 +49,16 @@ export function Shell({ children }: { children: ReactNode }) {
     setBusca(false);
   }, [path]);
 
+  // On the homepage the header sits transparent over the produce photo until the page is scrolled.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  const home = path === "/";
+  const sobreHero = home && !scrolled && !menu && !busca;
+
   function pesquisar(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -66,11 +76,14 @@ export function Shell({ children }: { children: ReactNode }) {
       <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-card focus:px-3 focus:py-2">
         Saltar para o conteúdo
       </a>
-      <OfferBar />
-      <header className="sticky top-0 z-30 border-b border-line bg-paper">
+      <header
+        className={`sticky top-0 z-30 border-b transition-colors ${home ? "-mb-16" : ""} ${
+          sobreHero ? "border-transparent bg-transparent text-white" : "border-line bg-paper"
+        }`}
+      >
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
           <Link to="/" className="font-display text-xl tracking-tight">
-            MUNDI<span className="text-leaf">FRUTA</span>
+            MUNDI<span className={sobreHero ? "text-foam" : "text-leaf"}>FRUTA</span>
           </Link>
           <nav className="ml-4 hidden items-center gap-4 text-sm font-medium lg:flex" aria-label="Principal">
             <Link to="/produtos" className="hover:text-leaf">
