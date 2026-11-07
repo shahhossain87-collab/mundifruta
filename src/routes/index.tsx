@@ -103,7 +103,7 @@ function Home() {
               {...imgResponsiva(foto.src, "(min-width: 700px) 200px, 34vw")}
               alt=""
               style={{ objectPosition: foto.pos }}
-              loading={index < 3 ? "eager" : "lazy"}
+              loading="eager"
               fetchPriority={index < 3 ? "high" : "auto"}
               decoding="async"
             />
