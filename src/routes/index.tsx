@@ -16,14 +16,14 @@ import {
 } from "@/lib/shop";
 import { absoluteUrl, canonicalLink, LOJA_MORADA_SCHEMA, SITE_URL } from "@/lib/seo";
 
-/** Real photos already on the site: fruit, vegetables and fresh herbs, one clean cell each. */
+/** Real shop photos already on the site: fruit, vegetables and fresh herbs fill the whole hero background. */
 const BANNER_FOTOS = [
-  { src: "/fotos/catalogo/laranja-algarve.webp", pos: "50% 50%" },
-  { src: "/fotos/catalogo/pimento-verde.webp", pos: "50% 55%" },
-  { src: "/fotos/loja/roma.webp", pos: "50% 50%" },
-  { src: "/fotos/catalogo/hortela.webp", pos: "50% 50%" },
+  { src: "/fotos/loja/clementina-folhas.webp", pos: "50% 50%" },
   { src: "/fotos/catalogo/cenoura.webp", pos: "50% 50%" },
-  { src: "/fotos/catalogo/tomate-cacho.webp", pos: "50% 45%" },
+  { src: "/fotos/loja/roma.webp", pos: "50% 45%" },
+  { src: "/fotos/catalogo/hortela.webp", pos: "50% 50%" },
+  { src: "/fotos/loja/feijao-verde.webp", pos: "50% 50%" },
+  { src: "/fotos/loja/maca-gala.webp", pos: "50% 40%" },
 ] as const;
 
 export const Route = createFileRoute("/")({
@@ -93,14 +93,11 @@ function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="hv-hero" aria-labelledby="hero-titulo">
-        <div className="hv-wrap">
-          <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
-        </div>
-        <div className="hv-banner" role="img" aria-label="Frutas, legumes e ervas frescas da banca">
+        <div className="hv-hero-bg" aria-hidden="true">
           {BANNER_FOTOS.map((foto, index) => (
             <img
               key={foto.src}
-              {...imgResponsiva(foto.src, "(min-width: 700px) 200px, 34vw")}
+              {...imgResponsiva(foto.src, "(min-width: 700px) 240px, 34vw")}
               alt=""
               style={{ objectPosition: foto.pos }}
               loading="eager"
@@ -109,7 +106,9 @@ function Home() {
             />
           ))}
         </div>
-        <div className="hv-wrap">
+        <div className="hv-hero-shade" />
+        <div className="hv-wrap hv-hero-body">
+          <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
           <div className="hv-cta">
             <a
               href={whatsappHref("Olá MUNDIFRUTA! Gostaria de fazer uma encomenda para levantar na loja.")}
@@ -121,6 +120,7 @@ function Home() {
               Encomendar por WhatsApp
             </a>
           </div>
+          <p className="hv-pick">Levantamento na loja, em Carnaxide</p>
         </div>
       </section>
 

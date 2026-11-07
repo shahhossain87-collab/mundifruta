@@ -194,20 +194,23 @@
 .hv-btn svg { width: 1.375rem; height: 1.375rem; flex: none; }
 .hv :focus-visible { outline: 3px solid var(--hv-ink); outline-offset: 3px; border-radius: 6px; }
 
-/* hero: short headline, clean photo strip (fruit + vegetables + herbs), one action */
-.hv-hero { padding-block: 0.9rem 0.75rem; }
-.hv-hero h1 { font-size: clamp(1.5rem, 6.4vw, 3rem); line-height: 1.08; max-width: 20ch; text-wrap: balance; }
-.hv-banner { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 3.5rem 3.5rem; gap: 3px; margin-top: 0.7rem; background: #fff; }
-.hv-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* hero: full-bleed real produce photos (fruit + vegetables + herbs) with the text on top */
+.hv-hero { position: relative; overflow: hidden; display: flex; flex-direction: column; min-height: 17.5rem; background: #1a2a1c; color: #fff; }
+.hv-hero-bg { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; }
+.hv-hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hv-hero-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(6 14 8 / 0.5) 0, rgb(6 14 8 / 0.08) 30%, rgb(6 14 8 / 0.3) 52%, rgb(6 14 8 / 0.8) 100%); }
+.hv-hero-body { position: relative; z-index: 1; margin-top: auto; padding-bottom: 0.9rem; }
+.hv-hero h1 { font-size: clamp(1.55rem, 6.6vw, 3rem); line-height: 1.06; max-width: 18ch; text-wrap: balance; text-shadow: 0 1px 14px rgb(0 0 0 / 0.45); }
 .hv-cta { display: flex; margin-top: 0.7rem; }
 .hv-cta .hv-btn { flex: 1 1 auto; min-height: 2.75rem; padding: 0 1rem; font-size: 1rem; }
+.hv-pick { margin-top: 0.45rem; font-size: 0.85rem; color: rgb(255 255 255 / 0.92); text-shadow: 0 1px 8px rgb(0 0 0 / 0.5); }
 .hv-stars { color: #b97a00; letter-spacing: 2px; margin-right: 0.4rem; }
 .hv-strip { margin-top: 0.9rem; display: grid; gap: 0.25rem; font-size: 0.9rem; color: var(--hv-soft); }
 .hv-strip strong { color: var(--hv-ink); font-weight: 600; }
 .hv-strip .hv-more { justify-self: start; color: var(--hv-ink); }
 
 /* categories */
-.hv-section-cats { padding-block: 0.25rem 1.75rem; }
+.hv-section-cats { padding-block: 0.6rem 1.75rem; }
 .hv-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.375rem; }
 .hv-cat { position: relative; display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 1 / 1; color: #fff; background: #222; }
 .hv-cat img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
@@ -256,8 +259,10 @@
   .hv-basket-list { columns: 2; column-gap: 1.25rem; }
 }
 @media (min-width: 700px) {
-  .hv-hero h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
-  .hv-banner { grid-template-columns: repeat(6, 1fr); grid-template-rows: clamp(9rem, 17vw, 14rem); }
+  .hv-hero { min-height: clamp(22rem, 34vw, 30rem); }
+  .hv-hero-bg { grid-template-columns: repeat(6, 1fr); grid-template-rows: 1fr; }
+  .hv-hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); }
+  .hv-cta .hv-btn { flex: 0 0 auto; padding: 0 1.75rem; }
   .hv-cat span { padding: 2.1rem 0.875rem 0.75rem; font-size: 1.15rem; }
   .hv-cat span i { display: inline; }
   .hv-cats { grid-template-columns: repeat(3, 1fr); }
