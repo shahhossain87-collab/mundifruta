@@ -83,6 +83,20 @@ function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <section className="hv-hero" aria-labelledby="hero-titulo">
+        <img
+          className="hv-hero-img"
+          src="/fotos/home/hero-banner.webp"
+          srcSet="/fotos/home/hero-banner-w800.webp 800w, /fotos/home/hero-banner-w1200.webp 1200w, /fotos/home/hero-banner.webp 1920w"
+          sizes="100vw"
+          width={1920}
+          height={1080}
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
+        <div className="hv-hero-shade" />
         <div className="hv-wrap hv-hero-body">
           <h1 id="hero-titulo">Fruta e legumes frescos, todos os dias.</h1>
           <p className="hv-pick">Levantamento na loja, em Carnaxide</p>
@@ -98,18 +112,6 @@ function Home() {
             </a>
           </div>
         </div>
-        <img
-          className="hv-hero-img"
-          src="/fotos/home/hero-banner.webp"
-          srcSet="/fotos/home/hero-banner-w800.webp 800w, /fotos/home/hero-banner-w1200.webp 1200w, /fotos/home/hero-banner.webp 1782w"
-          sizes="100vw"
-          width={1782}
-          height={393}
-          alt="Ervas frescas, legumes, castanhas, fruta da época e uvas"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-        />
       </section>
 
       <section className="hv-section hv-section-cats" aria-labelledby="categorias-titulo">

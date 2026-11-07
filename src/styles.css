@@ -194,14 +194,15 @@
 .hv-btn svg { width: 1.375rem; height: 1.375rem; flex: none; }
 .hv :focus-visible { outline: 3px solid var(--hv-ink); outline-offset: 3px; border-radius: 6px; }
 
-/* hero: the supplied produce banner, shown whole (never cropped), with logo and text on its white studio background */
-.hv-hero { background: #fff; color: var(--hv-ink); padding-top: 4.25rem; }
-.hv-hero-body { padding-bottom: 0.4rem; }
-.hv-hero h1 { font-size: clamp(1.55rem, 6.6vw, 3rem); line-height: 1.06; max-width: 18ch; text-wrap: balance; }
-.hv-pick { margin-top: 0.4rem; font-size: 0.9rem; color: var(--hv-soft); }
+/* hero: the supplied produce photo is the full-bleed background; logo and text sit on top of it */
+.hv-hero { position: relative; overflow: hidden; display: flex; flex-direction: column; height: clamp(20rem, 46svh, 26rem); background: #1a2a1c; color: #fff; }
+.hv-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% 100%; display: block; }
+.hv-hero-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(8 16 10 / 0.6) 0, rgb(8 16 10 / 0.28) 26%, rgb(8 16 10 / 0.12) 48%, rgb(8 16 10 / 0.72) 100%); }
+.hv-hero-body { position: relative; z-index: 1; margin-top: auto; padding-bottom: 0.9rem; }
+.hv-hero h1 { font-size: clamp(1.55rem, 6.6vw, 3rem); line-height: 1.06; max-width: 18ch; text-wrap: balance; text-shadow: 0 1px 14px rgb(0 0 0 / 0.5); }
+.hv-pick { margin-top: 0.4rem; font-size: 0.9rem; color: rgb(255 255 255 / 0.95); text-shadow: 0 1px 8px rgb(0 0 0 / 0.55); }
 .hv-cta { display: flex; margin-top: 0.65rem; }
 .hv-cta .hv-btn { flex: 1 1 auto; min-height: 2.75rem; padding: 0 1rem; font-size: 1rem; }
-.hv-hero-img { display: block; width: 100%; height: auto; margin-top: 0.5rem; }
 .hv-stars { color: #b97a00; letter-spacing: 2px; margin-right: 0.4rem; }
 .hv-strip { margin-top: 0.9rem; display: grid; gap: 0.25rem; font-size: 0.9rem; color: var(--hv-soft); }
 .hv-strip strong { color: var(--hv-ink); font-weight: 600; }
@@ -257,7 +258,8 @@
   .hv-basket-list { columns: 2; column-gap: 1.25rem; }
 }
 @media (min-width: 700px) {
-  .hv-hero { padding-top: 5rem; }
+  .hv-hero { height: clamp(24rem, 52svh, 32rem); }
+  .hv-hero-img { object-position: 50% 100%; }
   .hv-hero h1 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); }
   .hv-cta .hv-btn { flex: 0 0 auto; padding: 0 1.75rem; }
   .hv-cat span { padding: 2.1rem 0.875rem 0.75rem; font-size: 1.15rem; }

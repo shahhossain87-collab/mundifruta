@@ -78,12 +78,12 @@ export function Shell({ children }: { children: ReactNode }) {
       </a>
       <header
         className={`sticky top-0 z-30 border-b transition-colors ${home ? "-mb-16" : ""} ${
-          sobreHero ? "border-transparent bg-transparent text-ink" : "border-line bg-paper"
+          sobreHero ? "border-transparent bg-transparent text-white" : "border-line bg-paper"
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
           <Link to="/" className="font-display text-xl tracking-tight">
-            MUNDI<span className={"text-leaf"}>FRUTA</span>
+            MUNDI<span className={sobreHero ? "text-foam" : "text-leaf"}>FRUTA</span>
           </Link>
           <nav className="ml-4 hidden items-center gap-4 text-sm font-medium lg:flex" aria-label="Principal">
             <Link to="/produtos" className="hover:text-leaf">
