@@ -357,7 +357,9 @@
       background:#fff; padding:8px 16px; border-radius:var(--r-full); box-shadow:var(--sh);
       transition:transform 0.2s;
     }
-    .hero-rating:hover { transform:translateY(-2px); }
+    @media (hover: hover) {
+      .hero-rating:hover { transform:translateY(-2px); }
+    }
     .hero-rating .hr-stars { color:#FBBC04; letter-spacing:1px; font-size:0.95rem; }
     .hero-rating .hr-score { font-family:'Playfair Display',serif; font-weight:900; color:var(--text); font-size:1.05rem; }
     .hero-rating .hr-count { color:var(--text-md); font-size:0.78rem; font-weight:600; }
