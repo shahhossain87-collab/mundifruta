@@ -202,7 +202,9 @@
       font-size:1.2rem; font-weight:800; display:grid; place-items:center;
       opacity:.92; transition:opacity .2s ease, transform .2s ease;
     }
-    .carousel-nav:hover { opacity:1; transform:translateY(-50%) scale(1.08); }
+    @media (hover: hover) {
+      .carousel-nav:hover { opacity:1; transform:translateY(-50%) scale(1.08); }
+    }
     .carousel-nav.prev { left:-6px; }
     .carousel-nav.next { right:-6px; }
     @media (hover:none) { .carousel-nav { display:none; } }
