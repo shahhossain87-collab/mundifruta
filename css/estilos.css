@@ -994,7 +994,9 @@
       transition:all 0.3s; display:flex; align-items:center; justify-content:center;
     }
     .scroll-top.visible { opacity:1; transform:translateY(0); pointer-events:all; }
-    .scroll-top:hover   { background:var(--forest-2); transform:translateY(-3px); }
+    @media (hover: hover) {
+      .scroll-top:hover   { background:var(--forest-2); transform:translateY(-3px); }
+    }
 
     /* ??????????????????????????????????????
        TOAST
