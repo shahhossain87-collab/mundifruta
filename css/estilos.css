@@ -2364,6 +2364,10 @@
     .seo-crawl-links a, .seo-text-link { color:var(--forest); font-weight:700; text-decoration:none; }
     .seo-crawl-links a { background:#fff; border:1px solid var(--line); border-radius:var(--r-full); padding:8px 13px; font-size:.82rem; }
     .seo-crawl-links a:hover, .seo-text-link:hover { color:var(--sage); }
+    @media (max-width:640px) {
+      /* Explorar o catálogo: 44px tap target on phones, copy unchanged. */
+      .seo-crawl-links a { display:inline-flex; align-items:center; min-height:44px; box-sizing:border-box; }
+    }
 
     .seo-page { background:var(--cream); color:var(--text); min-height:100vh; }
     .seo-header { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:14px max(24px,calc((100vw - 1240px)/2)); background:#fff; border-bottom:1px solid var(--line); }
