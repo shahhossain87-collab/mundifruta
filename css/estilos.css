@@ -338,7 +338,9 @@
       font-weight:800; font-size:1.04rem; color:var(--forest); letter-spacing:0.2px;
       transition:transform 0.18s, box-shadow 0.18s, border-color 0.18s;
     }
-    .cat-quick-btn:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); border-color:var(--sage); }
+    @media (hover: hover) {
+      .cat-quick-btn:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); border-color:var(--sage); }
+    }
     .cat-quick-btn .cq-emoji { font-size:2.8rem; line-height:1; }
     .cat-quick-btn.cq-order { background:var(--forest); color:var(--white); border-color:var(--forest); }
     .cat-quick-btn.cq-order:hover { background:var(--forest-2); }
@@ -1648,7 +1650,14 @@
       outline:3px solid rgba(82,183,136,.3);
       outline-offset:3px;
       border-color:var(--sage);
+    }
+    body.homepage .homepage-category .cat-quick-btn:focus-visible {
       transform:translateY(-4px);
+    }
+    @media (hover: hover) {
+      body.homepage .homepage-category .cat-quick-btn:hover {
+        transform:translateY(-4px);
+      }
     }
     body.homepage .homepage-category .cat-quick-btn img { transition:transform .45s ease; }
     body.homepage .homepage-category .cat-quick-btn:hover img { transform:scale(1.06); }
