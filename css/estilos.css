@@ -1911,7 +1911,9 @@
       border-radius:var(--r-md); padding:8px; text-align:center; cursor:pointer; display:flex; flex-direction:column;
       align-items:center; gap:4px; transition:transform .15s ease, box-shadow .15s ease;
     }
-    .cs-card:hover { transform:translateY(-3px); box-shadow:var(--sh); }
+    @media (hover: hover) {
+      .cs-card:hover { transform:translateY(-3px); box-shadow:var(--sh); }
+    }
     .cs-card img { width:84px; height:84px; object-fit:cover; border-radius:8px; }
     .cs-emoji { width:84px; height:84px; display:grid; place-items:center; font-size:2.2rem; background:var(--cream-2); border-radius:8px; }
     .cs-nome { font-size:.76rem; font-weight:700; color:var(--text); line-height:1.15; }
