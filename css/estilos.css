@@ -609,7 +609,9 @@
       content:''; position:absolute; top:0; left:0; right:0; height:4px;
       background:linear-gradient(90deg, var(--sage), var(--peach));
     }
-    .step-card:hover { transform:translateY(-10px); box-shadow:var(--sh-lg); }
+    @media (hover: hover) {
+      .step-card:hover { transform:translateY(-10px); box-shadow:var(--sh-lg); }
+    }
     .step-num {
       font-family:'Playfair Display',serif; font-size:5rem; font-weight:900;
       color:var(--cream-2); position:absolute; top:14px; right:18px; line-height:1;
