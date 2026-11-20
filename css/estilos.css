@@ -2048,7 +2048,9 @@
       background:#fff; border:1px solid var(--cream-3); border-radius:var(--r-lg);
       padding:20px 14px; box-shadow:var(--sh); transition:transform .2s ease, box-shadow .2s ease;
     }
-    .oo-step:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); }
+    @media (hover: hover) {
+      .oo-step:hover { transform:translateY(-4px); box-shadow:var(--sh-lg); }
+    }
     .oo-ic { font-size:2.2rem; line-height:1; }
     .oo-step h4 { margin:10px 0 4px; color:var(--forest); font-size:1rem; }
     .oo-step p { color:var(--text-md); font-size:.86rem; line-height:1.45; }
