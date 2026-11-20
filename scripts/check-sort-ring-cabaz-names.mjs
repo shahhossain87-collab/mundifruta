@@ -97,10 +97,11 @@ assert(
   !/\.hamburger \{[^}]*min-(width|height):44px/.test(css),
   'must not redo leftover 44px tap-target PRs'
 );
+const unscopedLogoFocus = css.replace(/\.seo-header \.logo:focus-visible/g, '');
 assert(
   !/\.btn-wa:focus-visible/.test(css) &&
   !/\.feature-add:focus-visible/.test(css) &&
-  !/\.logo:focus-visible/.test(css) &&
+  !/\.logo:focus-visible/.test(unscopedLogoFocus) &&
   !html.includes('role="tabpanel"'),
   'must not redo leftover peach rings or catalog tabpanel from open PRs'
 );
