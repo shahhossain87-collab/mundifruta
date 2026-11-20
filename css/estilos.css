@@ -1596,7 +1596,9 @@
     body.homepage .hero-ctas .btn-ghost span {
       transition:transform .2s ease;
     }
-    body.homepage .hero-ctas a:hover span { transform:translate(2px,-2px); }
+    @media (hover: hover) {
+      body.homepage .hero-ctas a:hover span { transform:translate(2px,-2px); }
+    }
     body.homepage .hero-trust {
       justify-content:flex-start;
       margin-top:24px;
