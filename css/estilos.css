@@ -295,7 +295,9 @@
       border-radius:var(--r-full);
       font-size:0.8rem;
     }
-    .btn-prim:hover { background:var(--peach-lt); transform:translateY(-3px); box-shadow:0 16px 40px rgba(224,123,57,0.5); }
+    @media (hover: hover) {
+      .btn-prim:hover { background:var(--peach-lt); transform:translateY(-3px); box-shadow:0 16px 40px rgba(224,123,57,0.5); }
+    }
     .btn-ghost {
       background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3);
       color:#fff; padding:14px 32px; border-radius:var(--r-full);
