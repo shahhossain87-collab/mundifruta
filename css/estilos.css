@@ -83,7 +83,9 @@
       display:flex; align-items:center; gap:8px;
       transition:all 0.25s;
     }
-    .nav-order:hover { background:var(--peach-lt); transform:translateY(-1px); box-shadow:0 6px 20px rgba(224,123,57,0.4); }
+    @media (hover: hover) {
+      .nav-order:hover { background:var(--peach-lt); transform:translateY(-1px); box-shadow:0 6px 20px rgba(224,123,57,0.4); }
+    }
     .cart-badge {
       background:#fff; color:var(--peach);
       border-radius:var(--r-full); padding:1px 7px;
