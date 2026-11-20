@@ -303,7 +303,9 @@
       display:inline-flex; align-items:center; gap:10px;
       transition:all 0.3s; backdrop-filter:blur(10px);
     }
-    .btn-ghost:hover { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.5); transform:translateY(-2px); }
+    @media (hover: hover) {
+      .btn-ghost:hover { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.5); transform:translateY(-2px); }
+    }
 
     .hero-stats {
       display:flex; gap:2px; justify-content:center;
