@@ -1197,7 +1197,9 @@
       transition:transform .35s ease;
       z-index:-2;
     }
-    .cat-quick-btn:hover img { transform:scale(1.055); }
+    @media (hover: hover) {
+      .cat-quick-btn:hover img { transform:scale(1.055); }
+    }
     .cq-overlay {
       position:absolute;
       inset:0;
@@ -1651,7 +1653,9 @@
       transform:translateY(-4px);
     }
     body.homepage .homepage-category .cat-quick-btn img { transition:transform .45s ease; }
-    body.homepage .homepage-category .cat-quick-btn:hover img { transform:scale(1.06); }
+    @media (hover: hover) {
+      body.homepage .homepage-category .cat-quick-btn:hover img { transform:scale(1.06); }
+    }
     body.homepage .homepage-category .cat-quick-btn .cq-label {
       left:16px;
       right:16px;
