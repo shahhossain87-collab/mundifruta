@@ -425,7 +425,9 @@
       transition:opacity 0.25s ease, transform 0.25s ease, filter 0.2s;
     }
     .float-cart.visible { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
-    .float-cart:hover { filter:brightness(1.08); }
+    @media (hover: hover) {
+      .float-cart:hover { filter:brightness(1.08); }
+    }
     .float-cart .fc-icon { font-size:1.25rem; line-height:1; }
     .float-cart .fc-text {
       color:#fff; font-weight:800; white-space:nowrap;
