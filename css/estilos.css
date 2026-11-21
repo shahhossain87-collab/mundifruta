@@ -887,7 +887,7 @@
       transition:color 0.2s;
     }
     .order-optional-toggle span { opacity:0.65; font-weight:500; }
-    .order-optional-toggle:hover { color:#fff; }
+    @media (hover: hover) { .order-optional-toggle:hover { color:#fff; } }
     .order-optional[hidden] { display:none; }
     .order-btns { display:flex; flex-direction:column; gap:6px; margin-top:16px; }
     /* WhatsApp is the single primary action */
