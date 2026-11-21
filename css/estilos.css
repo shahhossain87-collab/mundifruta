@@ -798,7 +798,7 @@
       cursor:pointer; font-size:1.1rem; font-weight:700;
       display:flex; align-items:center; justify-content:center; transition:all 0.2s;
     }
-    .qty-btn:hover { background:var(--forest); color:#fff; border-color:var(--forest); }
+    @media (hover: hover) { .qty-btn:hover { background:var(--forest); color:#fff; border-color:var(--forest); } }
     .qty-num { font-weight:700; font-size:1rem; min-width:24px; text-align:center; }
     .no-results { text-align:center; padding:52px; color:var(--text-md); font-size:1rem; }
 
