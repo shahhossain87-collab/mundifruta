@@ -1113,7 +1113,9 @@
       font-family:'Poppins',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer;
       transition:background 0.2s, border-color 0.2s;
     }
-    .cabaz-ver:hover { background:rgba(82,183,136,0.16); border-color:var(--sage); }
+    @media (hover: hover) {
+      .cabaz-ver:hover { background:rgba(82,183,136,0.16); border-color:var(--sage); }
+    }
 
     .cabaz-modal {
       position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center;
