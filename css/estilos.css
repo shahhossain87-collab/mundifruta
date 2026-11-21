@@ -757,7 +757,7 @@
       cursor:pointer; font-family:'Poppins',sans-serif; transition:all 0.25s;
       box-shadow:0 6px 18px rgba(27,67,50,0.12);
     }
-    .add-btn:hover { background:var(--forest-2); }
+    @media (hover: hover) { .add-btn:hover { background:var(--forest-2); } }
     .product-card.selected .add-btn { background:var(--cherry); }
     .product-card.is-unavailable {
       opacity:.82;
@@ -2179,7 +2179,7 @@
     .product-base { margin:-6px 0 8px; }
     .card-actions { margin-top:auto; }
     .add-btn { width:100%; padding:10px; min-height:42px; border-radius:var(--r-full); font-size:.84rem; box-shadow:none; margin-top:0; }
-    .add-btn:hover { background:var(--forest-2); }
+    @media (hover: hover) { .add-btn:hover { background:var(--forest-2); } }
     .qty-controls { margin-top:0; }
 
     .oos-flag {
