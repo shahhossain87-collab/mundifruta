@@ -1948,7 +1948,9 @@
       background:rgba(255,255,255,.12); color:#fff; font-size:1.15rem; cursor:pointer;
       display:flex; align-items:center; justify-content:center;
     }
-    .reveal-close:hover { background:rgba(255,255,255,.22); }
+    @media (hover: hover) {
+      .reveal-close:hover { background:rgba(255,255,255,.22); }
+    }
     .reveal-inner { width:100%; max-width:440px; text-align:center; display:flex; flex-direction:column; align-items:center; }
     .reveal-stage { position:relative; width:min(72vw,250px); height:min(72vw,250px); display:flex; align-items:center; justify-content:center; }
     .watermelon { width:100%; height:100%; overflow:visible; filter:drop-shadow(0 18px 30px rgba(0,0,0,.4)); }
