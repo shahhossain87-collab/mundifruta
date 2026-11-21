@@ -897,7 +897,8 @@
       cursor:pointer; font-family:'Poppins',sans-serif; transition:all 0.25s; text-align:center;
       box-shadow:0 6px 18px rgba(37,211,102,0.28);
     }
-    .btn-wa:hover { background:#1ebe5d; transform:translateY(-1px); box-shadow:0 8px 22px rgba(37,211,102,0.42); }
+    .btn-wa:hover { transform:translateY(-1px); }
+    @media (hover: hover) { .btn-wa:hover { background:#1ebe5d; box-shadow:0 8px 22px rgba(37,211,102,0.42); } }
     /* Trust line — reassures at the point of action (no online payment) */
     .order-reassure {
       display:flex; align-items:center; justify-content:center; gap:7px;
