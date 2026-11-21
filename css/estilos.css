@@ -837,7 +837,7 @@
       background:rgba(255,255,255,0.08); color:#fff; font:700 1.05rem/1 'Poppins',sans-serif;
       cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s,border-color 0.2s;
     }
-    .oi-stepper button:hover { background:var(--sage); border-color:var(--sage); }
+    @media (hover: hover) { .oi-stepper button:hover { background:var(--sage); border-color:var(--sage); } }
     .oi-stepper b { min-width:20px; text-align:center; color:#fff; font-size:0.95rem; }
     .order-remove {
       width:26px; height:26px; flex:0 0 auto; border:0; border-radius:var(--r-full);
