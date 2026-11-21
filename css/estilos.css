@@ -844,7 +844,7 @@
       background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7);
       font:700 0.8rem 'Poppins',sans-serif; cursor:pointer; transition:background 0.2s,color 0.2s;
     }
-    .order-remove:hover { background:var(--cherry); color:#fff; }
+    @media (hover: hover) { .order-remove:hover { background:var(--cherry); color:#fff; } }
     .order-item-actions { flex-direction:row !important; align-items:center !important; gap:12px !important; flex-wrap:wrap; justify-content:flex-end; }
     @media (max-width:600px){
       .order-item { flex-direction:column; align-items:stretch; gap:8px; }
